@@ -70,7 +70,8 @@ model Todo {
     dateRecord DateRecord? @relation(fields: [dateRecordId], references: [id])
     dateRecordId Int?
 
-    @@index([listBoardId, dateRecordId])
+    @@index([listBoardId])
+    @@index([dateRecordId])
 }
 
 model ListBoard {
@@ -93,6 +94,8 @@ model DateRecord {
     revHistory DayRevs[]
     user User @relation(fields: [userId], references: [id])
     userId String
+
+    @@index([userId])
 }
 
 model DayRevs {
