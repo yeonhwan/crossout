@@ -29,6 +29,15 @@ const config = {
       },
     ],
     "@typescript-eslint/no-unused-vars": ["warn", { argsIgnorePattern: "^_" }],
+    "@typescript-eslint/no-misused-promises": [
+      2,
+      {
+        checksVoidReturn: {
+          attributes: false,
+        },
+      },
+    ],
+    "react/no-unescaped-entities": ["error", { forbid: [">", "}"] }],
   },
 };
 
