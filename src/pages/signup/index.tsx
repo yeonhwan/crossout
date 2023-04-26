@@ -15,6 +15,22 @@ const SignUp: NextPageWithLayout = () => {
   const [errMessage, setErrMessage] = useState("");
   const router = useRouter();
 
+  /**
+   * TODO
+   * 1. Make a Form Validation
+   * 1-1. is a Email not empty ?
+   * 1-2. is a Email correct Email Form ?
+   * 1-3. is a password over 8 characters?
+   * 1-4. is a password strong enough?
+   * 1-5. is password & password confirm same?
+   *
+   * After that, send a request
+   *
+   * 2. Make a client side react to backend errors
+   * 2-1. add little animation
+   *
+   */
+
   const { mutate: submitUserInfo } = api.signup.signUp.useMutation({
     onSuccess: (res) => {
       const { userId } = res.data;

@@ -31,6 +31,7 @@
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
     "@types/bcryptjs": "^2.4.2",
+    "@types/cookies": "^0.7.7",
     "@types/eslint": "^8.21.3",
     "@types/node": "^18.15.5",
     "@types/nodemailer": "^6.4.7",

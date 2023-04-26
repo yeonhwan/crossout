@@ -1,16 +1,17 @@
-/**
- * Disabling eslint-typescript to access NextAuth User Verification Token
- */
-
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-
 import { z } from "zod";
 
 import { createTRPCRouter, publicProcedure } from "@/server/api/trpc";
 import { TRPCError } from "@trpc/server";
 import bcrypt from "bcryptjs";
+
+/**
+ * TODO
+ * 1. make a backend data verification
+ * 1-1. is input are correct form?
+ * 1-2. is this user already exists?
+ * 1-3. is this user signed up only by oAuth and don't have password?
+ * 1-4. is the password valid?
+ */
 
 export const signUpRouter = createTRPCRouter({
   signUp: publicProcedure
