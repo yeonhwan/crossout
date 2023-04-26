@@ -7,6 +7,7 @@ import {
 import Github from "next-auth/providers/github";
 import Email from "next-auth/providers/email";
 import Google from "next-auth/providers/google";
+import CredentialsProvider from "next-auth/providers/credentials";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { env } from "@/env.mjs";
 import { prisma } from "@/server/db";
@@ -56,20 +57,23 @@ export const authOptions: NextAuthOptions = {
       clientId: env.GITHUB_CLIENT_ID,
       clientSecret: env.GITHUB_CLIENT_SECERET,
     }),
-    Email({
-      server: {
-        host: env.EMAIL_SERVER_HOST,
-        port: Number(env.EMAIL_SERVER_PORT),
-        auth: {
-          user: env.EMAIL_SERVER_USER,
-          pass: env.EMAIL_SERVER_PASSWORD,
-        },
-      },
-      from: env.EMAIL_FROM,
-    }),
     Google({
       clientId: env.GOOGLE_CLIENT_ID,
       clientSecret: env.GOOGLE_CLIENT_SECRET,
+    }),
+    CredentialsProvider({
+      name: "Credentials",
+      credentials: {
+        email: {
+          label: "Email",
+          type: "text",
+          placeholder: "Type in your Email.",
+        },
+        password: { label: "Password", type: "password" },
+      },
+      async authorize(credentials, req) {
+        console.dir(credentials);
+      },
     }),
     /**
      * ...add more providers here.

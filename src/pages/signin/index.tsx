@@ -8,6 +8,8 @@ import styles from "@/styles/loader.module.css";
 
 const SignIn: NextPageWithLayout = () => {
   const [isProceed, setIsProceed] = useState(false);
+  const [emailInput, setEmailInput] = useState("");
+  const [passwordInput, setPasswordInput] = useState("");
 
   const gitHubSignIn = () => {
     setIsProceed(true);
@@ -17,6 +19,15 @@ const SignIn: NextPageWithLayout = () => {
   const googleSignIn = () => {
     setIsProceed(true);
     return signIn("google", { callbackUrl: "/" });
+  };
+
+  const submitHandler = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    return signIn("credentials", {
+      redirect: false,
+      email: emailInput,
+      password: passwordInput,
+    });
   };
 
   return (
@@ -31,6 +42,10 @@ const SignIn: NextPageWithLayout = () => {
           type="email"
           placeholder="type in your email"
           className="p-2"
+          value={emailInput}
+          onChange={(e: React.FormEvent<HTMLInputElement>) => {
+            setEmailInput(e.currentTarget.value);
+          }}
         />
         <p className="text-red-500">this goes input verification status</p>
         <label className="mt-2" htmlFor="password">
@@ -41,12 +56,16 @@ const SignIn: NextPageWithLayout = () => {
           type="password"
           placeholder="type in your password"
           className="p-2"
+          onChange={(e: React.FormEvent<HTMLInputElement>) => {
+            setPasswordInput(e.currentTarget.value);
+          }}
         />
         <p className="text-red-500">this goes input verification status</p>
         <button
           className={`mr-2 mt-8 flex items-center justify-center p-2 ${
             isProceed ? "pointer-events-none" : ""
           }`}
+          onClick={submitHandler}
         >
           {isProceed ? "Proceeding..." : "Sign In"}
           {isProceed ? (
