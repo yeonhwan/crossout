@@ -1,0 +1,33 @@
+.invalid {
+  animation: vibaration 500ms ease-in-out;
+}
+
+@keyframes vibaration {
+  0% {
+    transform: translateX(-20px);
+  }
+
+  10% {
+    transform: translateX(20px);
+  }
+
+  30% {
+    transform: translateX(-10px);
+  }
+
+  40% {
+    transform: translateX(5px);
+  }
+
+  70% {
+    transform: translateX(-2px);
+  }
+
+  80% {
+    transform: translateX(1px);
+  }
+
+  100% {
+    transform: translateX(0);
+  }
+}

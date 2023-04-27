@@ -18,6 +18,23 @@ export const signUpRouter = createTRPCRouter({
     .input(z.object({ email: z.string().min(1), password: z.string().min(1) }))
     .mutation(async ({ input, ctx }) => {
       const { email, password } = input;
+
+      const EMAIL_REG_EXP = new RegExp(
+        "([!#-'*+/-9=?A-Z^-~-]+(.[!#-'*+/-9=?A-Z^-~-]+)*|\"([]!#-[^-~ \t]|(\\[\t -~]))+\")@([!#-'*+/-9=?A-Z^-~-]+(.[!#-'*+/-9=?A-Z^-~-]+)*|[[\t -Z^-~]*])"
+      );
+
+      const PASSWORD_REG_EXP = new RegExp(
+        "^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^*+=-]).{6,16}$"
+      );
+
+      // wrong type of information (checking if its valid email form)
+      if (!EMAIL_REG_EXP.test(email) || !PASSWORD_REG_EXP.test(password)) {
+        throw new TRPCError({
+          message: "Invalid information. Check your information again.",
+          code: "BAD_REQUEST",
+        });
+      }
+
       // if a email is already taken, throw a error
       const user = await ctx.prisma.user.findUnique({ where: { email } });
       if (user) {

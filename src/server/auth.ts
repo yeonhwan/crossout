@@ -73,33 +73,46 @@ export const authOptions: NextAuthOptions = {
         email: {
           label: "Email",
           type: "text",
-          placeholder: "Type in your Email.",
         },
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
-        /**TODO */
-        // before make a authorization
-        // 1. verify the userInfo is correct form
-        // in authorization, throw errors on faulty login try
         const { email, password } = credentials as {
           email: string;
           password: string;
         };
+
+        const EMAIL_REG_EXP = new RegExp(
+          "([!#-'*+/-9=?A-Z^-~-]+(.[!#-'*+/-9=?A-Z^-~-]+)*|\"([]!#-[^-~ \t]|(\\[\t -~]))+\")@([!#-'*+/-9=?A-Z^-~-]+(.[!#-'*+/-9=?A-Z^-~-]+)*|[[\t -Z^-~]*])"
+        );
+
+        // wrong type of information (checking if its valid email form)
+        if (!EMAIL_REG_EXP.test(email)) {
+          throw new TRPCError({
+            message: "Invalid information. Check your information again.",
+            code: "BAD_REQUEST",
+          });
+        }
+
         const user: User | null = await prisma.user.findUnique({
           where: { email },
         });
         if (user && user.password) {
+          // login success
           if (bcrypt.compareSync(password, user.password)) {
-            console.log("login succeeded");
             return user;
           }
+          // user exists but incorrect information
           throw new TRPCError({
             message: "Email or Password is incorrect",
-            code: "BAD_REQUEST",
+            code: "UNAUTHORIZED",
           });
         } else {
-          return null;
+          // user does not exists
+          throw new TRPCError({
+            message: "User does not exists.",
+            code: "NOT_FOUND",
+          });
         }
       },
     }),
