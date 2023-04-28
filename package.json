@@ -7,7 +7,8 @@
     "dev": "next dev",
     "postinstall": "prisma generate",
     "lint": "next lint",
-    "start": "next start"
+    "start": "next start",
+    "cypress": "cypress open"
   },
   "dependencies": {
     "@mui/icons-material": "^5.11.16",
@@ -30,6 +31,7 @@
   "devDependencies": {
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
+    "@testing-library/cypress": "^9.0.0",
     "@types/bcryptjs": "^2.4.2",
     "@types/cookies": "^0.7.7",
     "@types/eslint": "^8.21.3",
@@ -42,6 +44,7 @@
     "@typescript-eslint/parser": "^5.56.0",
     "autoprefixer": "^10.4.14",
     "cypress": "^12.10.0",
+    "cypress-social-logins": "^1.14.0",
     "eslint": "^8.36.0",
     "eslint-config-next": "^13.2.4",
     "postcss": "^8.4.21",

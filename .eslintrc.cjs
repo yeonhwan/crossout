@@ -37,7 +37,7 @@ const config = {
         },
       },
     ],
-    "react/no-unescaped-entities": ["error", { forbid: [">", "}"] }],
+    "react/no-unescaped-entities": ["warn", { forbid: [">", "}"] }],
   },
 };
 

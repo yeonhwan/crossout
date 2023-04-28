@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-namespace */
 /// <reference types="cypress" />
 // ***********************************************
 // This example commands.ts shows you how to
@@ -8,7 +9,18 @@
 // commands please read more here:
 // https://on.cypress.io/custom-commands
 // ***********************************************
-//
+Cypress.Commands.add("loginCredentials", (email: string, password: string) => {
+  cy.clearAllCookies();
+  cy.visit("/signin");
+  cy.get("input[id=email]").type(email);
+  cy.get("input[id=password]").type(password);
+  cy.get("button")
+    .click()
+    .then(() => {
+      cy.getCookie("next-auth.callback-url").should("exist");
+      cy.get("button").should("have.text", "logout");
+    });
+});
 //
 // -- This is a parent command --
 // Cypress.Commands.add('login', (email, password) => { ... })
@@ -26,12 +38,8 @@
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 //
 // declare global {
-//   namespace Cypress {
-//     interface Chainable {
-//       login(email: string, password: string): Chainable<void>
-//       drag(subject: string, options?: Partial<TypeOptions>): Chainable<Element>
-//       dismiss(subject: string, options?: Partial<TypeOptions>): Chainable<Element>
-//       visit(originalFn: CommandOriginalFn, url: string, options: Partial<VisitOptions>): Chainable<Element>
-//     }
-//   }
-// }
+declare namespace Cypress {
+  interface Chainable {
+    loginCredentials(email: string, password: string): Chainable<void>;
+  }
+}

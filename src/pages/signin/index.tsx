@@ -6,12 +6,14 @@ import { signIn } from "next-auth/react";
 import { useState } from "react";
 import loader_styles from "@/styles/loader.module.css";
 import form_styles from "@/styles/form.module.css";
+import { useRouter } from "next/navigation";
 
 const SignIn: NextPageWithLayout = () => {
   const [isProceed, setIsProceed] = useState(false);
   const [emailInput, setEmailInput] = useState("");
   const [passwordInput, setPasswordInput] = useState("");
   const [errMessage, setErrMessage] = useState("");
+  const router = useRouter();
 
   const gitHubSignIn = () => {
     setIsProceed(true);
@@ -37,16 +39,19 @@ const SignIn: NextPageWithLayout = () => {
     if (res?.error) {
       formEl?.classList.add(form_styles.invalid as string);
       setErrMessage(res.error);
+      setIsProceed(false);
+    } else {
+      router.push("/");
     }
-
-    setIsProceed(false);
   };
 
   return (
     <div className="flex h-full w-full items-center justify-center">
       <form className="flex h-max w-4/12 flex-col rounded-lg border-2 border-zinc-300 p-12">
         <h1 className="mb-5 w-full text-center text-xl font-bold">Sign In</h1>
-        <p className="text-red-600">{errMessage}</p>
+        <p id="err_message" className="text-red-600">
+          {errMessage}
+        </p>
         <label className="mt-4 font-bold text-gray-700" htmlFor="email">
           Email
         </label>
