@@ -14,27 +14,27 @@ const Header = () => {
 
   if (status === "authenticated") {
     return (
-      <div
-        tabIndex={0}
-        onClick={() => {
-          setNavOpen(true);
-        }}
-        className="sticky top-0 flex h-20 w-full justify-end px-8 py-4 hover:cursor-pointer"
-        onBlur={() => {
-          setNavOpen(false);
-        }}
-      >
+      <div className="sticky top-0 flex h-20 w-full justify-end px-8 py-4">
         <Image
           src="/images/dummyProfile.jpg"
-          className="rounded-full"
+          className="rounded-full hover:cursor-pointer"
           alt="profile"
           width={50}
           height={50}
+          tabIndex={0}
+          onClick={() => {
+            setNavOpen(true);
+          }}
+          onBlur={() => {
+            setNavOpen(false);
+          }}
         />
         {shouldRender && (
           <Sidebar
+            userId={session.user.id}
             animateTrigger={animateTrigger}
             handleAnimation={handleAnimation}
+            setNavOpen={setNavOpen}
           />
         )}
       </div>
