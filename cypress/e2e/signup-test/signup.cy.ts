@@ -1,7 +1,5 @@
 /// <reference types="cypress" />
 
-import { StaticResponse } from "../../../node_modules/cypress/types/net-stubbing";
-
 /**
  * Testing for Sign Up Page
  *
