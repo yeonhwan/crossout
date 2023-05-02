@@ -3,9 +3,16 @@ import Head from "next/head";
 
 import React, { useState } from "react";
 import { useSession } from "next-auth/react";
+import CircleButton from "../components/Buttons/CircleButton";
+import AddIcon from "@mui/icons-material/Add";
+import EditCalendarIcon from "@mui/icons-material/EditCalendar";
+import SelfImprovementIcon from "@mui/icons-material/SelfImprovement";
 
 const Home: NextPage = () => {
   const { data: session } = useSession();
+  const addTodo = () => {
+    console.log("clicked");
+  };
 
   return (
     <>
@@ -15,7 +22,21 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <h1>Index</h1>
+        <div className="absolute bottom-24 flex w-full justify-evenly px-60">
+          <CircleButton info="Add Todo" clickHandler={addTodo} className="mr-5">
+            <AddIcon />
+          </CircleButton>
+          <CircleButton
+            info="Add Daylog"
+            clickHandler={addTodo}
+            className="mr-5"
+          >
+            <EditCalendarIcon />
+          </CircleButton>
+          <CircleButton info="Zen Mode" clickHandler={addTodo} className="mr-5">
+            <SelfImprovementIcon />
+          </CircleButton>
+        </div>
       </main>
     </>
   );
