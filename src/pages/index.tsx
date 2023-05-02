@@ -1,12 +1,19 @@
+// Next
 import { type NextPage } from "next";
 import Head from "next/head";
-
-import React, { useState } from "react";
 import { useSession } from "next-auth/react";
-import CircleButton from "../components/Buttons/CircleButton";
+
+// React
+import React, { useState } from "react";
+
+// ICONS
 import AddIcon from "@mui/icons-material/Add";
 import EditCalendarIcon from "@mui/icons-material/EditCalendar";
 import SelfImprovementIcon from "@mui/icons-material/SelfImprovement";
+
+// Components
+import CircleButton from "@/components/Buttons/CircleButton";
+import DateTimer from "@/components/Timer/DateTimer";
 
 const Home: NextPage = () => {
   const { data: session } = useSession();
@@ -22,6 +29,9 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
+        <div className="flex w-full justify-center">
+          <DateTimer dateInfo={new Date()} />
+        </div>
         <div className="absolute bottom-24 flex w-full justify-evenly px-60">
           <CircleButton info="Add Todo" clickHandler={addTodo} className="mr-5">
             <AddIcon />
