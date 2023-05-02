@@ -18,7 +18,7 @@ export default function CircleButton({
         <button
           onClick={clickHandler}
           className={
-            "flex h-max w-max items-center justify-center rounded-full p-2 outline-none hover:bg-emerald-500"
+            "flex h-max w-max items-center justify-center rounded-full border-none p-2 outline-none hover:cursor-pointer hover:bg-emerald-500"
           }
         >
           {children}
@@ -29,7 +29,7 @@ export default function CircleButton({
     return (
       <button
         onClick={clickHandler}
-        className="flex h-max w-max items-center justify-center rounded-full p-2 outline-none hover:bg-emerald-500"
+        className="flex h-max w-max items-center justify-center rounded-full border-none p-2 outline-none hover:cursor-pointer hover:bg-emerald-500"
       >
         {children}
       </button>

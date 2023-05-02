@@ -5,6 +5,7 @@ import Layout from "@/components/Layout";
 import { api } from "@/utils/api";
 import "@/styles/globals.css";
 import { type NextPage } from "next";
+import { StyledEngineProvider } from "@mui/material/styles";
 
 export type NextPageWithLayout<P = object, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: React.ReactElement) => React.ReactNode;
@@ -23,18 +24,22 @@ const MyApp = ({
 
   if (getLayout) {
     return (
-      <SessionProvider session={session}>
-        {getLayout(<Component {...pageProps} />)}
-      </SessionProvider>
+      <StyledEngineProvider injectFirst>
+        <SessionProvider session={session}>
+          {getLayout(<Component {...pageProps} />)}
+        </SessionProvider>
+      </StyledEngineProvider>
     );
   }
 
   return (
-    <SessionProvider session={session}>
-      <Layout>
-        <Component {...pageProps} />
-      </Layout>
-    </SessionProvider>
+    <StyledEngineProvider injectFirst>
+      <SessionProvider session={session}>
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
+      </SessionProvider>
+    </StyledEngineProvider>
   );
 };
 

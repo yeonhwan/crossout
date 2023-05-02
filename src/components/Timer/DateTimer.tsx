@@ -33,7 +33,7 @@ export default function DateTimer({ dateInfo }: DateProps) {
       <span className="mr-2 text-lg font-semibold">{year}</span>
       <span className="mr-2">
         {`${month} ${date}`}
-        <sup className="text-base font-semibold">{generateDateSup(date)}</sup>
+        <span className="text-base font-semibold">{generateDateSup(date)}</span>
       </span>
       <span className="mr-2 text-xl font-bold">{day}</span>
     </div>
