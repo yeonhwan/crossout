@@ -46,7 +46,7 @@ const SignIn: NextPageWithLayout = () => {
   };
 
   return (
-    <div className="flex h-full w-full items-center justify-center">
+    <div className="relative h-full w-full items-center justify-center">
       <form className="flex h-max w-4/12 flex-col rounded-lg border-2 border-zinc-300 p-12">
         <h1 className="mb-5 w-full text-center text-xl font-bold">Sign In</h1>
         <p id="err_message" className="text-red-600">

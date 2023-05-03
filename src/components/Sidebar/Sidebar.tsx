@@ -34,7 +34,7 @@ export default function Sidebar({
           onMouseDown={() => {
             router.push("/");
           }}
-          className="bg-blue flex w-full px-8 py-4 text-neutral-600 hover:cursor-pointer hover:bg-emerald-400 hover:text-white"
+          className="bg-blue flex w-full px-8 py-4 text-white hover:cursor-pointer hover:bg-emerald-400 hover:text-white"
         >
           <HomeIcon />
           Home
@@ -43,7 +43,7 @@ export default function Sidebar({
           onMouseDown={() => {
             router.push(`/${userId}/schedule`);
           }}
-          className="flex w-full px-8 py-4 text-neutral-600 hover:cursor-pointer hover:bg-emerald-400 hover:text-white"
+          className="flex w-full px-8 py-4 text-white hover:cursor-pointer hover:bg-emerald-400 hover:text-white"
         >
           <CalendarMonthIcon />
           Calander
@@ -53,7 +53,7 @@ export default function Sidebar({
             setNavOpen(false);
             router.push(`/${userId}/listboards`);
           }}
-          className="flex w-full px-8 py-4 text-neutral-600 hover:cursor-pointer hover:bg-emerald-400 hover:text-white"
+          className="flex w-full px-8 py-4 text-white hover:cursor-pointer hover:bg-emerald-400 hover:text-white"
         >
           <DashboardIcon />
           Listboards
@@ -62,7 +62,7 @@ export default function Sidebar({
           onMouseDown={() => {
             router.push(`/${userId}/mystats`);
           }}
-          className="flex w-full px-8 py-4 text-neutral-600 hover:cursor-pointer hover:bg-emerald-400 hover:text-white"
+          className="flex w-full px-8 py-4 text-white hover:cursor-pointer hover:bg-emerald-400 hover:text-white"
         >
           <ShowChartIcon />
           Charts
@@ -71,13 +71,13 @@ export default function Sidebar({
           onMouseDown={() => {
             router.push(`/${userId}/preference`);
           }}
-          className="flex w-full px-8 py-4 text-neutral-600 hover:cursor-pointer hover:bg-emerald-400 hover:text-white"
+          className="flex w-full px-8 py-4 text-white hover:cursor-pointer hover:bg-emerald-400 hover:text-white"
         >
           <SettingsIcon />
           Preference
         </li>
         <li
-          className="flex w-full px-8 py-4 text-neutral-600 hover:cursor-pointer hover:bg-emerald-400 hover:text-white"
+          className="flex w-full px-8 py-4 text-white hover:cursor-pointer hover:bg-emerald-400 hover:text-white"
           onMouseDown={() => signOut({ callbackUrl: "http://localhost:3000" })}
         >
           <ExitToAppIcon />

@@ -3,10 +3,7 @@
   --scrollbar-width: 8px;
 
   /* mask fade distance, for use in mask calculations */
-  --mask-height: 20px;
-
-  /* If content exceeds height of container, overflow! */
-  overflow-y: auto;
+  --mask-height: 10px;
 
   /* Our height limit */
   height: 300px;

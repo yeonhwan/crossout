@@ -14,7 +14,7 @@ const Header = () => {
 
   if (status === "authenticated") {
     return (
-      <div className="sticky top-0 flex h-[15%] w-full justify-end px-8 py-4">
+      <div className="sticky top-0 z-50 flex h-[15%] w-full justify-end px-8 py-4">
         <Image
           src="/images/dummyProfile.jpg"
           className="h-14 w-14 rounded-full hover:cursor-pointer"
