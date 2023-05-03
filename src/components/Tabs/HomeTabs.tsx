@@ -2,8 +2,9 @@
 import { useState } from "react";
 
 // Components
-import TabPanel from "@/components/Tabs/Tabpanel";
+import TabPanel from "@/components/Tabs/TabPanel";
 import ListView from "@/components/Lists/ListView";
+import List from "@/components/Lists/List";
 
 // libs
 import Tabs from "@mui/material/Tabs";
@@ -60,7 +61,53 @@ const HomeTabs = () => {
         index={0}
         value={value}
       >
-        <ListView />
+        <ListView>
+          <List>
+            <div className="w-ful flex h-max">
+              <p>dummy</p>
+            </div>
+          </List>
+          <List>
+            <div className="w-ful flex h-max">
+              <p>dummy</p>
+            </div>
+          </List>
+          <List>
+            <div className="w-ful flex h-max">
+              <p>dummy</p>
+            </div>
+          </List>
+          <List>
+            <div className="w-ful flex h-max">
+              <p>dummy</p>
+            </div>
+          </List>
+          <List>
+            <div className="w-ful flex h-max">
+              <p>dummy</p>
+            </div>
+          </List>
+          <List>
+            <div className="w-ful flex h-max">
+              <p>dummy</p>
+            </div>
+          </List>
+          <List>
+            <div className="w-ful flex h-max">
+              <p>dummy</p>
+            </div>
+          </List>
+          <List>
+            <div className="w-ful flex h-max">
+              <p>dummy</p>
+            </div>
+          </List>
+          <List>
+            <div className="w-ful flex h-max">
+              <p>dummy</p>
+            </div>
+          </List>
+        </ListView>
       </TabPanel>
       <TabPanel
         className={`${

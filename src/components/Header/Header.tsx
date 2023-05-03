@@ -14,10 +14,10 @@ const Header = () => {
 
   if (status === "authenticated") {
     return (
-      <div className="sticky top-0 flex h-20 w-full justify-end px-8 py-4">
+      <div className="sticky top-0 flex h-[15%] w-full justify-end px-8 py-4">
         <Image
           src="/images/dummyProfile.jpg"
-          className="rounded-full hover:cursor-pointer"
+          className="h-14 w-14 rounded-full hover:cursor-pointer"
           alt="profile"
           width={50}
           height={50}
@@ -41,7 +41,7 @@ const Header = () => {
     );
   } else if (status === "unauthenticated") {
     return (
-      <div className="sticky top-0 flex h-20 w-full justify-end px-8 py-4">
+      <div className="sticky top-0 flex h-[15%] w-full justify-end px-8 py-4">
         <button
           onClick={() => {
             router.push("/signin");
