@@ -41,7 +41,7 @@ const HomeTabs = () => {
           className={`z-10 mr-4 rounded-full px-4 py-2 transition-colors delay-200 ${
             value === 1 ? "text-white" : ""
           }`}
-          label="DayLogs"
+          label="DayLog"
           disableRipple
           disabled={value === 1}
         />

@@ -17,7 +17,7 @@ export default function Button({ children, onClick }: ButtonProps) {
   return (
     <button
       onClick={onClickWrapper}
-      className="mx-2 px-2 py-2 shadow-lg hover:cursor-pointer hover:outline-2 hover:outline-emerald-400"
+      className="mx-2 max-h-12 px-2 py-2 shadow-lg hover:cursor-pointer hover:outline-2 hover:outline-emerald-400"
     >
       {children}
     </button>

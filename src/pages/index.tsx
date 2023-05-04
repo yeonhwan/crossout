@@ -10,6 +10,7 @@ import { useState, useRef, useEffect } from "react";
 import AddIcon from "@mui/icons-material/Add";
 import EditCalendarIcon from "@mui/icons-material/EditCalendar";
 import SelfImprovementIcon from "@mui/icons-material/SelfImprovement";
+import PriceCheckIcon from "@mui/icons-material/PriceCheck";
 
 // Components
 import CircleButton from "@/components/Buttons/CircleButton";
@@ -54,6 +55,13 @@ const Home: NextPage = () => {
             className="mr-5"
           >
             <EditCalendarIcon />
+          </CircleButton>
+          <CircleButton
+            info="Add Revenues"
+            clickHandler={openCreateTodo}
+            className="mr-5"
+          >
+            <PriceCheckIcon />
           </CircleButton>
           <CircleButton
             info="Zen Mode"

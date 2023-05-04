@@ -7,7 +7,8 @@ import Image from "next/image";
 import loader_styles from "@/styles/loader.module.css";
 
 // Components
-import Sidebar from "../Sidebar/Sidebar";
+import Sidebar from "@/components/Sidebar/Sidebar";
+import Button from "@/components/Buttons/Button";
 
 // hooks
 import { useState } from "react";
@@ -49,14 +50,13 @@ const Header = () => {
   } else if (status === "unauthenticated") {
     return (
       <div className="sticky top-0 flex h-[15%] w-full justify-end px-8 py-4">
-        <button
+        <Button
           onClick={() => {
             router.push("/signin");
           }}
-          className="rounded-xl p-2"
         >
           Sgin in
-        </button>
+        </Button>
       </div>
     );
   } else {
