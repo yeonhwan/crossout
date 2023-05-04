@@ -3,10 +3,10 @@ import { type NextPage } from "next";
 import Head from "next/head";
 import { useSession } from "next-auth/react";
 
-// React
+// hooks
 import { useState, useRef, useEffect } from "react";
 
-// ICONS
+// Icons
 import AddIcon from "@mui/icons-material/Add";
 import EditCalendarIcon from "@mui/icons-material/EditCalendar";
 import SelfImprovementIcon from "@mui/icons-material/SelfImprovement";
@@ -15,11 +15,15 @@ import SelfImprovementIcon from "@mui/icons-material/SelfImprovement";
 import CircleButton from "@/components/Buttons/CircleButton";
 import DateTimer from "@/components/Timer/DateTimer";
 import HomeTabs from "@/components/Tabs/HomeTabs";
+import Dialog from "@/components/Dialog/Dialog";
+import TodoForm from "@/components/Forms/TodoForm";
 
 const Home: NextPage = () => {
   const { data: session } = useSession();
-  const addTodo = () => {
-    console.log("clicked");
+  const [isOpenTodoDialog, setIsOpenTodoDialog] = useState(false);
+
+  const openCreateTodo = () => {
+    setIsOpenTodoDialog(true);
   };
 
   return (
@@ -37,20 +41,38 @@ const Home: NextPage = () => {
           <HomeTabs />
         </div>
         <div className="absolute bottom-6 flex w-full justify-evenly px-60">
-          <CircleButton info="Add Todo" clickHandler={addTodo} className="mr-5">
+          <CircleButton
+            info="Add Todo"
+            clickHandler={openCreateTodo}
+            className="mr-5"
+          >
             <AddIcon />
           </CircleButton>
           <CircleButton
             info="Add Daylog"
-            clickHandler={addTodo}
+            clickHandler={openCreateTodo}
             className="mr-5"
           >
             <EditCalendarIcon />
           </CircleButton>
-          <CircleButton info="Zen Mode" clickHandler={addTodo} className="mr-5">
+          <CircleButton
+            info="Zen Mode"
+            clickHandler={openCreateTodo}
+            className="mr-5"
+          >
             <SelfImprovementIcon />
           </CircleButton>
         </div>
+        {/* Create Todo Dialog */}
+        <Dialog
+          onClickAway={() => {
+            setIsOpenTodoDialog(false);
+          }}
+          openState={isOpenTodoDialog}
+        >
+          <TodoForm setOpenDialog={setIsOpenTodoDialog} />
+        </Dialog>
+        {/* Create Todo Dialog*/}
       </main>
     </>
   );

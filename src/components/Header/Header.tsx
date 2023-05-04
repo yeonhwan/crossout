@@ -1,8 +1,15 @@
+// Next
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+
+// styles
 import loader_styles from "@/styles/loader.module.css";
+
+// Components
 import Sidebar from "../Sidebar/Sidebar";
+
+// hooks
 import { useState } from "react";
 import { useAnimation } from "@/hooks/useAnimation";
 

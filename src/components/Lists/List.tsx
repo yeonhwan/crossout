@@ -1,3 +1,4 @@
+// Props TYPE
 type ListProps = {
   children?: JSX.Element;
 };

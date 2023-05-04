@@ -1,4 +1,4 @@
-// React
+// hooks
 import { useState } from "react";
 
 // Components

@@ -1,8 +1,7 @@
-// React
-
 // Libs
 import dayjs from "dayjs";
 
+// Props TYPE
 type DateProps = {
   dateInfo: Date;
 };

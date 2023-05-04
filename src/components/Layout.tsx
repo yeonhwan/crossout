@@ -1,3 +1,4 @@
+// Components
 import Header from "./Header/Header";
 
 const Layout = ({ children }: { children: React.ReactElement }) => {

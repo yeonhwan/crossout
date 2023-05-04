@@ -1,5 +1,7 @@
+// libs
 import Tooltip from "@mui/material/Tooltip";
 
+// Props TYPE
 type ButtonProps = {
   children: JSX.Element;
   clickHandler: () => void;

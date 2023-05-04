@@ -1,5 +1,7 @@
+// styles
 import masking_styles from "@/styles/masking.module.css";
 
+// Props TYPE
 type ListViewProps = {
   children?: JSX.Element | JSX.Element[];
 };
