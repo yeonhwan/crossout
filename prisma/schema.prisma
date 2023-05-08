@@ -86,11 +86,11 @@ model Todo {
     completed Boolean @default(false)
     date DateTime
     deadline DateTime?
-    urgency Urgency?
+    urgency Urgency
     listBoard ListBoard? @relation(fields: [listBoardId], references: [id], onDelete: Cascade)
     listBoardId Int?
-    dateRecord DateRecord? @relation(fields: [dateRecordId], references: [id], onDelete: Cascade)
-    dateRecordId Int?
+    dateRecord DateRecord @relation(fields: [dateRecordId], references: [id], onDelete: Cascade)
+    dateRecordId Int
 
     @@index([listBoardId])
     @@index([dateRecordId])
