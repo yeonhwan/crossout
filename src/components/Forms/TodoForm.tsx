@@ -20,17 +20,24 @@ type TodoFormProps = {
   setOpenDialog: Dispatch<SetStateAction<boolean>>;
 };
 
+// Urgency Enum
+enum Urgency {
+  urgent = "urgent",
+  important = "important",
+  trivial = "trivial",
+}
+
 function TodoForm(
   { setOpenDialog }: TodoFormProps,
   ref: ForwardedRef<HTMLFormElement>
 ) {
   const [todoInput, setTodoInput] = useState("");
-  const [urgencyInput, setUrgencyInput] = useState("trivial");
+  const [urgencyInput, setUrgencyInput] = useState<Urgency>(Urgency.trivial);
   const [listboardsInput, setListboardsInput] = useState("");
 
   const cancelButtonHandler = () => {
     setTodoInput("");
-    setUrgencyInput("trivial");
+    setUrgencyInput(Urgency.trivial);
     setListboardsInput("");
     setOpenDialog(false);
   };
@@ -43,7 +50,15 @@ function TodoForm(
   });
 
   const confirmOnClickHandler = () => {
-    createTodo({ content: todoInput, userId: "Asdf", urgency: urgencyInput });
+    createTodo({
+      content: todoInput,
+      urgency: urgencyInput,
+      dateObj: {
+        year: 2023,
+        month: 5,
+        date: 8,
+      },
+    });
   };
 
   return (
@@ -73,12 +88,12 @@ function TodoForm(
           id="urgency"
           value={urgencyInput}
           onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
-            setUrgencyInput(e.currentTarget.value);
+            setUrgencyInput(e.currentTarget.value as Urgency);
           }}
         >
-          <option value="trivial">🌱trivial</option>
-          <option value="important">⚡️important</option>
-          <option value="urgent">🔥urgent</option>
+          <option value={Urgency.trivial}>🌱trivial</option>
+          <option value={Urgency.important}>⚡️important</option>
+          <option value={Urgency.urgent}>🔥urgent</option>
         </select>
         <label className="text-lg font-semibold" htmlFor="listboard">
           Select your listboards

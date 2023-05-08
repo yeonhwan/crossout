@@ -82,18 +82,19 @@ model Todo {
     id Int @id @default(autoincrement())
     content String 
     user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-    userId String @unique
+    userId String
     completed Boolean @default(false)
-    date DateTime
     deadline DateTime?
     urgency Urgency
     listBoard ListBoard? @relation(fields: [listBoardId], references: [id], onDelete: Cascade)
     listBoardId Int?
     dateRecord DateRecord @relation(fields: [dateRecordId], references: [id], onDelete: Cascade)
     dateRecordId Int
+    createdAt DateTime @default(now())
 
     @@index([listBoardId])
     @@index([dateRecordId])
+    @@index([userId])
 }
 
 model ListBoard {
@@ -110,24 +111,26 @@ model ListBoard {
 // Date Models
 model DateRecord {
     id Int @id @default(autoincrement())
-    date DateTime @unique
-    day String
     todos Todo[]
     revenues Revenue[]
     user User @relation(fields: [userId], references: [id], onDelete: Cascade)
     userId String
     daylogs DayLog[]
-    daylogId Int
+    year Int
+    month Int
+    date Int
 
     @@index([userId])
     @@index([date])
+
+    @@unique([year, month, date])
 }
 
 model Revenue {
     id Int @id @default(autoincrement())
     revenue Int
     purpose String
-    date DateTime
+    date DateTime @db.Date
     dateRecord DateRecord @relation(fields: [dateRecordId], references: [id], onDelete: Cascade)
     dateRecordId Int
     description String?
@@ -153,7 +156,7 @@ model DayLog {
     dateRecordId Int
     mood Mood?
     content String
-    date DateTime
+    date DateTime @db.Date
     user User @relation(fields: [userId], references: [id], onDelete: Cascade)
     userId String
 
