@@ -12,6 +12,9 @@ import { useState } from "react";
 // Components
 import Button from "@/components/Buttons/Button";
 
+// api
+import { api } from "@/utils/api";
+
 // Props TYPE
 type TodoFormProps = {
   setOpenDialog: Dispatch<SetStateAction<boolean>>;
@@ -30,6 +33,17 @@ function TodoForm(
     setUrgencyInput("trivial");
     setListboardsInput("");
     setOpenDialog(false);
+  };
+
+  const { mutate: createTodo } = api.todo.createTodo.useMutation({
+    onSuccess: (res) => {
+      console.log(res);
+    },
+    onError: (err) => console.log(err),
+  });
+
+  const confirmOnClickHandler = () => {
+    createTodo({ content: todoInput, userId: "Asdf", urgency: urgencyInput });
   };
 
   return (
@@ -83,7 +97,7 @@ function TodoForm(
         </select>
       </div>
       <div className="flex">
-        <Button>Confirm</Button>
+        <Button onClick={confirmOnClickHandler}>Confirm</Button>
         <Button onClick={cancelButtonHandler}>Cancel</Button>
       </div>
     </form>
