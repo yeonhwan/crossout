@@ -16,15 +16,7 @@ datasource db {
     
 }
 
-model Example {
-    id        String   @id @default(cuid())
-    testString String 
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-}
-
 // User & Auth models
-
 model User {
     id            String    @id @default(cuid())
     name          String?
@@ -35,6 +27,8 @@ model User {
     profileImage  String?
     listBoards    ListBoard[]
     todos         Todo[]
+    daylogs       DayLog[]
+    revenues      Revenue[]
     dateRecords   DateRecord[]
     accounts      Account[]
     sessions      Session[]
@@ -87,15 +81,15 @@ enum Urgency {
 model Todo {
     id Int @id @default(autoincrement())
     content String 
-    user User @relation(fields: [userId], references: [id])
+    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
     userId String @unique
     completed Boolean @default(false)
-    createdAt DateTime @default(now())
+    date DateTime
     deadline DateTime?
     urgency Urgency?
-    listBoard ListBoard? @relation(fields: [listBoardId], references: [id])
+    listBoard ListBoard? @relation(fields: [listBoardId], references: [id], onDelete: Cascade)
     listBoardId Int?
-    dateRecord DateRecord? @relation(fields: [dateRecordId], references: [id])
+    dateRecord DateRecord? @relation(fields: [dateRecordId], references: [id], onDelete: Cascade)
     dateRecordId Int?
 
     @@index([listBoardId])
@@ -104,7 +98,7 @@ model Todo {
 
 model ListBoard {
     id Int @id @default(autoincrement())
-    user User @relation(fields: [userId], references: [id])
+    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
     userId String @unique
     todos Todo[]
     description String?
@@ -119,23 +113,52 @@ model DateRecord {
     date DateTime @unique
     day String
     todos Todo[]
-    revHistory DayRevs[]
-    user User @relation(fields: [userId], references: [id])
+    revenues Revenue[]
+    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
     userId String
+    daylogs DayLog[]
+    daylogId Int
 
     @@index([userId])
+    @@index([date])
 }
 
-model DayRevs {
+model Revenue {
     id Int @id @default(autoincrement())
     revenue Int
     purpose String
-    date DateTime?
-    dateRecord DateRecord @relation(fields: [dateRecordId], references: [id])
+    date DateTime
+    dateRecord DateRecord @relation(fields: [dateRecordId], references: [id], onDelete: Cascade)
     dateRecordId Int
     description String?
+    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+    userId String
 
     @@index([dateRecordId])
+    @@index([userId])
+}
+
+enum Mood {
+    terrible
+    bad 
+    normal
+    good
+    happy
+    terrific
+}
+
+model DayLog {
+    id Int @id @default(autoincrement())
+    dateRecord DateRecord @relation(fields: [dateRecordId], references: [id], onDelete: Cascade)
+    dateRecordId Int
+    mood Mood?
+    content String
+    date DateTime
+    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+    userId String
+
+    @@index([dateRecordId])
+    @@index([userId])
 }
 //
 
