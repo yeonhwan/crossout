@@ -16,7 +16,7 @@ export default function ListView({ children }: ListViewProps) {
           masking_styles.masking as string
         }`}
       >
-        <div className={`flex h-max w-full flex-col items-center`}>
+        <div className={`flex h-max min-h-full w-full flex-col items-center`}>
           {children}
         </div>
       </div>

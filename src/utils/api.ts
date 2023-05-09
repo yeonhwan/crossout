@@ -60,7 +60,8 @@ export const api = createTRPCNext<AppRouter>({
  */
 export type RouterInputs = inferRouterInputs<AppRouter>;
 export type TodoCreateInput = RouterInputs["todo"]["createTodo"];
-
+export type GetTodoInput = RouterInputs["todo"]["getTodos"];
+export type GetTodoOutput = RouterOutputs["todo"]["getTodos"];
 /**
  * Inference helper for outputs.
  *

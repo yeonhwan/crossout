@@ -10,19 +10,73 @@ import List from "@/components/Lists/List";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 
-const HomeTabs = () => {
-  const [value, setValue] = useState(0);
+// api
+import { api } from "@/utils/api";
+import { type GetTodoOutput } from "@/utils/api";
 
-  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-    setValue(newValue);
+// styles
+import loader_styles from "@/styles/loader.module.css";
+import { type Todo } from "@prisma/client";
+
+enum TabPanels {
+  todos = 0,
+  daylog = 1,
+  revenues = 2,
+}
+
+// RENDERER PROPS TYPES
+type RendererProps = {
+  children: JSX.Element | JSX.Element[];
+  isLoading: boolean;
+};
+const Renderer = ({ children, isLoading }: RendererProps) => {
+  if (isLoading) {
+    return (
+      <div className="flex h-80 w-full items-center justify-center">
+        <span className="flex items-center justify-center">
+          <span className={`ml-2 ${loader_styles.loader as string}`} />
+        </span>
+      </div>
+    );
+  } else {
+    return <>{children}</>;
+  }
+};
+
+const HomeTabs = () => {
+  const [tabValue, setTabValue] = useState<TabPanels>(TabPanels.todos);
+  const [todosData, setTodosData] = useState<Todo[] | null>(null);
+
+  const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
+    setTabValue(newValue);
   };
+
+  // getTodos
+  const { isLoading: todoLoading } = api.todo.getTodos.useQuery(
+    { dateObject: { year: 2023, month: 5, date: 9 } },
+    {
+      queryKey: [
+        "todo.getTodos",
+        { dateObject: { year: 2023, month: 5, date: 9 } },
+      ],
+      onSuccess(res) {
+        const { data } = res;
+        if (data) {
+          const { todos } = data;
+          setTodosData(todos);
+        }
+      },
+      enabled: tabValue === TabPanels.todos,
+      keepPreviousData: true,
+    }
+  );
 
   return (
     <div className="flex h-full w-full flex-col justify-center">
       <Tabs
-        value={value}
-        onChange={handleChange}
-        aria-label="basic tabs example"
+        value={tabValue}
+        onChange={handleTabChange}
+        aria-label="home tabs"
         centered
         className="mt-4"
         TabIndicatorProps={{
@@ -31,99 +85,67 @@ const HomeTabs = () => {
       >
         <Tab
           className={`z-10 mr-4 rounded-full px-4 py-2 transition-colors delay-200 ${
-            value === 0 ? "text-white" : ""
+            tabValue === TabPanels.todos ? "text-white" : ""
           }`}
           label="Todos"
           disableRipple
-          disabled={value === 0}
+          disabled={tabValue === TabPanels.todos}
         />
         <Tab
           className={`z-10 mr-4 rounded-full px-4 py-2 transition-colors delay-200 ${
-            value === 1 ? "text-white" : ""
+            tabValue === TabPanels.daylog ? "text-white" : ""
           }`}
           label="DayLog"
           disableRipple
-          disabled={value === 1}
+          disabled={tabValue === TabPanels.daylog}
         />
         <Tab
           className={`z-10 mr-4 rounded-full px-4 py-2 transition-colors delay-200 ${
-            value === 2 ? "text-white" : ""
+            tabValue === TabPanels.revenues ? "text-white" : ""
           }`}
           label="Revenues"
           disableRipple
-          disabled={value === 2}
+          disabled={tabValue === TabPanels.revenues}
         />
       </Tabs>
       <TabPanel
         className={`${
-          value === 0 ? "flex" : "hidden"
+          tabValue === 0 ? "flex" : "hidden"
         } h-full w-full justify-center`}
-        index={0}
-        value={value}
+        index={TabPanels.todos}
+        value={TabPanels.todos}
       >
         <ListView>
-          <List>
-            <div className="w-ful flex h-max">
-              <p>dummy</p>
-            </div>
-          </List>
-          <List>
-            <div className="w-ful flex h-max">
-              <p>dummy</p>
-            </div>
-          </List>
-          <List>
-            <div className="w-ful flex h-max">
-              <p>dummy</p>
-            </div>
-          </List>
-          <List>
-            <div className="w-ful flex h-max">
-              <p>dummy</p>
-            </div>
-          </List>
-          <List>
-            <div className="w-ful flex h-max">
-              <p>dummy</p>
-            </div>
-          </List>
-          <List>
-            <div className="w-ful flex h-max">
-              <p>dummy</p>
-            </div>
-          </List>
-          <List>
-            <div className="w-ful flex h-max">
-              <p>dummy</p>
-            </div>
-          </List>
-          <List>
-            <div className="w-ful flex h-max">
-              <p>dummy</p>
-            </div>
-          </List>
-          <List>
-            <div className="w-ful flex h-max">
-              <p>dummy</p>
-            </div>
-          </List>
+          <Renderer isLoading={todoLoading}>
+            {todosData ? (
+              todosData.map((data) => (
+                <List key={data.id}>
+                  <div className="flex w-full justify-center">
+                    <p>{data.content}</p>
+                  </div>
+                </List>
+              ))
+            ) : (
+              <p>null</p>
+            )}
+          </Renderer>
         </ListView>
       </TabPanel>
       <TabPanel
         className={`${
-          value === 1 ? "flex" : "hidden"
+          tabValue === 1 ? "flex" : "hidden"
         } h-full w-full justify-center`}
-        index={1}
-        value={value}
+        index={TabPanels.daylog}
+        value={TabPanels.daylog}
       >
         <ListView />
       </TabPanel>
       <TabPanel
         className={`${
-          value === 2 ? "flex" : "hidden"
+          tabValue === 2 ? "flex" : "hidden"
         } h-full w-full justify-center`}
-        index={2}
-        value={value}
+        index={TabPanels.revenues}
+        value={TabPanels.revenues}
       >
         <ListView />
       </TabPanel>
