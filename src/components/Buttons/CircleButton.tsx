@@ -13,26 +13,26 @@ export default function CircleButton({
   children,
   clickHandler,
   info,
+  className,
 }: ButtonProps) {
+  if (className) {
+    className =
+      className +
+      " " +
+      "flex h-max w-max items-center justify-center rounded-full border-none p-2 outline-none hover:cursor-pointer hover:bg-emerald-500";
+  }
+
   if (info) {
     return (
       <Tooltip title={info} arrow placement="top">
-        <button
-          onClick={clickHandler}
-          className={
-            "flex h-max w-max items-center justify-center rounded-full border-none p-2 outline-none hover:cursor-pointer hover:bg-emerald-500"
-          }
-        >
+        <button onClick={clickHandler} className={className}>
           {children}
         </button>
       </Tooltip>
     );
   } else {
     return (
-      <button
-        onClick={clickHandler}
-        className="flex h-max w-max items-center justify-center rounded-full border-none p-2 outline-none hover:cursor-pointer hover:bg-emerald-500"
-      >
+      <button onClick={clickHandler} className={className}>
         {children}
       </button>
     );

@@ -5,6 +5,7 @@ import { useState } from "react";
 import TabPanel from "@/components/Tabs/TabPanel";
 import ListView from "@/components/Lists/ListView";
 import List from "@/components/Lists/List";
+import TodoItem from "@/components/Items/TodoItem";
 
 // libs
 import Tabs from "@mui/material/Tabs";
@@ -120,9 +121,7 @@ const HomeTabs = () => {
             {todosData ? (
               todosData.map((data) => (
                 <List key={data.id}>
-                  <div className="flex w-full justify-center">
-                    <p>{data.content}</p>
-                  </div>
+                  <TodoItem data={data} />
                 </List>
               ))
             ) : (
