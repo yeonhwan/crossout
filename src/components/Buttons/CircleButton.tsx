@@ -1,5 +1,6 @@
 // libs
 import Tooltip from "@mui/material/Tooltip";
+import { twMerge } from "tailwind-merge";
 
 // Props TYPE
 type ButtonProps = {
@@ -15,11 +16,11 @@ export default function CircleButton({
   info,
   className,
 }: ButtonProps) {
+  const defaultClassName =
+    "flex h-max w-max items-center justify-center rounded-full border-none p-2 outline-none hover:cursor-pointer hover:bg-emerald-500";
+
   if (className) {
-    className =
-      className +
-      " " +
-      "flex h-max w-max items-center justify-center rounded-full border-none p-2 outline-none hover:cursor-pointer hover:bg-emerald-500";
+    className = twMerge(defaultClassName, className);
   }
 
   if (info) {
