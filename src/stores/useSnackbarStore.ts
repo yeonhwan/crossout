@@ -1,0 +1,41 @@
+import { create } from "zustand";
+import { type Todo } from "@prisma/client";
+import { produce } from "immer";
+
+export enum SnackbarRole {
+  Error = "error",
+  Success = "success",
+  Info = "info",
+}
+
+export type SnackbarData = {
+  role: SnackbarRole;
+  message: string;
+  content: string;
+  handler?: () => void;
+  previousData?: Todo;
+};
+
+export type SnackbarState = {
+  open: boolean;
+  snackbarData?: SnackbarData;
+};
+
+type SnackbarAction = {
+  setOpen: (openState: boolean) => void;
+  setSnackbarData: (snackbarData: SnackbarData) => void;
+};
+
+const useSnackbarStore = create<SnackbarState & SnackbarAction>()((set) => ({
+  open: false,
+
+  setOpen: (openState: boolean) => set(() => ({ open: openState })),
+  setSnackbarData: (snackbarData: SnackbarData | undefined) =>
+    set(
+      produce((state: SnackbarState) => {
+        state.snackbarData = snackbarData;
+      })
+    ),
+}));
+
+export default useSnackbarStore;

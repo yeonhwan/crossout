@@ -7,6 +7,9 @@ import "@/styles/globals.css";
 import { type NextPage } from "next";
 import { StyledEngineProvider } from "@mui/material/styles";
 
+// components
+import SnackbarComponent from "@/components/Snackbar/Snackbar";
+
 export type NextPageWithLayout<P = object, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: React.ReactElement) => React.ReactNode;
 };
@@ -26,7 +29,9 @@ const MyApp = ({
     return (
       <StyledEngineProvider injectFirst>
         <SessionProvider session={session}>
-          {getLayout(<Component {...pageProps} />)}
+          {getLayout(
+            <Component {...pageProps}>{<SnackbarComponent />}</Component>
+          )}
         </SessionProvider>
       </StyledEngineProvider>
     );
@@ -36,7 +41,8 @@ const MyApp = ({
     <StyledEngineProvider injectFirst>
       <SessionProvider session={session}>
         <Layout>
-          <Component {...pageProps} />
+          <Component {...pageProps}>{<SnackbarComponent />}</Component>
+          <SnackbarComponent />
         </Layout>
       </SessionProvider>
     </StyledEngineProvider>

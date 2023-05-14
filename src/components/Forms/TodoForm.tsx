@@ -20,6 +20,7 @@ import useDateStore from "@/stores/useDateStore";
 
 // styles
 import loader_styles from "@/styles/loader.module.css";
+import useSnackbarStore, { SnackbarRole } from "@/stores/useSnackbarStore";
 
 // Props TYPE
 type TodoFormProps = {
@@ -42,6 +43,7 @@ function TodoForm(
   const [listboardsInput, setListboardsInput] = useState("");
   const [isProceed, setIsProceed] = useState(false);
   const { year, month, date } = useDateStore((state) => state.dateObj);
+  const { setOpen, setSnackbarData } = useSnackbarStore((state) => state);
   const utils = api.useContext();
 
   const cancelButtonHandler = () => {
@@ -53,7 +55,13 @@ function TodoForm(
 
   const { mutate: createTodo } = api.todo.createTodo.useMutation({
     onSuccess: async (res) => {
-      console.log(res.data);
+      const { message, content } = res.data;
+      setSnackbarData({
+        role: SnackbarRole.Success,
+        message,
+        content,
+      });
+      setOpen(true);
       await utils.todo.getTodos.invalidate();
       setIsProceed(false);
       setOpenDialog(false);
