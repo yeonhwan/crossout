@@ -62,6 +62,7 @@ export type RouterInputs = inferRouterInputs<AppRouter>;
 export type TodoCreateInput = RouterInputs["todo"]["createTodo"];
 export type GetTodoInput = RouterInputs["todo"]["getTodos"];
 export type UpdateTodoInput = RouterInputs["todo"]["updateTodo"];
+export type DeleteTodoInput = RouterInputs["todo"]["deleteTodo"];
 /**
  * Inference helper for outputs.
  *
@@ -70,3 +71,4 @@ export type UpdateTodoInput = RouterInputs["todo"]["updateTodo"];
 export type RouterOutputs = inferRouterOutputs<AppRouter>;
 export type GetTodoOutput = RouterOutputs["todo"]["getTodos"];
 export type UpdateTodoOutput = RouterOutputs["todo"]["updateTodo"];
+export type DeleteTodoOutput = RouterOutputs["todo"]["deleteTodo"];
