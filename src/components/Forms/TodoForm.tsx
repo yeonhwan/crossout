@@ -110,6 +110,15 @@ function TodoForm(
           <option value="dummy">dummy</option>
           <option value="dummytwo">dummy two</option>
         </select>
+        <label className="text-lg font-semibold" htmlFor="deadline">
+          Is there a deadline?
+        </label>
+        <input
+          className="mb-2 rounded-xl px-2 py-1 text-center"
+          id="deadline"
+          type="date"
+          lang="en"
+        />
       </div>
       <div className="flex">
         <Button onClick={confirmOnClickHandler}>Confirm</Button>

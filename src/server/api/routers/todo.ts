@@ -40,6 +40,8 @@ export const todoRouter = createTRPCRouter({
 
       const { id: userId } = session.user;
       const { year, month, date } = input.dateObject;
+      console.log(year, month, date);
+
       try {
         const dateRecordsWithTodos = await ctx.prisma.user.findUniqueOrThrow({
           where: { id: userId },

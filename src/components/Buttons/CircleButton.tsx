@@ -26,14 +26,17 @@ export default function CircleButton({
   if (info) {
     return (
       <Tooltip title={info} arrow placement="top">
-        <button onClick={clickHandler} className={className}>
+        <button
+          onClick={clickHandler}
+          className={className || defaultClassName}
+        >
           {children}
         </button>
       </Tooltip>
     );
   } else {
     return (
-      <button onClick={clickHandler} className={className}>
+      <button onClick={clickHandler} className={className || defaultClassName}>
         {children}
       </button>
     );
