@@ -10,12 +10,14 @@ const Urgency = ["urgent", "important", "trivial"] as const;
 const updateTodo = protectedProcedure
   .input(
     z.object({
-      id: z.number(),
-      content: z.optional(z.string().min(1)),
-      urgency: z.optional(z.enum(Urgency)),
-      listBoardId: z.optional(z.number()),
-      deadline: z.optional(z.date()),
-      completed: z.optional(z.boolean()),
+      data: z.object({
+        id: z.number(),
+        content: z.optional(z.string().min(1)),
+        urgency: z.optional(z.enum(Urgency)),
+        listBoardId: z.optional(z.number()),
+        deadline: z.optional(z.date()),
+        completed: z.optional(z.boolean()),
+      }),
     })
   )
   .mutation(async ({ ctx, input }) => {
@@ -25,7 +27,8 @@ const updateTodo = protectedProcedure
       throw new TRPCError({ message: "TOKEN ERROR", code: "UNAUTHORIZED" });
     }
 
-    const { id, content, urgency, listBoardId, deadline, completed } = input;
+    const { id, content, urgency, listBoardId, deadline, completed } =
+      input.data;
 
     // prisma update does RecordNotFound check & redundant update (checking if it is undefined)
     const todo = await ctx.prisma.todo.update({
