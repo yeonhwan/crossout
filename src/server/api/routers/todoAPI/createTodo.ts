@@ -64,14 +64,22 @@ const createTodo = protectedProcedure
           data: { userId, dateRecordId, content, urgency },
         });
         return {
-          data: { content: newTodo.content, message: "Successfuly Created" },
+          data: {
+            content: newTodo.content,
+            id: newTodo.id,
+            message: "Successfuly Created",
+          },
         };
       } else {
         const newTodo: Todo = await ctx.prisma.todo.create({
           data: { userId, dateRecordId, content, urgency, listBoardId },
         });
         return {
-          data: { content: newTodo.content, message: "Successfuly Created" },
+          data: {
+            content: newTodo.content,
+            id: newTodo.id,
+            message: "Successfuly Created",
+          },
         };
       }
     } catch (err) {

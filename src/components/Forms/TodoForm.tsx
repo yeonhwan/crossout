@@ -34,6 +34,8 @@ enum Urgency {
   trivial = "trivial",
 }
 
+type SnackbarHandlerType = (data: object) => void;
+
 function TodoForm(
   { setOpenDialog }: TodoFormProps,
   ref: ForwardedRef<HTMLFormElement>
@@ -55,13 +57,29 @@ function TodoForm(
     setOpenDialog(false);
   };
 
-  const { mutate: createTodo } = api.todo.createTodo.useMutation({
+  const { mutate: abortCreateTodo } = api.todo.deleteTodo.useMutation({
     onSuccess: async (res) => {
       const { message, content } = res.data;
+      await utils.todo.getTodos.invalidate();
+      setSnackbarOpen(true);
+      setSnackbarData({ message, content, role: SnackbarRole.Success });
+    },
+    onError: (err) => {
+      const { message } = err;
+      setSnackbarOpen(true);
+      setSnackbarData({ message, role: SnackbarRole.Error });
+    },
+  });
+
+  const { mutate: createTodo } = api.todo.createTodo.useMutation({
+    onSuccess: async (res) => {
+      const { message, content, id } = res.data;
       setSnackbarData({
         role: SnackbarRole.Success,
         message,
         content,
+        previousData: { data: { id } },
+        handler: abortCreateTodo as SnackbarHandlerType,
       });
       setSnackbarOpen(true);
       await utils.todo.getTodos.invalidate();

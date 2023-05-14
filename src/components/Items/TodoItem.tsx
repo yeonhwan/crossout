@@ -17,8 +17,8 @@ import ClickAwayListener from "@mui/base/ClickAwayListener";
 // api
 import { api } from "@/utils/api";
 
-// hooks
-import React, { useState } from "react";
+// React
+import { useState, useRef } from "react";
 
 // styles
 import loader_styles from "@/styles/loader.module.css";
@@ -53,6 +53,8 @@ enum UrgencyInput {
   trivial = "trivial",
 }
 
+type SnackbarHandlerType = (data: object) => void;
+
 const TodoItem = ({ data }: TodoItemProps) => {
   const { urgency, content, deadline, userId, id } = data;
   const deadlineString = deadline ? dayjs(deadline).format("YYYY-M-D") : null;
@@ -64,6 +66,7 @@ const TodoItem = ({ data }: TodoItemProps) => {
     (state) => state
   );
   const utils = api.useContext();
+  const currentData = useRef(data);
 
   const cancelUpdateTodo = () => {
     setTodoInput(content);
@@ -77,7 +80,7 @@ const TodoItem = ({ data }: TodoItemProps) => {
     urgency: urgencyInput,
   };
 
-  const { mutate: updateTodo } = api.todo.updateTodo.useMutation({
+  const { mutate: abortUpdateTodo } = api.todo.updateTodo.useMutation({
     onSuccess: async (res) => {
       const { message, content } = res.data;
       await utils.todo.getTodos.invalidate();
@@ -85,6 +88,29 @@ const TodoItem = ({ data }: TodoItemProps) => {
       setIsProceed(false);
       setSnackbarOpen(true);
       setSnackbarData({ message, content, role: SnackbarRole.Success });
+    },
+    onError: (err) => {
+      const { message } = err;
+      setSnackbarOpen(true);
+      setSnackbarData({ message, role: SnackbarRole.Error });
+    },
+  });
+  // const { mutate: abortDeleteTodo } = api.todo.updateTodo.useMutation({});
+
+  const { mutate: updateTodo } = api.todo.updateTodo.useMutation({
+    onSuccess: async (res) => {
+      const { message, content } = res.data;
+      await utils.todo.getTodos.invalidate();
+      setIsUpdating(false);
+      setIsProceed(false);
+      setSnackbarOpen(true);
+      setSnackbarData({
+        message,
+        content,
+        role: SnackbarRole.Success,
+        handler: abortUpdateTodo as SnackbarHandlerType,
+        previousData: { data: currentData.current },
+      });
     },
     onError: (err) => {
       const { message } = err;

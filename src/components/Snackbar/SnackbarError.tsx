@@ -12,7 +12,7 @@ import ReplayIcon from "@mui/icons-material/Replay";
 import CloseIcon from "@mui/icons-material/Close";
 
 const SnackbarError = ({ data, ref, setOpen }: SnackbarContentProps) => {
-  const { message, handler, previousData, content } = data;
+  const { message } = data;
 
   return (
     <div

@@ -12,11 +12,11 @@ const updateTodo = protectedProcedure
     z.object({
       data: z.object({
         id: z.number(),
-        content: z.optional(z.string().min(1)),
-        urgency: z.optional(z.enum(Urgency)),
-        listBoardId: z.optional(z.number()),
-        deadline: z.optional(z.date()),
-        completed: z.optional(z.boolean()),
+        content: z.optional(z.string().min(1)).or(z.null()),
+        urgency: z.optional(z.enum(Urgency)).or(z.null()),
+        listBoardId: z.optional(z.number()).or(z.null()),
+        deadline: z.optional(z.date()).or(z.null()),
+        completed: z.optional(z.boolean()).or(z.null()),
       }),
     })
   )

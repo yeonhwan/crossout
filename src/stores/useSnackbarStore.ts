@@ -12,8 +12,8 @@ export type SnackbarData = {
   role: SnackbarRole;
   message: string;
   content?: string;
-  handler?: () => void;
-  previousData?: Todo;
+  handler?: (data: object) => void;
+  previousData?: object;
 };
 
 export type SnackbarState = {
