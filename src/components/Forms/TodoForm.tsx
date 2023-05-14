@@ -15,6 +15,9 @@ import Button from "@/components/Buttons/Button";
 // api
 import { api } from "@/utils/api";
 
+// stores
+import useDateStore from "@/stores/useDateStore";
+
 // Props TYPE
 type TodoFormProps = {
   setOpenDialog: Dispatch<SetStateAction<boolean>>;
@@ -34,6 +37,7 @@ function TodoForm(
   const [todoInput, setTodoInput] = useState("");
   const [urgencyInput, setUrgencyInput] = useState<Urgency>(Urgency.trivial);
   const [listboardsInput, setListboardsInput] = useState("");
+  const { year, month, date } = useDateStore((state) => state.dateObj);
 
   const cancelButtonHandler = () => {
     setTodoInput("");
@@ -54,9 +58,9 @@ function TodoForm(
       content: todoInput,
       urgency: urgencyInput,
       dateObj: {
-        year: 2023,
-        month: 5,
-        date: 9,
+        year,
+        month,
+        date,
       },
     });
   };
