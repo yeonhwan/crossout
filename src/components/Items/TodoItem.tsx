@@ -5,6 +5,7 @@ import CircleButton from "@/components/Buttons/CircleButton";
 import EditIcon from "@mui/icons-material/Edit";
 import ClearIcon from "@mui/icons-material/Clear";
 import CheckIcon from "@mui/icons-material/Check";
+import BlockIcon from "@mui/icons-material/Block";
 
 // Types
 import { type Todo } from "@prisma/client";
@@ -78,6 +79,15 @@ const TodoItem = ({ data }: TodoItemProps) => {
     },
   });
 
+  const { mutate: deleteTodo } = api.todo.deleteTodo.useMutation({
+    onSuccess: (res) => {
+      console.log(res);
+    },
+    onError: (err) => {
+      console.log(err);
+    },
+  });
+
   if (!isUpdating) {
     return (
       <div className="flex w-full items-center justify-between px-10 py-4 text-white">
@@ -99,7 +109,11 @@ const TodoItem = ({ data }: TodoItemProps) => {
           <CircleButton
             info="delete"
             className="h-6 w-6 p-0"
-            clickHandler={clickHandler}
+            clickHandler={() => {
+              if (window.confirm("Are you sure want to delete Todo")) {
+                deleteTodo({ data: { id } });
+              }
+            }}
           >
             <ClearIcon className="h-4 w-4" />
           </CircleButton>
@@ -148,7 +162,7 @@ const TodoItem = ({ data }: TodoItemProps) => {
               className="h-6 w-6 p-0"
               clickHandler={cancelUpdateTodo}
             >
-              <ClearIcon className="h-4 w-4" />
+              <BlockIcon className="h-4 w-4" />
             </CircleButton>
           </div>
         </div>

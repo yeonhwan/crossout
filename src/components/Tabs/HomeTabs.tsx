@@ -13,7 +13,6 @@ import Tab from "@mui/material/Tab";
 
 // api
 import { api } from "@/utils/api";
-import { type GetTodoOutput } from "@/utils/api";
 
 // stores
 import useDateStore from "@/stores/useDateStore";

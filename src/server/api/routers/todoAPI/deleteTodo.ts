@@ -20,6 +20,7 @@ const deleteTodo = protectedProcedure
       throw new TRPCError({ message: "TOKEN ERROR", code: "UNAUTHORIZED" });
     }
 
+    console.log(input);
     const { id } = input.data;
 
     // RecordNotFound error when id is not correct
