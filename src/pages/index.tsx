@@ -36,7 +36,7 @@ const Home: NextPage = () => {
       </Head>
       <main className="flex h-[85%] w-full flex-col">
         <div className="flex w-full justify-center">
-          <DateTimer dateInfo={new Date()} />
+          <DateTimer />
         </div>
         <div className="flex h-full w-full">
           <HomeTabs />

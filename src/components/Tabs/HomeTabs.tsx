@@ -65,6 +65,8 @@ const HomeTabs = () => {
         if (data) {
           const { todos } = data;
           setTodosData(todos);
+        } else {
+          setTodosData(null);
         }
       },
       enabled: tabValue === TabPanels.todos,

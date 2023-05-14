@@ -10,6 +10,9 @@ import { StyledEngineProvider } from "@mui/material/styles";
 // components
 import SnackbarComponent from "@/components/Snackbar/Snackbar";
 
+// devtools
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+
 export type NextPageWithLayout<P = object, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: React.ReactElement) => React.ReactNode;
 };
@@ -28,6 +31,7 @@ const MyApp = ({
   if (getLayout) {
     return (
       <StyledEngineProvider injectFirst>
+        <ReactQueryDevtools initialIsOpen={false} />
         <SessionProvider session={session}>
           {getLayout(
             <Component {...pageProps}>{<SnackbarComponent />}</Component>
@@ -39,6 +43,7 @@ const MyApp = ({
 
   return (
     <StyledEngineProvider injectFirst>
+      <ReactQueryDevtools initialIsOpen={false} />
       <SessionProvider session={session}>
         <Layout>
           <Component {...pageProps}>{<SnackbarComponent />}</Component>
