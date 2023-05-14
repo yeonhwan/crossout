@@ -20,7 +20,6 @@ const deleteTodo = protectedProcedure
       throw new TRPCError({ message: "TOKEN ERROR", code: "UNAUTHORIZED" });
     }
 
-    console.log(input);
     const { id } = input.data;
 
     // RecordNotFound error when id is not correct
@@ -29,7 +28,9 @@ const deleteTodo = protectedProcedure
     });
 
     if (todo) {
-      return { data: todo };
+      return {
+        data: { content: todo.content, message: "Successfuly Deleted" },
+      };
     } else {
       throw new TRPCError({
         message: "SERVER ERROR",

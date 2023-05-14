@@ -135,7 +135,7 @@ function TodoForm(
       </div>
       <div className="flex">
         {isProceed ? (
-          <Button className="pointer-events-none flex justify-center">
+          <Button className="pointer-events-none flex justify-center px-4">
             <span className="flex h-full w-full items-center justify-center">
               <span className={`${loader_styles.loader as string}`} />
             </span>

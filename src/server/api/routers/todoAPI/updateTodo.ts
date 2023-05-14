@@ -43,7 +43,9 @@ const updateTodo = protectedProcedure
     });
 
     if (todo) {
-      return { data: todo };
+      return {
+        data: { content: todo.content, message: "Successfuly Updated" },
+      };
     } else {
       throw new TRPCError({
         message: "SERVER ERROR",

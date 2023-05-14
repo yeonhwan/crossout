@@ -20,6 +20,9 @@ import { api } from "@/utils/api";
 // hooks
 import React, { useState } from "react";
 
+// styles
+import loader_styles from "@/styles/loader.module.css";
+
 // types
 type TodoItemProps = {
   data: Todo;
@@ -47,16 +50,14 @@ enum UrgencyInput {
   trivial = "trivial",
 }
 
-const clickHandler = (): void => {
-  console.log("clicked");
-};
-
 const TodoItem = ({ data }: TodoItemProps) => {
   const { urgency, content, deadline, userId, id } = data;
   const deadlineString = deadline ? dayjs(deadline).format("YYYY-M-D") : null;
   const [isUpdating, setIsUpdating] = useState(false);
   const [todoInput, setTodoInput] = useState(content);
   const [urgencyInput, setUrgencyInput] = useState(urgency);
+  const [isProceed, setIsProceed] = useState(false);
+  const utils = api.useContext();
 
   const cancelUpdateTodo = () => {
     setTodoInput(content);
@@ -71,7 +72,10 @@ const TodoItem = ({ data }: TodoItemProps) => {
   };
 
   const { mutate: updateTodo } = api.todo.updateTodo.useMutation({
-    onSuccess: (res) => {
+    onSuccess: async (res) => {
+      await utils.todo.getTodos.invalidate();
+      setIsUpdating(false);
+      setIsProceed(false);
       console.log(res);
     },
     onError: (err) => {
@@ -80,7 +84,9 @@ const TodoItem = ({ data }: TodoItemProps) => {
   });
 
   const { mutate: deleteTodo } = api.todo.deleteTodo.useMutation({
-    onSuccess: (res) => {
+    onSuccess: async (res) => {
+      await utils.todo.getTodos.invalidate();
+      setIsUpdating(false);
       console.log(res);
     },
     onError: (err) => {
@@ -146,24 +152,35 @@ const TodoItem = ({ data }: TodoItemProps) => {
             }}
           />
           <div className="flex w-1/12 justify-between">
-            <CircleButton
-              info="apply"
-              className="h-6 w-6 p-0"
-              clickHandler={() => {
-                if (window.confirm("Are you sure want to apply?")) {
-                  updateTodo({ data: updateTodoData });
-                }
-              }}
-            >
-              <CheckIcon className="h-4 w-4" />
-            </CircleButton>
-            <CircleButton
-              info="cancel"
-              className="h-6 w-6 p-0"
-              clickHandler={cancelUpdateTodo}
-            >
-              <BlockIcon className="h-4 w-4" />
-            </CircleButton>
+            {isProceed ? (
+              <div className="h-full w-full">
+                <span className="flex h-full w-full items-center justify-center">
+                  <span className={`${loader_styles.loader as string}`} />
+                </span>
+              </div>
+            ) : (
+              <>
+                <CircleButton
+                  info="apply"
+                  className="h-6 w-6 p-0"
+                  clickHandler={() => {
+                    if (window.confirm("Are you sure want to apply?")) {
+                      setIsProceed(true);
+                      updateTodo({ data: updateTodoData });
+                    }
+                  }}
+                >
+                  <CheckIcon className="h-4 w-4" />
+                </CircleButton>
+                <CircleButton
+                  info="cancel"
+                  className="h-6 w-6 p-0"
+                  clickHandler={cancelUpdateTodo}
+                >
+                  <BlockIcon className="h-4 w-4" />
+                </CircleButton>
+              </>
+            )}
           </div>
         </div>
       </ClickAwayListener>
