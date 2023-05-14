@@ -3,6 +3,9 @@ import { z } from "zod";
 import { TRPCError } from "@trpc/server";
 import { type Todo } from "@prisma/client";
 
+// auth
+import tokenVerify from "@/server/api/routers/auth/tokenVerify";
+
 const Urgency = ["urgent", "important", "trivial"] as const;
 
 const createTodo = protectedProcedure
@@ -21,17 +24,8 @@ const createTodo = protectedProcedure
   .mutation(async ({ ctx, input }) => {
     const session = ctx.session;
 
-    // CASE 1. USER HAS NOT SIGNED IN
-    if (!session) {
-      throw new TRPCError({ message: "BAD_REQUEST", code: "BAD_REQUEST" });
-    }
-
-    // CASE 2. TOKEN EXPIRED
-    const { expires } = session;
-    const now = new Date().getTime();
-    const token_expires = new Date(expires).getTime();
-    if (token_expires - now < 0) {
-      throw new TRPCError({ message: "TOKEN_EXPIRED", code: "FORBIDDEN" });
+    if (!tokenVerify(session)) {
+      throw new TRPCError({ message: "TOKEN ERROR", code: "UNAUTHORIZED" });
     }
 
     // CASE 3. USER DOES NOT EXISTS or MATCH
