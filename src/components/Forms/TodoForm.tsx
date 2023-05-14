@@ -18,6 +18,9 @@ import { api } from "@/utils/api";
 // stores
 import useDateStore from "@/stores/useDateStore";
 
+// styles
+import loader_styles from "@/styles/loader.module.css";
+
 // Props TYPE
 type TodoFormProps = {
   setOpenDialog: Dispatch<SetStateAction<boolean>>;
@@ -37,7 +40,9 @@ function TodoForm(
   const [todoInput, setTodoInput] = useState("");
   const [urgencyInput, setUrgencyInput] = useState<Urgency>(Urgency.trivial);
   const [listboardsInput, setListboardsInput] = useState("");
+  const [isProceed, setIsProceed] = useState(false);
   const { year, month, date } = useDateStore((state) => state.dateObj);
+  const utils = api.useContext();
 
   const cancelButtonHandler = () => {
     setTodoInput("");
@@ -47,13 +52,17 @@ function TodoForm(
   };
 
   const { mutate: createTodo } = api.todo.createTodo.useMutation({
-    onSuccess: (res) => {
-      console.log(res);
+    onSuccess: async (res) => {
+      console.log(res.data);
+      await utils.todo.getTodos.invalidate();
+      setIsProceed(false);
+      setOpenDialog(false);
     },
     onError: (err) => console.log(err),
   });
 
   const confirmOnClickHandler = () => {
+    setIsProceed(true);
     createTodo({
       content: todoInput,
       urgency: urgencyInput,
@@ -125,8 +134,18 @@ function TodoForm(
         />
       </div>
       <div className="flex">
-        <Button onClick={confirmOnClickHandler}>Confirm</Button>
-        <Button onClick={cancelButtonHandler}>Cancel</Button>
+        {isProceed ? (
+          <Button className="pointer-events-none flex justify-center">
+            <span className="flex h-full w-full items-center justify-center">
+              <span className={`${loader_styles.loader as string}`} />
+            </span>
+          </Button>
+        ) : (
+          <>
+            <Button onClick={confirmOnClickHandler}>Confirm</Button>
+            <Button onClick={cancelButtonHandler}>Cancel</Button>
+          </>
+        )}
       </div>
     </form>
   );
