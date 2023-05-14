@@ -11,7 +11,7 @@ export enum SnackbarRole {
 export type SnackbarData = {
   role: SnackbarRole;
   message: string;
-  content: string;
+  content?: string;
   handler?: () => void;
   previousData?: Todo;
 };
@@ -22,14 +22,14 @@ export type SnackbarState = {
 };
 
 type SnackbarAction = {
-  setOpen: (openState: boolean) => void;
+  setSnackbarOpen: (openState: boolean) => void;
   setSnackbarData: (snackbarData: SnackbarData) => void;
 };
 
 const useSnackbarStore = create<SnackbarState & SnackbarAction>()((set) => ({
   open: false,
 
-  setOpen: (openState: boolean) => set(() => ({ open: openState })),
+  setSnackbarOpen: (openState: boolean) => set(() => ({ open: openState })),
   setSnackbarData: (snackbarData: SnackbarData | undefined) =>
     set(
       produce((state: SnackbarState) => {

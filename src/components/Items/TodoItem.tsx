@@ -28,6 +28,9 @@ type TodoItemProps = {
   data: Todo;
 };
 
+// stores
+import useSnackbarStore, { SnackbarRole } from "@/stores/useSnackbarStore";
+
 type UpdateTodoData = {
   id: number;
   content?: string;
@@ -57,6 +60,9 @@ const TodoItem = ({ data }: TodoItemProps) => {
   const [todoInput, setTodoInput] = useState(content);
   const [urgencyInput, setUrgencyInput] = useState(urgency);
   const [isProceed, setIsProceed] = useState(false);
+  const { setSnackbarOpen, setSnackbarData } = useSnackbarStore(
+    (state) => state
+  );
   const utils = api.useContext();
 
   const cancelUpdateTodo = () => {
@@ -73,24 +79,32 @@ const TodoItem = ({ data }: TodoItemProps) => {
 
   const { mutate: updateTodo } = api.todo.updateTodo.useMutation({
     onSuccess: async (res) => {
+      const { message, content } = res.data;
       await utils.todo.getTodos.invalidate();
       setIsUpdating(false);
       setIsProceed(false);
-      console.log(res);
+      setSnackbarOpen(true);
+      setSnackbarData({ message, content, role: SnackbarRole.Success });
     },
     onError: (err) => {
-      console.log(err);
+      const { message } = err;
+      setSnackbarOpen(true);
+      setSnackbarData({ message, role: SnackbarRole.Error });
     },
   });
 
   const { mutate: deleteTodo } = api.todo.deleteTodo.useMutation({
     onSuccess: async (res) => {
+      const { message, content } = res.data;
       await utils.todo.getTodos.invalidate();
       setIsUpdating(false);
-      console.log(res);
+      setSnackbarOpen(true);
+      setSnackbarData({ message, content, role: SnackbarRole.Success });
     },
     onError: (err) => {
-      console.log(err);
+      const { message } = err;
+      setSnackbarOpen(true);
+      setSnackbarData({ message, role: SnackbarRole.Error });
     },
   });
 

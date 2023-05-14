@@ -43,7 +43,9 @@ function TodoForm(
   const [listboardsInput, setListboardsInput] = useState("");
   const [isProceed, setIsProceed] = useState(false);
   const { year, month, date } = useDateStore((state) => state.dateObj);
-  const { setOpen, setSnackbarData } = useSnackbarStore((state) => state);
+  const { setSnackbarOpen, setSnackbarData } = useSnackbarStore(
+    (state) => state
+  );
   const utils = api.useContext();
 
   const cancelButtonHandler = () => {
@@ -61,12 +63,16 @@ function TodoForm(
         message,
         content,
       });
-      setOpen(true);
+      setSnackbarOpen(true);
       await utils.todo.getTodos.invalidate();
       setIsProceed(false);
       setOpenDialog(false);
     },
-    onError: (err) => console.log(err),
+    onError: (err) => {
+      const { message } = err;
+      setSnackbarOpen(true);
+      setSnackbarData({ message, role: SnackbarRole.Error });
+    },
   });
 
   const confirmOnClickHandler = () => {

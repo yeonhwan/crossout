@@ -29,7 +29,9 @@ export type SnackbarContentProps = {
 };
 
 const SnackbarComponent = () => {
-  const { open, setOpen, snackbarData } = useSnackbarStore((state) => state);
+  const { open, setSnackbarOpen, snackbarData } = useSnackbarStore(
+    (state) => state
+  );
 
   switch (snackbarData?.role) {
     case SnackbarRole.Success:
@@ -39,13 +41,13 @@ const SnackbarComponent = () => {
           open={open}
           autoHideDuration={4000}
           onClose={() => {
-            setOpen(false);
+            setSnackbarOpen(false);
           }}
           TransitionComponent={TransitionUp}
         >
           {/* MUI Snackbar Components needs real html tag not Component to hold a ref of children */}
           <div>
-            <SnackbarSuccess data={snackbarData} setOpen={setOpen} />
+            <SnackbarSuccess data={snackbarData} setOpen={setSnackbarOpen} />
           </div>
         </Snackbar>
       );
@@ -57,13 +59,13 @@ const SnackbarComponent = () => {
           open={open}
           autoHideDuration={4000}
           onClose={() => {
-            setOpen(false);
+            setSnackbarOpen(false);
           }}
           TransitionComponent={TransitionUp}
         >
           {/* MUI Snackbar Components needs real html tag not Component to hold a ref of children */}
           <div>
-            <SnackbarError data={snackbarData} setOpen={setOpen} />
+            <SnackbarError data={snackbarData} setOpen={setSnackbarOpen} />
           </div>
         </Snackbar>
       );
@@ -75,7 +77,7 @@ const SnackbarComponent = () => {
           open={open}
           autoHideDuration={4000}
           onClose={() => {
-            setOpen(false);
+            setSnackbarOpen(false);
           }}
           TransitionComponent={TransitionUp}
         >
