@@ -16,7 +16,7 @@ export default function DateTimer() {
   );
 
   const year = dateObj.year;
-  const month = dateObj.month;
+  const month = dateObj.monthString;
   const date = dateObj.date;
   const day = dateObj.day;
 

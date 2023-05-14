@@ -15,6 +15,9 @@ import Tab from "@mui/material/Tab";
 import { api } from "@/utils/api";
 import { type GetTodoOutput } from "@/utils/api";
 
+// stores
+import useDateStore from "@/stores/useDateStore";
+
 // styles
 import loader_styles from "@/styles/loader.module.css";
 import { type Todo } from "@prisma/client";
@@ -47,6 +50,7 @@ const Renderer = ({ children, isLoading }: RendererProps) => {
 const HomeTabs = () => {
   const [tabValue, setTabValue] = useState<TabPanels>(TabPanels.todos);
   const [todosData, setTodosData] = useState<Todo[] | null>(null);
+  const { year, month, date } = useDateStore((state) => state.dateObj);
 
   const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
     setTabValue(newValue);
@@ -54,12 +58,9 @@ const HomeTabs = () => {
 
   // getTodos
   const { isLoading: todoLoading } = api.todo.getTodos.useQuery(
-    { dateObject: { year: 2023, month: 5, date: 9 } },
+    { dateObject: { year, month, date } },
     {
-      queryKey: [
-        "todo.getTodos",
-        { dateObject: { year: 2023, month: 5, date: 9 } },
-      ],
+      queryKey: ["todo.getTodos", { dateObject: { year, month, date } }],
       onSuccess(res) {
         const { data } = res;
         if (data) {

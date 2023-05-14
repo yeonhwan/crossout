@@ -5,7 +5,8 @@ type DateState = {
   dateObj: {
     now: dayjs.Dayjs;
     get year(): number;
-    get month(): string;
+    get monthString(): string;
+    get month(): number;
     get date(): number;
     get day(): string;
   };
@@ -23,7 +24,11 @@ const useDateStore = create<DateState & DateAction>()((set) => ({
       return this.now.get("year");
     },
 
-    get month(): string {
+    get month(): number {
+      return this.now.get("month") + 1;
+    },
+
+    get monthString(): string {
       return this.now.format("MMM");
     },
 
@@ -43,7 +48,11 @@ const useDateStore = create<DateState & DateAction>()((set) => ({
           return this.now.get("year");
         },
 
-        get month(): string {
+        get month(): number {
+          return this.now.get("month") + 1;
+        },
+
+        get monthString(): string {
           return this.now.format("MMM");
         },
 
@@ -65,7 +74,11 @@ const useDateStore = create<DateState & DateAction>()((set) => ({
           return this.now.get("year");
         },
 
-        get month(): string {
+        get month(): number {
+          return this.now.get("month") + 1;
+        },
+
+        get monthString(): string {
           return this.now.format("MMM");
         },
 
