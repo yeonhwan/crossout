@@ -122,7 +122,7 @@ const HomeTabs = () => {
           <Renderer isLoading={todoLoading}>
             {todosData ? (
               todosData.map((data) => (
-                <List key={data.id}>
+                <List className="bg-transparent" key={data.id}>
                   <TodoItem data={data} />
                 </List>
               ))

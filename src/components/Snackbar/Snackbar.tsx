@@ -14,6 +14,7 @@ import useSnackbarStore from "@/stores/useSnackbarStore";
 // components
 import SnackbarSuccess from "@/components/Snackbar/SnackbarSuccess";
 import SnackbarError from "@/components/Snackbar/SnackbarError";
+import SnackbarInfo from "@/components/Snackbar/SnackbarInfo";
 import { SnackbarRole } from "../../stores/useSnackbarStore";
 
 function TransitionUp(props: TransitionProps) {
@@ -81,9 +82,9 @@ const SnackbarComponent = () => {
           }}
           TransitionComponent={TransitionUp}
         >
-          <p className="flex h-12 min-h-max w-80 min-w-max items-center justify-center rounded-lg bg-white p-4">
-            snackbar
-          </p>
+          <div>
+            <SnackbarInfo data={snackbarData} setOpen={setSnackbarOpen} />
+          </div>
         </Snackbar>
       );
 

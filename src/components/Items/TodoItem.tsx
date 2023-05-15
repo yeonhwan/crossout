@@ -3,7 +3,7 @@ import CircleButton from "@/components/Buttons/CircleButton";
 
 // ICONS
 import EditIcon from "@mui/icons-material/Edit";
-import ClearIcon from "@mui/icons-material/Clear";
+import DeleteIcon from "@mui/icons-material/Delete";
 import CheckIcon from "@mui/icons-material/Check";
 import BlockIcon from "@mui/icons-material/Block";
 
@@ -18,7 +18,7 @@ import ClickAwayListener from "@mui/base/ClickAwayListener";
 import { api } from "@/utils/api";
 
 // React
-import { useState, useRef } from "react";
+import React, { useState, useRef } from "react";
 
 // styles
 import loader_styles from "@/styles/loader.module.css";
@@ -56,7 +56,7 @@ enum UrgencyInput {
 type SnackbarHandlerType = (data: object) => void;
 
 const TodoItem = ({ data }: TodoItemProps) => {
-  const { urgency, content, deadline, userId, id } = data;
+  const { urgency, content, deadline, userId, id, completed } = data;
   const deadlineString = deadline ? dayjs(deadline).format("YYYY-M-D") : null;
   const [isUpdating, setIsUpdating] = useState(false);
   const [todoInput, setTodoInput] = useState(content);
@@ -68,11 +68,7 @@ const TodoItem = ({ data }: TodoItemProps) => {
   const utils = api.useContext();
   const currentData = useRef(data);
 
-  const cancelUpdateTodo = () => {
-    setTodoInput(content);
-    setUrgencyInput(urgency);
-    setIsUpdating(false);
-  };
+  // apis
 
   const { mutate: abortUpdateTodo } = api.todo.updateTodo.useMutation({
     onSuccess: async (res) => {
@@ -124,10 +120,35 @@ const TodoItem = ({ data }: TodoItemProps) => {
     },
     onError: (err) => {
       const { message } = err;
+      setIsProceed(false);
       setSnackbarOpen(true);
       setSnackbarData({ message, role: SnackbarRole.Error });
     },
   });
+
+  const { mutate: completeTodo } = api.todo.completeTodo.useMutation({
+    onSuccess: async (res) => {
+      const { message, content } = res.data;
+      await utils.todo.getTodos.invalidate();
+      setIsProceed(false);
+      setSnackbarOpen(true);
+      setSnackbarData({ message, content, role: SnackbarRole.Info });
+    },
+    onError: (err) => {
+      const { message } = err;
+      setIsProceed(false);
+      setSnackbarOpen(true);
+      setSnackbarData({ message, role: SnackbarRole.Error });
+    },
+  });
+
+  // handlers
+
+  const cancelUpdateTodo = () => {
+    setTodoInput(content);
+    setUrgencyInput(urgency);
+    setIsUpdating(false);
+  };
 
   const applyUpdateClickHandler = () => {
     setIsProceed(true);
@@ -139,39 +160,79 @@ const TodoItem = ({ data }: TodoItemProps) => {
         currentData.current.urgency !== urgencyInput ? urgencyInput : undefined,
       listboardId: undefined,
       deadline: undefined,
-      completed: currentData.current.completed,
     };
     updateTodo({ data });
   };
 
+  const completeTodoHandler = () => {
+    if (data.completed) {
+      completeTodo({ data: { id, completed: false } });
+      setIsProceed(true);
+    } else {
+      completeTodo({ data: { id, completed: true } });
+      setIsProceed(true);
+    }
+  };
+
   if (!isUpdating) {
     return (
-      <div className="flex w-full items-center justify-between px-10 py-4 text-white">
-        <div className="flex w-max">
-          <p className="w-1/12">{Urgency[urgency]}</p>
-          {deadlineString && <p>{deadlineString}</p>}
+      <div
+        onClick={completeTodoHandler}
+        className={`flex w-full items-center justify-between rounded-full ${
+          completed ? "bg-neutral-500" : "bg-neutral-700"
+        } px-10 py-4 text-white hover:cursor-pointer`}
+      >
+        <div className="flex">
+          <div className="flex h-6 w-6 items-center justify-center rounded-full bg-neutral-300">
+            <p>{Urgency[urgency]}</p>
+          </div>
+          <div className="ml-2 flex h-6 w-6 items-center justify-center">
+            {isProceed && (
+              <span className={`${loader_styles.loader as string}`} />
+            )}
+          </div>
         </div>
-        <p className="w-8/12 text-center">{content}</p>
-        <div className="flex w-1/12 justify-between">
-          <CircleButton
-            info="edit"
-            className="h-6 w-6 p-0"
-            clickHandler={() => {
-              setIsUpdating(true);
-            }}
+        {deadlineString && <p>{deadlineString}</p>}
+        <div className="flex w-8/12 justify-center">
+          <p
+            className={`relative text-center after:absolute after:left-0 after:top-1/2 after:h-[2px] after:w-0 after:bg-neutral-600 after:transition-all after:duration-200 after:ease-in-out after:content-[''] ${
+              completed ? "after:w-full" : ""
+            }`}
           >
-            <EditIcon className="h-4 w-4" />
-          </CircleButton>
+            {content}
+          </p>
+        </div>
+        <div
+          className={`flex w-1/12 ${
+            data.completed ? "justify-center" : "justify-between"
+          }`}
+        >
+          {!data.completed ? (
+            <CircleButton
+              info="edit"
+              className={`h-6 w-6 p-0 ${
+                isProceed ? "pointer-events-none" : ""
+              }`}
+              clickHandler={(e) => {
+                e?.stopPropagation();
+                setIsUpdating(true);
+              }}
+            >
+              <EditIcon className="h-4 w-4" />
+            </CircleButton>
+          ) : null}
           <CircleButton
             info="delete"
-            className="h-6 w-6 p-0"
-            clickHandler={() => {
+            className={`h-6 w-6 p-0 ${isProceed ? "pointer-events-none" : ""}`}
+            clickHandler={(e) => {
+              e?.stopPropagation();
               if (window.confirm("Are you sure want to delete Todo")) {
+                setIsProceed(true);
                 deleteTodo({ data: { id } });
               }
             }}
           >
-            <ClearIcon className="h-4 w-4" />
+            <DeleteIcon className="h-4 w-4" />
           </CircleButton>
         </div>
       </div>
@@ -179,7 +240,7 @@ const TodoItem = ({ data }: TodoItemProps) => {
   } else {
     return (
       <ClickAwayListener onClickAway={cancelUpdateTodo}>
-        <div className="flex w-full items-center justify-between px-10 py-4 text-white">
+        <div className="flex w-full items-center justify-between rounded-full bg-cyan-800 px-10 py-4 text-white">
           <div className="flex w-max">
             <select
               className="hover:cur rounded-xl bg-neutral-400/40 px-2 outline-none hover:cursor-pointer"

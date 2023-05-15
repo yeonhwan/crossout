@@ -23,7 +23,7 @@ export type SnackbarState = {
 
 type SnackbarAction = {
   setSnackbarOpen: (openState: boolean) => void;
-  setSnackbarData: (snackbarData: SnackbarData) => void;
+  setSnackbarData: (snackbarData?: SnackbarData) => void;
 };
 
 const useSnackbarStore = create<SnackbarState & SnackbarAction>()((set) => ({

@@ -27,8 +27,7 @@ const updateTodo = protectedProcedure
       throw new TRPCError({ message: "TOKEN ERROR", code: "UNAUTHORIZED" });
     }
 
-    const { id, content, urgency, listBoardId, deadline, completed } =
-      input.data;
+    const { id, content, urgency, listBoardId, deadline } = input.data;
 
     console.log(input);
 
@@ -40,7 +39,6 @@ const updateTodo = protectedProcedure
         urgency: urgency ? urgency : undefined,
         listBoardId: listBoardId ? listBoardId : undefined,
         deadline: deadline ? deadline : undefined,
-        completed: completed ? completed : undefined,
       },
     });
 

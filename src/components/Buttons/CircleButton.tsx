@@ -5,7 +5,7 @@ import { twMerge } from "tailwind-merge";
 // Props TYPE
 type ButtonProps = {
   children: JSX.Element;
-  clickHandler?: () => void;
+  clickHandler?: (e?: React.MouseEvent<HTMLButtonElement>) => void;
   info?: string;
   className?: string;
 };
