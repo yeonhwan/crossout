@@ -33,11 +33,11 @@ import useSnackbarStore, { SnackbarRole } from "@/stores/useSnackbarStore";
 
 type UpdateTodoData = {
   id: number;
-  content?: string;
-  urgency?: typeof Urgency;
-  listboardId?: number;
-  deadline?: Date;
-  completed?: boolean;
+  content?: string | undefined;
+  urgency?: typeof Urgency | undefined;
+  listboardId?: number | undefined;
+  deadline?: Date | undefined;
+  completed?: boolean | undefined;
 };
 
 enum Urgency {
@@ -74,19 +74,14 @@ const TodoItem = ({ data }: TodoItemProps) => {
     setIsUpdating(false);
   };
 
-  const updateTodoData = {
-    id,
-    content: todoInput,
-    urgency: urgencyInput,
-  };
-
   const { mutate: abortUpdateTodo } = api.todo.updateTodo.useMutation({
     onSuccess: async (res) => {
-      const { message, content } = res.data;
+      const { message, content, todo } = res.data;
       await utils.todo.getTodos.invalidate();
       setIsUpdating(false);
       setIsProceed(false);
       setSnackbarOpen(true);
+      currentData.current = todo;
       setSnackbarData({ message, content, role: SnackbarRole.Success });
     },
     onError: (err) => {
@@ -95,15 +90,15 @@ const TodoItem = ({ data }: TodoItemProps) => {
       setSnackbarData({ message, role: SnackbarRole.Error });
     },
   });
-  // const { mutate: abortDeleteTodo } = api.todo.updateTodo.useMutation({});
 
   const { mutate: updateTodo } = api.todo.updateTodo.useMutation({
     onSuccess: async (res) => {
-      const { message, content } = res.data;
+      const { message, content, todo } = res.data;
       await utils.todo.getTodos.invalidate();
       setIsUpdating(false);
       setIsProceed(false);
       setSnackbarOpen(true);
+      currentData.current = todo;
       setSnackbarData({
         message,
         content,
@@ -133,6 +128,21 @@ const TodoItem = ({ data }: TodoItemProps) => {
       setSnackbarData({ message, role: SnackbarRole.Error });
     },
   });
+
+  const applyUpdateClickHandler = () => {
+    setIsProceed(true);
+    const data = {
+      id,
+      content:
+        currentData.current.content !== todoInput ? todoInput : undefined,
+      urgency:
+        currentData.current.urgency !== urgencyInput ? urgencyInput : undefined,
+      listboardId: undefined,
+      deadline: undefined,
+      completed: currentData.current.completed,
+    };
+    updateTodo({ data });
+  };
 
   if (!isUpdating) {
     return (
@@ -203,12 +213,7 @@ const TodoItem = ({ data }: TodoItemProps) => {
                 <CircleButton
                   info="apply"
                   className="h-6 w-6 p-0"
-                  clickHandler={() => {
-                    if (window.confirm("Are you sure want to apply?")) {
-                      setIsProceed(true);
-                      updateTodo({ data: updateTodoData });
-                    }
-                  }}
+                  clickHandler={applyUpdateClickHandler}
                 >
                   <CheckIcon className="h-4 w-4" />
                 </CircleButton>

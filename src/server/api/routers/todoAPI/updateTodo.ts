@@ -30,6 +30,8 @@ const updateTodo = protectedProcedure
     const { id, content, urgency, listBoardId, deadline, completed } =
       input.data;
 
+    console.log(input);
+
     // prisma update does RecordNotFound check & redundant update (checking if it is undefined)
     const todo = await ctx.prisma.todo.update({
       where: { id },
@@ -44,7 +46,11 @@ const updateTodo = protectedProcedure
 
     if (todo) {
       return {
-        data: { content: todo.content, message: "Successfuly Updated" },
+        data: {
+          content: todo.content,
+          todo: todo,
+          message: "Successfuly Updated",
+        },
       };
     } else {
       throw new TRPCError({
