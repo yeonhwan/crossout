@@ -319,7 +319,7 @@ const TodoItem = ({ data, setSortingTodos, sortingTodos }: TodoItemProps) => {
             <div className="flex w-1/12 justify-between">
               {isProceed ? (
                 <div className="h-full w-full">
-                  <span className="flex h-full w-full items-center justify-center">
+                  <span className="flex h-8 w-8 items-center justify-center">
                     <span className={`${loader_styles.loader as string}`} />
                   </span>
                 </div>
