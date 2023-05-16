@@ -4,22 +4,11 @@ import { useState } from "react";
 // Components
 import TabPanel from "@/components/Tabs/TabPanel";
 import ListView from "@/components/Lists/ListView";
-import List from "@/components/Lists/List";
-import TodoItem from "@/components/Items/TodoItem";
+import TodoPanel from "./Panels/Todos/TodoPanel";
 
 // libs
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
-
-// api
-import { api } from "@/utils/api";
-
-// stores
-import useDateStore from "@/stores/useDateStore";
-
-// styles
-import loader_styles from "@/styles/loader.module.css";
-import { type Todo } from "@prisma/client";
 
 enum TabPanels {
   todos = 0,
@@ -27,52 +16,12 @@ enum TabPanels {
   revenues = 2,
 }
 
-// RENDERER PROPS TYPES
-type RendererProps = {
-  children: JSX.Element | JSX.Element[];
-  isLoading: boolean;
-};
-const Renderer = ({ children, isLoading }: RendererProps) => {
-  if (isLoading) {
-    return (
-      <div className="flex h-80 w-full items-center justify-center">
-        <span className="flex items-center justify-center">
-          <span className={`ml-2 ${loader_styles.loader as string}`} />
-        </span>
-      </div>
-    );
-  } else {
-    return <>{children}</>;
-  }
-};
-
 const HomeTabs = () => {
   const [tabValue, setTabValue] = useState<TabPanels>(TabPanels.todos);
-  const [todosData, setTodosData] = useState<Todo[] | null>(null);
-  const { year, month, date } = useDateStore((state) => state.dateObj);
 
   const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
     setTabValue(newValue);
   };
-
-  // getTodos
-  const { isLoading: todoLoading } = api.todo.getTodos.useQuery(
-    { dateObject: { year, month, date } },
-    {
-      queryKey: ["todo.getTodos", { dateObject: { year, month, date } }],
-      onSuccess(res) {
-        const { data } = res;
-        if (data) {
-          const { todos } = data;
-          setTodosData(todos);
-        } else {
-          setTodosData(null);
-        }
-      },
-      enabled: tabValue === TabPanels.todos,
-      keepPreviousData: true,
-    }
-  );
 
   return (
     <div className="flex h-full w-full flex-col justify-center">
@@ -118,19 +67,7 @@ const HomeTabs = () => {
         index={TabPanels.todos}
         value={TabPanels.todos}
       >
-        <ListView>
-          <Renderer isLoading={todoLoading}>
-            {todosData ? (
-              todosData.map((data) => (
-                <List className="bg-transparent" key={data.id}>
-                  <TodoItem data={data} />
-                </List>
-              ))
-            ) : (
-              <p>null</p>
-            )}
-          </Renderer>
-        </ListView>
+        <TodoPanel enabled={tabValue === TabPanels.todos} />
       </TabPanel>
       <TabPanel
         className={`${
@@ -139,7 +76,9 @@ const HomeTabs = () => {
         index={TabPanels.daylog}
         value={TabPanels.daylog}
       >
-        <ListView />
+        <ListView>
+          <p>asdf</p>
+        </ListView>
       </TabPanel>
       <TabPanel
         className={`${
