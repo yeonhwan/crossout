@@ -4,6 +4,7 @@ import { TRPCError } from "@trpc/server";
 
 // verify
 import tokenVerify from "@/server/api/routers/auth/tokenVerify";
+import { type Prisma, type Todo } from "@prisma/client";
 
 const getTodos = protectedProcedure
   .input(
@@ -30,7 +31,7 @@ const getTodos = protectedProcedure
 
     const { id: userId } = session.user;
     const { year, month, date } = input.dateObject;
-    console.log(year, month, date);
+    // console.log(year, month, date);
 
     try {
       const dateRecordsWithTodos = await ctx.prisma.user.findUniqueOrThrow({
@@ -38,11 +39,46 @@ const getTodos = protectedProcedure
         select: {
           dateRecords: {
             where: { year, month, date },
-            select: { todos: true, year: true, month: true, date: true },
+            select: {
+              todos: true,
+              year: true,
+              month: true,
+              date: true,
+              todoIndex: true,
+              id: true,
+            },
           },
         },
       });
       const data = dateRecordsWithTodos.dateRecords[0];
+      // console.log(data);
+      if (data) {
+        const todos = data.todos;
+        const todoIndex = data.todoIndex as Prisma.JsonArray;
+        const todosHash = new Map<number, Todo>();
+
+        if (!todos.length || !todoIndex) return { data };
+
+        todos.forEach((todo) => {
+          const id = todo.id;
+          const value = todosHash.get(id);
+
+          if (value) {
+            return;
+          } else {
+            todosHash.set(id, todo);
+          }
+        });
+
+        const newTodos = todoIndex.map((index) =>
+          todosHash.get(index as number)
+        ) as Todo[];
+
+        data.todos = newTodos;
+
+        return { data };
+      }
+
       return { data };
     } catch (err) {
       throw new TRPCError({
