@@ -20,6 +20,28 @@ const SortableWrapper = ({ children, id, active }: SortableWrapperProps) => {
     transition,
   };
 
+  if (active) {
+    return (
+      <div
+        ref={setNodeRef}
+        style={style}
+        {...attributes}
+        {...listeners}
+        className="flex h-max w-full items-center justify-center"
+      >
+        {active && (
+          <div
+            {...listeners}
+            className="flex items-center justify-center text-neutral-600 active:cursor-grabbing active:text-cyan-400"
+          >
+            <DragIndicatorIcon />
+          </div>
+        )}
+        {children}
+      </div>
+    );
+  }
+
   return (
     <div
       ref={setNodeRef}
@@ -27,14 +49,6 @@ const SortableWrapper = ({ children, id, active }: SortableWrapperProps) => {
       {...attributes}
       className="flex h-max w-full items-center justify-center"
     >
-      {active && (
-        <div
-          {...listeners}
-          className="flex items-center justify-center text-neutral-600 active:cursor-grabbing active:text-cyan-400"
-        >
-          <DragIndicatorIcon />
-        </div>
-      )}
       {children}
     </div>
   );
