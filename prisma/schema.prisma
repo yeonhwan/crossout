@@ -97,12 +97,14 @@ model Todo {
     @@index([userId])
 }
 
+
 model ListBoard {
     id Int @id @default(autoincrement())
     user User @relation(fields: [userId], references: [id], onDelete: Cascade)
     userId String @unique
     todos Todo[]
     description String?
+    // todoIndex Json
 }
 //
 
@@ -119,6 +121,7 @@ model DateRecord {
     year Int
     month Int
     date Int
+    todoIndex Json?
 
     @@index([userId])
     @@index([date])
