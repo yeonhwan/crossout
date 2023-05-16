@@ -1,7 +1,7 @@
 import { protectedProcedure } from "../../trpc";
 import { z } from "zod";
 import { TRPCError } from "@trpc/server";
-import { type Todo } from "@prisma/client";
+import { type Prisma, type Todo } from "@prisma/client";
 
 // auth
 import tokenVerify from "@/server/api/routers/auth/tokenVerify";
@@ -56,13 +56,22 @@ const createTodo = protectedProcedure
           },
         });
       }
-      const { id: dateRecordId } = dateRecord;
+      const { id: dateRecordId, todoIndex } = dateRecord;
       console.log(dateRecord, "dateRecord created?");
 
       if (!listBoardId) {
         const newTodo: Todo = await ctx.prisma.todo.create({
           data: { userId, dateRecordId, content, urgency },
         });
+        const newIndex = todoIndex
+          ? [...(todoIndex as Prisma.JsonArray), newTodo.id]
+          : [newTodo.id];
+        const update = await ctx.prisma.dateRecord.update({
+          where: { id: dateRecordId },
+          data: { todoIndex: newIndex },
+        });
+        console.log(update);
+
         return {
           data: {
             content: newTodo.content,
@@ -74,6 +83,14 @@ const createTodo = protectedProcedure
         const newTodo: Todo = await ctx.prisma.todo.create({
           data: { userId, dateRecordId, content, urgency, listBoardId },
         });
+        const newIndex = todoIndex
+          ? [...(todoIndex as Prisma.JsonArray), newTodo.id]
+          : [newTodo.id];
+        const update = await ctx.prisma.dateRecord.update({
+          where: { id: dateRecordId },
+          data: { todoIndex: newIndex },
+        });
+        console.log(update);
         return {
           data: {
             content: newTodo.content,
