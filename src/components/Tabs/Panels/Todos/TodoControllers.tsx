@@ -15,11 +15,13 @@ import loader_styles from "@/styles/loader.module.css";
 type TodoControllersProps = {
   sortingTodos: boolean;
   setSortingTodos: Dispatch<SetStateAction<boolean>>;
+  updateTodoIndex: () => void;
 };
 
 const TodoControllers = ({
   sortingTodos,
   setSortingTodos,
+  updateTodoIndex,
 }: TodoControllersProps) => {
   const [isProceed, setIsProceed] = useState(false);
 
@@ -60,8 +62,9 @@ const TodoControllers = ({
             <CircleButton
               clickHandler={() => {
                 setSortingTodos(false);
+                updateTodoIndex();
               }}
-              info="cancel"
+              info="apply"
               className="mr-1 h-6 w-6"
             >
               <CheckIcon className="h-4 w-4" />

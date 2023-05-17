@@ -5,7 +5,7 @@ import SortableWrapper from "@/components/Lists/Items/SortableWrapper";
 import TodoControllers from "./TodoControllers";
 
 // React
-import { useState } from "react";
+import { useState, useRef } from "react";
 
 // libs
 import {
@@ -38,12 +38,17 @@ type TodoPanelProps = {
   enabled: boolean;
 };
 
+export type UpdateTodoIndexData = {
+  data: { dateRecordId: number; index: number[] };
+};
+
 const TodoPanel = ({ enabled }: TodoPanelProps) => {
   const [todosData, setTodosData] = useState<Todo[]>([]);
   const [todoIndexes, setTodoIndexes] = useState<number[]>([]);
   const [sortingTodos, setSortingTodos] = useState(false);
   const sensors = useSensors(useSensor(PointerSensor));
   const { year, month, date } = useDateStore((state) => state.dateObj);
+  const dateRecordId = useRef<null | number>(null);
 
   function handleDragEnd(event: DragEndEvent) {
     const { active, over } = event;
@@ -68,7 +73,7 @@ const TodoPanel = ({ enabled }: TodoPanelProps) => {
     }
   }
 
-  // getTodos
+  // apis
   const { isLoading } = api.todo.getTodos.useQuery(
     { dateObject: { year, month, date } },
     {
@@ -76,9 +81,12 @@ const TodoPanel = ({ enabled }: TodoPanelProps) => {
       onSuccess(res) {
         const { data } = res;
         if (data) {
-          const { todos } = data;
+          const { todos, id } = data;
           setTodosData(todos);
           setTodoIndexes(todos.map((todo) => todo.id));
+          if (dateRecordId.current !== id) {
+            dateRecordId.current = id;
+          }
         } else {
           setTodosData([]);
         }
@@ -87,6 +95,25 @@ const TodoPanel = ({ enabled }: TodoPanelProps) => {
       keepPreviousData: true,
     }
   );
+
+  const { mutate: updateTodoIndex } = api.todo.updateTodoIndex.useMutation({
+    onSuccess: (res) => {
+      return;
+    },
+    onError: (err) => {
+      console.log(err);
+    },
+  });
+
+  const updateTodoIndexApplyHandler = () => {
+    if (dateRecordId.current) {
+      updateTodoIndex({
+        data: { dateRecordId: dateRecordId.current, index: todoIndexes },
+      });
+    } else {
+      throw new Error("Wrong Daterecord ID");
+    }
+  };
 
   if (isLoading) {
     return (
@@ -105,6 +132,7 @@ const TodoPanel = ({ enabled }: TodoPanelProps) => {
           <TodoControllers
             sortingTodos={sortingTodos}
             setSortingTodos={setSortingTodos}
+            updateTodoIndex={updateTodoIndexApplyHandler}
           />
           <ListView>
             <DndContext sensors={sensors} onDragEnd={handleDragEnd}>
