@@ -32,7 +32,7 @@ const TodoControllers = ({
           <span className={`ml-2 ${loader_styles.loader as string}`} />
         </div>
       )}
-      <div className="my-4 mr-4 flex h-max min-w-max items-center justify-center rounded-full px-2 py-1">
+      <div className="my-1 mr-4 flex h-max min-w-max items-center justify-center rounded-full px-2 py-1">
         {!sortingTodos && (
           <select className="mx-2 rounded-xl bg-neutral-600 px-2 py-[3px] text-white outline-none hover:cursor-pointer">
             <option>sort</option>

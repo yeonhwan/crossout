@@ -134,7 +134,7 @@ const TodoPanel = ({ enabled }: TodoPanelProps) => {
             setSortingTodos={setSortingTodos}
             updateTodoIndex={updateTodoIndexApplyHandler}
           />
-          <ListView>
+          <ListView className="min-h-[90%]">
             <DndContext sensors={sensors} onDragEnd={handleDragEnd}>
               <SortableContext
                 items={todosData}
