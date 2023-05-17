@@ -58,7 +58,8 @@ type TodoItemProps = {
 };
 
 const TodoItem = ({ data, setSortingTodos, sortingTodos }: TodoItemProps) => {
-  const { urgency, content, deadline, userId, id, completed } = data;
+  const { urgency, content, deadline, userId, id, completed, dateRecordId } =
+    data;
   const deadlineString = deadline ? dayjs(deadline).format("YYYY-M-D") : null;
   const [isUpdating, setIsUpdating] = useState(false);
   const [todoInput, setTodoInput] = useState(content);
@@ -189,7 +190,7 @@ const TodoItem = ({ data, setSortingTodos, sortingTodos }: TodoItemProps) => {
             e?.stopPropagation();
             if (window.confirm("Are you sure want to delete Todo")) {
               setIsProceed(true);
-              deleteTodo({ data: { id } });
+              deleteTodo({ data: { id, dateRecordId } });
             }
           }}
         >
@@ -238,7 +239,7 @@ const TodoItem = ({ data, setSortingTodos, sortingTodos }: TodoItemProps) => {
             e?.stopPropagation();
             if (window.confirm("Are you sure want to delete Todo")) {
               setIsProceed(true);
-              deleteTodo({ data: { id } });
+              deleteTodo({ data: { id, dateRecordId } });
             }
           }}
         >
