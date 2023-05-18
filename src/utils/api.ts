@@ -68,6 +68,10 @@ export type UpdateTodoIndexInput = RouterInputs["todo"]["updateTodoIndex"];
 export type GetListboardsInput = RouterInputs["listboards"]["getListboards"];
 export type CreateListboardInput =
   RouterInputs["listboards"]["createListboard"];
+export type UpdateListboardInput =
+  RouterInputs["listboards"]["updateListboard"];
+export type DeleteListboardInput =
+  RouterInputs["listboards"]["deleteListboard"];
 /**
  * Inference helper for outputs.
  *
@@ -82,3 +86,7 @@ export type UpdateTodoIndexOutput = RouterOutputs["todo"]["updateTodoIndex"];
 export type GetListboardsOutput = RouterOutputs["listboards"]["getListboards"];
 export type CreateListboardOutput =
   RouterOutputs["listboards"]["createListboard"];
+export type UpdateListboardOutput =
+  RouterOutputs["listboards"]["updateListboard"];
+export type DeleteListboardOutput =
+  RouterOutputs["listboards"]["deleteListboard"];
