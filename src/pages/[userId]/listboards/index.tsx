@@ -14,7 +14,7 @@ export default function ListboardIndex() {
         Manage your listboards and todos in here!
       </p>
       <div className="relative mt-4 flex h-[80%] max-h-[600px] w-full flex-col justify-center rounded-xl bg-neutral-400/40 px-10 py-5 backdrop-blur-md">
-        <ListView className="mt-5 grid grid-cols-listboard items-start justify-around gap-x-5 gap-y-5">
+        <ListView className="mt-5 grid grid-cols-listboard items-start justify-around gap-x-5 gap-y-8">
           <ListboardItem />
           <ListboardItem />
           <ListboardItem />
