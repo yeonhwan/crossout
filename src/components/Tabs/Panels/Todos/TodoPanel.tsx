@@ -28,7 +28,7 @@ import { api } from "@/utils/api";
 import useDateStore from "@/stores/useDateStore";
 
 //types
-import { type Todo } from "@prisma/client";
+import { type Todo, type ListBoard } from "@prisma/client";
 
 // styles
 import loader_styles from "@/styles/loader.module.css";
@@ -42,8 +42,10 @@ export type UpdateTodoIndexData = {
   data: { dateRecordId: number; index: number[] };
 };
 
+type TodoWithListboard = Todo & { listBoard: ListBoard | null };
+
 const TodoPanel = ({ enabled }: TodoPanelProps) => {
-  const [todosData, setTodosData] = useState<Todo[]>([]);
+  const [todosData, setTodosData] = useState<TodoWithListboard[]>([]);
   const [todoIndexes, setTodoIndexes] = useState<number[]>([]);
   const [sortingTodos, setSortingTodos] = useState(false);
   const sensors = useSensors(useSensor(PointerSensor));

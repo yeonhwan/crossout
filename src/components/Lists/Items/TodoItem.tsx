@@ -1,5 +1,6 @@
 // components
 import CircleButton from "@/components/Buttons/CircleButton";
+import ListboardSelect from "@/components/Select/ListboardSelect";
 
 // ICONS
 import EditIcon from "@mui/icons-material/Edit";
@@ -8,7 +9,7 @@ import CheckIcon from "@mui/icons-material/Check";
 import BlockIcon from "@mui/icons-material/Block";
 
 // Types
-import { type Todo } from "@prisma/client";
+import { type Todo, type ListBoard } from "@prisma/client";
 
 // libs
 import dayjs from "dayjs";
@@ -51,19 +52,27 @@ enum UrgencyInput {
 type SnackbarHandlerType = (data: object) => void;
 
 type TodoItemProps = {
-  data: Todo;
+  data: Todo & {
+    listBoard: ListBoard | null;
+  };
   id?: number;
-  setSortingTodos: Dispatch<SetStateAction<boolean>>;
   sortingTodos: boolean;
 };
 
-const TodoItem = ({ data, setSortingTodos, sortingTodos }: TodoItemProps) => {
-  const { urgency, content, deadline, userId, id, completed, dateRecordId } =
+const TodoItem = ({ data, sortingTodos }: TodoItemProps) => {
+  const { urgency, content, deadline, listBoard, id, completed, dateRecordId } =
     data;
+
+  const listboardTitle = listBoard?.title;
+  const listboardId = listBoard?.id;
+
   const deadlineString = deadline ? dayjs(deadline).format("YYYY-M-D") : null;
   const [isUpdating, setIsUpdating] = useState(false);
   const [todoInput, setTodoInput] = useState(content);
   const [urgencyInput, setUrgencyInput] = useState(urgency);
+  const [listboardInput, setListboardInput] = useState<number | undefined>(
+    listboardId
+  );
   const [isProceed, setIsProceed] = useState(false);
   const { setSnackbarOpen, setSnackbarData } = useSnackbarStore(
     (state) => state
@@ -161,7 +170,10 @@ const TodoItem = ({ data, setSortingTodos, sortingTodos }: TodoItemProps) => {
         currentData.current.content !== todoInput ? todoInput : undefined,
       urgency:
         currentData.current.urgency !== urgencyInput ? urgencyInput : undefined,
-      listboardId: undefined,
+      listBoardId:
+        currentData.current.listBoardId !== listboardInput
+          ? listboardInput
+          : undefined,
       deadline: undefined,
     };
     updateTodo({ data });
@@ -252,10 +264,10 @@ const TodoItem = ({ data, setSortingTodos, sortingTodos }: TodoItemProps) => {
   // Item Render (not Updating state)
   if (!isUpdating) {
     return (
-      <div className="my-1.5 flex h-max min-h-[3.5rem] w-5/6 items-center rounded-full border-2 border-neutral-400 shadow-lg drop-shadow-xl">
+      <div className="my-1.5 flex h-max w-5/6 items-center rounded-full border-2 border-neutral-400 shadow-lg drop-shadow-xl">
         <div
           onClick={completeTodoHandler}
-          className={`flex w-full items-center justify-between rounded-full ${
+          className={`flex h-20 w-full items-center justify-between rounded-full ${
             completed ? "bg-neutral-500" : "bg-neutral-700"
           } px-10 py-4 text-white hover:cursor-pointer`}
         >
@@ -270,7 +282,7 @@ const TodoItem = ({ data, setSortingTodos, sortingTodos }: TodoItemProps) => {
             </div>
           </div>
           {deadlineString && <p>{deadlineString}</p>}
-          <div className="flex w-8/12 justify-center">
+          <div className="flex w-8/12 flex-col items-center justify-center">
             <p
               className={`relative text-center after:absolute after:left-0 after:top-1/2 after:h-[2px] after:w-0 after:bg-neutral-600 after:transition-all after:duration-200 after:ease-in-out after:content-[''] ${
                 completed ? "after:w-full" : ""
@@ -278,6 +290,11 @@ const TodoItem = ({ data, setSortingTodos, sortingTodos }: TodoItemProps) => {
             >
               {content}
             </p>
+            {listBoard && (
+              <p className="text-sm font-light text-neutral-400">
+                {listboardTitle}
+              </p>
+            )}
           </div>
           <div
             className={`flex w-1/12 ${
@@ -310,13 +327,20 @@ const TodoItem = ({ data, setSortingTodos, sortingTodos }: TodoItemProps) => {
               </select>
               {deadlineString && <p>{deadlineString}</p>}
             </div>
-            <input
-              className="w-8/12 bg-neutral-400/40 py-1 text-center align-middle outline-none"
-              value={todoInput}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                setTodoInput(e.currentTarget.value);
-              }}
-            />
+            <div className="flex h-max w-8/12 flex-col items-center justify-center">
+              <input
+                className="w-8/12 bg-neutral-400/40 py-1 text-center align-middle outline-none"
+                value={todoInput}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                  setTodoInput(e.currentTarget.value);
+                }}
+              />
+              <ListboardSelect
+                className="mt-4 w-8/12 bg-neutral-400/40"
+                input={listboardInput}
+                onChange={setListboardInput}
+              />
+            </div>
             <div className="flex w-1/12 justify-between">
               {isProceed ? (
                 <div className="h-full w-full">

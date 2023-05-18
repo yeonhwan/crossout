@@ -11,6 +11,7 @@ import { useState } from "react";
 
 // Components
 import Button from "@/components/Buttons/Button";
+import ListboardSelect from "../Select/ListboardSelect";
 
 // api
 import { api } from "@/utils/api";
@@ -42,7 +43,7 @@ function TodoForm(
 ) {
   const [todoInput, setTodoInput] = useState("");
   const [urgencyInput, setUrgencyInput] = useState<Urgency>(Urgency.trivial);
-  const [listboardsInput, setListboardsInput] = useState("");
+  const [listboardInput, setListboardInput] = useState<number | undefined>();
   const [isProceed, setIsProceed] = useState(false);
   const { year, month, date } = useDateStore((state) => state.dateObj);
   const { setSnackbarOpen, setSnackbarData } = useSnackbarStore(
@@ -53,7 +54,7 @@ function TodoForm(
   const cancelButtonHandler = () => {
     setTodoInput("");
     setUrgencyInput(Urgency.trivial);
-    setListboardsInput("");
+    setListboardInput(undefined);
     setOpenDialog(false);
   };
 
@@ -103,6 +104,7 @@ function TodoForm(
         month,
         date,
       },
+      listBoardId: listboardInput,
     });
   };
 
@@ -143,18 +145,7 @@ function TodoForm(
         <label className="text-lg font-semibold" htmlFor="listboard">
           Select your listboards
         </label>
-        <select
-          className="rounded-lg py-1 text-center hover:cursor-pointer"
-          id="listboard"
-          value={listboardsInput}
-          onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
-            setListboardsInput(e.currentTarget.value);
-          }}
-        >
-          <option value="">none</option>
-          <option value="dummy">dummy</option>
-          <option value="dummytwo">dummy two</option>
-        </select>
+        <ListboardSelect input={listboardInput} onChange={setListboardInput} />
         <label className="text-lg font-semibold" htmlFor="deadline">
           Is there a deadline?
         </label>
