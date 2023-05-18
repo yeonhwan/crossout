@@ -4,7 +4,7 @@ import { TRPCError } from "@trpc/server";
 
 // verify
 import tokenVerify from "@/server/api/routers/auth/tokenVerify";
-import { type Prisma, type Todo } from "@prisma/client";
+import { type Prisma, type Todo, type ListBoard } from "@prisma/client";
 
 const getTodos = protectedProcedure
   .input(
@@ -40,7 +40,7 @@ const getTodos = protectedProcedure
           dateRecords: {
             where: { year, month, date },
             select: {
-              todos: true,
+              todos: { include: { listBoard: true } },
               year: true,
               month: true,
               date: true,
@@ -51,11 +51,15 @@ const getTodos = protectedProcedure
         },
       });
       const data = dateRecordsWithTodos.dateRecords[0];
+
       // console.log(data);
       if (data) {
         const todos = data.todos;
         const todoIndex = data.todoIndex as Prisma.JsonArray;
-        const todosHash = new Map<number, Todo>();
+        const todosHash = new Map<
+          number,
+          Todo & { listBoard: ListBoard | null }
+        >();
 
         if (!todos.length || !todoIndex) return { data };
 
@@ -72,7 +76,7 @@ const getTodos = protectedProcedure
 
         const newTodos = todoIndex.map((index) =>
           todosHash.get(index as number)
-        ) as Todo[];
+        ) as (Todo & { listBoard: ListBoard | null })[];
 
         data.todos = newTodos;
 

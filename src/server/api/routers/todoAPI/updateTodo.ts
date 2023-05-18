@@ -14,7 +14,7 @@ const updateTodo = protectedProcedure
         id: z.number(),
         content: z.optional(z.string().min(1)).or(z.null()),
         urgency: z.optional(z.enum(Urgency)).or(z.null()),
-        listBoardId: z.optional(z.number()).or(z.null()),
+        listBoardId: z.optional(z.number()),
         deadline: z.optional(z.date()).or(z.null()),
         completed: z.optional(z.boolean()).or(z.null()),
       }),
@@ -39,6 +39,9 @@ const updateTodo = protectedProcedure
         urgency: urgency ? urgency : undefined,
         listBoardId: listBoardId ? listBoardId : undefined,
         deadline: deadline ? deadline : undefined,
+      },
+      include: {
+        listBoard: true,
       },
     });
 
