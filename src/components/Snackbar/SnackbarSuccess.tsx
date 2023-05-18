@@ -21,7 +21,9 @@ const SnackbarSuccess = ({ data, ref, setOpen }: SnackbarContentProps) => {
         className="flex h-12 min-h-max w-80 min-w-max items-center justify-center rounded-lg bg-emerald-500 px-4"
       >
         <span className="mx-2 font-bold text-white">{message}</span>
-        <span className="mx-2 font-medium text-neutral-200">'{content}'</span>
+        {content && (
+          <span className="mx-2 font-medium text-neutral-200">'{content}'</span>
+        )}
         <div className="mx-2 flex w-max justify-between">
           <CircleButton
             clickHandler={() => {
@@ -51,7 +53,9 @@ const SnackbarSuccess = ({ data, ref, setOpen }: SnackbarContentProps) => {
         className="flex h-12 min-h-max w-80 min-w-max items-center justify-center rounded-lg bg-emerald-500 px-4"
       >
         <span className="mx-2 font-bold text-white">{message}</span>
-        <span className="mx-2 font-medium text-neutral-200">'{content}'</span>
+        {content && (
+          <span className="mx-2 font-medium text-neutral-200">'{content}'</span>
+        )}
         <div className="mx-2 flex w-max justify-between">
           <CircleButton
             className="mr-1 h-6 w-6 bg-emerald-300"
