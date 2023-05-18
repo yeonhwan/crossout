@@ -31,7 +31,7 @@ export default function ListboardIndex() {
   const [listboardsData, setListboardsData] = useState<ListboardsDataType[]>(
     []
   );
-  const [isPopperOpen, setIsPopperOpen] = useState(true);
+  const [isPopperOpen, setIsPopperOpen] = useState(false);
   const [shouldRender, animateTrigger, handleTransition] =
     useAnimation(isPopperOpen);
 
@@ -41,16 +41,19 @@ export default function ListboardIndex() {
     setIsOpenListboardsDialog(true);
   };
 
-  const { isLoading } = api.listboards.getListboards.useQuery(undefined, {
-    queryKey: ["listboards.getListboards", undefined],
-    onSuccess: (res) => {
-      const { data } = res;
-      setListboardsData(data);
-    },
-    onError: (err) => {
-      console.log(err);
-    },
-  });
+  const { isLoading } = api.listboards.getListboards.useQuery(
+    { data: { todos: true } },
+    {
+      queryKey: ["listboards.getListboards", { data: { todos: true } }],
+      onSuccess: (res) => {
+        const { data } = res;
+        setListboardsData(data);
+      },
+      onError: (err) => {
+        console.log(err);
+      },
+    }
+  );
 
   const itemRender = () => {
     if (listboardsData.length) {

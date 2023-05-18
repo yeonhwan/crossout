@@ -1,5 +1,5 @@
 // React
-import {
+import React, {
   type ForwardedRef,
   forwardRef,
   type Dispatch,
@@ -47,6 +47,7 @@ function ListboardsForm(
     onSuccess: async (res) => {
       const { message, content } = res.data;
       await utils.todo.getTodos.invalidate();
+      await utils.listboards.getListboards.invalidate();
       setSnackbarOpen(true);
       setSnackbarData({ message, content, role: SnackbarRole.Success });
     },
@@ -113,6 +114,10 @@ function ListboardsForm(
           placeholder="Describe your listboard"
           className="mb-2 px-2 py-1"
           id="description"
+          value={descriptionInput}
+          onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => {
+            setDescriptionInput(e.currentTarget.value);
+          }}
         />
       </div>
       <div className="flex">
