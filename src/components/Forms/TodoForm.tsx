@@ -1,13 +1,11 @@
-// React
+// React, hooks
 import {
   type ForwardedRef,
   forwardRef,
   type Dispatch,
   type SetStateAction,
+  useState,
 } from "react";
-
-// hooks
-import { useState } from "react";
 
 // Components
 import Button from "@/components/Buttons/Button";
@@ -23,11 +21,6 @@ import useDateStore from "@/stores/useDateStore";
 import loader_styles from "@/styles/loader.module.css";
 import useSnackbarStore, { SnackbarRole } from "@/stores/useSnackbarStore";
 
-// Props TYPE
-type TodoFormProps = {
-  setOpenDialog: Dispatch<SetStateAction<boolean>>;
-};
-
 // Urgency Enum
 enum Urgency {
   urgent = "urgent",
@@ -37,10 +30,14 @@ enum Urgency {
 
 type SnackbarHandlerType = (data: object) => void;
 
-function TodoForm(
+type TodoFormProps = {
+  setOpenDialog: Dispatch<SetStateAction<boolean>>;
+};
+
+const TodoForm = (
   { setOpenDialog }: TodoFormProps,
   ref: ForwardedRef<HTMLFormElement>
-) {
+) => {
   const [todoInput, setTodoInput] = useState("");
   const [urgencyInput, setUrgencyInput] = useState<Urgency>(Urgency.trivial);
   const [listboardInput, setListboardInput] = useState<number | undefined>();
@@ -172,6 +169,6 @@ function TodoForm(
       </div>
     </form>
   );
-}
+};
 
 export default forwardRef(TodoForm);

@@ -3,7 +3,7 @@ import { type Dispatch, type SetStateAction, useState } from "react";
 
 // components
 import CircleButton from "@/components/Buttons/CircleButton";
-import ListView from "../ListView";
+import ListView from "@/components/Lists/ListView";
 
 //ICONS
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -18,10 +18,7 @@ type ListboardItemProps = {
   setPopperData: Dispatch<SetStateAction<Todo[] | null>>;
 };
 
-export default function ListboardItem({
-  data,
-  popperOpen,
-}: ListboardItemProps) {
+const ListboardItem = ({ data, popperOpen }: ListboardItemProps) => {
   const [isActive, setIsActive] = useState(false);
   const [isTodoListOpen, setIsTodoListOpen] = useState(false);
 
@@ -42,7 +39,7 @@ export default function ListboardItem({
         <p className="text-white">{data.title}</p>
         <div className="flex">
           <CircleButton
-            clickHandler={(e) => {
+            onClick={(e) => {
               e?.stopPropagation();
               console.log("clicked");
             }}
@@ -67,4 +64,6 @@ export default function ListboardItem({
       </div>
     </div>
   );
-}
+};
+
+export default ListboardItem;

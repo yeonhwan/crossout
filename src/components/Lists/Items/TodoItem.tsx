@@ -27,15 +27,6 @@ import loader_styles from "@/styles/loader.module.css";
 // stores
 import useSnackbarStore, { SnackbarRole } from "@/stores/useSnackbarStore";
 
-type UpdateTodoData = {
-  id: number;
-  content?: string | undefined;
-  urgency?: typeof Urgency | undefined;
-  listboardId?: number | undefined;
-  deadline?: Date | undefined;
-  completed?: boolean | undefined;
-};
-
 enum Urgency {
   urgent = "🔥",
   important = "⚡️",
@@ -198,7 +189,7 @@ const TodoItem = ({ data, sortingTodos }: TodoItemProps) => {
         <CircleButton
           info="delete"
           className={`h-6 w-6 p-0 ${isProceed ? "pointer-events-none" : ""}`}
-          clickHandler={(e) => {
+          onClick={(e) => {
             e?.stopPropagation();
             if (window.confirm("Are you sure want to delete Todo")) {
               setIsProceed(true);
@@ -217,14 +208,14 @@ const TodoItem = ({ data, sortingTodos }: TodoItemProps) => {
           <CircleButton
             info="apply"
             className="h-6 w-6 p-0"
-            clickHandler={applyUpdateClickHandler}
+            onClick={applyUpdateClickHandler}
           >
             <CheckIcon className="h-4 w-4" />
           </CircleButton>
           <CircleButton
             info="cancel"
             className="h-6 w-6 p-0"
-            clickHandler={cancelUpdateTodo}
+            onClick={cancelUpdateTodo}
           >
             <BlockIcon className="h-4 w-4" />
           </CircleButton>
@@ -237,7 +228,7 @@ const TodoItem = ({ data, sortingTodos }: TodoItemProps) => {
         <CircleButton
           info="edit"
           className={`h-6 w-6 p-0 ${isProceed ? "pointer-events-none" : ""}`}
-          clickHandler={(e) => {
+          onClick={(e) => {
             e?.stopPropagation();
             setIsUpdating(true);
           }}
@@ -247,7 +238,7 @@ const TodoItem = ({ data, sortingTodos }: TodoItemProps) => {
         <CircleButton
           info="delete"
           className={`h-6 w-6 p-0 ${isProceed ? "pointer-events-none" : ""}`}
-          clickHandler={(e) => {
+          onClick={(e) => {
             e?.stopPropagation();
             if (window.confirm("Are you sure want to delete Todo")) {
               setIsProceed(true);

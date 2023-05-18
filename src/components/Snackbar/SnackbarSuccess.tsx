@@ -26,7 +26,7 @@ const SnackbarSuccess = ({ data, ref, setOpen }: SnackbarContentProps) => {
         )}
         <div className="mx-2 flex w-max justify-between">
           <CircleButton
-            clickHandler={() => {
+            onClick={() => {
               handler(previousData);
             }}
             info="cancel"
@@ -36,7 +36,7 @@ const SnackbarSuccess = ({ data, ref, setOpen }: SnackbarContentProps) => {
           </CircleButton>
           <CircleButton
             className="mr-1 h-6 w-6 bg-emerald-300"
-            clickHandler={() => {
+            onClick={() => {
               setOpen(false);
             }}
             info="close"
@@ -59,7 +59,7 @@ const SnackbarSuccess = ({ data, ref, setOpen }: SnackbarContentProps) => {
         <div className="mx-2 flex w-max justify-between">
           <CircleButton
             className="mr-1 h-6 w-6 bg-emerald-300"
-            clickHandler={() => {
+            onClick={() => {
               setOpen(false);
             }}
             info="close"

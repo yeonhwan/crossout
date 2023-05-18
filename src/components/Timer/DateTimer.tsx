@@ -10,7 +10,7 @@ import useDateStore from "@/stores/useDateStore";
 
 // Props TYPE
 
-export default function DateTimer() {
+const DateTimer = () => {
   const { dateObj, increaseDate, decreaseDate } = useDateStore(
     (state) => state
   );
@@ -38,7 +38,7 @@ export default function DateTimer() {
     <div className="flex h-max w-max items-end text-4xl font-extrabold">
       <CircleButton
         className="mr-2 h-6 w-6 bg-neutral-500/60"
-        clickHandler={decreaseDate}
+        onClick={decreaseDate}
       >
         <KeyboardArrowLeftIcon />
       </CircleButton>
@@ -50,10 +50,12 @@ export default function DateTimer() {
       <span className="mr-2 text-xl font-bold">{day}</span>
       <CircleButton
         className="ml-2 h-6 w-6 bg-neutral-500/60"
-        clickHandler={increaseDate}
+        onClick={increaseDate}
       >
         <KeyboardArrowRightIcon />
       </CircleButton>
     </div>
   );
-}
+};
+
+export default DateTimer;

@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { protectedProcedure } from "../../trpc";
+import { protectedProcedure } from "@/server/api/trpc";
 import { TRPCError } from "@trpc/server";
 
 // verify

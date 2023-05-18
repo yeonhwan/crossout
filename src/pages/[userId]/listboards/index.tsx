@@ -26,7 +26,7 @@ export type ListboardsDataType = ListBoard & {
   todos: Todo[];
 };
 
-export default function ListboardIndex() {
+const ListboardIndex = () => {
   const [isOpenListboardsDialog, setIsOpenListboardsDialog] = useState(false);
   const [listboardsData, setListboardsData] = useState<ListboardsDataType[]>(
     []
@@ -96,7 +96,7 @@ export default function ListboardIndex() {
           <CircleButton
             className=""
             info="Add new listboard"
-            clickHandler={openCreateListboard}
+            onClick={openCreateListboard}
           >
             <AddCardIcon />
           </CircleButton>
@@ -122,4 +122,6 @@ export default function ListboardIndex() {
       )}
     </div>
   );
-}
+};
+
+export default ListboardIndex;

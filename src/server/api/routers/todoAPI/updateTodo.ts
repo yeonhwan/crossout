@@ -1,9 +1,9 @@
-import { protectedProcedure } from "../../trpc";
+import { protectedProcedure } from "@/server/api/trpc";
 import { z } from "zod";
 import { TRPCError } from "@trpc/server";
 
 // auth
-import tokenVerify from "../auth/tokenVerify";
+import tokenVerify from "@/server/api/routers/auth/tokenVerify";
 
 const Urgency = ["urgent", "important", "trivial"] as const;
 

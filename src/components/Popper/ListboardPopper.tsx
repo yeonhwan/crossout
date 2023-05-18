@@ -2,9 +2,9 @@
 import { type Todo } from "@prisma/client";
 
 //components
-import Button from "../Buttons/Button";
-import TodoItem from "../Lists/Items/TodoItem";
-import ListView from "../Lists/ListView";
+import Button from "@/components/Buttons/Button";
+import TodoItem from "@/components/Lists/Items/TodoItem";
+import ListView from "@/components/Lists/ListView";
 // libs
 import ClickAwayListener from "@mui/base/ClickAwayListener";
 
@@ -15,12 +15,12 @@ type ListboardPopperProps = {
   data: Todo[] | null;
 };
 
-export default function ListboardPopper({
+const ListboardPopper = ({
   isOpen,
   onTransitionEnd,
   popperClose,
   data,
-}: ListboardPopperProps) {
+}: ListboardPopperProps) => {
   return (
     <div
       onTransitionEnd={onTransitionEnd}
@@ -45,4 +45,6 @@ export default function ListboardPopper({
       </ClickAwayListener>
     </div>
   );
-}
+};
+
+export default ListboardPopper;

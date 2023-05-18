@@ -1,18 +1,32 @@
+// Next
+import { useRouter } from "next/router";
+// ICONs
 import GitHubIcon from "@mui/icons-material/GitHub";
 import GoogleIcon from "@mui/icons-material/Google";
-import { type NextPageWithLayout } from "../_app";
+
+// types
+import { type NextPageWithLayout } from "@/pages/_app";
+
+// Next-Auth
 import { signIn } from "next-auth/react";
+
+// React, hooks
 import { useState, useEffect } from "react";
+
+// styles
 import styles from "@/styles/loader.module.css";
+import form_styles from "@/styles/form.module.css";
+
+// api
 import { api } from "@/utils/api";
-import { useRouter } from "next/router";
+
+// validation messages
 import {
   EMAIL_ERR_MESSAGE,
   PWD_ERR_MESSAGE,
   CONFIRM_ERR_MESSAGE,
   INPUT_VALIDATION,
 } from "@/utils/validation_msg";
-import form_styles from "@/styles/form.module.css";
 
 const SignUp: NextPageWithLayout = () => {
   const [isProceed, setIsProceed] = useState(false);

@@ -1,7 +1,7 @@
 import { createTRPCRouter } from "@/server/api/trpc";
 import { signUpRouter } from "@/server/api/routers/signup";
 import { todoRouter } from "@/server/api/routers/todo";
-import { listboardsRouter } from "./routers/listboards";
+import { listboardsRouter } from "@/server/api/routers/listboards";
 /**
  * This is the primary router for your server.
  *

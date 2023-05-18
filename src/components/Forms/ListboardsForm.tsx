@@ -19,17 +19,14 @@ import { api } from "@/utils/api";
 import loader_styles from "@/styles/loader.module.css";
 import useSnackbarStore, { SnackbarRole } from "@/stores/useSnackbarStore";
 
-// Props TYPE
 type TodoFormProps = {
   setOpenDialog: Dispatch<SetStateAction<boolean>>;
 };
 
-type SnackbarHandlerType = (data: object) => void;
-
-function ListboardsForm(
+const ListboardsForm = (
   { setOpenDialog }: TodoFormProps,
   ref: ForwardedRef<HTMLFormElement>
-) {
+) => {
   const [titleInput, setTitleInput] = useState("");
   const [descriptionInput, setDescriptionInput] = useState("");
   const [isProceed, setIsProceed] = useState(false);
@@ -136,6 +133,6 @@ function ListboardsForm(
       </div>
     </form>
   );
-}
+};
 
 export default forwardRef(ListboardsForm);

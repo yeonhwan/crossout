@@ -44,28 +44,28 @@ const Home: NextPage = () => {
         <div className="absolute bottom-6 flex w-full justify-evenly px-60">
           <CircleButton
             info="Add Todo"
-            clickHandler={openCreateTodo}
+            onClick={openCreateTodo}
             className="mr-5"
           >
             <AddIcon />
           </CircleButton>
           <CircleButton
             info="Add Daylog"
-            clickHandler={openCreateTodo}
+            onClick={openCreateTodo}
             className="mr-5"
           >
             <EditCalendarIcon />
           </CircleButton>
           <CircleButton
             info="Add Revenues"
-            clickHandler={openCreateTodo}
+            onClick={openCreateTodo}
             className="mr-5"
           >
             <PriceCheckIcon />
           </CircleButton>
           <CircleButton
             info="Zen Mode"
-            clickHandler={openCreateTodo}
+            onClick={openCreateTodo}
             className="mr-5"
           >
             <SelfImprovementIcon />

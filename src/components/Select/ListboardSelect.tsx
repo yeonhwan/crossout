@@ -6,7 +6,7 @@ import { type Dispatch, type SetStateAction } from "react";
 import { type ListBoard } from "@prisma/client";
 
 // api
-import { api } from "../../utils/api";
+import { api } from "@/utils/api";
 
 // libs
 import { twMerge } from "tailwind-merge";
@@ -20,11 +20,11 @@ type ListboardSelectProps = {
   className?: string;
 };
 
-export default function ListboardSelect({
+const ListboardSelect = ({
   input,
   onChange,
   className,
-}: ListboardSelectProps) {
+}: ListboardSelectProps) => {
   const [listboardData, setListboardData] = useState<ListBoard[] | null>(null);
 
   const onChangeHandler = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -76,4 +76,6 @@ export default function ListboardSelect({
       })}
     </select>
   );
-}
+};
+
+export default ListboardSelect;

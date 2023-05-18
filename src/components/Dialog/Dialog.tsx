@@ -4,18 +4,13 @@ import { useAnimation } from "@/hooks/useAnimation";
 // libs
 import ClickAwayListener from "@mui/base/ClickAwayListener";
 
-// Props TYPE
 type DialogProps = {
   children: React.ReactElement;
   onClickAway: () => void;
   openState: boolean;
 };
 
-export default function Dialog({
-  children,
-  onClickAway,
-  openState,
-}: DialogProps) {
+const Dialog = ({ children, onClickAway, openState }: DialogProps) => {
   const [shouldRender, animateTrigger, handleTransition] =
     useAnimation(openState);
 
@@ -36,4 +31,6 @@ export default function Dialog({
   } else {
     return null;
   }
-}
+};
+
+export default Dialog;

@@ -1,12 +1,23 @@
+// Next
+import { useRouter } from "next/navigation";
+import Link from "next/link";
+
+// React, hooks
+import { useState } from "react";
+
+//ICONS
 import GitHubIcon from "@mui/icons-material/GitHub";
 import GoogleIcon from "@mui/icons-material/Google";
-import Link from "next/link";
-import { type NextPageWithLayout } from "../_app";
+
+// NextAuth
 import { signIn } from "next-auth/react";
-import { useState } from "react";
+
+// type
+import { type NextPageWithLayout } from "@/pages/_app";
+
+// styles
 import loader_styles from "@/styles/loader.module.css";
 import form_styles from "@/styles/form.module.css";
-import { useRouter } from "next/navigation";
 
 const SignIn: NextPageWithLayout = () => {
   const [isProceed, setIsProceed] = useState(false);

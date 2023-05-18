@@ -6,7 +6,7 @@ type TabPanelProps = {
   className?: string;
 };
 
-function TabPanel(props: TabPanelProps) {
+const TabPanel = (props: TabPanelProps) => {
   const { children, value, index, className, ...other } = props;
 
   return (
@@ -21,6 +21,6 @@ function TabPanel(props: TabPanelProps) {
       {value === index && children}
     </div>
   );
-}
+};
 
 export default TabPanel;

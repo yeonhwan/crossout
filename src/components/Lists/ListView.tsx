@@ -10,7 +10,7 @@ type ListViewProps = {
   className?: string;
 };
 
-export default function ListView({ children, className }: ListViewProps) {
+const ListView = ({ children, className }: ListViewProps) => {
   const defaultClassName = "flex h-max min-h-full w-full flex-col items-center";
 
   if (className) {
@@ -26,4 +26,6 @@ export default function ListView({ children, className }: ListViewProps) {
       <div className={className || defaultClassName}>{children}</div>
     </div>
   );
-}
+};
+
+export default ListView;

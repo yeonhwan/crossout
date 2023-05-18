@@ -2,7 +2,7 @@
 import ListView from "@/components/Lists/ListView";
 import TodoItem from "@/components/Lists/Items/TodoItem";
 import SortableWrapper from "@/components/Lists/Items/SortableWrapper";
-import TodoControllers from "./TodoControllers";
+import TodoControllers from "@/components/Tabs/Panels/Todos/TodoControllers";
 
 // React
 import { useState, useRef } from "react";

@@ -17,16 +17,16 @@ type SidebarProps = {
   setNavOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-export default function Sidebar({
+const Sidebar = ({
   animateTrigger,
   handleAnimation,
   userId,
   setNavOpen,
-}: SidebarProps) {
+}: SidebarProps) => {
   const router = useRouter();
 
   return (
-    <div
+    <aside
       onTransitionEnd={handleAnimation}
       className={`${
         animateTrigger ? "" : "translate-x-40"
@@ -87,6 +87,8 @@ export default function Sidebar({
           Sign Out
         </li>
       </ul>
-    </div>
+    </aside>
   );
-}
+};
+
+export default Sidebar;

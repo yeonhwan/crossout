@@ -15,7 +15,7 @@ import useSnackbarStore from "@/stores/useSnackbarStore";
 import SnackbarSuccess from "@/components/Snackbar/SnackbarSuccess";
 import SnackbarError from "@/components/Snackbar/SnackbarError";
 import SnackbarInfo from "@/components/Snackbar/SnackbarInfo";
-import { SnackbarRole } from "../../stores/useSnackbarStore";
+import { SnackbarRole } from "@/stores/useSnackbarStore";
 
 function TransitionUp(props: TransitionProps) {
   return <Slide {...props} direction="up" />;

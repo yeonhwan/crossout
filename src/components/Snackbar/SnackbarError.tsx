@@ -26,7 +26,7 @@ const SnackbarError = ({ data, ref, setOpen }: SnackbarContentProps) => {
         </CircleButton>
         <CircleButton
           className="mr-1 h-6 w-6 bg-emerald-300"
-          clickHandler={() => {
+          onClick={() => {
             setOpen(false);
           }}
           info="close"

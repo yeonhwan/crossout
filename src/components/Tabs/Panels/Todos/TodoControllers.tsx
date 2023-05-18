@@ -65,7 +65,7 @@ const TodoControllers = ({
         )}
         {!sortingTodos ? (
           <CircleButton
-            clickHandler={() => {
+            onClick={() => {
               setSortingTodos(true);
             }}
             info="switching mode"
@@ -76,14 +76,14 @@ const TodoControllers = ({
         ) : (
           <>
             <CircleButton
-              clickHandler={cancelSortingHandler}
+              onClick={cancelSortingHandler}
               info="cancel"
               className="mr-1 h-6 w-6"
             >
               <CloseIcon className="h-4 w-4" />
             </CircleButton>
             <CircleButton
-              clickHandler={applySortingHandler}
+              onClick={applySortingHandler}
               info="apply"
               className="mr-1 h-6 w-6"
             >
