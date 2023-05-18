@@ -102,10 +102,12 @@ model ListBoard {
     id Int @id @default(autoincrement())
     title String
     user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-    userId String @unique
+    userId String 
     todos Todo[]
     description String?
     // todoIndex Json
+
+    @@index([userId])
 }
 //
 
