@@ -26,6 +26,7 @@ import { api } from "@/utils/api";
 
 // stores
 import useDateStore from "@/stores/useDateStore";
+import useSnackbarStore, { SnackbarRole } from "@/stores/useSnackbarStore";
 
 //types
 import { type Todo, type ListBoard } from "@prisma/client";
@@ -42,7 +43,7 @@ export type UpdateTodoIndexData = {
   data: { dateRecordId: number; index: number[] };
 };
 
-type TodoWithListboard = Todo & { listBoard: ListBoard | null };
+export type TodoWithListboard = Todo & { listBoard: ListBoard | null };
 
 const TodoPanel = ({ enabled }: TodoPanelProps) => {
   const [todosData, setTodosData] = useState<TodoWithListboard[]>([]);
@@ -51,6 +52,11 @@ const TodoPanel = ({ enabled }: TodoPanelProps) => {
   const sensors = useSensors(useSensor(PointerSensor));
   const { year, month, date } = useDateStore((state) => state.dateObj);
   const dateRecordId = useRef<null | number>(null);
+  const todosDataSaved = useRef<TodoWithListboard[]>([]);
+  const [isSortProceed, setIsSortProceed] = useState(false);
+  const { setSnackbarOpen, setSnackbarData } = useSnackbarStore(
+    (state) => state
+  );
 
   function handleDragEnd(event: DragEndEvent) {
     const { active, over } = event;
@@ -85,6 +91,7 @@ const TodoPanel = ({ enabled }: TodoPanelProps) => {
         if (data) {
           const { todos, id } = data;
           setTodosData(todos);
+          todosDataSaved.current = todos;
           setTodoIndexes(todos.map((todo) => todo.id));
           if (dateRecordId.current !== id) {
             dateRecordId.current = id;
@@ -100,10 +107,19 @@ const TodoPanel = ({ enabled }: TodoPanelProps) => {
 
   const { mutate: updateTodoIndex } = api.todo.updateTodoIndex.useMutation({
     onSuccess: (res) => {
+      const { message } = res;
+      setSnackbarData({ message, role: SnackbarRole.Success });
+      setIsSortProceed(false);
+      setSnackbarOpen(true);
       return;
     },
     onError: (err) => {
-      console.log(err);
+      const { message } = err;
+      setIsSortProceed(false);
+      setSnackbarData({ message, role: SnackbarRole.Error });
+      setSnackbarOpen(true);
+      setTodosData(todosDataSaved.current);
+      setIsSortProceed(false);
     },
   });
 
@@ -135,6 +151,10 @@ const TodoPanel = ({ enabled }: TodoPanelProps) => {
             sortingTodos={sortingTodos}
             setSortingTodos={setSortingTodos}
             updateTodoIndex={updateTodoIndexApplyHandler}
+            savedTodosData={todosDataSaved}
+            setTodosData={setTodosData}
+            isSortProceed={isSortProceed}
+            setIsSortProceed={setIsSortProceed}
           />
           <ListView className="min-h-[90%]">
             <DndContext sensors={sensors} onDragEnd={handleDragEnd}>
@@ -149,11 +169,7 @@ const TodoPanel = ({ enabled }: TodoPanelProps) => {
                       id={data.id}
                       active={sortingTodos}
                     >
-                      <TodoItem
-                        data={data}
-                        setSortingTodos={setSortingTodos}
-                        sortingTodos={sortingTodos}
-                      />
+                      <TodoItem data={data} sortingTodos={sortingTodos} />
                     </SortableWrapper>
                   ))}
                 </ul>

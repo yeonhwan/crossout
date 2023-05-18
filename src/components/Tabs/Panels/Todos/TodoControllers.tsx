@@ -1,5 +1,10 @@
 // React
-import { useState, type Dispatch, type SetStateAction } from "react";
+import {
+  useState,
+  type MutableRefObject,
+  type Dispatch,
+  type SetStateAction,
+} from "react";
 
 // components
 import CircleButton from "@/components/Buttons/CircleButton";
@@ -12,22 +17,42 @@ import CheckIcon from "@mui/icons-material/Check";
 // styles
 import loader_styles from "@/styles/loader.module.css";
 
+// types
+import { type TodoWithListboard } from "./TodoPanel";
+
 type TodoControllersProps = {
   sortingTodos: boolean;
   setSortingTodos: Dispatch<SetStateAction<boolean>>;
   updateTodoIndex: () => void;
+  savedTodosData: MutableRefObject<TodoWithListboard[]>;
+  setTodosData: Dispatch<SetStateAction<TodoWithListboard[]>>;
+  isSortProceed: boolean;
+  setIsSortProceed: Dispatch<SetStateAction<boolean>>;
 };
 
 const TodoControllers = ({
   sortingTodos,
   setSortingTodos,
   updateTodoIndex,
+  setTodosData,
+  savedTodosData,
+  isSortProceed,
+  setIsSortProceed,
 }: TodoControllersProps) => {
-  const [isProceed, setIsProceed] = useState(false);
+  const cancelSortingHandler = () => {
+    setTodosData(savedTodosData.current);
+    setSortingTodos(false);
+  };
+
+  const applySortingHandler = () => {
+    setSortingTodos(false);
+    setIsSortProceed(true);
+    updateTodoIndex();
+  };
 
   return (
     <div className="flex h-max w-max items-center justify-center self-end">
-      {isProceed && (
+      {isSortProceed && (
         <div className="mr-2 flex h-6 w-8 items-center justify-center">
           <span className={`ml-2 ${loader_styles.loader as string}`} />
         </div>
@@ -51,19 +76,14 @@ const TodoControllers = ({
         ) : (
           <>
             <CircleButton
-              clickHandler={() => {
-                setSortingTodos(false);
-              }}
+              clickHandler={cancelSortingHandler}
               info="cancel"
               className="mr-1 h-6 w-6"
             >
               <CloseIcon className="h-4 w-4" />
             </CircleButton>
             <CircleButton
-              clickHandler={() => {
-                setSortingTodos(false);
-                updateTodoIndex();
-              }}
+              clickHandler={applySortingHandler}
               info="apply"
               className="mr-1 h-6 w-6"
             >
