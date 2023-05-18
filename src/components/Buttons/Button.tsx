@@ -10,7 +10,7 @@ type ButtonProps = {
 
 export default function Button({ children, onClick, className }: ButtonProps) {
   const defaultClassName =
-    "mx-2 max-h-12 px-2 py-2 shadow-lg hover:cursor-pointer hover:outline-2 hover:outline-emerald-400";
+    "mx-2 w-max max-h-12 px-2 py-2 shadow-lg hover:cursor-pointer hover:outline-2 hover:outline-emerald-400";
 
   const onClickWrapper = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();

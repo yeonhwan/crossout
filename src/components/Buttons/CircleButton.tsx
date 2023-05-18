@@ -27,6 +27,12 @@ export default function CircleButton({
     return (
       <Tooltip title={info} arrow placement="top">
         <button
+          onMouseDown={(e: React.MouseEvent<HTMLButtonElement>) => {
+            e.stopPropagation();
+          }}
+          onMouseUp={(e: React.MouseEvent<HTMLButtonElement>) => {
+            e.stopPropagation();
+          }}
           onClick={clickHandler}
           className={className || defaultClassName}
         >
@@ -36,7 +42,16 @@ export default function CircleButton({
     );
   } else {
     return (
-      <button onClick={clickHandler} className={className || defaultClassName}>
+      <button
+        onMouseDown={(e: React.MouseEvent<HTMLButtonElement>) => {
+          e.stopPropagation();
+        }}
+        onMouseUp={(e: React.MouseEvent<HTMLButtonElement>) => {
+          e.stopPropagation();
+        }}
+        onClick={clickHandler}
+        className={className || defaultClassName}
+      >
         {children}
       </button>
     );
