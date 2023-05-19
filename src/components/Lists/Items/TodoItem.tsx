@@ -37,7 +37,7 @@ type TodoItemProps = {
     listBoard: ListBoard | null;
   };
   id?: number;
-  sortingTodos: boolean;
+  sortingTodos?: boolean;
 };
 
 const TodoItem = ({ data, sortingTodos }: TodoItemProps) => {
@@ -84,6 +84,7 @@ const TodoItem = ({ data, sortingTodos }: TodoItemProps) => {
     onSuccess: async (res) => {
       const { message, content, todo } = res.data;
       await utils.todo.getTodos.invalidate();
+      await utils.listboards.getListboards.invalidate();
       setIsUpdating(false);
       setIsProceed(false);
       setSnackbarOpen(true);
@@ -107,6 +108,7 @@ const TodoItem = ({ data, sortingTodos }: TodoItemProps) => {
     onSuccess: async (res) => {
       const { message, content } = res.data;
       await utils.todo.getTodos.invalidate();
+      await utils.listboards.getListboards.invalidate();
       setIsUpdating(false);
       setSnackbarOpen(true);
       setSnackbarData({ message, content, role: SnackbarRole.Success });
@@ -123,6 +125,7 @@ const TodoItem = ({ data, sortingTodos }: TodoItemProps) => {
     onSuccess: async (res) => {
       const { message, content } = res.data;
       await utils.todo.getTodos.invalidate();
+      await utils.listboards.getListboards.invalidate();
       setIsProceed(false);
       setSnackbarOpen(true);
       setSnackbarData({ message, content, role: SnackbarRole.Info });

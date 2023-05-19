@@ -11,6 +11,13 @@ import DeleteIcon from "@mui/icons-material/Delete";
 // types
 import { type ListboardItemType } from "@/types/client";
 
+// store
+import useSnackbarStore from "@/stores/useSnackbarStore";
+import { SnackbarRole } from "@/stores/useSnackbarStore";
+
+// api
+import { api } from "@/utils/api";
+
 type ListboardItemProps = {
   data: ListboardItemType;
   popperOpen: () => void;
@@ -23,7 +30,33 @@ const ListboardItem = ({
   setPopperData,
 }: ListboardItemProps) => {
   const [isActive, setIsActive] = useState(false);
-  const [isTodoListOpen, setIsTodoListOpen] = useState(false);
+  const utils = api.useContext();
+  const { setSnackbarOpen, setSnackbarData } = useSnackbarStore(
+    (state) => state
+  );
+  const { id } = data;
+
+  const { mutate: deleteListboard } =
+    api.listboards.deleteListboard.useMutation({
+      onSuccess: async (res) => {
+        const { message, content } = res;
+        await utils.listboards.getListboards.invalidate();
+        setSnackbarData({
+          message,
+          content,
+          role: SnackbarRole.Success,
+        });
+        setSnackbarOpen(true);
+      },
+      onError: (err) => {
+        const { message } = err;
+        setSnackbarData({
+          message,
+          role: SnackbarRole.Error,
+        });
+        setSnackbarOpen(true);
+      },
+    });
 
   const itemMouseDownHandler = () => {
     setPopperData(data);
@@ -47,7 +80,9 @@ const ListboardItem = ({
           <CircleButton
             onClick={(e) => {
               e?.stopPropagation();
-              console.log("clicked");
+              if (window.confirm("Deleting Listboard")) {
+                deleteListboard({ data: { id } });
+              }
             }}
             info="Delete listboard"
             className="mr-1 h-6 w-6"

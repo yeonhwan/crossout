@@ -41,7 +41,12 @@ const ListboardIndex = () => {
       queryKey: ["listboards.getListboards", { data: { todos: true } }],
       onSuccess: (res) => {
         const { data } = res;
-        setListboardsData(data);
+        setListboardsData(data as ListboardItemType[]);
+        data.forEach((todo) => {
+          if (todo.id === popperData?.id) {
+            setPopperData(todo as ListboardItemType);
+          }
+        });
       },
       onError: (err) => {
         console.log(err);
