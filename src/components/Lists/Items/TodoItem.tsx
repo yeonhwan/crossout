@@ -10,6 +10,11 @@ import BlockIcon from "@mui/icons-material/Block";
 
 // Types
 import { type Todo, type ListBoard } from "@prisma/client";
+import {
+  UrgencyDisplay,
+  UrgencyInput,
+  type SnackbarHandlerType,
+} from "@/types/client";
 
 // libs
 import dayjs from "dayjs";
@@ -19,28 +24,13 @@ import ClickAwayListener from "@mui/base/ClickAwayListener";
 import { api } from "@/utils/api";
 
 // React
-import { useState, useRef, type Dispatch, type SetStateAction } from "react";
+import { useState, useRef } from "react";
 
 // styles
 import loader_styles from "@/styles/loader.module.css";
 
 // stores
 import useSnackbarStore, { SnackbarRole } from "@/stores/useSnackbarStore";
-
-enum Urgency {
-  urgent = "🔥",
-  important = "⚡️",
-  trivial = "🌱",
-}
-
-// Urgency Enum
-enum UrgencyInput {
-  urgent = "urgent",
-  important = "important",
-  trivial = "trivial",
-}
-
-type SnackbarHandlerType = (data: object) => void;
 
 type TodoItemProps = {
   data: Todo & {
@@ -264,7 +254,7 @@ const TodoItem = ({ data, sortingTodos }: TodoItemProps) => {
         >
           <div className="flex">
             <div className="flex h-6 w-6 items-center justify-center rounded-full bg-neutral-300">
-              <p>{Urgency[urgency]}</p>
+              <p>{UrgencyDisplay[urgency]}</p>
             </div>
             <div className="ml-2 flex h-6 w-6 items-center justify-center">
               {isProceed && (

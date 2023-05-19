@@ -17,25 +17,19 @@ import { api } from "@/utils/api";
 import loader_styles from "@/styles/loader.module.css";
 
 // types
-import { type ListBoard, type Todo } from "@prisma/client";
+import { type ListboardItemType } from "@/types/client";
 
 // ICONS
 import AddCardIcon from "@mui/icons-material/AddCard";
 
-export type ListboardsDataType = ListBoard & {
-  todos: Todo[];
-};
-
 const ListboardIndex = () => {
   const [isOpenListboardsDialog, setIsOpenListboardsDialog] = useState(false);
-  const [listboardsData, setListboardsData] = useState<ListboardsDataType[]>(
-    []
-  );
+  const [listboardsData, setListboardsData] = useState<ListboardItemType[]>([]);
   const [isPopperOpen, setIsPopperOpen] = useState(false);
   const [shouldRender, animateTrigger, handleTransition] =
     useAnimation(isPopperOpen);
 
-  const [popperData, setPopperData] = useState<Todo[] | null>(null);
+  const [popperData, setPopperData] = useState<ListboardItemType | null>(null);
 
   const openCreateListboard = () => {
     setIsOpenListboardsDialog(true);

@@ -9,18 +9,27 @@ import ListView from "@/components/Lists/ListView";
 import DeleteIcon from "@mui/icons-material/Delete";
 
 // types
-import { type ListboardsDataType } from "@/pages/[userId]/listboards";
-import { type Todo } from "@prisma/client";
+import { type ListboardItemType } from "@/types/client";
 
 type ListboardItemProps = {
-  data: ListboardsDataType;
+  data: ListboardItemType;
   popperOpen: () => void;
-  setPopperData: Dispatch<SetStateAction<Todo[] | null>>;
+  setPopperData: Dispatch<SetStateAction<ListboardItemType | null>>;
 };
 
-const ListboardItem = ({ data, popperOpen }: ListboardItemProps) => {
+const ListboardItem = ({
+  data,
+  popperOpen,
+  setPopperData,
+}: ListboardItemProps) => {
   const [isActive, setIsActive] = useState(false);
   const [isTodoListOpen, setIsTodoListOpen] = useState(false);
+
+  const itemMouseDownHandler = () => {
+    setPopperData(data);
+    setIsActive(false);
+    popperOpen();
+  };
 
   return (
     <div
@@ -30,10 +39,7 @@ const ListboardItem = ({ data, popperOpen }: ListboardItemProps) => {
       onMouseDown={() => {
         setIsActive(true);
       }}
-      onMouseUp={() => {
-        setIsActive(false);
-        popperOpen();
-      }}
+      onMouseUp={itemMouseDownHandler}
     >
       <div className="flex h-2/3 w-full items-center justify-between rounded-t-3xl border-b-2 border-b-neutral-700 bg-neutral-500 px-2 py-3">
         <p className="text-white">{data.title}</p>

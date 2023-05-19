@@ -1,5 +1,6 @@
 // types
-import { type Todo } from "@prisma/client";
+import { type Todo, type ListBoard } from "@prisma/client";
+import { type ListboardItemType } from "@/types/client";
 
 //components
 import Button from "@/components/Buttons/Button";
@@ -12,7 +13,7 @@ type ListboardPopperProps = {
   isOpen: boolean;
   onTransitionEnd: () => void;
   popperClose: () => void;
-  data: Todo[] | null;
+  data: ListboardItemType | null;
 };
 
 const ListboardPopper = ({

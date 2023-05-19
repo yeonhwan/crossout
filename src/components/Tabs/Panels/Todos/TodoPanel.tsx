@@ -29,7 +29,7 @@ import useDateStore from "@/stores/useDateStore";
 import useSnackbarStore, { SnackbarRole } from "@/stores/useSnackbarStore";
 
 //types
-import { type Todo, type ListBoard } from "@prisma/client";
+import { type TodoWithListboardType } from "@/types/client";
 
 // styles
 import loader_styles from "@/styles/loader.module.css";
@@ -39,20 +39,14 @@ type TodoPanelProps = {
   enabled: boolean;
 };
 
-export type UpdateTodoIndexData = {
-  data: { dateRecordId: number; index: number[] };
-};
-
-export type TodoWithListboard = Todo & { listBoard: ListBoard | null };
-
 const TodoPanel = ({ enabled }: TodoPanelProps) => {
-  const [todosData, setTodosData] = useState<TodoWithListboard[]>([]);
+  const [todosData, setTodosData] = useState<TodoWithListboardType[]>([]);
   const [todoIndexes, setTodoIndexes] = useState<number[]>([]);
   const [sortingTodos, setSortingTodos] = useState(false);
   const sensors = useSensors(useSensor(PointerSensor));
   const { year, month, date } = useDateStore((state) => state.dateObj);
   const dateRecordId = useRef<null | number>(null);
-  const todosDataSaved = useRef<TodoWithListboard[]>([]);
+  const todosDataSaved = useRef<TodoWithListboardType[]>([]);
   const [isSortProceed, setIsSortProceed] = useState(false);
   const { setSnackbarOpen, setSnackbarData } = useSnackbarStore(
     (state) => state

@@ -17,11 +17,11 @@ import SnackbarError from "@/components/Snackbar/SnackbarError";
 import SnackbarInfo from "@/components/Snackbar/SnackbarInfo";
 import { SnackbarRole } from "@/stores/useSnackbarStore";
 
+type TransitionProps = Omit<SlideProps, "direction">;
+
 function TransitionUp(props: TransitionProps) {
   return <Slide {...props} direction="up" />;
 }
-
-type TransitionProps = Omit<SlideProps, "direction">;
 
 export type SnackbarContentProps = {
   data: SnackbarData;
