@@ -2,15 +2,15 @@ import { type ListBoard, type Todo } from "@prisma/client";
 
 // items
 
+export type TodoWithListboardType = Todo & { listBoard: ListBoard | null };
+
 export type ListboardItemType = ListBoard & {
-  todos: Todo[];
+  todos: TodoWithListboardType[];
 };
 
 export type UpdateTodoIndexDataType = {
   data: { dateRecordId: number; index: number[] };
 };
-
-export type TodoWithListboardType = Todo & { listBoard: ListBoard | null };
 
 // snackbar
 export type SnackbarHandlerType = (data: object) => void;
