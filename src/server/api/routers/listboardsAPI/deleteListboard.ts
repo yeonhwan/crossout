@@ -22,6 +22,15 @@ const deleteListboard = protectedProcedure
 
     const { id } = input.data;
 
+    await ctx.prisma.listBoard.update({
+      where: { id },
+      data: {
+        todos: {
+          set: [],
+        },
+      },
+    });
+
     const listboard = await ctx.prisma.listBoard.delete({
       where: { id },
     });

@@ -24,7 +24,11 @@ const getListboards = protectedProcedure
 
     const user = await ctx.prisma.user.findUniqueOrThrow({
       where: { id },
-      select: { listBoards: { include: { todos } } },
+      select: {
+        listBoards: {
+          include: { todos: todos ? { include: { listBoard: true } } : false },
+        },
+      },
     });
 
     const { listBoards } = user;
