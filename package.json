@@ -29,6 +29,8 @@
     "dayjs": "^1.11.7",
     "immer": "^10.0.2",
     "lodash": "^4.17.21",
+    "lottie-colorify": "^0.8.0",
+    "lottie-react": "^2.4.0",
     "next": "^13.2.4",
     "next-auth": "^4.20.1",
     "nodemailer": "^6.9.1",
