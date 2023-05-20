@@ -153,7 +153,6 @@ enum Mood {
     normal
     good
     happy
-    terrific
 }
 
 model DayLog {
