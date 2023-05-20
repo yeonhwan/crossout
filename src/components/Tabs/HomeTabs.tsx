@@ -4,7 +4,8 @@ import { useState } from "react";
 // Components
 import TabPanel from "@/components/Tabs/TabPanel";
 import ListView from "@/components/Lists/ListView";
-import TodoPanel from "./Panels/Todos/TodoPanel";
+import TodoPanel from "@/components/Tabs/Panels/Todos/TodoPanel";
+import DaylogPanel from "@/components/Tabs/Panels/Daylog/DaylogPanel";
 import Dialog from "@/components/Dialog/Dialog";
 import TodoForm from "@/components/Forms/TodoForm";
 
@@ -86,9 +87,7 @@ const HomeTabs = () => {
         index={TabPanels.daylog}
         value={TabPanels.daylog}
       >
-        <ListView>
-          <p>asdf</p>
-        </ListView>
+        <DaylogPanel />
       </TabPanel>
       <TabPanel
         className={`${
