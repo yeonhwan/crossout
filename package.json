@@ -42,6 +42,7 @@
   "devDependencies": {
     "@emotion/react": "^11.10.8",
     "@emotion/styled": "^11.10.8",
+    "@svgr/webpack": "^8.0.1",
     "@testing-library/cypress": "^9.0.0",
     "@types/bcryptjs": "^2.4.2",
     "@types/cookies": "^0.7.7",
