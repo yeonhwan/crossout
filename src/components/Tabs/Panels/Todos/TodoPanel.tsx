@@ -3,6 +3,11 @@ import ListView from "@/components/Lists/ListView";
 import TodoItem from "@/components/Lists/Items/TodoItem";
 import SortableWrapper from "@/components/Lists/Items/SortableWrapper";
 import TodoControllers from "@/components/Tabs/Panels/Todos/TodoControllers";
+import NoTodos from "@/components/Graphic/NoTodos";
+import CircleButton from "@/components/Buttons/CircleButton";
+
+// Icons
+import AddTodoIcon from "/public/icons/lists.svg";
 
 // React
 import { useState, useRef } from "react";
@@ -37,10 +42,13 @@ import loader_styles from "@/styles/loader.module.css";
 // props
 type TodoPanelProps = {
   enabled: boolean;
+  openCreateTodo: () => void;
 };
 
-const TodoPanel = ({ enabled }: TodoPanelProps) => {
-  const [todosData, setTodosData] = useState<TodoWithListboardType[]>([]);
+const TodoPanel = ({ enabled, openCreateTodo }: TodoPanelProps) => {
+  const [todosData, setTodosData] = useState<
+    TodoWithListboardType[] | undefined
+  >();
   const [todoIndexes, setTodoIndexes] = useState<number[]>([]);
   const [sortingTodos, setSortingTodos] = useState(false);
   const sensors = useSensors(useSensor(PointerSensor));
@@ -58,10 +66,12 @@ const TodoPanel = ({ enabled }: TodoPanelProps) => {
     if (todosData && over) {
       if (active.id !== over.id) {
         setTodosData((items) => {
-          const oldIndex = todoIndexes.indexOf(active.id as number);
-          const newIndex = todoIndexes.indexOf(over.id as number);
+          if (items) {
+            const oldIndex = todoIndexes.indexOf(active.id as number);
+            const newIndex = todoIndexes.indexOf(over.id as number);
 
-          return arrayMove(items, oldIndex, newIndex);
+            return arrayMove(items, oldIndex, newIndex);
+          }
         });
         setTodoIndexes((items) => {
           const oldIndex = todoIndexes.indexOf(active.id as number);
@@ -137,48 +147,67 @@ const TodoPanel = ({ enabled }: TodoPanelProps) => {
         </div>
       </div>
     );
+  }
+
+  if (todosData && todosData.length > 0) {
+    return (
+      <div className="mt-4 flex h-[80%] max-h-[450px] w-3/5 flex-col justify-center rounded-lg bg-neutral-400/40 py-2 backdrop-blur-sm">
+        <TodoControllers
+          sortingTodos={sortingTodos}
+          setSortingTodos={setSortingTodos}
+          updateTodoIndex={updateTodoIndexApplyHandler}
+          savedTodosData={todosDataSaved}
+          setTodosData={setTodosData}
+          isSortProceed={isSortProceed}
+          setIsSortProceed={setIsSortProceed}
+        />
+        <ListView className="min-h-[90%]">
+          <DndContext sensors={sensors} onDragEnd={handleDragEnd}>
+            <SortableContext
+              items={todosData}
+              strategy={verticalListSortingStrategy}
+            >
+              <ul className="flex h-full w-full flex-col items-center justify-center">
+                {todosData.map((data) => (
+                  <SortableWrapper
+                    key={data.id}
+                    id={data.id}
+                    active={sortingTodos}
+                  >
+                    <TodoItem data={data} sortingTodos={sortingTodos} />
+                  </SortableWrapper>
+                ))}
+              </ul>
+            </SortableContext>
+          </DndContext>
+        </ListView>
+        {!sortingTodos && (
+          <CircleButton
+            info="Add Todo"
+            onClick={openCreateTodo}
+            className="absolute bottom-4 right-2 mr-5"
+          >
+            <AddTodoIcon className="h-6 w-6" />
+          </CircleButton>
+        )}
+      </div>
+    );
+  } else if (todosData && !todosData.length) {
+    return (
+      <div className="mt-4 flex h-[80%] max-h-[450px] w-3/5 justify-center rounded-lg bg-neutral-400/40 py-8 backdrop-blur-sm">
+        <NoTodos buttonHandler={openCreateTodo} />
+      </div>
+    );
   } else {
-    if (todosData.length) {
-      return (
-        <div className="mt-4 flex h-[80%] max-h-[450px] w-3/5 flex-col justify-center rounded-lg bg-neutral-400/40 py-2 backdrop-blur-sm">
-          <TodoControllers
-            sortingTodos={sortingTodos}
-            setSortingTodos={setSortingTodos}
-            updateTodoIndex={updateTodoIndexApplyHandler}
-            savedTodosData={todosDataSaved}
-            setTodosData={setTodosData}
-            isSortProceed={isSortProceed}
-            setIsSortProceed={setIsSortProceed}
-          />
-          <ListView className="min-h-[90%]">
-            <DndContext sensors={sensors} onDragEnd={handleDragEnd}>
-              <SortableContext
-                items={todosData}
-                strategy={verticalListSortingStrategy}
-              >
-                <ul className="flex h-full w-full flex-col items-center justify-center">
-                  {todosData.map((data) => (
-                    <SortableWrapper
-                      key={data.id}
-                      id={data.id}
-                      active={sortingTodos}
-                    >
-                      <TodoItem data={data} sortingTodos={sortingTodos} />
-                    </SortableWrapper>
-                  ))}
-                </ul>
-              </SortableContext>
-            </DndContext>
-          </ListView>
+    return (
+      <div className="mt-4 flex h-[80%] max-h-[450px] w-3/5 justify-center rounded-lg bg-neutral-400/40 py-8 backdrop-blur-sm">
+        <div className="flex h-full w-full items-center justify-center">
+          <span className="flex items-center justify-center">
+            <span className={`ml-2 ${loader_styles.loader as string}`} />
+          </span>
         </div>
-      );
-    } else {
-      return (
-        <div className="mt-4 flex h-[80%] max-h-[450px] w-3/5 justify-center rounded-lg bg-neutral-400/40 py-8 backdrop-blur-sm">
-          <p>null</p>
-        </div>
-      );
-    }
+      </div>
+    );
   }
 };
 export default TodoPanel;

@@ -18,14 +18,14 @@ import CheckIcon from "@mui/icons-material/Check";
 import loader_styles from "@/styles/loader.module.css";
 
 // types
-import { type TodoWithListboard } from "./TodoPanel";
+import { type TodoWithListboardType } from "@/types/client";
 
 type TodoControllersProps = {
   sortingTodos: boolean;
   setSortingTodos: Dispatch<SetStateAction<boolean>>;
   updateTodoIndex: () => void;
-  savedTodosData: MutableRefObject<TodoWithListboard[]>;
-  setTodosData: Dispatch<SetStateAction<TodoWithListboard[]>>;
+  savedTodosData: MutableRefObject<TodoWithListboardType[]>;
+  setTodosData: Dispatch<SetStateAction<TodoWithListboardType[] | undefined>>;
   isSortProceed: boolean;
   setIsSortProceed: Dispatch<SetStateAction<boolean>>;
 };

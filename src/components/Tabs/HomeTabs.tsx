@@ -5,6 +5,8 @@ import { useState } from "react";
 import TabPanel from "@/components/Tabs/TabPanel";
 import ListView from "@/components/Lists/ListView";
 import TodoPanel from "./Panels/Todos/TodoPanel";
+import Dialog from "@/components/Dialog/Dialog";
+import TodoForm from "@/components/Forms/TodoForm";
 
 // libs
 import Tabs from "@mui/material/Tabs";
@@ -18,6 +20,11 @@ enum TabPanels {
 
 const HomeTabs = () => {
   const [tabValue, setTabValue] = useState<TabPanels>(TabPanels.todos);
+  const [isOpenTodoDialog, setIsOpenTodoDialog] = useState(false);
+
+  const openCreateTodo = () => {
+    setIsOpenTodoDialog(true);
+  };
 
   const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
     setTabValue(newValue);
@@ -67,7 +74,10 @@ const HomeTabs = () => {
         index={TabPanels.todos}
         value={TabPanels.todos}
       >
-        <TodoPanel enabled={tabValue === TabPanels.todos} />
+        <TodoPanel
+          openCreateTodo={openCreateTodo}
+          enabled={tabValue === TabPanels.todos}
+        />
       </TabPanel>
       <TabPanel
         className={`${
@@ -89,6 +99,15 @@ const HomeTabs = () => {
       >
         <ListView />
       </TabPanel>
+      {/* Dialog */}
+      <Dialog
+        onClickAway={() => {
+          setIsOpenTodoDialog(false);
+        }}
+        openState={isOpenTodoDialog}
+      >
+        <TodoForm setOpenDialog={setIsOpenTodoDialog} />
+      </Dialog>
     </div>
   );
 };

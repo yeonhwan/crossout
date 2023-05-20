@@ -3,10 +3,10 @@ import CircleButton from "@/components/Buttons/CircleButton";
 import ListboardSelect from "@/components/Select/ListboardSelect";
 
 // ICONS
-import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/Delete";
 import CheckIcon from "@mui/icons-material/Check";
 import BlockIcon from "@mui/icons-material/Block";
+import TrashIcon from "public/icons/trash.svg";
+import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
 
 // Types
 import { type Todo, type ListBoard } from "@prisma/client";
@@ -190,7 +190,7 @@ const TodoItem = ({ data, sortingTodos }: TodoItemProps) => {
             }
           }}
         >
-          <DeleteIcon className="h-4 w-4" />
+          <TrashIcon className="h-4 w-4" fill="white" />
         </CircleButton>
       );
     }
@@ -200,7 +200,7 @@ const TodoItem = ({ data, sortingTodos }: TodoItemProps) => {
         <>
           <CircleButton
             info="apply"
-            className="h-6 w-6 p-0"
+            className="mr-2 h-6 w-6 p-0"
             onClick={applyUpdateClickHandler}
           >
             <CheckIcon className="h-4 w-4" />
@@ -220,13 +220,15 @@ const TodoItem = ({ data, sortingTodos }: TodoItemProps) => {
       <>
         <CircleButton
           info="edit"
-          className={`h-6 w-6 p-0 ${isProceed ? "pointer-events-none" : ""}`}
+          className={`mr-1 h-6 w-6 p-0 ${
+            isProceed ? "pointer-events-none" : ""
+          }`}
           onClick={(e) => {
             e?.stopPropagation();
             setIsUpdating(true);
           }}
         >
-          <EditIcon className="h-4 w-4" />
+          <ModeEditOutlineIcon className="h-4 w-4" />
         </CircleButton>
         <CircleButton
           info="delete"
@@ -239,7 +241,7 @@ const TodoItem = ({ data, sortingTodos }: TodoItemProps) => {
             }
           }}
         >
-          <DeleteIcon className="h-4 w-4" />
+          <TrashIcon className="h-4 w-4" fill="white" />
         </CircleButton>
       </>
     );
@@ -248,7 +250,7 @@ const TodoItem = ({ data, sortingTodos }: TodoItemProps) => {
   // Item Render (not Updating state)
   if (!isUpdating) {
     return (
-      <div className="my-1.5 flex h-max w-5/6 items-center rounded-full border-2 border-neutral-400 shadow-lg drop-shadow-xl">
+      <div className="my-1.5 flex h-max w-5/6 items-center rounded-full border-2 border-neutral-400 shadow-lg drop-shadow-xl hover:border-cyan-600">
         <div
           onClick={completeTodoHandler}
           className={`flex h-20 w-full items-center justify-between rounded-full ${
@@ -281,7 +283,7 @@ const TodoItem = ({ data, sortingTodos }: TodoItemProps) => {
             )}
           </div>
           <div
-            className={`flex w-1/12 ${
+            className={`flex w-max ${
               data.completed ? "justify-center" : "justify-between"
             }`}
           >
@@ -325,7 +327,7 @@ const TodoItem = ({ data, sortingTodos }: TodoItemProps) => {
                 onChange={setListboardInput}
               />
             </div>
-            <div className="flex w-1/12 justify-between">
+            <div className="flex w-max justify-between">
               {isProceed ? (
                 <div className="h-full w-full">
                   <span className="flex h-8 w-8 items-center justify-center">

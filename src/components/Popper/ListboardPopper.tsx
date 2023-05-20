@@ -1,3 +1,6 @@
+// Next
+import Image from "next/image";
+
 // types
 import { type ListboardItemType } from "@/types/client";
 
@@ -6,15 +9,16 @@ import React, { useState } from "react";
 
 // ICONS
 import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/Delete";
 import CheckIcon from "@mui/icons-material/Check";
 import ClearIcon from "@mui/icons-material/Clear";
+import TrashIcon from "public/icons/trash.svg";
 
 //components
 import Button from "@/components/Buttons/Button";
 import TodoItem from "@/components/Lists/Items/TodoItem";
 import ListView from "@/components/Lists/ListView";
 import CircleButton from "@/components/Buttons/CircleButton";
+import NoItems from "@/components/Graphic/NoItems";
 
 // styles
 import loader_styles from "@/styles/loader.module.css";
@@ -160,9 +164,9 @@ const ListboardPopper = ({
               applyDeleteHandler();
             }
           }}
-          className="ml-1 h-6 w-6"
+          className="ml-1 h-6 w-6 p-0"
         >
-          <DeleteIcon className="h-4 w-4" />
+          <TrashIcon className="h-4 w-4" fill="white" />
         </CircleButton>
       </>
     );
@@ -231,11 +235,15 @@ const ListboardPopper = ({
             {InfoRender()}
           </div>
           <div className="flex h-2/3 w-[90%] items-center justify-center">
-            <ListView>
-              {todos.map((todo) => {
-                return <TodoItem data={todo} key={todo.id} />;
-              })}
-            </ListView>
+            {todos.length ? (
+              <ListView>
+                {todos.map((todo) => {
+                  return <TodoItem data={todo} key={todo.id} />;
+                })}
+              </ListView>
+            ) : (
+              <NoItems />
+            )}
           </div>
           <div className="absolute bottom-5 flex justify-center">
             <Button

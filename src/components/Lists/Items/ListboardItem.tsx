@@ -6,7 +6,7 @@ import CircleButton from "@/components/Buttons/CircleButton";
 import ListView from "@/components/Lists/ListView";
 
 //ICONS
-import DeleteIcon from "@mui/icons-material/Delete";
+import TrashIcon from "public/icons/trash.svg";
 
 // types
 import { type ListboardItemType } from "@/types/client";
@@ -22,12 +22,14 @@ type ListboardItemProps = {
   data: ListboardItemType;
   popperOpen: () => void;
   setPopperData: Dispatch<SetStateAction<ListboardItemType | null>>;
+  setIsProceed: Dispatch<SetStateAction<boolean>>;
 };
 
 const ListboardItem = ({
   data,
   popperOpen,
   setPopperData,
+  setIsProceed,
 }: ListboardItemProps) => {
   const [isActive, setIsActive] = useState(false);
   const utils = api.useContext();
@@ -46,6 +48,7 @@ const ListboardItem = ({
           content,
           role: SnackbarRole.Success,
         });
+        setIsProceed(false);
         setSnackbarOpen(true);
       },
       onError: (err) => {
@@ -54,6 +57,7 @@ const ListboardItem = ({
           message,
           role: SnackbarRole.Error,
         });
+        setIsProceed(false);
         setSnackbarOpen(true);
       },
     });
@@ -62,6 +66,16 @@ const ListboardItem = ({
     setPopperData(data);
     setIsActive(false);
     popperOpen();
+  };
+
+  const deleteListboardHandler = (
+    e: React.MouseEvent<HTMLButtonElement> | undefined
+  ) => {
+    e?.stopPropagation();
+    if (window.confirm("Deleting Listboard")) {
+      setIsProceed(true);
+      deleteListboard({ data: { id } });
+    }
   };
 
   return (
@@ -78,16 +92,11 @@ const ListboardItem = ({
         <p className="text-white">{data.title}</p>
         <div className="flex">
           <CircleButton
-            onClick={(e) => {
-              e?.stopPropagation();
-              if (window.confirm("Deleting Listboard")) {
-                deleteListboard({ data: { id } });
-              }
-            }}
+            onClick={deleteListboardHandler}
             info="Delete listboard"
-            className="mr-1 h-6 w-6"
+            className="mr-1 h-6 w-6 p-0"
           >
-            <DeleteIcon className="h-4 w-4" />
+            <TrashIcon className="h-3 w-3" fill="white" />
           </CircleButton>
         </div>
       </div>
@@ -98,7 +107,7 @@ const ListboardItem = ({
             {data.todos.length ? (
               data.todos.map((todo) => <li key={todo.id}>{todo.content}</li>)
             ) : (
-              <p>This listboard is empty</p>
+              <li>Empty Listboard</li>
             )}
           </ListView>
         </div>
