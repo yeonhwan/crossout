@@ -3,7 +3,7 @@ import { type Session } from "next-auth";
 import { SessionProvider } from "next-auth/react";
 import Layout from "@/components/Layout";
 import { api } from "@/utils/api";
-import "@/styles/globals.css";
+import "@/styles/globals.scss";
 import { type NextPage } from "next";
 import { StyledEngineProvider } from "@mui/material/styles";
 
