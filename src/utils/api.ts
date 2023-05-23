@@ -58,35 +58,36 @@ export const api = createTRPCNext<AppRouter>({
  *
  * @example type HelloInput = RouterInputs['example']['hello']
  */
-export type RouterInputs = inferRouterInputs<AppRouter>;
-export type TodoCreateInput = RouterInputs["todo"]["createTodo"];
-export type GetTodoInput = RouterInputs["todo"]["getTodos"];
-export type UpdateTodoInput = RouterInputs["todo"]["updateTodo"];
-export type DeleteTodoInput = RouterInputs["todo"]["deleteTodo"];
-export type CompleteTodoInput = RouterInputs["todo"]["completeTodo"];
-export type UpdateTodoIndexInput = RouterInputs["todo"]["updateTodoIndex"];
-export type GetListboardsInput = RouterInputs["listboards"]["getListboards"];
-export type CreateListboardInput =
-  RouterInputs["listboards"]["createListboard"];
-export type UpdateListboardInput =
-  RouterInputs["listboards"]["updateListboard"];
-export type DeleteListboardInput =
-  RouterInputs["listboards"]["deleteListboard"];
+export type RouterInputs             = inferRouterInputs<AppRouter>;
+export type TodoCreateInput          = RouterInputs["todo"]["createTodo"];
+export type GetTodoInput             = RouterInputs["todo"]["getTodos"];
+export type DeleteTodoInput          = RouterInputs["todo"]["deleteTodo"];
+export type UpdateTodoInput          = RouterInputs["todo"]["updateTodo"];
+export type CompleteTodoInput        = RouterInputs["todo"]["completeTodo"];
+export type UpdateTodoIndexInput     = RouterInputs["todo"]["updateTodoIndex"];
+export type GetListboardsInput       = RouterInputs["listboards"]["getListboards"];
+export type CreateListboardInput     = RouterInputs["listboards"]["createListboard"];
+export type UpdateListboardInput     = RouterInputs["listboards"]["updateListboard"];
+export type DeleteListboardInput     = RouterInputs["listboards"]["deleteListboard"];
+export type GetDateRecordIdInput     = RouterInputs["daterecord"]["getDateRecordId"];
+export type UpsertEditorContentInput = RouterInputs["daylog"]["upsertEditorContent"];
+export type UpsertDaylogInput        = RouterInputs["daylog"]["upsertDaylog"];
+
 /**
  * Inference helper for outputs.
  *
  * @example type HelloOutput = RouterOutputs['example']['hello']
  */
-export type RouterOutputs = inferRouterOutputs<AppRouter>;
-export type GetTodoOutput = RouterOutputs["todo"]["getTodos"];
-export type UpdateTodoOutput = RouterOutputs["todo"]["updateTodo"];
-export type DeleteTodoOutput = RouterOutputs["todo"]["deleteTodo"];
-export type CompleteTodoOutput = RouterOutputs["todo"]["completeTodo"];
-export type UpdateTodoIndexOutput = RouterOutputs["todo"]["updateTodoIndex"];
-export type GetListboardsOutput = RouterOutputs["listboards"]["getListboards"];
-export type CreateListboardOutput =
-  RouterOutputs["listboards"]["createListboard"];
-export type UpdateListboardOutput =
-  RouterOutputs["listboards"]["updateListboard"];
-export type DeleteListboardOutput =
-  RouterOutputs["listboards"]["deleteListboard"];
+export type RouterOutputs             = inferRouterOutputs<AppRouter>;
+export type GetTodoOutput             = RouterOutputs["todo"]["getTodos"];
+export type UpdateTodoOutput          = RouterOutputs["todo"]["updateTodo"];
+export type DeleteTodoOutput          = RouterOutputs["todo"]["deleteTodo"];
+export type CompleteTodoOutput        = RouterOutputs["todo"]["completeTodo"];
+export type UpdateTodoIndexOutput     = RouterOutputs["todo"]["updateTodoIndex"];
+export type GetListboardsOutput       = RouterOutputs["listboards"]["getListboards"];
+export type CreateListboardOutput     = RouterOutputs["listboards"]["createListboard"];
+export type UpdateListboardOutput     = RouterOutputs["listboards"]["updateListboard"];
+export type DeleteListboardOutput     = RouterOutputs["listboards"]["deleteListboard"];
+export type GetDateRecordIdOutput     = RouterOutputs["daterecord"]["getDateRecordId"];
+export type UpsertDaylogOutput        = RouterOutputs["daylog"]["upsertDaylog"];
+export type UpsertEditorContentOutput = RouterOutputs["daylog"]["upsertEditorContent"];
