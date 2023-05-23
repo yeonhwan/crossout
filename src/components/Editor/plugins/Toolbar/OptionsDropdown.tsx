@@ -192,7 +192,7 @@ const OptionsDropdown = () => {
           <span className="text-xs font-bold">{selected}</span>
         </div>
         {isOpen && (
-          <div className="absolute left-0 top-11 z-50 flex w-max flex-col justify-between rounded-lg bg-neutral-700 p-2">
+          <div className="absolute left-0 top-7 z-50 flex w-max flex-col justify-between rounded-lg bg-neutral-700 p-2">
             <button
               className="flex items-center bg-neutral-700 px-2 py-1 outline-none hover:bg-neutral-500"
               onClick={(e: React.MouseEvent<HTMLButtonElement>) => {

@@ -106,6 +106,11 @@ const upsertDaylog = protectedProcedure
             code: "INTERNAL_SERVER_ERROR",
           });
         }
+      } else {
+        throw new TRPCError({
+          message: "SERVER ERROR",
+          code: "INTERNAL_SERVER_ERROR",
+        });
       }
     }
   });

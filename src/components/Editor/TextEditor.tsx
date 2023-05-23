@@ -30,6 +30,9 @@ import _ from "lodash";
 // store
 import useDateStore from "@/stores/useDateStore";
 
+// styles
+import style from "@/styles/small_loader.module.css";
+
 function Placeholder() {
   return (
     <div className="editor-placeholder pointer-events-none absolute text-neutral-600">
@@ -114,7 +117,7 @@ const TextEditor = ({ editorContent, editorStateRef }: TextEditorProps) => {
         }
       });
     },
-    3000
+    2000
   );
 
   function onChange(editorState: EditorState) {
@@ -129,14 +132,23 @@ const TextEditor = ({ editorContent, editorStateRef }: TextEditorProps) => {
   }
 
   return (
-    <div className="editor-container relative flex h-full w-full flex-col rounded-xl">
-      <ToolbarPlugin />
+    <div className="editor-container relative flex h-full w-full flex-col rounded-lg border-2 border-neutral-700 bg-neutral-800 px-6 py-1">
+      <div className="flex h-max w-full">
+        <ToolbarPlugin />
+        <span className="ml-1 flex items-center justify-center">
+          <span
+            className={`${style.loader as string} ${
+              isUpesrting ? "opacity-100" : "opacity-0"
+            }`}
+          />
+        </span>
+      </div>
       <div
-        className={`editor-inner relative mt-1 flex h-3/4 w-full rounded-xl border-2 border-neutral-400 bg-neutral-800 p-2`}
+        className={`editor-inner relative mt-2 flex h-[80%] w-full rounded-md bg-neutral-700 p-2 drop-shadow-md`}
       >
         <RichTextPlugin
           contentEditable={
-            <ContentEditable className="editor-input full flex w-full flex-col overflow-y-scroll focus:outline-none" />
+            <ContentEditable className="editor-input flex w-full flex-col overflow-y-scroll focus:outline-none" />
           }
           placeholder={<Placeholder />}
           ErrorBoundary={LexicalErrorBoundary}

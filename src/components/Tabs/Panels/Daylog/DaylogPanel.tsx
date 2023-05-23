@@ -5,6 +5,7 @@ import { type Mood } from "@prisma/client";
 // components
 import MoodSelector from "@/components/Tabs/Panels/Daylog/MoodSelector";
 import TextEditor from "@/components/Editor/TextEditor";
+import CircleButton from "@/components/Buttons/CircleButton";
 
 // libs
 import { HeadingNode, QuoteNode } from "@lexical/rich-text";
@@ -21,9 +22,16 @@ import { api } from "@/utils/api";
 
 // stores
 import useDateStore from "@/stores/useDateStore";
+import useSnackbarStore, { SnackbarRole } from "@/stores/useSnackbarStore";
 
 // types
 import { type InitialConfigType } from "@lexical/react/LexicalComposer";
+
+// styles
+import loader_styles from "@/styles/loader.module.css";
+
+// ICONS
+import SaveIcon from "public/icons/save.svg";
 
 const DaylogPanel = () => {
   const [moodData, setMoodData] = useState<Mood>("normal");
@@ -31,6 +39,10 @@ const DaylogPanel = () => {
   const editorStateRef = useRef<SerializedEditorState<SerializedLexicalNode>>();
   const selectedMoodRef = useRef<Mood>();
   const { year, month, date } = useDateStore((state) => state.dateObj);
+  const { setSnackbarOpen, setSnackbarData } = useSnackbarStore(
+    (state) => state
+  );
+  const utils = api.useContext();
 
   const { isLoading } = api.daylog.getDaylog.useQuery(
     { data: { dateObject: { year, month, date } } },
@@ -57,15 +69,23 @@ const DaylogPanel = () => {
     }
   );
 
-  const { mutate: upsertDaylog } = api.daylog.upsertDaylog.useMutation({
-    onSuccess: (res) => {
-      console.log(res);
-    },
+  const { mutate: upsertDaylog, isLoading: isUpserting } =
+    api.daylog.upsertDaylog.useMutation({
+      onSuccess: async (res) => {
+        if (res) {
+          const { message } = res.data;
+          await utils.daylog.getDaylog.invalidate();
+          setSnackbarOpen(true);
+          setSnackbarData({ message, role: SnackbarRole.Success });
+        }
+      },
 
-    onError: (err) => {
-      console.log(err);
-    },
-  });
+      onError: (err) => {
+        const { message } = err;
+        setSnackbarOpen(true);
+        setSnackbarData({ message, role: SnackbarRole.Error });
+      },
+    });
 
   const updateHandler = () => {
     upsertDaylog({
@@ -79,7 +99,13 @@ const DaylogPanel = () => {
 
   const ContentRender = () => {
     if (isLoading) {
-      return <p>loading...</p>;
+      return (
+        <div className="flex h-full w-full items-center justify-center">
+          <span className="flex items-center justify-center">
+            <span className={`ml-2 ${loader_styles.loader as string}`} />
+          </span>
+        </div>
+      );
     }
 
     const editorConfig: InitialConfigType = {
@@ -94,14 +120,29 @@ const DaylogPanel = () => {
     return (
       <>
         <div className="mb-2 flex h-max w-full flex-col">
-          <p className="self-center text-lg font-bold text-neutral-800">
+          <div className="absolute right-3 top-3 flex">
+            <span className="m-1 flex items-center justify-center">
+              <span
+                className={`${loader_styles.loader as string} ${
+                  isUpserting ? "opacity-100" : "opacity-0"
+                }`}
+              />
+            </span>
+            <CircleButton
+              className={`${
+                isUpserting ? "pointer-events-none bg-neutral-500" : ""
+              }`}
+              onClick={updateHandler}
+              info="save"
+            >
+              <SaveIcon fill="white" className="h-4 w-4" />
+            </CircleButton>
+          </div>
+          <p className="self-center font-bold text-neutral-800">
             Today's Feeling
           </p>
           <MoodSelector moodData={moodData} selectedMoodRef={selectedMoodRef} />
         </div>
-        <p className="mb-2 self-center text-lg font-bold text-neutral-800">
-          Daylog
-        </p>
         <div className="flex h-4/5 w-full">
           <LexicalComposer initialConfig={editorConfig}>
             <TextEditor
@@ -118,7 +159,6 @@ const DaylogPanel = () => {
   return (
     <div className="mt-4 flex h-[90%] max-h-[500px] w-3/5 flex-col rounded-lg bg-neutral-400/40 px-4 py-2 backdrop-blur-sm">
       {ContentRender()}
-      <button>SAVE</button>
     </div>
   );
 };

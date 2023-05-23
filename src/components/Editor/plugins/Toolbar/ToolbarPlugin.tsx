@@ -65,10 +65,10 @@ const ToolbarPlugin = () => {
   }, [editor, updateToolbar]);
 
   return (
-    <div className="top-0 flex h-10 min-w-max max-w-[35%] justify-around self-center rounded-lg bg-neutral-800 p-2">
+    <div className="top-0 mt-1 flex h-10 min-w-max max-w-[40%] justify-around self-center rounded-lg bg-neutral-800 p-2">
       <OptionsDropdown />
       <button
-        className={`flex h-full w-max items-center justify-center p-2 outline-none hover:bg-neutral-600 ${
+        className={`mx-1 flex h-full w-max items-center justify-center p-2 outline-none hover:bg-neutral-600 ${
           isBold ? "bg-neutral-400" : "bg-neutral-800"
         }`}
         onClick={() => {
@@ -78,7 +78,7 @@ const ToolbarPlugin = () => {
         <FormatBoldIcon className={`h-4 w-4 ${isBold ? "fill-black" : ""}`} />
       </button>
       <button
-        className={`flex h-full w-max items-center justify-center p-2 outline-none hover:bg-neutral-600 ${
+        className={`mx-1 flex h-full w-max items-center justify-center p-2 outline-none hover:bg-neutral-600 ${
           isItalic ? "bg-neutral-400" : "bg-neutral-800"
         }`}
         onClick={() => {
@@ -92,7 +92,7 @@ const ToolbarPlugin = () => {
         </div>
       </button>
       <button
-        className={`flex w-max items-center p-2 outline-none hover:bg-neutral-600 ${
+        className={`mx-1 flex w-max items-center p-2 outline-none hover:bg-neutral-600 ${
           isUnderline ? "bg-neutral-400" : "bg-neutral-800"
         }`}
         onClick={() => {
@@ -104,7 +104,7 @@ const ToolbarPlugin = () => {
         />
       </button>
       <button
-        className={`flex w-max items-center p-2 outline-none hover:bg-neutral-600 ${
+        className={`mx-1 flex w-max items-center p-2 outline-none hover:bg-neutral-600 ${
           isDash ? "bg-neutral-400" : "bg-neutral-800"
         }`}
         onClick={() => {

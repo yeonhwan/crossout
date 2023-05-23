@@ -26,6 +26,11 @@ const MoodSelector = ({moodData, selectedMoodRef}:MoodSelectorProps) => {
   const [selectedMood, setSelectedMood] = useState(moodData);
 
 
+  useEffect(() => {
+    setSelectedMood(moodData);
+  }, [moodData])
+
+
   const terribleOptions: LottieOptions = {
     animationData: replaceColor("#000000", "#ffffff", Terrible),
     loop: true,
@@ -85,14 +90,14 @@ const MoodSelector = ({moodData, selectedMoodRef}:MoodSelectorProps) => {
 
   return (
     <div className="flex flex-col w-full h-max">
-      <p className="mb-1 self-center text-neutral-600">
+      <p className="mb-1 self-center text-neutral-600 text-sm">
         {selectedMood.toUpperCase()}
       </p>
     <div className="flex h-max w-max justify-center self-center rounded-xl border-2 border-neutral-500 bg-neutral-800/70 px-2">
       <div className="flex h-full w-full items-center justify-center py-2">
         <Tooltip title="terrible" arrow placement="bottom">
           <div
-            className={`h-10 w-10 hover:cursor-pointer transition-all ${selectedMood === "terrible" ? "bg-red-800" : "bg-transparent"} rounded-full`}
+            className={`h-8 w-8 hover:bg-neutral-500 hover:cursor-pointer transition-all ${selectedMood === "terrible" ? "bg-red-800" : "bg-transparent"} rounded-full`}
             onMouseOver={() => {mouseOverHandler('terrible', terriblePlay)}}
             onMouseLeave={()=>{mouseOutHandler('terrible', terribleStop)}}
             onClick={()=>{onClickHandler("terrible")}}
@@ -102,7 +107,7 @@ const MoodSelector = ({moodData, selectedMoodRef}:MoodSelectorProps) => {
         </Tooltip>
         <Tooltip title="bad" arrow placement="bottom">
           <div
-            className={`h-10 w-10 hover:cursor-pointer transition-all ${selectedMood === "bad" ? "bg-red-600" : "bg-transparent"} rounded-full`}
+            className={`h-8 w-8 hover:bg-neutral-500 hover:cursor-pointer transition-all ${selectedMood === "bad" ? "bg-red-600" : "bg-transparent"} rounded-full`}
             onMouseOver={() => {mouseOverHandler('bad', badPlay)}}
             onMouseLeave={()=>{mouseOutHandler('bad', badStop)}}
             onClick={()=>{onClickHandler("bad")}}
@@ -112,7 +117,7 @@ const MoodSelector = ({moodData, selectedMoodRef}:MoodSelectorProps) => {
         </Tooltip>
         <Tooltip title="normal" arrow placement="bottom">
           <div
-            className={`h-10 w-10 hover:cursor-pointer transition-all ${selectedMood === "normal" ? "bg-yellow-600" : "bg-transparent"} rounded-full`}
+            className={`h-8 w-8 hover:bg-neutral-500 hover:cursor-pointer transition-all ${selectedMood === "normal" ? "bg-yellow-600" : "bg-transparent"} rounded-full`}
             onMouseOver={() => {mouseOverHandler('normal', normalPlay)}}
             onMouseLeave={()=>{mouseOutHandler('normal', normalStop)}}
             onClick={()=>{onClickHandler("normal")}}
@@ -122,7 +127,7 @@ const MoodSelector = ({moodData, selectedMoodRef}:MoodSelectorProps) => {
           </Tooltip>
         <Tooltip title="good" arrow placement="bottom">
           <div
-            className={`h-10 w-10 hover:cursor-pointer transition-all ${selectedMood === "good" ? "bg-emerald-600" : "bg-transparent"} rounded-full`}
+            className={`h-8 w-8 hover:bg-neutral-500 hover:cursor-pointer transition-all ${selectedMood === "good" ? "bg-emerald-600" : "bg-transparent"} rounded-full`}
             onMouseOver={() => {mouseOverHandler('good', goodPlay)}}
             onMouseLeave={()=>{mouseOutHandler('good', goodStop)}}
             onClick={()=>{onClickHandler("good")}}
@@ -132,7 +137,7 @@ const MoodSelector = ({moodData, selectedMoodRef}:MoodSelectorProps) => {
           </Tooltip>
         <Tooltip title="happy" arrow placement="bottom">
           <div
-            className={`h-10 w-10 hover:cursor-pointer transition-all ${selectedMood === "happy" ? "bg-cyan-600" : "bg-transparent"} rounded-full`}
+            className={`h-8 w-8 hover:bg-neutral-500 hover:cursor-pointer transition-all ${selectedMood === "happy" ? "bg-cyan-600" : "bg-transparent"} rounded-full`}
             onMouseOver={() => {mouseOverHandler('happy', happyPlay)}}
             onMouseLeave={()=>{mouseOutHandler('happy', happyStop)}}
             onClick={()=>{onClickHandler("happy")}}

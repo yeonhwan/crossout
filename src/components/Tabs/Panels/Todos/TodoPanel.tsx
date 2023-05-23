@@ -139,7 +139,7 @@ const TodoPanel = ({ enabled, openCreateTodo }: TodoPanelProps) => {
 
   if (isLoading) {
     return (
-      <div className="mt-4 flex h-[80%] max-h-[450px] w-3/5 justify-center rounded-lg bg-neutral-400/40 py-8 backdrop-blur-sm">
+      <div className="mt-4 flex h-[90%] max-h-[500px] w-3/5 justify-center rounded-lg bg-neutral-400/40 py-8 backdrop-blur-sm">
         <div className="flex h-full w-full items-center justify-center">
           <span className="flex items-center justify-center">
             <span className={`ml-2 ${loader_styles.loader as string}`} />
@@ -151,7 +151,7 @@ const TodoPanel = ({ enabled, openCreateTodo }: TodoPanelProps) => {
 
   if (todosData && todosData.length > 0) {
     return (
-      <div className="mt-4 flex h-[80%] max-h-[450px] w-3/5 flex-col justify-center rounded-lg bg-neutral-400/40 py-2 backdrop-blur-sm">
+      <div className="mt-4 flex h-[90%] max-h-[500px] w-3/5 flex-col justify-center rounded-lg bg-neutral-400/40 py-2 backdrop-blur-sm">
         <TodoControllers
           sortingTodos={sortingTodos}
           setSortingTodos={setSortingTodos}
@@ -194,13 +194,13 @@ const TodoPanel = ({ enabled, openCreateTodo }: TodoPanelProps) => {
     );
   } else if (todosData && !todosData.length) {
     return (
-      <div className="mt-4 flex h-[80%] max-h-[450px] w-3/5 justify-center rounded-lg bg-neutral-400/40 py-8 backdrop-blur-sm">
+      <div className="mt-4 flex h-[90%] max-h-[500px] w-3/5 justify-center rounded-lg bg-neutral-400/40 py-8 backdrop-blur-sm">
         <NoTodos buttonHandler={openCreateTodo} />
       </div>
     );
   } else {
     return (
-      <div className="mt-4 flex h-[80%] max-h-[450px] w-3/5 justify-center rounded-lg bg-neutral-400/40 py-8 backdrop-blur-sm">
+      <div className="mt-4 flex h-[90%] max-h-[500px] w-3/5 justify-center rounded-lg bg-neutral-400/40 py-8 backdrop-blur-sm">
         <div className="flex h-full w-full items-center justify-center">
           <span className="flex items-center justify-center">
             <span className={`ml-2 ${loader_styles.loader as string}`} />
