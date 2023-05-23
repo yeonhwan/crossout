@@ -158,10 +158,9 @@ enum Mood {
 model DayLog {
     id Int @id @default(autoincrement())
     dateRecord DateRecord @relation(fields: [dateRecordId], references: [id], onDelete: Cascade)
-    dateRecordId Int
-    mood Mood?
-    content String
-    date DateTime @db.Date
+    dateRecordId Int @unique
+    mood Mood @default(normal)
+    content Json
     user User @relation(fields: [userId], references: [id], onDelete: Cascade)
     userId String
 
