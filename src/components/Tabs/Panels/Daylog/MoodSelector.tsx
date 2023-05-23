@@ -1,3 +1,6 @@
+// React, hooks
+import { useState, useEffect ,type MutableRefObject } from "react";
+
 //libs
 import Tooltip from "@mui/material/Tooltip";
 import { replaceColor } from "lottie-colorify";
@@ -12,45 +15,46 @@ import Happy from "public/lottie/happy.json";
 
 // types
 import { type Mood } from "@prisma/client";
-import { type Dispatch, type SetStateAction } from "react";
 
 type MoodSelectorProps = {
-  selected: Mood;
-  onChange: Dispatch<SetStateAction<Mood>>
+  moodData: Mood;
+  selectedMoodRef: MutableRefObject<Mood | undefined>
 }
 
-const MoodSelector = ({selected, onChange}:MoodSelectorProps) => {
+const MoodSelector = ({moodData, selectedMoodRef}:MoodSelectorProps) => {
+
+  const [selectedMood, setSelectedMood] = useState(moodData);
 
 
   const terribleOptions: LottieOptions = {
     animationData: replaceColor("#000000", "#ffffff", Terrible),
     loop: true,
-    autoplay: selected === "terrible",
+    autoplay: selectedMood === "terrible",
   };
 
   const badOptions: LottieOptions = {
     animationData: replaceColor("#000000", "#ffffff", Bad),
     loop: true,
-    autoplay: selected === "bad",
+    autoplay: selectedMood === "bad",
   };
 
 
   const normalOptions: LottieOptions = {
     animationData: replaceColor("#000000", "#ffffff", Normal),
     loop: true,
-    autoplay: selected === "normal",
+    autoplay: selectedMood === "normal",
   };
 
   const goodOptions: LottieOptions = {
     animationData: replaceColor("#000000", "#ffffff", Good),
     loop: true,
-    autoplay: selected === "good",
+    autoplay: selectedMood === "good",
   };
 
   const happyOptions: LottieOptions = {
     animationData: replaceColor("#000000", "#ffffff", Happy),
     loop: true,
-    autoplay: selected === "happy",
+    autoplay: selectedMood === "happy",
   };
 
   const { View: terribleView, play: terriblePlay, stop: terribleStop} = useLottie(terribleOptions);
@@ -60,70 +64,85 @@ const MoodSelector = ({selected, onChange}:MoodSelectorProps) => {
   const { View: happyView,    play: happyPlay,    stop: happyStop} = useLottie(happyOptions);
 
   const mouseOverHandler = (mood:string, play:()=>void) => {
-    if(selected!==mood) {
+    if(selectedMood!==mood) {
       play();
     }
   }
 
   const mouseOutHandler = (mood:string, stop:()=>void) => {
-    if(selected!==mood) {
+    if(selectedMood!==mood) {
       stop();
     }
   }
 
+  const onClickHandler = (value:Mood) => {
+    setSelectedMood(value);
+  }
+
+  useEffect(() => {
+    selectedMoodRef.current = selectedMood;
+  }, [selectedMood, selectedMoodRef])
+
   return (
-    <div className="flex h-full w-full items-center justify-center py-2">
-      <Tooltip title="terrible" arrow placement="bottom">
-        <div
-          className={`h-10 w-10 hover:cursor-pointer transition-all ${selected === "terrible" ? "bg-red-800" : "bg-transparent"} rounded-full`}
-          onMouseOver={() => {mouseOverHandler('terrible', terriblePlay)}}
-          onMouseLeave={()=>{mouseOutHandler('terrible', terribleStop)}}
-          onClick={()=>{onChange("terrible")}}
-          >
-          {terribleView}
-        </div>
-      </Tooltip>
-      <Tooltip title="bad" arrow placement="bottom">
-        <div
-          className={`h-10 w-10 hover:cursor-pointer transition-all ${selected === "bad" ? "bg-red-600" : "bg-transparent"} rounded-full`}
-          onMouseOver={() => {mouseOverHandler('bad', badPlay)}}
-          onMouseLeave={()=>{mouseOutHandler('bad', badStop)}}
-          onClick={()=>{onChange("bad")}}
-          >
-          {badView}
-        </div>
-      </Tooltip>
-      <Tooltip title="normal" arrow placement="bottom">
-        <div
-          className={`h-10 w-10 hover:cursor-pointer transition-all ${selected === "normal" ? "bg-yellow-600" : "bg-transparent"} rounded-full`}
-          onMouseOver={() => {mouseOverHandler('normal', normalPlay)}}
-          onMouseLeave={()=>{mouseOutHandler('normal', normalStop)}}
-          onClick={()=>{onChange("normal")}}
-          >
-          {normalView}
-        </div>
+    <div className="flex flex-col w-full h-max">
+      <p className="mb-1 self-center text-neutral-600">
+        {selectedMood.toUpperCase()}
+      </p>
+    <div className="flex h-max w-max justify-center self-center rounded-xl border-2 border-neutral-500 bg-neutral-800/70 px-2">
+      <div className="flex h-full w-full items-center justify-center py-2">
+        <Tooltip title="terrible" arrow placement="bottom">
+          <div
+            className={`h-10 w-10 hover:cursor-pointer transition-all ${selectedMood === "terrible" ? "bg-red-800" : "bg-transparent"} rounded-full`}
+            onMouseOver={() => {mouseOverHandler('terrible', terriblePlay)}}
+            onMouseLeave={()=>{mouseOutHandler('terrible', terribleStop)}}
+            onClick={()=>{onClickHandler("terrible")}}
+            >
+            {terribleView}
+          </div>
         </Tooltip>
-      <Tooltip title="good" arrow placement="bottom">
-        <div
-          className={`h-10 w-10 hover:cursor-pointer transition-all ${selected === "good" ? "bg-emerald-600" : "bg-transparent"} rounded-full`}
-          onMouseOver={() => {mouseOverHandler('good', goodPlay)}}
-          onMouseLeave={()=>{mouseOutHandler('good', goodStop)}}
-          onClick={()=>{onChange("good")}}
-          >
-          {goodView}
-        </div>
+        <Tooltip title="bad" arrow placement="bottom">
+          <div
+            className={`h-10 w-10 hover:cursor-pointer transition-all ${selectedMood === "bad" ? "bg-red-600" : "bg-transparent"} rounded-full`}
+            onMouseOver={() => {mouseOverHandler('bad', badPlay)}}
+            onMouseLeave={()=>{mouseOutHandler('bad', badStop)}}
+            onClick={()=>{onClickHandler("bad")}}
+            >
+            {badView}
+          </div>
         </Tooltip>
-      <Tooltip title="happy" arrow placement="bottom">
-        <div
-          className={`h-10 w-10 hover:cursor-pointer transition-all ${selected === "happy" ? "bg-cyan-600" : "bg-transparent"} rounded-full`}
-          onMouseOver={() => {mouseOverHandler('happy', happyPlay)}}
-          onMouseLeave={()=>{mouseOutHandler('happy', happyStop)}}
-          onClick={()=>{onChange("happy")}}
-          >
-          {happyView}
-        </div>
-        </Tooltip>
+        <Tooltip title="normal" arrow placement="bottom">
+          <div
+            className={`h-10 w-10 hover:cursor-pointer transition-all ${selectedMood === "normal" ? "bg-yellow-600" : "bg-transparent"} rounded-full`}
+            onMouseOver={() => {mouseOverHandler('normal', normalPlay)}}
+            onMouseLeave={()=>{mouseOutHandler('normal', normalStop)}}
+            onClick={()=>{onClickHandler("normal")}}
+            >
+            {normalView}
+          </div>
+          </Tooltip>
+        <Tooltip title="good" arrow placement="bottom">
+          <div
+            className={`h-10 w-10 hover:cursor-pointer transition-all ${selectedMood === "good" ? "bg-emerald-600" : "bg-transparent"} rounded-full`}
+            onMouseOver={() => {mouseOverHandler('good', goodPlay)}}
+            onMouseLeave={()=>{mouseOutHandler('good', goodStop)}}
+            onClick={()=>{onClickHandler("good")}}
+            >
+            {goodView}
+          </div>
+          </Tooltip>
+        <Tooltip title="happy" arrow placement="bottom">
+          <div
+            className={`h-10 w-10 hover:cursor-pointer transition-all ${selectedMood === "happy" ? "bg-cyan-600" : "bg-transparent"} rounded-full`}
+            onMouseOver={() => {mouseOverHandler('happy', happyPlay)}}
+            onMouseLeave={()=>{mouseOutHandler('happy', happyStop)}}
+            onClick={()=>{onClickHandler("happy")}}
+            >
+            {happyView}
+          </div>
+          </Tooltip>
+      </div>
     </div>
+  </div>
   );
 };
 

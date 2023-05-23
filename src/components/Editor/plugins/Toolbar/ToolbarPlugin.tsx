@@ -1,17 +1,18 @@
-import OptionsDropdown from "./OptionsDropdown";
-
-import { FORMAT_TEXT_COMMAND } from "lexical";
-
-import { useState, useEffect, useCallback } from "react";
-
+// Lexical
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
-import { $getSelection, $isRangeSelection } from "lexical";
+import { $getSelection, $isRangeSelection, FORMAT_TEXT_COMMAND } from "lexical";
 
 // ICONS
 import FormatBoldIcon from "@mui/icons-material/FormatBold";
 import FormatItalicIcon from "@mui/icons-material/FormatItalic";
 import FormatUnderlinedIcon from "@mui/icons-material/FormatUnderlined";
 import StrikethroughSIcon from "@mui/icons-material/StrikethroughS";
+
+// React, hooks
+import { useState, useEffect, useCallback } from "react";
+
+// Components
+import OptionsDropdown from "@/components/Editor/plugins/Toolbar/OptionsDropdown";
 
 const ToolbarPlugin = () => {
   const [isBold, setIsBold] = useState(false);

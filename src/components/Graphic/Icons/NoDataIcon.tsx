@@ -36,7 +36,7 @@ const NoDataIcon = ({ className, color }: NodataIconProps) => {
       </defs>
       <g id="g177" transform="matrix(1.3333333,0,0,-1.3333333,0,682.66667)">
         <g id="g179">
-          <g id="g181" clip-path="url(#clipPath185)">
+          <g id="g181" clipPath="url(#clipPath185)">
             <g id="g187" transform="translate(421.6562,450.0005)">
               <path
                 d="m 0,0 h 40.344 c 22.001,0 40,-18 40,-40 v -320 c 0,-22 -17.999,-40 -40,-40 H -134.8 l -19.149,-33.169 c -5.002,-8.932 -18.046,-9.231 -23.301,-0.158 L -196.492,-400 h -175.165 c -22.001,0 -40,18 -40,40 v 320 c 0,22 17.999,40 40,40 h 283.615"

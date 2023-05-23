@@ -1,31 +1,34 @@
-import { LexicalComposer } from "@lexical/react/LexicalComposer";
+// Lexical Editor
 import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
 import { ContentEditable } from "@lexical/react/LexicalContentEditable";
 import { HistoryPlugin } from "@lexical/react/LexicalHistoryPlugin";
-import { HeadingNode, QuoteNode } from "@lexical/rich-text";
-import { ListItemNode, ListNode } from "@lexical/list";
 import LexicalErrorBoundary from "@lexical/react/LexicalErrorBoundary";
 import { OnChangePlugin } from "@lexical/react/LexicalOnChangePlugin";
 import { ListPlugin } from "@lexical/react/LexicalListPlugin";
+import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
+import {
+  type SerializedEditorState,
+  type SerializedLexicalNode,
+  $getRoot,
+  $createParagraphNode,
+} from "lexical";
+import { $isRootTextContentEmpty } from "@lexical/text";
+import ToolbarPlugin from "@/components/Editor/plugins/Toolbar/ToolbarPlugin";
+import AutoFocusPlugin from "@/components/Editor/plugins/AutoFocusPlugin";
+import type { EditorState } from "lexical";
 
-import TreeViewPlugin from "./plugins/TreeViewPlugin";
-import EditorTheme from "./theme";
+// React, hooks
+import { useRef, useEffect, type MutableRefObject } from "react";
+import { useDebouncedCallback } from "use-debounce";
 
-import { useRef } from "react";
+// api
+import { api } from "@/utils/api";
 
-import ToolbarPlugin from "./plugins/Toolbar/ToolbarPlugin";
+// libs
+import _ from "lodash";
 
-import AutoFocusPlugin from "./plugins/AutoFocusPlugin";
-
-// function onChange(editorState: EditorState) {
-//   editorState.read(() => {
-//     // Read the contents of the EditorState here.
-//     const root = $getRoot();
-//     const selection = $getSelection();
-
-//     console.log(root, selection);
-//   });
-// }
+// store
+import useDateStore from "@/stores/useDateStore";
 
 function Placeholder() {
   return (
@@ -35,37 +38,115 @@ function Placeholder() {
   );
 }
 
-const editorConfig = {
-  theme: EditorTheme,
-  namespace: "daylogEditor",
-  onError(error: Error) {
-    throw error;
-  },
-  nodes: [HeadingNode, ListNode, ListItemNode, QuoteNode],
+type TextEditorProps = {
+  editorContent: string | undefined;
+  editorStateRef: MutableRefObject<
+    SerializedEditorState<SerializedLexicalNode> | undefined
+  >;
+  isContentLoading: boolean;
 };
 
-const TextEditor = () => {
+const TextEditor = ({ editorContent, editorStateRef }: TextEditorProps) => {
+  const [editor] = useLexicalComposerContext();
+  const { dateObj } = useDateStore((state) => state);
+  const prevEditorContent = useRef<string | undefined>(editorContent);
+  const prevDateObj = useRef(dateObj);
+  const { year, month, date } = dateObj;
+
+  useEffect(() => {
+    if (editorContent) {
+      prevEditorContent.current = editorContent;
+      const editorState = editor.parseEditorState(editorContent);
+      editor.setEditorState(editorState);
+    } else {
+      prevEditorContent.current = undefined;
+      editor.update(() => {
+        const root = $getRoot();
+        const newPargraphNode = $createParagraphNode();
+        root.clear();
+        root.append(newPargraphNode);
+      });
+    }
+  }, [editorContent, editor]);
+
+  useEffect(() => {
+    prevDateObj.current = dateObj;
+  }, [dateObj]);
+
+  const { mutate: upsertTextEditor, isLoading: isUpesrting } =
+    api.daylog.upsertEditorContent.useMutation({
+      onSuccess: (res) => {
+        console.log(res.data);
+      },
+
+      onError: (err) => {
+        console.log(err);
+      },
+    });
+
+  const debouncedUpsertTextEditor = useDebouncedCallback(
+    (
+      data: {
+        data: { content: string };
+        dateObj: { year: number; month: number; date: number };
+      },
+      editorState: EditorState
+    ) => {
+      const editorStateJSON = editorState.toJSON();
+      const prevEditorState = prevEditorContent.current
+        ? (JSON.parse(prevEditorContent.current) as EditorState | undefined)
+        : undefined;
+
+      const isDiff = !_.isEqual(prevEditorState, editorStateJSON);
+      const isDateSame = _.isEqual(prevDateObj.current, dateObj);
+
+      editorState.read(() => {
+        const root = $getRoot();
+        const isEmpty =
+          root.getFirstChild()?.getTextContentSize() === 0 &&
+          root.getChildrenSize() === 1;
+        const noWhiteSpace = $isRootTextContentEmpty(true, true);
+
+        console.log(isDiff, isDateSame, isEmpty, noWhiteSpace);
+
+        if (isDiff && isDateSame && !isEmpty && !noWhiteSpace) {
+          upsertTextEditor(data);
+        }
+      });
+    },
+    3000
+  );
+
+  function onChange(editorState: EditorState) {
+    editorStateRef.current = editorState.toJSON();
+    debouncedUpsertTextEditor(
+      {
+        data: { content: JSON.stringify(editorStateRef.current) },
+        dateObj: { year, month, date },
+      },
+      editorState
+    );
+  }
+
   return (
-    <LexicalComposer initialConfig={editorConfig}>
-      <div className="editor-container relative flex h-full w-full flex-col rounded-xl">
-        <ToolbarPlugin />
-        <div
-          className={`editor-inner relative mt-1 flex h-3/4 w-full rounded-xl border-2 border-neutral-400 bg-neutral-800 p-2`}
-        >
-          <RichTextPlugin
-            contentEditable={
-              <ContentEditable className="editor-input full flex w-full flex-col overflow-y-scroll focus:outline-none" />
-            }
-            placeholder={<Placeholder />}
-            ErrorBoundary={LexicalErrorBoundary}
-          />
-          <ListPlugin />
-          <HistoryPlugin />
-          <AutoFocusPlugin />
-          {/* <TreeViewPlugin /> */}
-        </div>
+    <div className="editor-container relative flex h-full w-full flex-col rounded-xl">
+      <ToolbarPlugin />
+      <div
+        className={`editor-inner relative mt-1 flex h-3/4 w-full rounded-xl border-2 border-neutral-400 bg-neutral-800 p-2`}
+      >
+        <RichTextPlugin
+          contentEditable={
+            <ContentEditable className="editor-input full flex w-full flex-col overflow-y-scroll focus:outline-none" />
+          }
+          placeholder={<Placeholder />}
+          ErrorBoundary={LexicalErrorBoundary}
+        />
+        <ListPlugin />
+        <HistoryPlugin />
+        <AutoFocusPlugin />
+        <OnChangePlugin ignoreSelectionChange={true} onChange={onChange} />
       </div>
-    </LexicalComposer>
+    </div>
   );
 };
 

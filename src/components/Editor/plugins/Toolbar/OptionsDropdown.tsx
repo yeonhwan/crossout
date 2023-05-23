@@ -1,25 +1,18 @@
+// React, hooks
 import { useState, useEffect, useCallback } from "react";
+
+// libs
 import { ClickAwayListener } from "@mui/material";
 
+// Lexical
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 import {
   $getSelection,
   $isRangeSelection,
   $createParagraphNode,
-  $getNodeByKey,
 } from "lexical";
-import {
-  $createHeadingNode,
-  $createQuoteNode,
-  $isHeadingNode,
-} from "@lexical/rich-text";
-
-import {
-  $isParentElementRTL,
-  $isAtNodeEnd,
-  $setBlocksType,
-} from "@lexical/selection";
-
+import { $createHeadingNode, $isHeadingNode } from "@lexical/rich-text";
+import { $setBlocksType } from "@lexical/selection";
 import {
   INSERT_ORDERED_LIST_COMMAND,
   INSERT_UNORDERED_LIST_COMMAND,
@@ -27,8 +20,7 @@ import {
   $isListNode,
   ListNode,
 } from "@lexical/list";
-
-import { $getNearestNodeOfType, mergeRegister } from "@lexical/utils";
+import { $getNearestNodeOfType } from "@lexical/utils";
 
 // ICONS
 import ParagraphIcon from "public/icons/paragraph.svg";
@@ -36,15 +28,6 @@ import H1Icon from "public/icons/h1.svg";
 import H2Icon from "public/icons/h2.svg";
 import OLIcon from "public/icons/ol.svg";
 import ULIcon from "public/icons/ul.svg";
-
-const supportedBlockTypes = new Set([
-  "paragraph",
-  "h1",
-  "h2",
-  "ul",
-  "ol",
-  "quote",
-]);
 
 const selectedToBlockType = {
   Normal: "paragraph",
