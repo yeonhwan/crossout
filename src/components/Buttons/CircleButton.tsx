@@ -7,9 +7,16 @@ type ButtonProps = {
   onClick?: (e?: React.MouseEvent<HTMLButtonElement>) => void;
   info?: string;
   className?: string;
+  infoPlace?: "top" | "bottom" | "left" | "right";
 };
 
-const CircleButton = ({ children, onClick, info, className }: ButtonProps) => {
+const CircleButton = ({
+  children,
+  onClick,
+  info,
+  className,
+  infoPlace,
+}: ButtonProps) => {
   const defaultClassName =
     "flex h-max w-max items-center justify-center rounded-full border-none p-2 outline-none hover:cursor-pointer hover:bg-emerald-500";
 
@@ -28,7 +35,7 @@ const CircleButton = ({ children, onClick, info, className }: ButtonProps) => {
 
   if (info) {
     return (
-      <Tooltip title={info} arrow placement="top">
+      <Tooltip title={info} arrow placement={infoPlace || "top"}>
         <button
           onMouseDown={(e: React.MouseEvent<HTMLButtonElement>) => {
             e.stopPropagation();

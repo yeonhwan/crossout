@@ -3,11 +3,11 @@ import { useState } from "react";
 
 // Components
 import TabPanel from "@/components/Tabs/TabPanel";
-import ListView from "@/components/Lists/ListView";
 import TodoPanel from "@/components/Tabs/Panels/Todos/TodoPanel";
 import DaylogPanel from "@/components/Tabs/Panels/Daylog/DaylogPanel";
 import Dialog from "@/components/Dialog/Dialog";
 import TodoForm from "@/components/Forms/TodoForm";
+import RevenuePanel from "@/components/Tabs/Panels/Revenue/RevenuePanel";
 
 // libs
 import Tabs from "@mui/material/Tabs";
@@ -96,7 +96,7 @@ const HomeTabs = () => {
         index={TabPanels.revenues}
         value={TabPanels.revenues}
       >
-        <ListView />
+        <RevenuePanel />
       </TabPanel>
       {/* Dialog */}
       <Dialog
