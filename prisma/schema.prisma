@@ -136,10 +136,9 @@ model Revenue {
     id Int @id @default(autoincrement())
     revenue Int
     purpose String
-    date DateTime @db.Date
+    createdAt DateTime @default(now())
     dateRecord DateRecord @relation(fields: [dateRecordId], references: [id], onDelete: Cascade)
     dateRecordId Int
-    description String?
     user User @relation(fields: [userId], references: [id], onDelete: Cascade)
     userId String
 

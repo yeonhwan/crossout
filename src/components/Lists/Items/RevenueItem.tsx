@@ -1,5 +1,11 @@
+// components
+import CircleButton from "@/components/Buttons/CircleButton";
+
+// Icons
 import ProfitIcon from "public/icons/profit.svg";
 import DeficitIcon from "public/icons/deficit.svg";
+import TrashIcon from "public/icons/trash.svg";
+import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
 
 type RevenueItemProps = {
   data: {
@@ -48,6 +54,14 @@ const RevenueItem = ({ data }: RevenueItemProps) => {
           <span>{sign}</span>
           {money}
         </p>
+      </div>
+      <div className="absolute right-4 top-4 flex w-[11%] min-w-max items-center justify-between">
+        <CircleButton className="flex h-7 w-7 rounded-lg bg-neutral-600/50">
+          <ModeEditOutlineIcon className="h-3 w-3" />
+        </CircleButton>
+        <CircleButton className="flex h-7 w-7 rounded-lg bg-neutral-600/50">
+          <TrashIcon className="h-3 w-3" fill="white" />
+        </CircleButton>
       </div>
     </div>
   );

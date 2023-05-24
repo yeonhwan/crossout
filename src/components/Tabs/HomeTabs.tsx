@@ -1,5 +1,6 @@
 // hooks
 import { useState } from "react";
+import { createPortal } from "react-dom";
 
 // Components
 import TabPanel from "@/components/Tabs/TabPanel";
@@ -8,6 +9,7 @@ import DaylogPanel from "@/components/Tabs/Panels/Daylog/DaylogPanel";
 import Dialog from "@/components/Dialog/Dialog";
 import TodoForm from "@/components/Forms/TodoForm";
 import RevenuePanel from "@/components/Tabs/Panels/Revenue/RevenuePanel";
+import RevenueForm from "@/components/Forms/RevenueForm";
 
 // libs
 import Tabs from "@mui/material/Tabs";
@@ -22,9 +24,14 @@ enum TabPanels {
 const HomeTabs = () => {
   const [tabValue, setTabValue] = useState<TabPanels>(TabPanels.todos);
   const [isOpenTodoDialog, setIsOpenTodoDialog] = useState(false);
+  const [isOpenRevenueDialog, setIsOpenRevenueDialog] = useState(false);
 
   const openCreateTodo = () => {
     setIsOpenTodoDialog(true);
+  };
+
+  const openCreateRevenue = () => {
+    setIsOpenRevenueDialog(true);
   };
 
   const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
@@ -96,9 +103,9 @@ const HomeTabs = () => {
         index={TabPanels.revenues}
         value={TabPanels.revenues}
       >
-        <RevenuePanel />
+        <RevenuePanel openCreateRevenue={openCreateRevenue} />
       </TabPanel>
-      {/* Dialog */}
+      {/* Todo Dialog */}
       <Dialog
         onClickAway={() => {
           setIsOpenTodoDialog(false);
@@ -106,6 +113,15 @@ const HomeTabs = () => {
         openState={isOpenTodoDialog}
       >
         <TodoForm setOpenDialog={setIsOpenTodoDialog} />
+      </Dialog>
+      {/* Revenue Dialog */}
+      <Dialog
+        onClickAway={() => {
+          setIsOpenRevenueDialog(false);
+        }}
+        openState={isOpenRevenueDialog}
+      >
+        <RevenueForm setOpenDialog={setIsOpenRevenueDialog} />
       </Dialog>
     </div>
   );

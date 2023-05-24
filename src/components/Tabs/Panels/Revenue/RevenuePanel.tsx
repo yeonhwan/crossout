@@ -4,7 +4,6 @@ import ListView from "@/components/Lists/ListView";
 import RevenueItem from "@/components/Lists/Items/RevenueItem";
 
 // ICONS
-import PaidIcon from "@mui/icons-material/Paid";
 import MoneyAllIcon from "public/icons/money_all.svg";
 import MoneyPlusIcon from "public/icons/money_plus.svg";
 import MoneyMinusIcon from "public/icons/money_minus.svg";
@@ -19,7 +18,11 @@ const dummyDataMinus = {
   spentOrEarn: -10000,
 };
 
-const RevenuePanel = () => {
+type RevenuePanelProps = {
+  openCreateRevenue: () => void;
+};
+
+const RevenuePanel = ({ openCreateRevenue }: RevenuePanelProps) => {
   return (
     <div className="mt-4 flex h-[90%] max-h-[500px] w-3/5 flex-col justify-center rounded-lg bg-neutral-400/40 p-6 backdrop-blur-sm">
       <div className="flex h-full w-full justify-around">
@@ -47,6 +50,7 @@ const RevenuePanel = () => {
             info="Add Record"
             infoPlace="bottom"
             className="mt-2 flex h-10 w-10 items-center justify-center"
+            onClick={openCreateRevenue}
           >
             <AddMoneyIcon className="h-6 w-6" />
           </CircleButton>
