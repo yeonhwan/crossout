@@ -3,6 +3,7 @@ import { z } from "zod";
 import { TRPCError } from "@trpc/server";
 
 import tokenVerify from "@/server/api/routers/auth/tokenVerify";
+import { type RevenueClient } from "@/types/client";
 
 const getRevenues = protectedProcedure
   .input(
@@ -49,7 +50,7 @@ const getRevenues = protectedProcedure
 
       if (dateRecordWithRevnue) {
         const revenue = dateRecordWithRevnue.revenues;
-        return { data: revenue };
+        return { data: revenue as unknown as RevenueClient[] };
       } else {
         return { data: undefined };
       }

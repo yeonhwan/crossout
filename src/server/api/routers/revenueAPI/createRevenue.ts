@@ -22,6 +22,8 @@ const createRevenue = protectedProcedure
   .mutation(async ({ ctx, input }) => {
     const session = ctx.session;
 
+    console.log(input);
+
     if (!tokenVerify(session)) {
       throw new TRPCError({ message: "TOKEN ERROR", code: "UNAUTHORIZED" });
     }

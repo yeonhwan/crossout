@@ -1,4 +1,4 @@
-import { type ListBoard, type Todo } from "@prisma/client";
+import { type ListBoard, type Todo, type Revenue } from "@prisma/client";
 
 // items
 
@@ -10,6 +10,10 @@ export type ListboardItemType = ListBoard & {
 
 export type UpdateTodoIndexDataType = {
   data: { dateRecordId: number; index: number[] };
+};
+
+export type RevenueClient = Omit<Revenue, "revenue"> & {
+  revenue: number;
 };
 
 // snackbar
