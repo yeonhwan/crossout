@@ -38,9 +38,8 @@ const RevenueForm = (
   { setOpenDialog }: TodoFormProps,
   ref: ForwardedRef<HTMLFormElement>
 ) => {
-  const [todoInput, setTodoInput] = useState("");
-  const [urgencyInput, setUrgencyInput] = useState<Urgency>(Urgency.trivial);
-  const [listboardInput, setListboardInput] = useState<number | undefined>();
+  const [purposeInput, setPurposeInput] = useState("");
+  const [revenueInput, setRevenueInput] = useState("");
   const [isProceed, setIsProceed] = useState(false);
   const { year, month, date } = useDateStore((state) => state.dateObj);
   const { setSnackbarOpen, setSnackbarData } = useSnackbarStore(
@@ -49,9 +48,7 @@ const RevenueForm = (
   const utils = api.useContext();
 
   const cancelButtonHandler = () => {
-    setTodoInput("");
-    setUrgencyInput(Urgency.trivial);
-    setListboardInput(undefined);
+    setPurposeInput("");
     setOpenDialog(false);
   };
 
@@ -69,41 +66,44 @@ const RevenueForm = (
   //   },
   // });
 
-  // const { mutate: createTodo } = api.todo.createTodo.useMutation({
-  //   onSuccess: async (res) => {
-  //     const { message, content, id } = res.data;
-  //     setSnackbarData({
-  //       role: SnackbarRole.Success,
-  //       message,
-  //       content,
-  //       previousData: { data: { id } },
-  //       handler: abortCreateTodo as SnackbarHandlerType,
-  //     });
-  //     setSnackbarOpen(true);
-  //     await utils.todo.getTodos.invalidate();
-  //     setIsProceed(false);
-  //     setOpenDialog(false);
-  //   },
-  //   onError: (err) => {
-  //     const { message } = err;
-  //     setSnackbarOpen(true);
-  //     setSnackbarData({ message, role: SnackbarRole.Error });
-  //   },
-  // });
+  const { mutate: createRevenue } = api.revenue.createRevenue.useMutation({
+    onSuccess: async (res) => {
+      const { message, content } = res.data;
+      setSnackbarData({
+        role: SnackbarRole.Success,
+        message,
+        content,
+        // previousData: { data: { id } },
+        // handler: abortCreateTodo as SnackbarHandlerType,
+      });
+      setSnackbarOpen(true);
+      await utils.revenue.getRevenues.invalidate();
+      setIsProceed(false);
+      setOpenDialog(false);
+    },
+    onError: (err) => {
+      const { message } = err;
+      setSnackbarOpen(true);
+      setSnackbarData({ message, role: SnackbarRole.Error });
+    },
+  });
 
-  // const confirmOnClickHandler = () => {
-  //   setIsProceed(true);
-  //   createTodo({
-  //     content: todoInput,
-  //     urgency: urgencyInput,
-  //     dateObj: {
-  //       year,
-  //       month,
-  //       date,
-  //     },
-  //     listBoardId: listboardInput,
-  //   });
-  // };
+  const confirmOnClickHandler = () => {
+    setIsProceed(true);
+    createRevenue({
+      data: {
+        purpose: purposeInput,
+        revenue: revenueInput ? Number(revenueInput) : 0,
+      },
+      dateObj: {
+        year,
+        month,
+        date,
+      },
+    });
+  };
+
+  const revenueInputRegEx = new RegExp(/^(\+|\-)?\d*\.?\d*$/);
 
   return (
     <form
@@ -111,28 +111,38 @@ const RevenueForm = (
       className="flex h-2/3 w-1/3 flex-col items-center justify-evenly rounded-lg bg-neutral-400/40 py-4"
     >
       <h1 className="text-2xl font-bold">New Revenue</h1>
-      <div className="flex w-2/3 flex-col">
+      <div className="flex h-2/5 w-2/3 flex-col">
         <label className="text-lg font-semibold" htmlFor="purpose">
-          What is the purpose of this record?
+          Where do you spent to / earn from ?
         </label>
         <input
-          className="mb-2 px-2 py-1"
+          className="mb-2 px-2 py-1 text-center"
           id="purpose"
           placeholder="Type in your purpose"
-          value={todoInput}
+          value={purposeInput}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-            setTodoInput(e.currentTarget.value);
+            setPurposeInput(e.currentTarget.value);
           }}
         />
         <label className="text-lg font-semibold" htmlFor="money">
           How much money you spent / earn ?
         </label>
-        <input
-          className="mb-2 rounded-xl px-2 py-1 text-center"
-          id="money"
-          type="number"
-          lang="en"
-        />
+        <div className="flex h-[20%] w-full items-center justify-center rounded-lg bg-white">
+          <span className="font-semibold">$</span>
+          <input
+            className="h-full w-[85%] rounded-xl border-0 px-2 py-1 text-center outline-none"
+            id="money"
+            placeholder="0"
+            value={revenueInput.toString()}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+              if (!revenueInputRegEx.test(e.currentTarget.value)) {
+                window.alert("Wrong Value");
+              } else {
+                setRevenueInput(e.currentTarget.value);
+              }
+            }}
+          />
+        </div>
       </div>
       <div className="flex">
         {isProceed ? (
@@ -143,14 +153,8 @@ const RevenueForm = (
           </Button>
         ) : (
           <>
-            <Button>Confirm</Button>
-            <Button
-              onClick={() => {
-                setOpenDialog(false);
-              }}
-            >
-              Cancel
-            </Button>
+            <Button onClick={confirmOnClickHandler}>Confirm</Button>
+            <Button onClick={cancelButtonHandler}>Cancel</Button>
           </>
         )}
       </div>

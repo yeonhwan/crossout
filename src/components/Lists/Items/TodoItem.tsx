@@ -46,7 +46,6 @@ const TodoItem = ({ data, sortingTodos }: TodoItemProps) => {
 
   const listboardTitle = listBoard?.title;
   const listboardId = listBoard?.id;
-
   const deadlineString = deadline ? dayjs(deadline).format("YYYY-M-D") : null;
   const [isUpdating, setIsUpdating] = useState(false);
   const [todoInput, setTodoInput] = useState(content);
