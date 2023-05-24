@@ -134,7 +134,7 @@ model DateRecord {
 
 model Revenue {
     id Int @id @default(autoincrement())
-    revenue Int
+    revenue Decimal
     purpose String
     createdAt DateTime @default(now())
     dateRecord DateRecord @relation(fields: [dateRecordId], references: [id], onDelete: Cascade)
