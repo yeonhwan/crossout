@@ -72,6 +72,10 @@ export type DeleteListboardInput     = RouterInputs["listboards"]["deleteListboa
 export type GetDateRecordIdInput     = RouterInputs["daterecord"]["getDateRecordId"];
 export type UpsertEditorContentInput = RouterInputs["daylog"]["upsertEditorContent"];
 export type UpsertDaylogInput        = RouterInputs["daylog"]["upsertDaylog"];
+export type CreateRevenueInput       = RouterInputs["revenue"]["createRevenue"];
+export type GetRevenuesInput         = RouterInputs["revenue"]["getRevenues"];
+export type UpdateRevenueInput       = RouterInputs["revenue"]["updateRevenue"];
+export type DeleteRevenueInput       = RouterInputs["revenue"]["deleteRevenue"];
 
 /**
  * Inference helper for outputs.
@@ -91,3 +95,7 @@ export type DeleteListboardOutput     = RouterOutputs["listboards"]["deleteListb
 export type GetDateRecordIdOutput     = RouterOutputs["daterecord"]["getDateRecordId"];
 export type UpsertDaylogOutput        = RouterOutputs["daylog"]["upsertDaylog"];
 export type UpsertEditorContentOutput = RouterOutputs["daylog"]["upsertEditorContent"];
+export type CreateRevenueOutput       = RouterOutputs["revenue"]["createRevenue"];
+export type GetRevenuesOutput         = RouterOutputs["revenue"]["getRevenues"];
+export type UpdateRevenueOutput       = RouterOutputs["revenue"]["updateRevenue"];
+export type DeleteRevenueOutput       = RouterOutputs["revenue"]["deleteRevenue"];
