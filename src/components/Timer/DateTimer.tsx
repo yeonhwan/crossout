@@ -5,12 +5,18 @@ import CircleButton from "@/components/Buttons/CircleButton";
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 
+// libs
+import { Tooltip } from "@mui/material";
+
 // store
 import useDateStore from "@/stores/useDateStore";
 
 // Props TYPE
+type DateTimerProps = {
+  openCalendar: () => void;
+};
 
-const DateTimer = () => {
+const DateTimer = ({ openCalendar }: DateTimerProps) => {
   const { dateObj, increaseDate, decreaseDate } = useDateStore(
     (state) => state
   );
@@ -42,12 +48,21 @@ const DateTimer = () => {
       >
         <KeyboardArrowLeftIcon />
       </CircleButton>
-      <span className="mr-2 text-lg font-semibold">{year}</span>
-      <span className="mr-2">
-        {`${month} ${date}`}
-        <span className="text-base font-semibold">{generateDateSub(date)}</span>
-      </span>
-      <span className="mr-2 text-xl font-bold">{day}</span>
+      <Tooltip title="Open Calendar" arrow placement="top">
+        <div
+          className="flex h-max w-max items-center hover:cursor-pointer hover:text-neutral-200"
+          onClick={openCalendar}
+        >
+          <span className="mr-2 text-lg font-semibold">{year}</span>
+          <span className="mr-2">
+            {`${month} ${date}`}
+            <span className="text-base font-semibold">
+              {generateDateSub(date)}
+            </span>
+          </span>
+          <span className="mr-2 text-xl font-bold">{day}</span>
+        </div>
+      </Tooltip>
       <CircleButton
         className="ml-2 h-6 w-6 bg-neutral-500/60"
         onClick={increaseDate}
