@@ -1,5 +1,4 @@
 // Icons
-import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import ShowChartIcon from "@mui/icons-material/ShowChart";
 import SettingsIcon from "@mui/icons-material/Settings";
@@ -41,15 +40,6 @@ const Sidebar = ({
         >
           <HomeIcon />
           Home
-        </li>
-        <li
-          onMouseDown={() => {
-            router.push(`/${userId}/schedule`);
-          }}
-          className="flex w-full px-8 py-4 text-white hover:cursor-pointer hover:bg-emerald-400 hover:text-white"
-        >
-          <CalendarMonthIcon />
-          Calander
         </li>
         <li
           onMouseDown={() => {
