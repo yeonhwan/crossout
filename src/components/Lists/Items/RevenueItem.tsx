@@ -204,7 +204,7 @@ const RevenueItem = ({ data }: RevenueItemProps) => {
           {money}
         </p>
       </div>
-      <div className="absolute right-4 top-4 flex w-[11%] min-w-max items-center justify-between">
+      <div className="absolute right-4 top-4 flex w-[11%] min-w-max max-w-[60px] items-center justify-between">
         <CircleButton
           info="Edit"
           className="flex h-7 w-7 rounded-lg bg-neutral-600/50"
