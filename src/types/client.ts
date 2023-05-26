@@ -1,4 +1,10 @@
-import { type ListBoard, type Todo, type Revenue } from "@prisma/client";
+import {
+  type ListBoard,
+  type Todo,
+  type Revenue,
+  type Mood,
+} from "@prisma/client";
+import { type Prisma } from "@prisma/client";
 
 // items
 
@@ -15,6 +21,34 @@ export type UpdateTodoIndexDataType = {
 export type RevenueClient = Omit<Revenue, "revenue"> & {
   revenue: number;
 };
+
+// Calendar
+export type MonthlyRevenuesData = {
+  date: number;
+  revenues: {
+    revenue: number;
+    purpose: string;
+  }[];
+}[];
+
+export type MonthlyTodosData = {
+  date: number;
+  todos: {
+    content: string;
+    completed: boolean;
+  }[];
+  _count: {
+    todos: number;
+  };
+}[];
+
+export type MonthlyDaylogData = {
+  date: number;
+  daylogs: {
+    content: Prisma.JsonValue;
+    mood: Mood;
+  };
+}[];
 
 // snackbar
 export type SnackbarHandlerType = (data: object) => void;
