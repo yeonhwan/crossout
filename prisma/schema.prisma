@@ -120,7 +120,7 @@ model DateRecord {
     revenues Revenue[]
     user User @relation(fields: [userId], references: [id], onDelete: Cascade)
     userId String
-    daylogs DayLog[]
+    daylogs DayLog?
     year Int
     month Int
     date Int
@@ -156,7 +156,7 @@ enum Mood {
 
 model DayLog {
     id Int @id @default(autoincrement())
-    dateRecord DateRecord @relation(fields: [dateRecordId], references: [id], onDelete: Cascade)
+    dateRecord DateRecord @relation(fields: [dateRecordId], references: [id])
     dateRecordId Int @unique
     mood Mood @default(normal)
     content Json
