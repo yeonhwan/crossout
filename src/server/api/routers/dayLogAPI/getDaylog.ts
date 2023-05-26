@@ -4,6 +4,7 @@ import { TRPCError } from "@trpc/server";
 
 // verify
 import tokenVerify from "@/server/api/routers/auth/tokenVerify";
+import { type Mood } from "@prisma/client";
 
 const getDaylog = protectedProcedure
   .input(
@@ -48,7 +49,7 @@ const getDaylog = protectedProcedure
     const dateRecord = dateRecordWithDaylog.dateRecords[0];
     if (!dateRecord) return { data: undefined };
 
-    const daylog = dateRecord.daylogs[0];
+    const daylog = dateRecord.daylogs;
     if (!daylog) return { data: undefined };
 
     return {
