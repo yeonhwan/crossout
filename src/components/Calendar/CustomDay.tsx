@@ -3,35 +3,46 @@ import { PickersDay, type PickersDayProps } from "@mui/x-date-pickers";
 import { type Dayjs } from "dayjs";
 
 // types
-import type {
-  MonthlyDaylogData,
-  MonthlyRevenuesData,
-  MonthlyTodosData,
-} from "@/types/client";
+import type { MonthlyData } from "@/types/client";
+
+// React, hooks
 
 type CustomDayProps = {
-  slotData?: MonthlyDaylogData | MonthlyRevenuesData | MonthlyTodosData;
+  slotData?: MonthlyData;
   field?: "todo" | "revenue" | "daylog";
 } & PickersDayProps<Dayjs>;
 
 const CustomDay = (props: CustomDayProps) => {
-  const { day, outsideCurrentMonth, today, selected, slotData, field } = props;
+  const {
+    day,
+    today,
+    outsideCurrentMonth,
+    selected,
+    // custom props
+    slotData,
+    field,
+    ...other
+  } = props;
 
   if (!slotData) throw new Error("no slot data");
 
   if (field === "todo") {
-    const curDayData = (slotData as MonthlyTodosData).filter(
+    const curDayData = slotData.filter(
       (data) => data.date === day.get("date")
     )[0];
     const showBadge = !outsideCurrentMonth && curDayData;
     if (showBadge) {
-      const { todos: count } = curDayData._count;
+      const { todos: count } = curDayData._count as { todos: number };
 
       return (
         <div className="relative h-max w-max flex-col">
           <PickersDay
             className={`text-white ${selected ? "bg-emerald-400" : ""}`}
-            {...props}
+            {...other}
+            day={day}
+            today={today}
+            outsideCurrentMonth={outsideCurrentMonth}
+            selected={selected}
             style={{ border: today ? "1px dotted gray" : "0" }}
             onClick={(e) => {
               e.stopPropagation();
@@ -51,7 +62,11 @@ const CustomDay = (props: CustomDayProps) => {
         <div className="relative h-max w-max flex-col">
           <PickersDay
             className={`text-white ${selected ? "bg-emerald-400" : ""}`}
-            {...props}
+            day={day}
+            today={today}
+            outsideCurrentMonth={outsideCurrentMonth}
+            selected={selected}
+            {...other}
             style={{ border: today ? "1px dotted gray" : "0" }}
             onClick={(e) => {
               e.stopPropagation();
@@ -63,12 +78,12 @@ const CustomDay = (props: CustomDayProps) => {
   }
 
   if (field === "daylog") {
-    const curDayData = (slotData as MonthlyDaylogData).filter(
+    const curDayData = slotData.filter(
       (data) => data.date === day.get("date")
     )[0];
     const showBadge = !outsideCurrentMonth && curDayData;
     if (showBadge) {
-      const { mood } = curDayData.daylogs;
+      const mood = curDayData.daylogs?.mood;
 
       const bgColor =
         mood === "terrible"
@@ -87,7 +102,11 @@ const CustomDay = (props: CustomDayProps) => {
         <div className="relative h-max w-max flex-col">
           <PickersDay
             className={`text-white ${selected ? "bg-emerald-400" : ""}`}
-            {...props}
+            day={day}
+            today={today}
+            outsideCurrentMonth={outsideCurrentMonth}
+            selected={selected}
+            {...other}
             style={{ border: today ? "1px dotted gray" : "0" }}
             onClick={(e) => {
               e.stopPropagation();
@@ -105,7 +124,11 @@ const CustomDay = (props: CustomDayProps) => {
         <div className="relative h-max w-max flex-col">
           <PickersDay
             className={`text-white ${selected ? "bg-emerald-400" : ""}`}
-            {...props}
+            day={day}
+            today={today}
+            outsideCurrentMonth={outsideCurrentMonth}
+            selected={selected}
+            {...other}
             style={{ border: today ? "1px dotted gray" : "0" }}
             onClick={(e) => {
               e.stopPropagation();
@@ -117,7 +140,7 @@ const CustomDay = (props: CustomDayProps) => {
   }
 
   if (field === "revenue") {
-    const curDayData = (slotData as MonthlyRevenuesData).filter(
+    const curDayData = slotData.filter(
       (data) => data.date === day.get("date")
     )[0];
     const showBadge = !outsideCurrentMonth && curDayData;
@@ -126,7 +149,7 @@ const CustomDay = (props: CustomDayProps) => {
       const total = curDayData.revenues?.reduce(
         (acc, cur) => acc + Number(cur.revenue),
         0
-      );
+      ) as number;
 
       const badgeRender = () => {
         if (total > 0) {
@@ -156,7 +179,11 @@ const CustomDay = (props: CustomDayProps) => {
         <div className="relative h-max w-max flex-col">
           <PickersDay
             className={`text-white ${selected ? "bg-emerald-400" : ""}`}
-            {...props}
+            day={day}
+            today={today}
+            outsideCurrentMonth={outsideCurrentMonth}
+            selected={selected}
+            {...other}
             style={{ border: today ? "1px dotted gray" : "0" }}
             onClick={(e) => {
               e.stopPropagation();
@@ -170,7 +197,11 @@ const CustomDay = (props: CustomDayProps) => {
         <div className="relative h-max w-max flex-col">
           <PickersDay
             className={`text-white ${selected ? "bg-emerald-400" : ""}`}
-            {...props}
+            day={day}
+            today={today}
+            outsideCurrentMonth={outsideCurrentMonth}
+            selected={selected}
+            {...other}
             style={{ border: today ? "1px dotted gray" : "0" }}
             onClick={(e) => {
               e.stopPropagation();

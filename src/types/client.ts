@@ -3,6 +3,7 @@ import {
   type Todo,
   type Revenue,
   type Mood,
+  type Urgency,
 } from "@prisma/client";
 import { type Prisma } from "@prisma/client";
 
@@ -23,32 +24,33 @@ export type RevenueClient = Omit<Revenue, "revenue"> & {
 };
 
 // Calendar
-export type MonthlyRevenuesData = {
-  date: number;
-  revenues: {
-    revenue: number;
-    purpose: string;
-  }[];
-}[];
 
-export type MonthlyTodosData = {
-  date: number;
-  todos: {
-    content: string;
+export type MonthlyData =
+  | ({
+      date: number;
+      _count?: {
+        todos: number;
+      };
+    } & SelectedDateDateType)[]
+  | [];
+
+export type SelectedDateDateType = {
+  todos?: {
     completed: boolean;
+    content: string;
+    id: number;
+    urgency: Urgency;
   }[];
-  _count: {
-    todos: number;
-  };
-}[];
-
-export type MonthlyDaylogData = {
-  date: number;
-  daylogs: {
+  revenues?: {
+    purpose: string;
+    revenue: number;
+    id: number;
+  }[];
+  daylogs?: {
     content: Prisma.JsonValue;
     mood: Mood;
   };
-}[];
+};
 
 // snackbar
 export type SnackbarHandlerType = (data: object) => void;

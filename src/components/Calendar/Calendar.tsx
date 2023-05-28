@@ -9,11 +9,8 @@ import { DayCalendarSkeleton } from "@mui/x-date-pickers/DayCalendarSkeleton";
 
 // types
 import { type Dispatch, type SetStateAction } from "react";
-import type {
-  MonthlyDaylogData,
-  MonthlyRevenuesData,
-  MonthlyTodosData,
-} from "@/types/client";
+import type { SelectedDateDateType, MonthlyData } from "@/types/client";
+import { type PickerSelectionState } from "@mui/x-date-pickers/internals";
 
 type dateAdapter = new (...args: any) => MuiPickersAdapter<Dayjs, string>;
 
@@ -21,8 +18,9 @@ type CalendarProps = {
   dateInput: Dayjs | null;
   setDateInput: Dispatch<SetStateAction<Dayjs>>;
   loading: boolean;
-  slotData: MonthlyDaylogData | MonthlyRevenuesData | MonthlyTodosData;
+  slotData: MonthlyData;
   field: "todo" | "revenue" | "daylog";
+  setSelectedData: Dispatch<SetStateAction<SelectedDateDateType | undefined>>;
 };
 
 const Calendar = ({
@@ -31,7 +29,21 @@ const Calendar = ({
   loading,
   slotData,
   field,
+  setSelectedData,
 }: CalendarProps) => {
+  const onChangeHandler = (
+    value: Dayjs | null,
+    selectionState: PickerSelectionState | undefined
+  ) => {
+    if (selectionState === "finish" && value) {
+      setDateInput(value);
+      const curDayData = slotData.filter(
+        (data) => data.date === value.get("date")
+      )[0];
+      setSelectedData(curDayData);
+    }
+  };
+
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs as dateAdapter}>
       <DateCalendar
@@ -39,11 +51,7 @@ const Calendar = ({
         className="h-full max-h-[350px] rounded-xl border-2 border-neutral-300 bg-neutral-700 text-white drop-shadow-lg"
         value={dateInput}
         renderLoading={() => <DayCalendarSkeleton />}
-        onChange={(value, selectionState) => {
-          if (selectionState === "finish" && value) {
-            setDateInput(value);
-          }
-        }}
+        onChange={onChangeHandler}
         onMonthChange={(date) => {
           setDateInput(date);
         }}

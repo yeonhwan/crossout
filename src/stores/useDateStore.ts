@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { produce } from "immer";
 import dayjs from "dayjs";
 
 type DateState = {
@@ -15,6 +16,7 @@ type DateState = {
 type DateAction = {
   increaseDate: () => void;
   decreaseDate: () => void;
+  setDateObj: (newState: { now: dayjs.Dayjs }) => void;
 };
 
 const useDateStore = create<DateState & DateAction>()((set) => ({
@@ -70,6 +72,32 @@ const useDateStore = create<DateState & DateAction>()((set) => ({
     set((state: DateState) => ({
       dateObj: {
         now: state.dateObj.now.subtract(1, "day"),
+        get year(): number {
+          return this.now.get("year");
+        },
+
+        get month(): number {
+          return this.now.get("month") + 1;
+        },
+
+        get monthString(): string {
+          return this.now.format("MMM");
+        },
+
+        get date(): number {
+          return this.now.get("date");
+        },
+
+        get day(): string {
+          return this.now.format("ddd");
+        },
+      },
+    })),
+
+  setDateObj: (newstate: { now: dayjs.Dayjs }) =>
+    set(() => ({
+      dateObj: {
+        now: newstate.now,
         get year(): number {
           return this.now.get("year");
         },

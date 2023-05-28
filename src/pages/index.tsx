@@ -10,7 +10,7 @@ import { useAnimation } from "@/hooks/useAnimation";
 // Components
 import DateTimer from "@/components/Timer/DateTimer";
 import HomeTabs from "@/components/Tabs/HomeTabs";
-import CalendarPopper from "@/components/Popper/CalendarPopper";
+import CalendarPopper from "@/components/Popper/CalendarPopper/CalendarPopper";
 
 const Home: NextPage = () => {
   const { data: session } = useSession();

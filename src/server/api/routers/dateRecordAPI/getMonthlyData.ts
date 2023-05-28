@@ -54,6 +54,8 @@ const getMonthlyData = protectedProcedure
                   select: {
                     completed: true,
                     content: true,
+                    id: true,
+                    urgency: true,
                   },
                 },
               },
@@ -108,6 +110,7 @@ const getMonthlyData = protectedProcedure
                     select: {
                       purpose: true,
                       revenue: true,
+                      id: true,
                     },
                   },
                 },
