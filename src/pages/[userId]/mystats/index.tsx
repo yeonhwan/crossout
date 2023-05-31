@@ -29,10 +29,10 @@ const Mystats = () => {
               2023-05-21 ~ 27
             </p>
           </div>
-          <div className="flex h-[55%] w-full items-center justify-center rounded-xl bg-neutral-400/30 p-4">
+          <div className="flex h-[55%] w-full items-center justify-center rounded-xl bg-neutral-400/30 p-4 shadow-lg">
             <div className="flex h-52 w-52 justify-center rounded-full bg-neutral-500"></div>
           </div>
-          <div className="flex h-[25%] w-full flex-col items-center justify-center rounded-xl bg-neutral-400/30">
+          <div className="flex h-[25%] w-full flex-col items-center justify-center rounded-xl bg-neutral-400/30 shadow-lg">
             <p className="w-2/3 text-xl font-bold text-white">
               <span className="mr-2 text-sm font-semibold">Total:</span>
               30
@@ -43,22 +43,16 @@ const Mystats = () => {
             </p>
           </div>
         </div>
-        <div className="flex h-full w-[50%] items-center justify-center rounded-xl bg-neutral-400/30"></div>
-        <div className="flex h-full max-h-[500px] w-[25%] flex-col justify-evenly rounded-xl bg-neutral-400/30 p-4">
-          <div className="flex h-20 w-full items-center justify-center rounded-2xl bg-neutral-100/40">
-            <span className="font-bold text-white">Most Todos date</span>
-          </div>
-          <div className="flex h-20 w-full items-center justify-center rounded-2xl bg-neutral-100/40">
-            <span className="font-bold text-white">Most Todos date</span>
-          </div>
-          <div className="flex h-20 w-full items-center justify-center rounded-2xl bg-neutral-100/40">
-            <span className="font-bold text-white">Most Todos date</span>
-          </div>
-          <div className="flex h-20 w-full items-center justify-center rounded-2xl bg-neutral-100/40">
-            <span className="font-bold text-white">Most Todos date</span>
-          </div>
-          <div className="flex h-20 w-full items-center justify-center rounded-2xl bg-neutral-100/40">
-            <span className="font-bold text-white">Most Todos date</span>
+        <div className="flex h-full w-[75%] flex-col justify-between px-4">
+          <div className="flex h-[60%] w-full rounded-xl bg-neutral-400/30 shadow-lg"></div>
+          <div className="flex h-[35%] w-full justify-between">
+            <div className="flex h-full w-[23%] flex-col items-center justify-center rounded-xl bg-neutral-300 shadow-lg">
+              <p className="font-bold">Most Busy Day</p>
+              <p className="font-semibold">2023 05 03</p>
+            </div>
+            <div className="flex h-full w-[23%] rounded-xl bg-neutral-300 shadow-lg"></div>
+            <div className="flex h-full w-[23%] rounded-xl bg-neutral-300 shadow-lg"></div>
+            <div className="flex h-full w-[23%] rounded-xl bg-neutral-300 shadow-lg"></div>
           </div>
         </div>
       </div>
