@@ -58,6 +58,7 @@ const Calendar = ({
         onYearChange={(date) => {
           setDateInput(date);
         }}
+        slots={{ day: CustomDay }}
         sx={{
           ".MuiDayCalendar-weekDayLabel": {
             color: "white",
@@ -75,7 +76,6 @@ const Calendar = ({
             border: "1px solid gray",
           },
         }}
-        slots={{ day: CustomDay }}
         slotProps={{
           day: {
             slotData,
