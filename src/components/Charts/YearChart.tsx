@@ -18,9 +18,10 @@ type YearChartProps = {
         value: number;
       }[];
   selectedField: "todo" | "revenue" | "mood";
+  year: number;
 };
 
-const YearChart = ({ data, selectedField }: YearChartProps) => {
+const YearChart = ({ data, selectedField, year }: YearChartProps) => {
   const todosColors = ["#73a293d2", "#86a8a2", "#0fc0a34e", "#09b094"];
   const revenuesColors = [
     "#7f1515d2",
@@ -123,8 +124,8 @@ const YearChart = ({ data, selectedField }: YearChartProps) => {
     <div className="relative flex h-full w-full min-w-[800px] max-w-[1000px]">
       <ResponsiveTimeRange
         data={data}
-        from="2023/01/01"
-        to="2024/01/01"
+        from={`${year}/01/01`}
+        to={`${year + 1}/01/01`}
         emptyColor="#585858d2"
         colors={selectedField === "todo" ? todosColors : undefined}
         colorScale={
@@ -151,14 +152,61 @@ const YearChart = ({ data, selectedField }: YearChartProps) => {
         }}
       />
       <div className="absolute bottom-1/4 left-24 flex w-max text-white">
-        <legend className="text-xs">less</legend>
+        <legend className="text-xs">
+          {selectedField === "todo"
+            ? "less"
+            : selectedField === "revenue"
+            ? "spent"
+            : "bad"}
+        </legend>
         <div className="flex w-12 items-center justify-evenly">
-          <span className="h-2 w-2 rounded-lg bg-[#585858d2]"></span>
-          <span className="h-2 w-2 rounded-lg bg-[#627f79]"></span>
-          <span className="h-2 w-2 rounded-lg bg-[#5ebdad98]"></span>
-          <span className="h-2 w-2 rounded-lg bg-[#09b094]"></span>
+          <span
+            className={`h-2 w-2 rounded-lg ${
+              selectedField === "todo"
+                ? "bg-[#585858d2]"
+                : selectedField === "revenue"
+                ? "bg-[#7f1515d2]"
+                : "bg-[#922020d2]"
+            }`}
+          ></span>
+
+          <span
+            className={`h-2 w-2 rounded-lg ${
+              selectedField === "todo"
+                ? "bg-[#627f79]"
+                : selectedField === "revenue"
+                ? "bg-[#cd5959d2]"
+                : "bg-[#cb6161d2]"
+            }`}
+          ></span>
+
+          <span
+            className={`h-2 w-2 rounded-lg ${
+              selectedField === "todo"
+                ? "bg-[#5ebdad98]"
+                : selectedField === "revenue"
+                ? "bg-[#6bc67ad2]"
+                : "bg-[#89b451d2]"
+            }`}
+          ></span>
+
+          <span
+            className={`h-2 w-2 rounded-lg ${
+              selectedField === "todo"
+                ? "bg-[#09b094]"
+                : selectedField === "revenue"
+                ? "bg-[#2fcd76d2]"
+                : "bg-[#4fd192d2]"
+            }`}
+          ></span>
         </div>
-        <legend className="text-xs">more</legend>
+        <legend className="text-xs">
+          {selectedField === "todo"
+            ? "more"
+            : selectedField === "revenue"
+            ? "earn"
+            : "good"}
+        </legend>
       </div>
     </div>
   );
