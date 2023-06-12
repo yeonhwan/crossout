@@ -12,3 +12,5 @@ export const revenueRouter = createTRPCRouter({
   updateRevenue,
   deleteRevenue,
 });
+
+export type RevenueRouter = typeof revenueRouter;

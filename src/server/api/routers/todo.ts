@@ -16,3 +16,5 @@ export const todoRouter = createTRPCRouter({
   deleteTodo,
   completeTodo,
 });
+
+export type TodoRouter = typeof todoRouter;

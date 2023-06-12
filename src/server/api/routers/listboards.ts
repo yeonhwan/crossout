@@ -12,3 +12,5 @@ export const listboardsRouter = createTRPCRouter({
   updateListboard,
   deleteListboard,
 });
+
+export type ListboardRouter = typeof listboardsRouter;

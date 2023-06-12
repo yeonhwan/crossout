@@ -10,3 +10,5 @@ export const dateRecordRouter = createTRPCRouter({
   getMonthlyData,
   getYearlyChartData,
 });
+
+export type DateRecordRouter = typeof dateRecordRouter;

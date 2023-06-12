@@ -10,3 +10,5 @@ export const daylogRouter = createTRPCRouter({
   upsertDaylog,
   getDaylog,
 });
+
+export type DaylogRouter = typeof daylogRouter;

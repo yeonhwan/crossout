@@ -4,6 +4,7 @@ import { TRPCError } from "@trpc/server";
 
 // verify
 import tokenVerify from "@/server/api/routers/auth/tokenVerify";
+import { type ListBoard } from "@prisma/client";
 
 const getListboards = protectedProcedure
   .input(
@@ -32,8 +33,11 @@ const getListboards = protectedProcedure
     });
 
     const { listBoards } = user;
-
-    return { data: listBoards };
+    if (todos) {
+      return { data: listBoards };
+    } else {
+      return { data: listBoards as ListBoard[] };
+    }
   });
 
 export default getListboards;

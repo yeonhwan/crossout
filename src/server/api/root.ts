@@ -5,6 +5,7 @@ import { listboardsRouter } from "@/server/api/routers/listboards";
 import { daylogRouter } from "@/server/api/routers/daylog";
 import { dateRecordRouter } from "@/server/api/routers/dateRecord";
 import { revenueRouter } from "@/server/api/routers/revenue";
+import { userRouter } from "@/server/api/routers/user";
 /**
  * This is the primary router for your server.
  *
@@ -17,6 +18,7 @@ export const appRouter = createTRPCRouter({
   daylog: daylogRouter,
   daterecord: dateRecordRouter,
   revenue: revenueRouter,
+  user: userRouter,
 });
 
 // export type definition of API
