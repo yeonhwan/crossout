@@ -5,6 +5,11 @@ export const enum INPUT_VALIDATION {
   VALID = 3,
 }
 
+export const enum USERNAME_ERR_MESSAGE {
+  NOT_EMPTY = "Username cannot be left empty",
+  INVALID_LENGTH = "Email should be less than 20 chracters",
+}
+
 export const enum EMAIL_ERR_MESSAGE {
   NOT_EMPTY = "Email cannot be left empty",
   INVALID_FORM = "Email is not valid email form",

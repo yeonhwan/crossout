@@ -26,6 +26,7 @@ import {
   PWD_ERR_MESSAGE,
   CONFIRM_ERR_MESSAGE,
   INPUT_VALIDATION,
+  USERNAME_ERR_MESSAGE,
 } from "@/utils/validation_msg";
 
 const SignUp: NextPageWithLayout = () => {
@@ -37,7 +38,26 @@ const SignUp: NextPageWithLayout = () => {
   const [confirmInput, setConfirmInput] = useState("");
   const [confirmStatus, setConfirmStatus] = useState(INPUT_VALIDATION.INVALID);
   const [errMessage, setErrMessage] = useState("");
+  const [usernameInput, setUsernameInput] = useState("");
+  const [usernameStatus, setUsernameStatus] = useState(INPUT_VALIDATION.EMPTY);
   const router = useRouter();
+
+  // username validation
+
+  useEffect(() => {
+    setErrMessage("");
+    if (!usernameInput.length) {
+      setUsernameStatus(INPUT_VALIDATION.EMPTY);
+      return;
+    }
+
+    if (usernameInput.length > 20) {
+      setUsernameStatus(INPUT_VALIDATION.INVALID);
+      return;
+    }
+
+    setUsernameStatus(INPUT_VALIDATION.VALID);
+  }, [usernameInput]);
 
   // email validation
   useEffect(() => {
@@ -134,13 +154,18 @@ const SignUp: NextPageWithLayout = () => {
   const submitHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     if (
+      usernameStatus === INPUT_VALIDATION.VALID &&
       emailStatus === INPUT_VALIDATION.VALID &&
       passwordStatus === INPUT_VALIDATION.VALID &&
       confirmStatus === INPUT_VALIDATION.VALID
     ) {
       setErrMessage("");
       setIsProceed(true);
-      submitUserInfo({ email: emailInput, password: passwordInput });
+      submitUserInfo({
+        username: usernameInput,
+        email: emailInput,
+        password: passwordInput,
+      });
     } else {
       setErrMessage(
         "Your sign up information is not in correct form, check your information."
@@ -176,13 +201,35 @@ const SignUp: NextPageWithLayout = () => {
         <p id="err_message" className="text-red-600">
           {errMessage}
         </p>
+        <label className="mt-2 font-bold text-gray-600" htmlFor="username">
+          Username
+        </label>
+        <input
+          id="username"
+          placeholder="username"
+          className={`p-2 ${
+            usernameStatus !== INPUT_VALIDATION.VALID ? "outline-red-500" : ""
+          }`}
+          value={usernameInput}
+          onChange={(e: React.FormEvent<HTMLInputElement>) => {
+            setUsernameInput(e.currentTarget.value);
+          }}
+          onFocus={inputFocusHandler}
+        />
+        <p id="username_valid_info" className="hidden text-red-600">
+          {usernameStatus === INPUT_VALIDATION.EMPTY
+            ? USERNAME_ERR_MESSAGE.NOT_EMPTY
+            : usernameStatus === INPUT_VALIDATION.INVALID
+            ? USERNAME_ERR_MESSAGE.INVALID_LENGTH
+            : ""}
+        </p>
         <label className="mt-2 font-bold text-gray-600" htmlFor="email">
           Email
         </label>
         <input
           id="email"
           type="email"
-          placeholder="type in your email"
+          placeholder="email"
           className={`p-2 ${
             emailStatus !== INPUT_VALIDATION.VALID ? "outline-red-500" : ""
           }`}
@@ -205,7 +252,7 @@ const SignUp: NextPageWithLayout = () => {
         <input
           id="password"
           type="password"
-          placeholder="type in your password"
+          placeholder="password"
           className={`p-2 ${
             passwordStatus !== INPUT_VALIDATION.VALID ? "outline-red-500" : ""
           }`}
@@ -229,7 +276,7 @@ const SignUp: NextPageWithLayout = () => {
         <input
           id="confirm"
           type="password"
-          placeholder="confirm your password"
+          placeholder="confirm password"
           className={`p-2 ${
             confirmStatus !== INPUT_VALIDATION.VALID ? "outline-red-500" : ""
           }`}

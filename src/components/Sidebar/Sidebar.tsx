@@ -6,20 +6,22 @@ import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import HomeIcon from "@mui/icons-material/Home";
 
 // Next
-import { signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
+
+// Next Auth
+import { signOut } from "next-auth/react";
 
 type SidebarProps = {
   animateTrigger: boolean;
   handleAnimation: () => void;
-  userId: string;
+  username: string;
   setNavOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 const Sidebar = ({
   animateTrigger,
   handleAnimation,
-  userId,
+  username,
   setNavOpen,
 }: SidebarProps) => {
   const router = useRouter();
@@ -34,7 +36,7 @@ const Sidebar = ({
       <ul>
         <li
           onMouseDown={() => {
-            router.push("/");
+            router.push(`/${username}/home`);
           }}
           className="bg-blue flex w-full px-8 py-4 text-white hover:cursor-pointer hover:bg-emerald-400 hover:text-white"
         >
@@ -44,7 +46,7 @@ const Sidebar = ({
         <li
           onMouseDown={() => {
             setNavOpen(false);
-            router.push(`/${userId}/listboards`);
+            router.push(`/${username}/listboards`);
           }}
           className="flex w-full px-8 py-4 text-white hover:cursor-pointer hover:bg-emerald-400 hover:text-white"
         >
@@ -53,7 +55,7 @@ const Sidebar = ({
         </li>
         <li
           onMouseDown={() => {
-            router.push(`/${userId}/mystats`);
+            router.push(`/${username}/mystats`);
           }}
           className="flex w-full px-8 py-4 text-white hover:cursor-pointer hover:bg-emerald-400 hover:text-white"
         >
@@ -62,7 +64,7 @@ const Sidebar = ({
         </li>
         <li
           onMouseDown={() => {
-            router.push(`/${userId}/preference`);
+            router.push(`/${username}/preference`);
           }}
           className="flex w-full px-8 py-4 text-white hover:cursor-pointer hover:bg-emerald-400 hover:text-white"
         >
@@ -71,7 +73,7 @@ const Sidebar = ({
         </li>
         <li
           className="flex w-full px-8 py-4 text-white hover:cursor-pointer hover:bg-emerald-400 hover:text-white"
-          onMouseDown={() => signOut({ callbackUrl: "http://localhost:3000" })}
+          onMouseDown={() => signOut({ callbackUrl: "/" })}
         >
           <ExitToAppIcon />
           Sign Out

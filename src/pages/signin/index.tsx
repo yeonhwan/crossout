@@ -11,6 +11,7 @@ import GoogleIcon from "@mui/icons-material/Google";
 
 // NextAuth
 import { signIn } from "next-auth/react";
+import { getSession } from "next-auth/react";
 
 // type
 import { type NextPageWithLayout } from "@/pages/_app";
@@ -18,6 +19,7 @@ import { type NextPageWithLayout } from "@/pages/_app";
 // styles
 import loader_styles from "@/styles/loader.module.css";
 import form_styles from "@/styles/form.module.css";
+import { type Session } from "next-auth";
 
 const SignIn: NextPageWithLayout = () => {
   const [isProceed, setIsProceed] = useState(false);
@@ -26,14 +28,23 @@ const SignIn: NextPageWithLayout = () => {
   const [errMessage, setErrMessage] = useState("");
   const router = useRouter();
 
-  const gitHubSignIn = () => {
+  const gitHubSignIn = async () => {
     setIsProceed(true);
-    return signIn("github", { callbackUrl: "/" });
+    const res = await signIn("github", {
+      callbackUrl: "/oauth",
+    });
+    if (res?.error) {
+      setErrMessage(res.error);
+    }
   };
 
-  const googleSignIn = () => {
+  const googleSignIn = async () => {
     setIsProceed(true);
-    return signIn("google", { callbackUrl: "/" });
+    const res = await signIn("google", { callbackUrl: "/oauth" });
+    console.log(res);
+    if (res?.error) {
+      setErrMessage(res.error);
+    }
   };
 
   const submitHandler = async (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -45,14 +56,16 @@ const SignIn: NextPageWithLayout = () => {
       redirect: false,
       email: emailInput,
       password: passwordInput,
-      callbackUrl: "/",
     });
+
     if (res?.error) {
       formEl?.classList.add(form_styles.invalid as string);
       setErrMessage(res.error);
       setIsProceed(false);
     } else {
-      router.push("/");
+      const session = (await getSession()) as Session;
+      const { name } = session.user;
+      router.push(`${name as string}/home`);
     }
   };
 
