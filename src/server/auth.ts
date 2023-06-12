@@ -11,8 +11,9 @@ import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { env } from "@/env.mjs";
 import { prisma } from "@/server/db";
 import bcrypt from "bcryptjs";
-import { TRPCError } from "@trpc/server";
-import { type User } from "@prisma/client";
+import { router, TRPCError } from "@trpc/server";
+import { type Prisma, type User } from "@prisma/client";
+import { type DefaultJWT } from "next-auth/jwt";
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
  * object and keep type safety.
@@ -26,7 +27,14 @@ declare module "next-auth" {
       email: string;
       image: string | null;
       id: string;
+      preference: Prisma.JsonValue;
     } & DefaultSession["user"];
+  }
+}
+
+declare module "next-auth/jwt" {
+  interface JWT extends DefaultJWT {
+    preference: Prisma.JsonValue;
   }
 }
 
@@ -42,12 +50,22 @@ export const authOptions: NextAuthOptions = {
   },
   callbacks: {
     session({ session, token }) {
-      session.user.id = token.userId as string;
+      if (token.user) {
+        session.user.id = token.userId as string;
+        session.user.name = token.username as string;
+        session.user.preference = token.preference;
+      }
       return session;
     },
-    jwt({ token, account }) {
+    jwt({ token, account, user }) {
       if (account) {
-        token.userId = account.providerAccountId;
+        token.previderId = account.providerAccountId;
+      }
+      if (user) {
+        token.preference = (user as User).preference;
+        token.user = user;
+        token.userId = user.id;
+        token.username = user.name;
       }
       return token;
     },

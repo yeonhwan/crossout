@@ -15,9 +15,22 @@ import bcrypt from "bcryptjs";
 
 export const signUpRouter = createTRPCRouter({
   signUp: publicProcedure
-    .input(z.object({ email: z.string().min(1), password: z.string().min(1) }))
+    .input(
+      z.object({
+        username: z.string().min(1).max(20),
+        email: z.string().min(1),
+        password: z.string().min(1),
+      })
+    )
     .mutation(async ({ input, ctx }) => {
-      const { email, password } = input;
+      const { username, email, password } = input;
+
+      if (!username || username.length > 20) {
+        throw new TRPCError({
+          message: "Invalid information. Check your information again.",
+          code: "BAD_REQUEST",
+        });
+      }
 
       const EMAIL_REG_EXP = new RegExp(
         "([!#-'*+/-9=?A-Z^-~-]+(.[!#-'*+/-9=?A-Z^-~-]+)*|\"([]!#-[^-~ \t]|(\\[\t -~]))+\")@([!#-'*+/-9=?A-Z^-~-]+(.[!#-'*+/-9=?A-Z^-~-]+)*|[[\t -Z^-~]*])"
@@ -50,12 +63,13 @@ export const signUpRouter = createTRPCRouter({
 
         const user = await ctx.prisma.user.create({
           data: {
+            name: username,
             email: email,
             password: hashed,
           },
         });
 
-        return { data: { userId: user.id } };
+        return { data: { userId: user.id, username: user.name } };
       }
     }),
 });
