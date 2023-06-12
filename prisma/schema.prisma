@@ -19,7 +19,7 @@ datasource db {
 // User & Auth models
 model User {
     id            String    @id @default(cuid())
-    name          String?
+    name          String
     email         String   @unique
     image         String?
     password      String?
@@ -32,6 +32,7 @@ model User {
     dateRecords   DateRecord[]
     accounts      Account[]
     sessions      Session[]
+    preference    Json @default("{\"isLight\":true,\"background\":\"1\"}")
 }
 
 model VerificationToken {
