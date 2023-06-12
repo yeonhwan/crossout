@@ -43,14 +43,14 @@ const DateTimer = ({ openCalendar }: DateTimerProps) => {
   return (
     <div className="flex h-max w-max items-end text-4xl font-extrabold">
       <CircleButton
-        className="mr-2 h-6 w-6 bg-neutral-500/60"
+        className="mr-2 h-6 w-6 bg-neutral-600/60 hover:bg-neutral-300/60 dark:bg-white/60 dark:hover:bg-neutral-800/60"
         onClick={decreaseDate}
       >
-        <KeyboardArrowLeftIcon />
+        <KeyboardArrowLeftIcon className="transition-none hover:fill-neutral-700 dark:fill-neutral-700 dark:hover:fill-neutral-200" />
       </CircleButton>
       <Tooltip title="Open Calendar" arrow placement="top">
         <div
-          className="flex h-max w-max items-center hover:cursor-pointer hover:text-neutral-200"
+          className="flex h-max w-max items-center transition-colors duration-75 hover:cursor-pointer hover:text-neutral-200 dark:text-white dark:hover:text-neutral-800"
           onClick={openCalendar}
         >
           <span className="mr-2 text-lg font-semibold">{year}</span>
@@ -64,10 +64,10 @@ const DateTimer = ({ openCalendar }: DateTimerProps) => {
         </div>
       </Tooltip>
       <CircleButton
-        className="ml-2 h-6 w-6 bg-neutral-500/60"
+        className="ml-2 h-6 w-6 bg-neutral-500/60 transition-none hover:bg-neutral-300/60 dark:bg-white/60 dark:hover:bg-neutral-800/60"
         onClick={increaseDate}
       >
-        <KeyboardArrowRightIcon />
+        <KeyboardArrowRightIcon className="transition-none hover:fill-neutral-700 dark:fill-neutral-700 dark:hover:fill-neutral-200" />
       </CircleButton>
     </div>
   );

@@ -78,7 +78,9 @@ export type UpdateRevenueInput       = RouterInputs["revenue"]["updateRevenue"];
 export type DeleteRevenueInput       = RouterInputs["revenue"]["deleteRevenue"];
 export type GetMonthlydataInput      = RouterInputs["daterecord"]["getMonthlyData"];
 export type GetYearlyChartDataInput  = RouterInputs["daterecord"]["getYearlyChartData"];
-export type GetMonthlyChartDataInput  = RouterInputs["daterecord"]["getMonthlyChartData"];
+export type SetUserPreferenceInput   = RouterInputs["user"]["setUserPreference"];
+export type SetUsernameInput         = RouterInputs["user"]["setUsername"];
+
 
 /**
  * Inference helper for outputs.
@@ -104,4 +106,7 @@ export type UpdateRevenueOutput       = RouterOutputs["revenue"]["updateRevenue"
 export type DeleteRevenueOutput       = RouterOutputs["revenue"]["deleteRevenue"];
 export type GetMonthlydataOutput      = RouterOutputs["daterecord"]["getMonthlyData"];
 export type GetYearlyChartDataOutput  = RouterOutputs["daterecord"]["getYearlyChartData"];
-export type GetMonthlyChartDataOutput  = RouterOutputs["daterecord"]["getMonthlyChartData"];
+export type GetUserPreferenceOutput   = RouterOutputs["user"]["getUserData"];
+export type SetUserPreferenceOutput   = RouterOutputs["user"]["setUserPreference"];
+export type SetUsernameOutput         = RouterOutputs["user"]["setUsername"];
+export type DeleteUserOutput          = RouterOutputs["user"]["deleteUser"];

@@ -105,7 +105,7 @@ const RevenueItem = ({ data }: RevenueItemProps) => {
     return (
       <div
         className={`relative m-2 flex h-max w-full items-center justify-between rounded-lg ${
-          isProfit ? "bg-emerald-600" : "bg-red-400"
+          isProfit ? "bg-emerald-500 dark:bg-emerald-600" : "bg-red-400"
         } p-2 drop-shadow-lg`}
       >
         <div className="flex h-8 w-[15%] justify-between">
@@ -129,7 +129,7 @@ const RevenueItem = ({ data }: RevenueItemProps) => {
         <div className="flex h-14 w-1/2 flex-col items-center justify-between text-white">
           <div
             className={`flex h-[45%] w-full justify-center rounded-md focus-within:outline-none focus-within:outline-2 focus-within:outline-cyan-300 ${
-              isProfit ? "bg-emerald-500" : "bg-red-300"
+              isProfit ? "bg-emerald-400" : "bg-red-300"
             }`}
           >
             <input
@@ -142,7 +142,7 @@ const RevenueItem = ({ data }: RevenueItemProps) => {
           </div>
           <div
             className={`flex h-[45%] w-full justify-center rounded-md focus-within:outline-none focus-within:outline-2 focus-within:outline-cyan-300 ${
-              isProfit ? "bg-emerald-500" : "bg-red-300"
+              isProfit ? "bg-emerald-400" : "bg-red-300"
             }`}
           >
             <span className="ml-2">$</span>
@@ -163,14 +163,14 @@ const RevenueItem = ({ data }: RevenueItemProps) => {
         <div className="flex w-[15%] min-w-max items-center justify-between px-2">
           <CircleButton
             info="Apply"
-            className="flex h-7 w-7 rounded-lg bg-neutral-600/50"
+            className="flex h-7 w-7 rounded-lg bg-neutral-600/50 dark:bg-neutral-800/50"
             onClick={applyUpdateClickHandler}
           >
             <CheckIcon className="h-3 w-3" />
           </CircleButton>
           <CircleButton
             info="Cancel"
-            className="flex h-7 w-7 rounded-lg bg-neutral-600/50"
+            className="flex h-7 w-7 rounded-lg bg-neutral-600/50 dark:bg-neutral-800/50"
             onClick={cancelClickHandler}
           >
             <CloseIcon className="h-3 w-3" fill="white" />
@@ -183,7 +183,7 @@ const RevenueItem = ({ data }: RevenueItemProps) => {
   return (
     <div
       className={`relative m-2 flex h-16 w-full justify-center rounded-lg ${
-        isProfit ? "bg-emerald-600" : "bg-red-400"
+        isProfit ? "bg-emerald-500 dark:bg-emerald-600" : "bg-red-400"
       } p-2 drop-shadow-lg`}
     >
       <div
@@ -207,7 +207,7 @@ const RevenueItem = ({ data }: RevenueItemProps) => {
       <div className="absolute right-4 top-4 flex w-[11%] min-w-max max-w-[60px] items-center justify-between">
         <CircleButton
           info="Edit"
-          className="flex h-7 w-7 rounded-lg bg-neutral-600/50"
+          className="flex h-7 w-7 rounded-lg bg-neutral-600/50 dark:bg-neutral-800/50"
           onClick={() => {
             setIsUpdating(true);
           }}
@@ -216,7 +216,7 @@ const RevenueItem = ({ data }: RevenueItemProps) => {
         </CircleButton>
         <CircleButton
           info="Delete"
-          className="flex h-7 w-7 rounded-lg bg-neutral-600/50"
+          className="flex h-7 w-7 rounded-lg bg-neutral-600/50 dark:bg-neutral-800/50"
           onClick={() => {
             if (window.confirm("deleting revenue")) {
               deleteClickHandler();

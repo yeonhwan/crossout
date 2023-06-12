@@ -1,4 +1,4 @@
-// React, hooks
+// Hooks
 import { useState } from "react";
 import { useAnimation } from "@/hooks/useAnimation";
 
@@ -10,6 +10,7 @@ import Dialog from "@/components/Dialog/Dialog";
 import ListboardsForm from "@/components/Forms/ListboardsForm";
 import ListboardPopper from "@/components/Popper/ListboardPopper";
 import NoListboards from "@/components/Graphic/NoListboards";
+import Layout from "@/components/Layout";
 
 // api
 import { api } from "@/utils/api";
@@ -23,7 +24,40 @@ import { type ListboardItemType } from "@/types/client";
 // ICONS
 import AddCardIcon from "@mui/icons-material/AddCard";
 
-const ListboardIndex = () => {
+// Types
+import { type PreferenceState } from "@/types/client";
+import { type InferGetServerSidePropsType } from "next";
+import { type UserDataState } from "@/types/client";
+
+// GSSP
+import { appRouter } from "@/server/api/root";
+import superjson from "superjson";
+import { createServerSideHelpers } from "@trpc/react-query/server";
+import { createInnerTRPCContext } from "@/server/api/trpc";
+import withSession from "@/utils/withSession";
+
+export const getServerSideProps = withSession<{
+  props: {
+    userData: UserDataState;
+  };
+}>(async (session) => {
+  const helpers = createServerSideHelpers({
+    router: appRouter,
+    ctx: createInnerTRPCContext({ session }),
+    transformer: superjson,
+  });
+  const userData = await helpers.user.getUserData.fetch();
+
+  return {
+    props: {
+      userData: userData.data,
+    },
+  };
+});
+
+const ListboardIndex = ({
+  userData,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const [isOpenListboardsDialog, setIsOpenListboardsDialog] = useState(false);
   const [listboardsData, setListboardsData] = useState<
     ListboardItemType[] | undefined
@@ -108,40 +142,44 @@ const ListboardIndex = () => {
   };
 
   return (
-    <div className="flex h-full w-full flex-col px-40">
-      <h1 className="text-4xl font-extrabold text-neutral-300">Listboards</h1>
-      <p className="text-lg font-semibold text-neutral-700">
-        Manage your listboards and todos in here!
-      </p>
-      <div className="mt-4 flex h-[80%] max-h-[600px] w-full flex-col justify-center rounded-xl bg-neutral-400/40 px-10 py-5 pt-10 backdrop-blur-lg">
-        {isProceed && (
-          <div className="absolute right-4 top-4 h-max w-max">
-            <span className="flex h-8 w-8 items-center justify-center">
-              <span className={`${loader_styles.loader as string}`} />
-            </span>
-          </div>
-        )}
-        {itemRender()}
-      </div>
-      <Dialog
-        onClickAway={() => {
-          setIsOpenListboardsDialog(false);
-        }}
-        openState={isOpenListboardsDialog}
-      >
-        <ListboardsForm setOpenDialog={setIsOpenListboardsDialog} />
-      </Dialog>
-      {shouldRender && (
-        <ListboardPopper
-          isOpen={animateTrigger}
-          popperClose={() => {
-            setIsPopperOpen(false);
+    <Layout userData={userData}>
+      <div className="flex h-full w-full flex-col px-40">
+        <h1 className="text-4xl font-extrabold text-neutral-800 dark:text-neutral-300">
+          Listboards
+        </h1>
+        <p className="text-lg font-semibold text-neutral-700 transition-colors dark:text-neutral-200">
+          Manage your listboards and todos in here!
+        </p>
+        <div className="mt-4 flex h-[80%] max-h-[600px] w-full flex-col justify-center rounded-xl bg-neutral-300/40 px-10 py-5 pt-10 backdrop-blur-lg transition-colors dark:bg-neutral-800/40">
+          {isProceed && (
+            <div className="absolute right-4 top-4 h-max w-max">
+              <span className="flex h-8 w-8 items-center justify-center">
+                <span className={`${loader_styles.loader as string}`} />
+              </span>
+            </div>
+          )}
+          {itemRender()}
+        </div>
+        <Dialog
+          onClickAway={() => {
+            setIsOpenListboardsDialog(false);
           }}
-          onTransitionEnd={handleTransition}
-          data={popperData}
-        />
-      )}
-    </div>
+          openState={isOpenListboardsDialog}
+        >
+          <ListboardsForm setOpenDialog={setIsOpenListboardsDialog} />
+        </Dialog>
+        {shouldRender && (
+          <ListboardPopper
+            isOpen={animateTrigger}
+            popperClose={() => {
+              setIsPopperOpen(false);
+            }}
+            onTransitionEnd={handleTransition}
+            data={popperData}
+          />
+        )}
+      </div>
+    </Layout>
   );
 };
 

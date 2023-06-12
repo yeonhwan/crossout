@@ -52,6 +52,16 @@ export type SelectedDateDateType = {
   };
 };
 
+export type PreferenceState = {
+  isLight: boolean;
+  background: string;
+};
+
+export type UserDataState = {
+  preference: PreferenceState;
+  username: string;
+};
+
 // snackbar
 export type SnackbarHandlerType = (data: object) => void;
 

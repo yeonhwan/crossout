@@ -48,7 +48,7 @@ const Calendar = ({
     <LocalizationProvider dateAdapter={AdapterDayjs as dateAdapter}>
       <DateCalendar
         loading={loading}
-        className="h-full max-h-[350px] rounded-xl border-2 border-neutral-300 bg-neutral-700 text-white drop-shadow-lg"
+        className="h-full max-h-[350px] rounded-xl border-2 border-neutral-500 bg-neutral-200 text-neutral-600 drop-shadow-lg dark:border-neutral-300 dark:bg-neutral-700 dark:text-white"
         value={dateInput}
         renderLoading={() => <DayCalendarSkeleton />}
         onChange={onChangeHandler}
@@ -61,11 +61,15 @@ const Calendar = ({
         slots={{ day: CustomDay }}
         sx={{
           ".MuiDayCalendar-weekDayLabel": {
-            color: "white",
+            color: document.querySelector(".layout")?.classList.contains("dark")
+              ? "white"
+              : "black",
             fontWeight: "bold",
           },
           ".MuiSvgIcon-root": {
-            color: "white",
+            color: document.querySelector(".layout")?.classList.contains("dark")
+              ? "white"
+              : "black",
           },
           ".MuiDayCalendar-monthContainer": {
             display: "flex",

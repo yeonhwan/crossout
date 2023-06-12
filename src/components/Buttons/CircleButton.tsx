@@ -18,7 +18,7 @@ const CircleButton = ({
   infoPlace,
 }: ButtonProps) => {
   const defaultClassName =
-    "flex h-max w-max items-center justify-center rounded-full border-none p-2 outline-none hover:cursor-pointer hover:bg-emerald-500";
+    "flex h-max w-max dark:bg-neutral-800 dark:hover:bg-emerald-500 items-center fill-white bg-neutral-500 justify-center rounded-full border-none p-2 outline-none hover:cursor-pointer hover:bg-emerald-500";
 
   if (className) {
     className = twMerge(defaultClassName, className);

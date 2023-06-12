@@ -37,7 +37,9 @@ const CustomDay = (props: CustomDayProps) => {
       return (
         <div className="relative h-max w-max flex-col">
           <PickersDay
-            className={`text-white ${selected ? "bg-emerald-400" : ""}`}
+            className={`text-neutral-600 dark:text-white ${
+              selected ? "bg-emerald-400" : ""
+            }`}
             {...other}
             day={day}
             today={today}
@@ -50,7 +52,9 @@ const CustomDay = (props: CustomDayProps) => {
           />
           <span
             className={`absolute right-1 top-0 text-center text-[5px] font-semibold ${
-              selected ? "text-white" : "animate-pulse text-emerald-300"
+              selected
+                ? "text-white"
+                : "animate-pulse text-emerald-600 dark:text-emerald-300"
             }`}
           >
             {count}
@@ -61,7 +65,9 @@ const CustomDay = (props: CustomDayProps) => {
       return (
         <div className="relative h-max w-max flex-col">
           <PickersDay
-            className={`text-white ${selected ? "bg-emerald-400" : ""}`}
+            className={`text-neutral-600 dark:text-white ${
+              selected ? "bg-emerald-300 dark:bg-emerald-400" : ""
+            }`}
             day={day}
             today={today}
             outsideCurrentMonth={outsideCurrentMonth}
@@ -101,7 +107,9 @@ const CustomDay = (props: CustomDayProps) => {
       return (
         <div className="relative h-max w-max flex-col">
           <PickersDay
-            className={`text-white ${selected ? "bg-emerald-400" : ""}`}
+            className={`text-neutral-600 dark:text-white ${
+              selected ? "bg-emerald-300 dark:bg-emerald-400" : ""
+            }`}
             day={day}
             today={today}
             outsideCurrentMonth={outsideCurrentMonth}
@@ -123,7 +131,9 @@ const CustomDay = (props: CustomDayProps) => {
       return (
         <div className="relative h-max w-max flex-col">
           <PickersDay
-            className={`text-white ${selected ? "bg-emerald-400" : ""}`}
+            className={`text-neutral-600 dark:text-white ${
+              selected ? "bg-emerald-400" : ""
+            }`}
             day={day}
             today={today}
             outsideCurrentMonth={outsideCurrentMonth}
@@ -156,7 +166,9 @@ const CustomDay = (props: CustomDayProps) => {
           return (
             <span
               className={`absolute right-1 top-0 text-center text-[5px] font-semibold ${
-                selected ? "text-white" : "animate-pulse text-emerald-300"
+                selected
+                  ? "text-white"
+                  : "animate-pulse text-emerald-400 dark:text-emerald-300"
               }`}
             >
               +$
@@ -166,7 +178,7 @@ const CustomDay = (props: CustomDayProps) => {
           return (
             <span
               className={`absolute right-1 top-0 animate-pulse text-center text-[5px] font-semibold ${
-                selected ? "text-white" : "text-red-300"
+                selected ? "text-white" : "text-red-400 dark:text-red-300"
               }`}
             >
               -$
@@ -178,7 +190,9 @@ const CustomDay = (props: CustomDayProps) => {
       return (
         <div className="relative h-max w-max flex-col">
           <PickersDay
-            className={`text-white ${selected ? "bg-emerald-400" : ""}`}
+            className={`text-neutral-600 dark:text-white ${
+              selected ? "bg-emerald-300 dark:bg-emerald-400" : ""
+            }`}
             day={day}
             today={today}
             outsideCurrentMonth={outsideCurrentMonth}
@@ -196,7 +210,9 @@ const CustomDay = (props: CustomDayProps) => {
       return (
         <div className="relative h-max w-max flex-col">
           <PickersDay
-            className={`text-white ${selected ? "bg-emerald-400" : ""}`}
+            className={`text-neutral-600 dark:text-white ${
+              selected ? "bg-emerald-400" : ""
+            }`}
             day={day}
             today={today}
             outsideCurrentMonth={outsideCurrentMonth}

@@ -22,10 +22,10 @@ const TodosView = ({ data }: TodosViewProps) => {
           {todos.map((data) => {
             return (
               <li
-                className={`relative mt-2 flex h-max w-1/2 justify-center rounded-lg p-1 text-center ${
+                className={`relative mt-2 flex h-max w-1/2 justify-center rounded-lg p-1 text-center dark:text-white ${
                   data.completed
-                    ? "bg-neutral-700/50 text-neutral-500 after:absolute after:left-auto after:top-1/2 after:h-[2px] after:w-[90%] after:bg-neutral-400/50 after:px-4 after:content-['']"
-                    : "bg-neutral-400/50"
+                    ? "bg-neutral-400/50 text-neutral-400 after:absolute after:left-auto after:top-1/2 after:h-[2px] after:w-[90%] after:bg-neutral-500/50 after:px-4 after:content-[''] dark:bg-neutral-600/50 dark:text-neutral-700 dark:after:bg-neutral-400/50"
+                    : "bg-neutral-300/50 dark:bg-neutral-800/50"
                 }`}
                 key={data.id}
               >

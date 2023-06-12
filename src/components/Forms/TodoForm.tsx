@@ -108,15 +108,15 @@ const TodoForm = (
   return (
     <form
       ref={ref}
-      className="flex h-2/3 w-1/3 flex-col items-center justify-evenly rounded-lg bg-neutral-400/40 py-4"
+      className="text:-black flex h-2/3 w-1/3 flex-col items-center justify-evenly rounded-lg bg-neutral-200/40 py-4 dark:bg-neutral-800/80 dark:text-white"
     >
       <h1 className="text-2xl font-bold">New Todo</h1>
       <div className="flex w-2/3 flex-col">
-        <label className="text-lg font-semibold" htmlFor="todo">
+        <label className="rounded-md text-lg font-semibold" htmlFor="todo">
           What do you have to do?
         </label>
         <input
-          className="mb-2 px-2 py-1"
+          className="mb-2 px-2 py-1 text-black focus:outline-none focus:ring-2 focus:ring-cyan-300 dark:bg-neutral-400 dark:text-white dark:placeholder:text-white"
           id="todo"
           placeholder="Type in your todo"
           value={todoInput}
@@ -128,7 +128,7 @@ const TodoForm = (
           How much is it urgent?
         </label>
         <select
-          className="mb-2 rounded-lg py-1 text-center hover:cursor-pointer"
+          className="mb-2 rounded-md py-2 text-center text-black hover:cursor-pointer focus:outline-none focus:ring-2 focus:ring-cyan-300 dark:bg-neutral-400 dark:text-white"
           id="urgency"
           value={urgencyInput}
           onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -142,15 +142,10 @@ const TodoForm = (
         <label className="text-lg font-semibold" htmlFor="listboard">
           Select your listboards
         </label>
-        <ListboardSelect input={listboardInput} onChange={setListboardInput} />
-        <label className="text-lg font-semibold" htmlFor="deadline">
-          Is there a deadline?
-        </label>
-        <input
-          className="mb-2 rounded-xl px-2 py-1 text-center"
-          id="deadline"
-          type="date"
-          lang="en"
+        <ListboardSelect
+          className="rounded-md py-2 text-black focus:outline-none focus:ring-2 focus:ring-cyan-300 dark:bg-neutral-400 dark:text-white"
+          input={listboardInput}
+          onChange={setListboardInput}
         />
       </div>
       <div className="flex">
@@ -163,7 +158,12 @@ const TodoForm = (
         ) : (
           <>
             <Button onClick={confirmOnClickHandler}>Confirm</Button>
-            <Button onClick={cancelButtonHandler}>Cancel</Button>
+            <Button
+              className="hover:bg-red-400 dark:hover:bg-red-500"
+              onClick={cancelButtonHandler}
+            >
+              Cancel
+            </Button>
           </>
         )}
       </div>

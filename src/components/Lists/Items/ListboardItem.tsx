@@ -80,7 +80,7 @@ const ListboardItem = ({
 
   return (
     <div
-      className={`min-h-[250px] min-w-[280px] max-w-2xl rounded-3xl border-2 border-neutral-700 bg-neutral-700/60 shadow-xl transition-all duration-75 hover:cursor-pointer ${
+      className={`min-h-[250px] min-w-[280px] max-w-2xl rounded-3xl border-2 border-neutral-200 bg-neutral-300 shadow-xl transition-all duration-75 hover:cursor-pointer dark:border-neutral-700 dark:bg-neutral-700/60 ${
         isActive ? "scale-[95%]" : ""
       }`}
       onMouseDown={() => {
@@ -88,13 +88,13 @@ const ListboardItem = ({
       }}
       onMouseUp={itemMouseDownHandler}
     >
-      <div className="flex h-2/3 w-full items-center justify-between rounded-t-3xl border-b-2 border-b-neutral-700 bg-neutral-500 px-2 py-3">
-        <p className="text-white">{data.title}</p>
+      <div className="flex h-2/3 w-full items-center justify-between rounded-t-3xl border-b-2 border-b-neutral-400 bg-neutral-200 px-2 py-3 dark:border-b-neutral-700 dark:bg-neutral-500">
+        <p className="text-neutral-700 dark:text-white">{data.title}</p>
         <div className="flex">
           <CircleButton
             onClick={deleteListboardHandler}
             info="Delete listboard"
-            className="mr-1 h-6 w-6 p-0"
+            className="mr-1 h-6 w-6 rounded-md bg-red-300 p-0 hover:bg-red-400 dark:bg-red-400 dark:hover:bg-red-500"
           >
             <TrashIcon className="h-3 w-3" fill="white" />
           </CircleButton>

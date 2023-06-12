@@ -1,5 +1,4 @@
 import { create } from "zustand";
-import { type Todo } from "@prisma/client";
 import { produce } from "immer";
 
 export enum SnackbarRole {

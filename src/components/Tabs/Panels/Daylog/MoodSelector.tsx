@@ -90,10 +90,10 @@ const MoodSelector = ({moodData, selectedMoodRef}:MoodSelectorProps) => {
 
   return (
     <div className="flex flex-col w-full h-max">
-      <p className="mb-1 self-center text-neutral-600 text-sm">
+      <p className="mb-1 self-center dark:text-neutral-300 text-neutral-600 text-sm">
         {selectedMood.toUpperCase()}
       </p>
-    <div className="flex h-max w-max justify-center self-center rounded-xl border-2 border-neutral-500 bg-neutral-800/70 px-2">
+    <div className="flex h-max w-max justify-center self-center transition-colors rounded-xl border-2 dark:bg-neutral-800/70 dark:border-neutral-700 border-neutral-300 bg-neutral-400/70 px-2">
       <div className="flex h-full w-full items-center justify-center py-2">
         <Tooltip title="terrible" arrow placement="bottom">
           <div

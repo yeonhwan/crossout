@@ -19,10 +19,10 @@ type DoughnutChartProps = {
         label: string;
         value: number;
       }[];
-  selectedField: "todo" | "revenue" | "mood";
+  isLight: boolean;
 };
 
-const DoughnutChart = ({ data }: DoughnutChartProps) => {
+const DoughnutChart = ({ data, isLight }: DoughnutChartProps) => {
   if (data.length) {
     return (
       <ResponsivePie
@@ -97,7 +97,7 @@ const DoughnutChart = ({ data }: DoughnutChartProps) => {
         theme={{
           legends: {
             text: {
-              color: "white",
+              color: isLight ? "black" : "white",
             },
           },
           labels: {
@@ -107,7 +107,7 @@ const DoughnutChart = ({ data }: DoughnutChartProps) => {
           },
           tooltip: {
             container: {
-              background: "#717171",
+              background: "#474747",
               fontSize: 10,
               color: "white",
             },

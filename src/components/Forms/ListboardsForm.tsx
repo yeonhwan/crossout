@@ -88,7 +88,7 @@ const ListboardsForm = (
   return (
     <form
       ref={ref}
-      className="flex h-2/3 w-1/3 flex-col items-center justify-evenly rounded-lg bg-neutral-400/40 py-4"
+      className="flex h-2/3 w-1/3 flex-col items-center justify-evenly rounded-lg bg-neutral-400/40 py-4 text-neutral-800 dark:bg-neutral-800/80 dark:text-white"
     >
       <h1 className="text-2xl font-bold">New Listboard</h1>
       <div className="flex w-2/3 flex-col">
@@ -127,7 +127,12 @@ const ListboardsForm = (
         ) : (
           <>
             <Button onClick={confirmOnClickHandler}>Confirm</Button>
-            <Button onClick={cancelButtonHandler}>Cancel</Button>
+            <Button
+              className="hover:bg-red-400 dark:hover:bg-red-500"
+              onClick={cancelButtonHandler}
+            >
+              Cancel
+            </Button>
           </>
         )}
       </div>

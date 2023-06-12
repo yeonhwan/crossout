@@ -47,28 +47,35 @@ const HomeTabs = () => {
         centered
         className="mt-4"
         TabIndicatorProps={{
-          className: "rounded-full bg-neutral-800/80 z-0 w-full h-full",
+          className:
+            "rounded-full bg-neutral-800/80 dark:bg-neutral-100/80 z-0 w-full h-full",
         }}
       >
         <Tab
-          className={`z-10 mr-4 rounded-full px-4 py-2 transition-colors delay-200 ${
-            tabValue === TabPanels.todos ? "text-white" : ""
+          className={`z-10 mr-4 rounded-full px-4 py-2 transition-colors  ${
+            tabValue === TabPanels.todos
+              ? "text-white dark:text-neutral-800"
+              : "dark:text-white"
           }`}
           label="Todos"
           disableRipple
           disabled={tabValue === TabPanels.todos}
         />
         <Tab
-          className={`z-10 mr-4 rounded-full px-4 py-2 transition-colors delay-200 ${
-            tabValue === TabPanels.daylog ? "text-white" : ""
+          className={`z-10 mr-4 rounded-full px-4 py-2 transition-colors  ${
+            tabValue === TabPanels.daylog
+              ? "text-white dark:text-neutral-800"
+              : "dark:text-white"
           }`}
           label="DayLog"
           disableRipple
           disabled={tabValue === TabPanels.daylog}
         />
         <Tab
-          className={`z-10 mr-4 rounded-full px-4 py-2 transition-colors delay-200 ${
-            tabValue === TabPanels.revenues ? "text-white" : ""
+          className={`z-10 mr-4 rounded-full px-4 py-2 transition-colors  ${
+            tabValue === TabPanels.revenues
+              ? "text-white dark:text-neutral-800"
+              : "dark:text-white"
           }`}
           label="Revenues"
           disableRipple

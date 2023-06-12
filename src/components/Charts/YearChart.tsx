@@ -19,9 +19,10 @@ type YearChartProps = {
       }[];
   selectedField: "todo" | "revenue" | "mood";
   year: number;
+  isLight: boolean;
 };
 
-const YearChart = ({ data, selectedField, year }: YearChartProps) => {
+const YearChart = ({ data, selectedField, year, isLight }: YearChartProps) => {
   const todosColors = ["#73a293d2", "#86a8a2", "#0fc0a34e", "#09b094"];
   const revenuesColors = [
     "#7f1515d2",
@@ -126,7 +127,7 @@ const YearChart = ({ data, selectedField, year }: YearChartProps) => {
         data={data}
         from={`${year}/01/01`}
         to={`${year + 1}/01/01`}
-        emptyColor="#585858d2"
+        emptyColor="#333333d2"
         colors={selectedField === "todo" ? todosColors : undefined}
         colorScale={
           selectedField === "revenue"
@@ -147,11 +148,11 @@ const YearChart = ({ data, selectedField, year }: YearChartProps) => {
             : todoTooltip
         }
         theme={{
-          textColor: "white",
+          textColor: isLight ? "black" : "white",
           fontSize: 12,
         }}
       />
-      <div className="absolute bottom-1/4 left-24 flex w-max text-white">
+      <div className="absolute bottom-1/4 left-24 flex w-max text-black dark:text-white">
         <legend className="text-xs">
           {selectedField === "todo"
             ? "less"
@@ -159,7 +160,7 @@ const YearChart = ({ data, selectedField, year }: YearChartProps) => {
             ? "spent"
             : "bad"}
         </legend>
-        <div className="flex w-12 items-center justify-evenly">
+        <div className="flex w-12 items-center justify-evenly text-black dark:text-white">
           <span
             className={`h-2 w-2 rounded-lg ${
               selectedField === "todo"

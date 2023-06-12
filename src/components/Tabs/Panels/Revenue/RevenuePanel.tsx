@@ -1,4 +1,4 @@
-// React, hooks
+// Hooks
 import { useState } from "react";
 
 // components
@@ -53,7 +53,6 @@ const RevenuePanel = ({ openCreateRevenue }: RevenuePanelProps) => {
           setProfitData(profitData);
           setLossData(lossData);
           setTotal(currencyFormatter(total));
-          console.log(currencyFormatter(total));
         }
       },
       onError: (err) => {
@@ -63,13 +62,15 @@ const RevenuePanel = ({ openCreateRevenue }: RevenuePanelProps) => {
   );
 
   return (
-    <div className="mt-4 flex h-[90%] max-h-[500px] w-3/5 flex-col justify-center rounded-lg bg-neutral-400/40 p-6 backdrop-blur-sm">
+    <div className="mt-4 flex h-[90%] max-h-[500px] w-3/5 flex-col justify-center rounded-lg bg-neutral-300/40 p-6 backdrop-blur-sm transition-colors dark:bg-neutral-800/40">
       <div className="flex h-full w-full justify-around">
         <div className="relative flex h-[65%] w-1/6 flex-col items-center justify-between self-center">
-          <div className="mt-2 flex h-[80%] w-full flex-col items-center justify-between rounded-xl bg-neutral-600/40 py-4">
+          <div className="mt-2 flex h-[80%] w-full flex-col items-center justify-between rounded-xl bg-neutral-300/60 py-4 transition-colors dark:bg-neutral-600/40">
             <CircleButton
-              className={`hover:bg-cyan-500 ${
-                viewAll ? "pointer-events-none bg-cyan-500" : ""
+              className={`hover:bg-cyan-400 dark:hover:bg-cyan-500 ${
+                viewAll
+                  ? "pointer-events-none bg-cyan-400 dark:bg-cyan-500"
+                  : ""
               }`}
               infoPlace="left"
               info="All"
@@ -83,7 +84,9 @@ const RevenuePanel = ({ openCreateRevenue }: RevenuePanelProps) => {
             </CircleButton>
             <CircleButton
               className={`${
-                viewProfit ? "pointer-events-none bg-emerald-400" : ""
+                viewProfit
+                  ? "pointer-events-none bg-emerald-400 dark:bg-emerald-500"
+                  : ""
               }`}
               infoPlace="left"
               info="Profit"
@@ -97,7 +100,7 @@ const RevenuePanel = ({ openCreateRevenue }: RevenuePanelProps) => {
             </CircleButton>
             <CircleButton
               className={`hover:bg-red-500 ${
-                viewLoss ? "pointer-events-none bg-red-500" : ""
+                viewLoss ? "pointer-events-none bg-red-500 dark:bg-red-500" : ""
               }`}
               infoPlace="left"
               info="Loss"
@@ -113,7 +116,7 @@ const RevenuePanel = ({ openCreateRevenue }: RevenuePanelProps) => {
           <CircleButton
             info="Add Record"
             infoPlace="bottom"
-            className="mt-2 flex h-10 w-10 items-center justify-center"
+            className="mt-2 flex h-10 w-10 items-center justify-center hover:bg-cyan-400 dark:hover:bg-cyan-500"
             onClick={openCreateRevenue}
           >
             <AddMoneyIcon className="h-6 w-6" />
@@ -122,7 +125,9 @@ const RevenuePanel = ({ openCreateRevenue }: RevenuePanelProps) => {
             <p className="text-sm font-bold text-white">Total</p>
             <p
               className={`text-sm font-semibold ${
-                total.includes("-") ? "text-red-300" : "text-emerald-300"
+                total.includes("-")
+                  ? "text-red-700 dark:text-red-300"
+                  : "text-emerald-700 dark:text-emerald-300"
               }`}
             >
               {total}
@@ -131,7 +136,7 @@ const RevenuePanel = ({ openCreateRevenue }: RevenuePanelProps) => {
         </div>
         <div className="flex w-3/4 flex-col items-center justify-around">
           <div
-            className={`flex w-full overflow-y-scroll rounded-xl bg-emerald-300/40 p-2 transition-all duration-200 ${
+            className={`flex w-full overflow-y-scroll rounded-xl bg-emerald-400/50 p-2 transition-all delay-[100] duration-200 dark:bg-emerald-300/50 ${
               viewProfit
                 ? "h-full"
                 : viewLoss
@@ -150,10 +155,10 @@ const RevenuePanel = ({ openCreateRevenue }: RevenuePanelProps) => {
             )}
           </div>
           {viewAll && (
-            <div className="h-[1px] w-[90%] border-b-2 border-dotted border-b-neutral-600 " />
+            <div className="h-[1px] w-[90%] border-b-2 border-dotted border-b-neutral-600 dark:border-b-neutral-200 " />
           )}
           <div
-            className={`flex w-full overflow-y-scroll rounded-xl bg-red-300/40 p-2 transition-all duration-200 ${
+            className={`flex w-full overflow-y-scroll rounded-xl bg-red-400/50 p-2 transition-all delay-[100] duration-200 dark:bg-red-300/50 ${
               viewLoss
                 ? "h-full"
                 : viewProfit

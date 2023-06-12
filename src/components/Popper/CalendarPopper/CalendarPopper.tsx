@@ -104,36 +104,60 @@ const CalendarPopper = ({
       <div className="flex h-max w-full justify-center drop-shadow-md">
         <CircleButton
           info="Todos"
-          className={`h-10 w-10 rounded-r-none hover:bg-neutral-400 ${
-            field === "todo" ? "pointer-events-none bg-emerald-400" : ""
+          className={`h-10 w-10 rounded-r-none bg-neutral-200 hover:bg-neutral-400 dark:bg-neutral-700 ${
+            field === "todo"
+              ? "pointer-events-none bg-emerald-500 dark:bg-emerald-400"
+              : ""
           }`}
           onClick={() => {
             setField("todo");
           }}
         >
-          <TodosIcon fill="white" className="h-4 w-4" />
+          <TodosIcon
+            className={`h-4 w-4 ${
+              field === "todo"
+                ? "fill-white dark:fill-white"
+                : "fill-black dark:fill-white"
+            }`}
+          />
         </CircleButton>
         <CircleButton
-          className={`h-10 w-10 rounded-none hover:bg-neutral-400 ${
-            field === "daylog" ? "pointer-events-none bg-emerald-400" : ""
+          className={`h-10 w-10 rounded-none bg-neutral-200 hover:bg-neutral-400 dark:bg-neutral-700 ${
+            field === "daylog"
+              ? "pointer-events-none bg-emerald-400 dark:bg-emerald-500"
+              : ""
           }`}
           info="Daylogs"
           onClick={() => {
             setField("daylog");
           }}
         >
-          <DaylogIcon stroke="white" className="h-4 w-4" />
+          <DaylogIcon
+            className={`h-4 w-4 ${
+              field === "daylog"
+                ? "stroke-white dark:stroke-white"
+                : "stroke-black dark:stroke-white"
+            }`}
+          />
         </CircleButton>
         <CircleButton
-          className={`h-10 w-10 rounded-l-none hover:bg-neutral-400 ${
-            field === "revenue" ? "pointer-events-none bg-emerald-400" : ""
+          className={`h-10 w-10 rounded-l-none bg-neutral-200 hover:bg-neutral-400 dark:bg-neutral-700 ${
+            field === "revenue"
+              ? "pointer-events-none bg-emerald-400 dark:bg-emerald-500"
+              : ""
           }`}
           info="Revenues"
           onClick={() => {
             setField("revenue");
           }}
         >
-          <RevenueIcon className="h-4 w-4" />
+          <RevenueIcon
+            className={`h-4 w-4 ${
+              field === "revenue"
+                ? "fill-white dark:fill-white"
+                : "fill-black dark:fill-white"
+            }`}
+          />
         </CircleButton>
       </div>
     );
@@ -143,7 +167,7 @@ const CalendarPopper = ({
     <ClickAwayListener onClickAway={closeCalendar}>
       <div
         onTransitionEnd={handleTransition}
-        className={`absolute left-1/4 top-10 z-50 flex h-[90%] w-1/2 flex-col items-center justify-center rounded-xl bg-black/20 backdrop-blur-md transition-all duration-150 ${
+        className={`absolute left-1/4 top-10 z-50 flex h-[90%] w-1/2 flex-col items-center justify-center rounded-xl bg-white/20 backdrop-blur-md transition-all duration-150 dark:bg-black/20 ${
           animateTrigger
             ? "translate-y-0 opacity-100"
             : "translate-y-40 opacity-0"

@@ -187,14 +187,14 @@ const OptionsDropdown = () => {
         }}
         className="relative flex hover:cursor-pointer"
       >
-        <div className="flex h-full w-32 items-center justify-center rounded-md border-2 border-neutral-600 bg-neutral-700 text-white">
+        <div className="flex h-full w-32 items-center justify-center rounded-md bg-neutral-400 text-white dark:bg-neutral-800">
           <span className="mr-2 h-4 w-4">{iconsForSelected(selected)}</span>
           <span className="text-xs font-bold">{selected}</span>
         </div>
         {isOpen && (
-          <div className="absolute left-0 top-7 z-50 flex w-max flex-col justify-between rounded-lg bg-neutral-700 p-2">
+          <div className="absolute left-0 top-7 z-50 flex w-max flex-col justify-between rounded-lg border-2 border-neutral-200 bg-neutral-400 p-2 dark:border-neutral-400 dark:bg-neutral-700">
             <button
-              className="flex items-center bg-neutral-700 px-2 py-1 outline-none hover:bg-neutral-500"
+              className="flex items-center bg-neutral-400 px-2 py-1 outline-none hover:bg-neutral-500 dark:bg-neutral-700"
               onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
                 e.stopPropagation();
                 buttonOnClickHandler("Normal");
@@ -206,7 +206,7 @@ const OptionsDropdown = () => {
               <span className="text-sm">Normal</span>
             </button>
             <button
-              className="flex items-center bg-neutral-700 px-2 py-1 outline-none hover:bg-neutral-500"
+              className="flex items-center bg-neutral-400 px-2 py-1 outline-none hover:bg-neutral-500 dark:bg-neutral-700"
               onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
                 e.stopPropagation();
                 buttonOnClickHandler("Large");
@@ -218,7 +218,7 @@ const OptionsDropdown = () => {
               <span className="text-sm">Large Heading</span>
             </button>
             <button
-              className="flex items-center bg-neutral-700 px-2 py-1 outline-none hover:bg-neutral-500"
+              className="flex items-center bg-neutral-400 px-2 py-1 outline-none hover:bg-neutral-500 dark:bg-neutral-700"
               onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
                 e.stopPropagation();
                 buttonOnClickHandler("Small");
@@ -230,7 +230,7 @@ const OptionsDropdown = () => {
               <span className="text-sm">Small Heading</span>
             </button>
             <button
-              className="flex items-center bg-neutral-700 px-2 py-1 outline-none hover:bg-neutral-500"
+              className="flex items-center bg-neutral-400 px-2 py-1 outline-none hover:bg-neutral-500 dark:bg-neutral-700"
               onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
                 e.stopPropagation();
                 buttonOnClickHandler("Ordered");
@@ -243,7 +243,7 @@ const OptionsDropdown = () => {
               <span className="text-sm">Numbered List</span>
             </button>
             <button
-              className="flex items-center bg-neutral-700 px-2 py-1 outline-none hover:bg-neutral-500"
+              className="flex items-center bg-neutral-400 px-2 py-1 outline-none hover:bg-neutral-500 dark:bg-neutral-700"
               onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
                 e.stopPropagation();
                 buttonOnClickHandler("Bulleted");

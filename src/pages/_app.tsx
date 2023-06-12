@@ -6,6 +6,7 @@ import { api } from "@/utils/api";
 import "@/styles/globals.scss";
 import { type NextPage } from "next";
 import { StyledEngineProvider } from "@mui/material/styles";
+import { type GetServerSidePropsContext } from "next";
 
 // components
 import SnackbarComponent from "@/components/Snackbar/Snackbar";
@@ -45,10 +46,8 @@ const MyApp = ({
     <StyledEngineProvider injectFirst>
       <ReactQueryDevtools initialIsOpen={false} />
       <SessionProvider session={session}>
-        <Layout>
-          <Component {...pageProps}>{<SnackbarComponent />}</Component>
-          <SnackbarComponent />
-        </Layout>
+        <Component {...pageProps} />
+        <SnackbarComponent />
       </SessionProvider>
     </StyledEngineProvider>
   );

@@ -180,7 +180,9 @@ const TodoItem = ({ data, sortingTodos }: TodoItemProps) => {
       return (
         <CircleButton
           info="delete"
-          className={`h-6 w-6 p-0 ${isProceed ? "pointer-events-none" : ""}`}
+          className={`h-6 w-6 rounded-md p-0 hover:bg-red-400 dark:hover:bg-red-400 ${
+            isProceed ? "pointer-events-none" : ""
+          }`}
           onClick={(e) => {
             e?.stopPropagation();
             if (window.confirm("Are you sure want to delete Todo")) {
@@ -199,14 +201,14 @@ const TodoItem = ({ data, sortingTodos }: TodoItemProps) => {
         <>
           <CircleButton
             info="apply"
-            className="mr-2 h-6 w-6 p-0"
+            className="mr-2 h-6 w-6 rounded-md bg-emerald-300 p-0 hover:bg-emerald-400 dark:bg-emerald-400 dark:hover:bg-emerald-500"
             onClick={applyUpdateClickHandler}
           >
             <CheckIcon className="h-4 w-4" />
           </CircleButton>
           <CircleButton
             info="cancel"
-            className="h-6 w-6 p-0"
+            className="h-6 w-6 rounded-md bg-red-300 p-0 hover:bg-red-400 dark:bg-red-400 dark:hover:bg-red-500"
             onClick={cancelUpdateTodo}
           >
             <BlockIcon className="h-4 w-4" />
@@ -219,7 +221,7 @@ const TodoItem = ({ data, sortingTodos }: TodoItemProps) => {
       <>
         <CircleButton
           info="edit"
-          className={`mr-1 h-6 w-6 p-0 ${
+          className={`mr-1 h-6 w-6 rounded-md bg-orange-300 p-0 hover:bg-orange-400 dark:bg-orange-400 dark:hover:bg-orange-500 ${
             isProceed ? "pointer-events-none" : ""
           }`}
           onClick={(e) => {
@@ -231,7 +233,9 @@ const TodoItem = ({ data, sortingTodos }: TodoItemProps) => {
         </CircleButton>
         <CircleButton
           info="delete"
-          className={`h-6 w-6 p-0 ${isProceed ? "pointer-events-none" : ""}`}
+          className={`h-6 w-6 rounded-md bg-red-300 p-0 hover:bg-red-400 dark:bg-red-400 dark:hover:bg-red-500 ${
+            isProceed ? "pointer-events-none" : ""
+          }`}
           onClick={(e) => {
             e?.stopPropagation();
             if (window.confirm("Are you sure want to delete Todo")) {
@@ -249,16 +253,24 @@ const TodoItem = ({ data, sortingTodos }: TodoItemProps) => {
   // Item Render (not Updating state)
   if (!isUpdating) {
     return (
-      <div className="my-1.5 flex h-max w-5/6 items-center rounded-full border-2 border-neutral-400 shadow-lg drop-shadow-xl hover:border-cyan-600">
+      <div className="my-1.5 flex h-max w-5/6 items-center rounded-full border-2 border-neutral-500 shadow-lg drop-shadow-xl hover:border-cyan-600 dark:border-neutral-300 dark:hover:border-cyan-500">
         <div
           onClick={completeTodoHandler}
-          className={`flex h-20 w-full items-center justify-between rounded-full ${
-            completed ? "bg-neutral-500" : "bg-neutral-700"
+          className={`flex h-20 w-full items-center justify-between rounded-full transition-colors ${
+            completed
+              ? "bg-neutral-300 dark:bg-neutral-600"
+              : "bg-neutral-200 dark:bg-neutral-700"
           } px-10 py-4 text-white hover:cursor-pointer`}
         >
           <div className="flex">
-            <div className="flex h-6 w-6 items-center justify-center rounded-full bg-neutral-300">
-              <p>{UrgencyDisplay[urgency]}</p>
+            <div
+              className={`flex h-6 w-6 items-center justify-center rounded-full ${
+                completed
+                  ? "bg-neutral-200 dark:bg-neutral-700"
+                  : "bg-neutral-300 dark:bg-neutral-500"
+              }`}
+            >
+              <p className="text-xs">{UrgencyDisplay[urgency]}</p>
             </div>
             <div className="ml-2 flex h-6 w-6 items-center justify-center">
               {isProceed && (
@@ -269,14 +281,14 @@ const TodoItem = ({ data, sortingTodos }: TodoItemProps) => {
           {deadlineString && <p>{deadlineString}</p>}
           <div className="flex w-8/12 flex-col items-center justify-center">
             <p
-              className={`relative text-center after:absolute after:left-0 after:top-1/2 after:h-[2px] after:w-0 after:bg-neutral-600 after:transition-all after:duration-200 after:ease-in-out after:content-[''] ${
+              className={`relative text-center text-neutral-800 after:absolute after:left-0 after:top-1/2 after:h-[2px] after:w-0 after:bg-neutral-500 after:transition-all after:duration-200 after:ease-in-out after:content-[''] dark:text-neutral-200 dark:after:bg-neutral-600 ${
                 completed ? "after:w-full" : ""
               }`}
             >
               {content}
             </p>
             {listBoard && (
-              <p className="text-sm font-light text-neutral-400">
+              <p className="text-sm font-light text-neutral-800 dark:text-neutral-400">
                 {listboardTitle}
               </p>
             )}
@@ -295,12 +307,12 @@ const TodoItem = ({ data, sortingTodos }: TodoItemProps) => {
   // Item Render (Updating state)
   else {
     return (
-      <div className="my-1.5 flex h-max min-h-[3.5rem] w-5/6 items-center rounded-full border-2 border-neutral-400 shadow-lg drop-shadow-xl">
+      <div className="my-1.5 flex h-max min-h-[3.5rem] w-5/6 items-center rounded-full border-2 border-neutral-300 shadow-lg drop-shadow-xl dark:border-neutral-500">
         <ClickAwayListener onClickAway={cancelUpdateTodo}>
-          <div className="flex w-full items-center justify-between rounded-full bg-cyan-800 px-10 py-4 text-white">
+          <div className="flex w-full items-center justify-between rounded-full bg-cyan-600 px-10 py-4 text-white dark:bg-cyan-700">
             <div className="flex w-max">
               <select
-                className="hover:cur rounded-xl bg-neutral-400/40 px-2 outline-none hover:cursor-pointer"
+                className="rounded-xl bg-neutral-600/20 px-2 hover:cursor-pointer focus-visible:ring-2 focus-visible:ring-cyan-300 dark:bg-neutral-400/40"
                 value={urgencyInput}
                 onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
                   setUrgencyInput(e.currentTarget.value as UrgencyInput);
@@ -314,14 +326,14 @@ const TodoItem = ({ data, sortingTodos }: TodoItemProps) => {
             </div>
             <div className="flex h-max w-8/12 flex-col items-center justify-center">
               <input
-                className="w-8/12 bg-neutral-400/40 py-1 text-center align-middle outline-none"
+                className="w-8/12 bg-neutral-600/20 py-1 text-center align-middle outline-0 focus-visible:ring-2 focus-visible:ring-cyan-300 dark:bg-neutral-400/40"
                 value={todoInput}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                   setTodoInput(e.currentTarget.value);
                 }}
               />
               <ListboardSelect
-                className="mt-4 w-8/12 bg-neutral-400/40"
+                className="mt-4 w-8/12 bg-neutral-600/20 focus-visible:ring-2 focus-visible:ring-cyan-300 dark:bg-neutral-400/40"
                 input={listboardInput}
                 onChange={setListboardInput}
               />

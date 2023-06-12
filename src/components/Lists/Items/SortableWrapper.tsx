@@ -32,7 +32,7 @@ const SortableWrapper = ({ children, id, active }: SortableWrapperProps) => {
         {active && (
           <div
             {...listeners}
-            className="flex items-center justify-center text-neutral-600 active:cursor-grabbing active:text-cyan-400"
+            className="flex items-center justify-center text-neutral-600 active:cursor-grabbing active:text-cyan-400 dark:text-white"
           >
             <DragIndicatorIcon />
           </div>

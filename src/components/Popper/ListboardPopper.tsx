@@ -151,10 +151,11 @@ const ListboardPopper = ({
     return (
       <>
         <CircleButton
+          info="Edit listboard title"
           onClick={() => {
             setIsUpdate(true);
           }}
-          className="ml-1 h-6 w-6"
+          className="ml-1 h-6 w-6 rounded-md bg-orange-300 hover:bg-orange-400 dark:bg-orange-400 dark:hover:bg-orange-500"
         >
           <EditIcon className="h-4 w-4" />
         </CircleButton>
@@ -164,7 +165,8 @@ const ListboardPopper = ({
               applyDeleteHandler();
             }
           }}
-          className="ml-1 h-6 w-6 p-0"
+          info="Delete listboard"
+          className="ml-1 h-6 w-6 rounded-md bg-red-300 p-0 hover:bg-red-400 dark:bg-red-400 dark:hover:bg-red-500"
         >
           <TrashIcon className="h-4 w-4" fill="white" />
         </CircleButton>
@@ -176,7 +178,10 @@ const ListboardPopper = ({
     if (isUpdate) {
       return (
         <>
-          <label className="font-semibold text-white" htmlFor="title">
+          <label
+            className="font-semibold text-neutral-200 dark:text-white"
+            htmlFor="title"
+          >
             Title
           </label>
           <input
@@ -204,8 +209,12 @@ const ListboardPopper = ({
     }
     return (
       <>
-        <p className="text-lg font-semibold text-white">{title}</p>
-        <p className="text-md font-light text-white">{description}</p>
+        <p className="text-lg font-semibold text-neutral-700 dark:text-white">
+          {title}
+        </p>
+        <p className="text-md font-light text-neutral-700 dark:text-white">
+          {description}
+        </p>
       </>
     );
   };
@@ -222,7 +231,7 @@ const ListboardPopper = ({
           popperClose();
         }}
       >
-        <div className="relative flex h-2/3 w-2/3 flex-col items-center rounded-2xl bg-neutral-800/90 pb-2 backdrop-blur-sm">
+        <div className="relative flex h-2/3 w-2/3 flex-col items-center rounded-2xl bg-neutral-200/70 pb-2 backdrop-blur-sm dark:bg-neutral-800/90">
           <div className="flex self-end p-2">
             <div className="ml-2 flex h-6 w-6 items-center justify-center">
               {isProceed && (

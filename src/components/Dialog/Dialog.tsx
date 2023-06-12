@@ -18,7 +18,7 @@ const Dialog = ({ children, onClickAway, openState }: DialogProps) => {
     return (
       <dialog
         open={shouldRender}
-        className={`absolute left-0 top-0 z-50 flex h-screen w-screen items-center justify-center bg-black/30 backdrop-blur-lg ${
+        className={`absolute left-0 top-0 z-50 flex h-screen w-screen items-center justify-center bg-neutral-500/20 backdrop-blur-lg dark:bg-black/30 ${
           animateTrigger ? "opacity-1" : "opacity-0"
         } transition-opacity`}
         onTransitionEnd={handleTransition}

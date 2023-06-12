@@ -139,7 +139,7 @@ const TodoPanel = ({ enabled, openCreateTodo }: TodoPanelProps) => {
 
   if (isLoading) {
     return (
-      <div className="mt-4 flex h-[90%] max-h-[500px] w-3/5 justify-center rounded-lg bg-neutral-400/40 py-8 backdrop-blur-sm">
+      <div className="mt-4 flex h-[90%] max-h-[500px] w-3/5 justify-center rounded-lg bg-neutral-300/40 py-8 backdrop-blur-sm dark:bg-neutral-800/60">
         <div className="flex h-full w-full items-center justify-center">
           <span className="flex items-center justify-center">
             <span className={`ml-2 ${loader_styles.loader as string}`} />
@@ -151,7 +151,7 @@ const TodoPanel = ({ enabled, openCreateTodo }: TodoPanelProps) => {
 
   if (todosData && todosData.length > 0) {
     return (
-      <div className="mt-4 flex h-[90%] max-h-[500px] w-3/5 flex-col justify-center rounded-lg bg-neutral-400/40 py-2 backdrop-blur-sm">
+      <div className="mt-4 flex h-[90%] max-h-[500px] w-3/5 flex-col justify-center rounded-lg bg-neutral-300/40 py-2 backdrop-blur-sm transition-colors dark:bg-neutral-800/60">
         <TodoControllers
           sortingTodos={sortingTodos}
           setSortingTodos={setSortingTodos}
@@ -185,7 +185,7 @@ const TodoPanel = ({ enabled, openCreateTodo }: TodoPanelProps) => {
           <CircleButton
             info="Add Todo"
             onClick={openCreateTodo}
-            className="absolute bottom-4 right-2 mr-5"
+            className="absolute bottom-4 right-2 mr-5 hover:bg-cyan-400 dark:hover:bg-cyan-500"
           >
             <AddTodoIcon className="h-6 w-6" />
           </CircleButton>
@@ -194,13 +194,13 @@ const TodoPanel = ({ enabled, openCreateTodo }: TodoPanelProps) => {
     );
   } else if (todosData && !todosData.length) {
     return (
-      <div className="mt-4 flex h-[90%] max-h-[500px] w-3/5 justify-center rounded-lg bg-neutral-400/40 py-8 backdrop-blur-sm">
+      <div className="mt-4 flex h-[90%] max-h-[500px] w-3/5 justify-center rounded-lg bg-neutral-300/40 py-8 backdrop-blur-sm transition-colors dark:bg-neutral-800/60">
         <NoTodos buttonHandler={openCreateTodo} />
       </div>
     );
   } else {
     return (
-      <div className="mt-4 flex h-[90%] max-h-[500px] w-3/5 justify-center rounded-lg bg-neutral-400/40 py-8 backdrop-blur-sm">
+      <div className="mt-4 flex h-[90%] max-h-[500px] w-3/5 justify-center rounded-lg bg-neutral-300/40 py-8 backdrop-blur-sm transition-colors dark:bg-neutral-800/60">
         <div className="flex h-full w-full items-center justify-center">
           <span className="flex items-center justify-center">
             <span className={`ml-2 ${loader_styles.loader as string}`} />

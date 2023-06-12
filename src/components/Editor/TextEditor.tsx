@@ -35,7 +35,7 @@ import style from "@/styles/small_loader.module.css";
 
 function Placeholder() {
   return (
-    <div className="editor-placeholder pointer-events-none absolute text-neutral-600">
+    <div className="editor-placeholder pointer-events-none absolute text-neutral-400 dark:text-neutral-500">
       Enter your daylog / journal in here!
     </div>
   );
@@ -132,7 +132,7 @@ const TextEditor = ({ editorContent, editorStateRef }: TextEditorProps) => {
   }
 
   return (
-    <div className="editor-container relative flex h-full w-full flex-col rounded-lg border-2 border-neutral-700 bg-neutral-800 px-6 py-1">
+    <div className="editor-container relative flex h-full w-full flex-col rounded-lg border-2 border-neutral-300 bg-neutral-200 px-6 py-1 transition-colors dark:border-neutral-700 dark:bg-neutral-800">
       <div className="flex h-max w-full">
         <ToolbarPlugin />
         <span className="ml-1 flex items-center justify-center">
@@ -144,11 +144,11 @@ const TextEditor = ({ editorContent, editorStateRef }: TextEditorProps) => {
         </span>
       </div>
       <div
-        className={`editor-inner relative mt-2 flex h-[80%] w-full rounded-md bg-neutral-700 p-2 drop-shadow-md`}
+        className={`editor-inner relative mt-2 flex h-[80%] w-full rounded-md border-2 border-neutral-400 bg-neutral-300 p-2 shadow-lg transition-colors dark:border-neutral-500 dark:bg-neutral-700 `}
       >
         <RichTextPlugin
           contentEditable={
-            <ContentEditable className="editor-input flex w-full flex-col overflow-y-scroll focus:outline-none" />
+            <ContentEditable className="editor-input flex w-full flex-col overflow-y-scroll text-black focus:outline-none dark:text-white" />
           }
           placeholder={<Placeholder />}
           ErrorBoundary={LexicalErrorBoundary}

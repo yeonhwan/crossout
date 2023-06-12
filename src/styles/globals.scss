@@ -46,6 +46,10 @@ svg {
   fill: currentColor;
 }
 
+select:focus-visible {
+  outline: none;
+}
+
 /* for text editor formatting (styles are not applied correctly because of classNames of css modules are randomly encoded by Next) */
 .editor-input {
   color: white;
@@ -102,5 +106,44 @@ svg {
 
   .underline-dash {
     text-decoration: underline line-through;
+  }
+}
+
+.simple {
+  background: linear-gradient(85deg, #b6b6b6, #9d9d9d);
+  background-size: 400% 400%;
+  animation: simple 30s ease alternate-reverse infinite;
+}
+
+.dark .simple {
+  background: linear-gradient(85deg, #494949, #373737);
+  background-size: 400% 400%;
+  animation: simple 30s ease alternate-reverse infinite;
+}
+
+.vertical {
+  position: absolute;
+  --base: 367px;
+  --increasement: calc(100vw - var(--base));
+  width: calc(100% + var(--increasement) + 10vw);
+  height: calc(100% + var(--increasement) + 10vw);
+  top: calc(-1 * (var(--increasement) + 10vw));
+
+  @media screen and (min-width: 600px) {
+    width: calc(100% + var(--increasement) + 30vw);
+    height: calc(100% + var(--increasement) + 30vw);
+    top: calc(-1 * (var(--increasement) + 30vw));
+  }
+}
+
+@keyframes simple {
+  0% {
+    background-position: 0% 48%;
+  }
+  50% {
+    background-position: 100% 53%;
+  }
+  100% {
+    background-position: 0% 48%;
   }
 }
