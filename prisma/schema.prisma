@@ -129,8 +129,7 @@ model DateRecord {
 
     @@index([userId])
     @@index([date])
-
-    @@unique([year, month, date])
+    @@index([year, month, date, userId])
 }
 
 model Revenue {
