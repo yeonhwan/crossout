@@ -13,7 +13,7 @@ type ListboardSelectProps = {
   className?: string;
 };
 
-import { HomeContext } from "@/pages";
+import { HomeContext } from "@/pages/[username]/home";
 
 const ListboardSelect = ({
   input,

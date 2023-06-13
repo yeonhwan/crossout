@@ -1,9 +1,6 @@
 import { protectedProcedure } from "@/server/api/trpc";
 import { z } from "zod";
 import { TRPCError } from "@trpc/server";
-
-// verify
-import tokenVerify from "@/server/api/routers/auth/tokenVerify";
 import { type Prisma, type Todo, type ListBoard } from "@prisma/client";
 
 const getTodos = protectedProcedure
@@ -19,10 +16,6 @@ const getTodos = protectedProcedure
   .query(async ({ ctx, input }) => {
     const session = ctx.session;
 
-    if (!tokenVerify(session)) {
-      throw new TRPCError({ message: "TOKEN ERROR", code: "UNAUTHORIZED" });
-    }
-
     // CASE 3 + Query. USER DOES NOT EXISTS or MATCH
     // Querying Todos with a given date
     // 1. Find User with the given userId
@@ -31,7 +24,6 @@ const getTodos = protectedProcedure
 
     const { id: userId } = session.user;
     const { year, month, date } = input.dateObject;
-    // console.log(year, month, date);
 
     try {
       const dateRecordsWithTodos = await ctx.prisma.user.findUniqueOrThrow({
@@ -52,7 +44,6 @@ const getTodos = protectedProcedure
       });
       const data = dateRecordsWithTodos.dateRecords[0];
 
-      // console.log(data);
       if (data) {
         const todos = data.todos;
         const todoIndex = data.todoIndex as Prisma.JsonArray;

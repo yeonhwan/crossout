@@ -3,7 +3,6 @@ export const currencyFormatter = (value: number) => {
     style: "currency",
     currency: "USD",
     currencyDisplay: "narrowSymbol",
-    // signDisplay: "never",
   });
 
   const currencyWithDecimal = formatter.format(value);

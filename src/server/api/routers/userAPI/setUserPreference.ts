@@ -2,9 +2,6 @@ import { protectedProcedure } from "@/server/api/trpc";
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 
-// verify
-import tokenVerify from "@/server/api/routers/auth/tokenVerify";
-
 const setUserPreference = protectedProcedure
   .input(
     z.object({
@@ -18,11 +15,7 @@ const setUserPreference = protectedProcedure
     const session = ctx.session;
     const { id: userId } = session.user;
     const { isLight, background } = input.data;
-    console.log(input.data);
 
-    if (!tokenVerify(session)) {
-      throw new TRPCError({ message: "TOKEN ERROR", code: "UNAUTHORIZED" });
-    }
     try {
       const userPreference = await ctx.prisma.user.update({
         where: {

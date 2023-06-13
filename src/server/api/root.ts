@@ -1,11 +1,11 @@
 import { createTRPCRouter } from "@/server/api/trpc";
-import { signUpRouter } from "@/server/api/routers/signup";
-import { todoRouter } from "@/server/api/routers/todo";
-import { listboardsRouter } from "@/server/api/routers/listboards";
-import { daylogRouter } from "@/server/api/routers/daylog";
-import { dateRecordRouter } from "@/server/api/routers/dateRecord";
-import { revenueRouter } from "@/server/api/routers/revenue";
-import { userRouter } from "@/server/api/routers/user";
+import { signUpRouter } from "@/server/api/routers/signupRouter";
+import { todoRouter } from "@/server/api/routers/todoRouter";
+import { listboardsRouter } from "@/server/api/routers/listboardsRouter";
+import { daylogRouter } from "@/server/api/routers/daylogRouter";
+import { dateRecordRouter } from "@/server/api/routers/dateRecordRouter";
+import { revenueRouter } from "@/server/api/routers/revenueRouter";
+import { userRouter } from "@/server/api/routers/userRouter";
 /**
  * This is the primary router for your server.
  *

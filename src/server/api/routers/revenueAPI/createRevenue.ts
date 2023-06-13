@@ -1,9 +1,7 @@
 import { protectedProcedure } from "@/server/api/trpc";
 import { z } from "zod";
 import { TRPCError } from "@trpc/server";
-
-// auth
-import tokenVerify from "@/server/api/routers/auth/tokenVerify";
+import { type DateRecord } from "@prisma/client";
 
 const createRevenue = protectedProcedure
   .input(
@@ -22,26 +20,29 @@ const createRevenue = protectedProcedure
   .mutation(async ({ ctx, input }) => {
     const session = ctx.session;
 
-    console.log(input);
-
-    if (!tokenVerify(session)) {
-      throw new TRPCError({ message: "TOKEN ERROR", code: "UNAUTHORIZED" });
-    }
-
-    // CASE 3. USER DOES NOT EXISTS or MATCH
     const { id: userId } = session.user;
-    const user = await ctx.prisma.user.findUnique({ where: { id: userId } });
-    if (!user) {
-      throw new TRPCError({ message: "BAD_REQUEST", code: "BAD_REQUEST" });
-    }
-
-    const { data, dateObj } = input;
-    const { purpose, revenue } = data;
+    const { purpose, revenue } = input.data;
+    const { year, month, date } = input.dateObj;
 
     try {
-      const dateRecord = await ctx.prisma.dateRecord.findUnique({
-        where: { year_month_date: dateObj },
+      const userWithDateRecord = await ctx.prisma.user.findUnique({
+        where: { id: userId },
+        include: {
+          dateRecords: {
+            where: {
+              year,
+              month,
+              date,
+            },
+          },
+        },
       });
+
+      if (!userWithDateRecord) {
+        throw new TRPCError({ message: "BAD_REQUEST", code: "BAD_REQUEST" });
+      }
+
+      const dateRecord = userWithDateRecord.dateRecords[0] as DateRecord;
 
       if (dateRecord) {
         const { id: dateRecordId } = dateRecord;
@@ -65,9 +66,9 @@ const createRevenue = protectedProcedure
         const newdateRecord = await ctx.prisma.dateRecord.create({
           data: {
             userId,
-            year: dateObj.year,
-            month: dateObj.month,
-            date: dateObj.date,
+            year,
+            month,
+            date,
           },
         });
 

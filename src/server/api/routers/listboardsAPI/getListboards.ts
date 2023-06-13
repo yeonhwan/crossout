@@ -1,9 +1,5 @@
 import { z } from "zod";
 import { protectedProcedure } from "@/server/api/trpc";
-import { TRPCError } from "@trpc/server";
-
-// verify
-import tokenVerify from "@/server/api/routers/auth/tokenVerify";
 import { type ListBoard } from "@prisma/client";
 
 const getListboards = protectedProcedure
@@ -18,10 +14,6 @@ const getListboards = protectedProcedure
     const session = ctx.session;
     const { id } = session.user;
     const { todos } = input.data;
-
-    if (!tokenVerify(session)) {
-      throw new TRPCError({ message: "TOKEN ERROR", code: "UNAUTHORIZED" });
-    }
 
     const user = await ctx.prisma.user.findUniqueOrThrow({
       where: { id },

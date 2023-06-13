@@ -1,10 +1,7 @@
 import { protectedProcedure } from "@/server/api/trpc";
 import { z } from "zod";
 import { TRPCError } from "@trpc/server";
-
-// verify
-import tokenVerify from "@/server/api/routers/auth/tokenVerify";
-import { type Prisma } from "@prisma/client";
+import { type Prisma, type DateRecord } from "@prisma/client";
 
 const upsertEditorContent = protectedProcedure
   .input(
@@ -21,25 +18,30 @@ const upsertEditorContent = protectedProcedure
   )
   .mutation(async ({ ctx, input }) => {
     const session = ctx.session;
-
-    if (!tokenVerify(session)) {
-      throw new TRPCError({ message: "TOKEN ERROR", code: "UNAUTHORIZED" });
-    }
-
     // CASE 3. USER DOES NOT EXISTS or MATCH
     const { id: userId } = session.user;
-    const user = await ctx.prisma.user.findUnique({ where: { id: userId } });
-    if (!user) {
+    const { year, month, date } = input.dateObj;
+    const { content } = input.data;
+    const contentDataJson = JSON.parse(content) as Prisma.JsonObject;
+
+    const userWithDateRecord = await ctx.prisma.user.findUnique({
+      where: { id: userId },
+      include: {
+        dateRecords: {
+          where: {
+            year,
+            month,
+            date,
+          },
+        },
+      },
+    });
+
+    if (!userWithDateRecord) {
       throw new TRPCError({ message: "BAD_REQUEST", code: "BAD_REQUEST" });
     }
 
-    const { content } = input.data;
-    const { dateObj } = input;
-    const contentDataJson = JSON.parse(content) as Prisma.JsonObject;
-
-    const dateRecord = await ctx.prisma.dateRecord.findUnique({
-      where: { year_month_date: dateObj },
-    });
+    const dateRecord = userWithDateRecord.dateRecords[0] as DateRecord;
 
     if (dateRecord) {
       const { id: dateRecordId } = dateRecord;
@@ -64,9 +66,9 @@ const upsertEditorContent = protectedProcedure
       const dateRecord = await ctx.prisma.dateRecord.create({
         data: {
           userId,
-          year: dateObj.year,
-          month: dateObj.month,
-          date: dateObj.date,
+          year,
+          month,
+          date,
         },
       });
       const { id: dateRecordId } = dateRecord;

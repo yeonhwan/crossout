@@ -1,8 +1,6 @@
 import { protectedProcedure } from "@/server/api/trpc";
 import { z } from "zod";
 import { TRPCError } from "@trpc/server";
-
-import tokenVerify from "@/server/api/routers/auth/tokenVerify";
 import { type RevenueClient } from "@/types/client";
 
 const getRevenues = protectedProcedure
@@ -17,13 +15,6 @@ const getRevenues = protectedProcedure
   )
   .query(async ({ ctx, input }) => {
     const session = ctx.session;
-
-    if (!tokenVerify(session)) {
-      throw new TRPCError({ message: "TOKEN ERROR", code: "UNAUTHORIZED" });
-    }
-
-    // CASE 3 + Query. USER DOES NOT EXISTS or MATCH
-    // Querying Todos with a given date
     // 1. Find User with the given userId
     // 2. Find Dayrecord with the given dateObj
     // 3. Query all todos in related Dayrecord

@@ -2,9 +2,6 @@ import { protectedProcedure } from "@/server/api/trpc";
 import { z } from "zod";
 import { TRPCError } from "@trpc/server";
 
-// verify
-import tokenVerify from "@/server/api/routers/auth/tokenVerify";
-
 const deleteListboard = protectedProcedure
   .input(
     z.object({
@@ -14,32 +11,34 @@ const deleteListboard = protectedProcedure
     })
   )
   .mutation(async ({ ctx, input }) => {
-    const session = ctx.session;
+    try {
+      const { id } = input.data;
 
-    if (!tokenVerify(session)) {
-      throw new TRPCError({ message: "TOKEN ERROR", code: "UNAUTHORIZED" });
-    }
-
-    const { id } = input.data;
-
-    await ctx.prisma.listBoard.update({
-      where: { id },
-      data: {
-        todos: {
-          set: [],
+      await ctx.prisma.listBoard.update({
+        where: { id },
+        data: {
+          todos: {
+            set: [],
+          },
         },
-      },
-    });
+      });
 
-    const listboard = await ctx.prisma.listBoard.delete({
-      where: { id },
-    });
+      const listboard = await ctx.prisma.listBoard.delete({
+        where: { id },
+      });
 
-    return {
-      data: listboard,
-      message: "Successfully Deleted",
-      content: listboard.title,
-    };
+      return {
+        data: listboard,
+        message: "Successfully Deleted",
+        content: listboard.title,
+      };
+    } catch (err) {
+      throw new TRPCError({
+        message: "SERVER ERROR",
+        code: "INTERNAL_SERVER_ERROR",
+        cause: err,
+      });
+    }
   });
 
 export default deleteListboard;

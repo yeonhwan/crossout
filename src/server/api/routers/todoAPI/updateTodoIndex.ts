@@ -2,9 +2,6 @@ import { protectedProcedure } from "@/server/api/trpc";
 import { z } from "zod";
 import { TRPCError } from "@trpc/server";
 import array from "lodash";
-
-// auth
-import tokenVerify from "@/server/api/routers/auth/tokenVerify";
 import { type Prisma } from "@prisma/client";
 
 const updateTodoIndex = protectedProcedure
@@ -14,15 +11,7 @@ const updateTodoIndex = protectedProcedure
     })
   )
   .mutation(async ({ ctx, input }) => {
-    const session = ctx.session;
-
-    if (!tokenVerify(session)) {
-      throw new TRPCError({ message: "TOKEN ERROR", code: "UNAUTHORIZED" });
-    }
-
     const { dateRecordId, index } = input.data;
-
-    // console.log(dateRecordId, index);
 
     const dateRecord = await ctx.prisma.dateRecord.findUnique({
       where: { id: dateRecordId },
@@ -33,20 +22,14 @@ const updateTodoIndex = protectedProcedure
 
     const currentIndex = dateRecord.todoIndex as Prisma.JsonArray;
 
-    // console.log(currentIndex);
-
     if (array.xor(currentIndex, index).length) {
       throw new TRPCError({ message: "BAD REQUEST", code: "BAD_REQUEST" });
     }
-
-    // console.log(array.xor(currentIndex, index).length);
 
     const newRecord = await ctx.prisma.dateRecord.update({
       where: { id: dateRecordId },
       data: { todoIndex: index },
     });
-
-    // console.log(newRecord);
 
     return { data: newRecord, message: "Successfuly Updated" };
   });

@@ -11,7 +11,7 @@ import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { env } from "@/env.mjs";
 import { prisma } from "@/server/db";
 import bcrypt from "bcryptjs";
-import { router, TRPCError } from "@trpc/server";
+import { TRPCError } from "@trpc/server";
 import { type Prisma, type User } from "@prisma/client";
 import { type DefaultJWT } from "next-auth/jwt";
 /**

@@ -3,8 +3,6 @@ import { z } from "zod";
 import { TRPCError } from "@trpc/server";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime";
 
-// verify
-import tokenVerify from "@/server/api/routers/auth/tokenVerify";
 import {
   type DateRecord,
   type DayLog,
@@ -28,12 +26,6 @@ const upsertDaylog = protectedProcedure
   )
   .mutation(async ({ ctx, input }) => {
     const session = ctx.session;
-
-    if (!tokenVerify(session)) {
-      throw new TRPCError({ message: "TOKEN ERROR", code: "UNAUTHORIZED" });
-    }
-
-    // CASE 3. USER DOES NOT EXISTS or MATCH
     const { id: userId } = session.user;
     const user = await ctx.prisma.user.findUnique({ where: { id: userId } });
     if (!user) {
@@ -41,12 +33,27 @@ const upsertDaylog = protectedProcedure
     }
 
     const { content, mood } = input.data;
-    const { dateObj } = input;
+    const { year, month, date } = input.dateObj;
     const contentDataJson = JSON.parse(content) as Prisma.JsonObject;
 
-    const dateRecord = await ctx.prisma.dateRecord.findUnique({
-      where: { year_month_date: dateObj },
+    const userWithDateRecord = await ctx.prisma.user.findUnique({
+      where: { id: userId },
+      include: {
+        dateRecords: {
+          where: {
+            year,
+            month,
+            date,
+          },
+        },
+      },
     });
+
+    if (!userWithDateRecord) {
+      throw new TRPCError({ message: "BAD_REQUEST", code: "BAD_REQUEST" });
+    }
+
+    const dateRecord = userWithDateRecord.dateRecords[0] as DateRecord;
 
     const upsertDaylogDB = async (dateRecordId: number): Promise<DayLog> => {
       return await ctx.prisma.dayLog.upsert({
@@ -77,9 +84,9 @@ const upsertDaylog = protectedProcedure
         const dateRecord = await ctx.prisma.dateRecord.create({
           data: {
             userId,
-            year: dateObj.year,
-            month: dateObj.month,
-            date: dateObj.date,
+            year,
+            month,
+            date,
           },
         });
         const { id: dateRecordId } = dateRecord;

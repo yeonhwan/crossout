@@ -1,10 +1,7 @@
 import { protectedProcedure } from "@/server/api/trpc";
-import { z } from "zod";
 import { TRPCError } from "@trpc/server";
-import { type Prisma, type Todo } from "@prisma/client";
-
-// auth
-import tokenVerify from "@/server/api/routers/auth/tokenVerify";
+import { z } from "zod";
+import { type DateRecord, type Prisma, type Todo } from "@prisma/client";
 
 const Urgency = ["urgent", "important", "trivial"] as const;
 
@@ -23,42 +20,19 @@ const createTodo = protectedProcedure
   )
   .mutation(async ({ ctx, input }) => {
     const session = ctx.session;
-
-    if (!tokenVerify(session)) {
-      throw new TRPCError({ message: "TOKEN ERROR", code: "UNAUTHORIZED" });
-    }
-
-    // CASE 3. USER DOES NOT EXISTS or MATCH
     const { id: userId } = session.user;
-    const user = await ctx.prisma.user.findUnique({ where: { id: userId } });
-    if (!user) {
-      throw new TRPCError({ message: "BAD_REQUEST", code: "BAD_REQUEST" });
-    }
+    const { year, month, date } = input.dateObj;
+    const { content, dateObj, urgency, listBoardId } = input;
 
     // Creating a New Todo
     // 1. Find Dayrecord, if not create new one
     // 2. (optional) Find Listboards
     // 3. Create new Todo (relate to DayRecord, User, Listboard)
 
-    try {
-      const { content, dateObj, urgency, listBoardId } = input;
-      let dateRecord = await ctx.prisma.dateRecord.findUnique({
-        where: { year_month_date: dateObj },
-      });
-      console.log(dateRecord, "dateRecord found?");
-      if (!dateRecord) {
-        dateRecord = await ctx.prisma.dateRecord.create({
-          data: {
-            userId,
-            year: dateObj.year,
-            month: dateObj.month,
-            date: dateObj.date,
-          },
-        });
-      }
-      const { id: dateRecordId, todoIndex } = dateRecord;
-      console.log(dateRecord, "dateRecord created?");
-
+    const createTodo = async (
+      dateRecordId: number,
+      todoIndex: Prisma.JsonValue
+    ) => {
       if (!listBoardId) {
         const newTodo: Todo = await ctx.prisma.todo.create({
           data: { userId, dateRecordId, content, urgency },
@@ -66,11 +40,10 @@ const createTodo = protectedProcedure
         const newIndex = todoIndex
           ? [...(todoIndex as Prisma.JsonArray), newTodo.id]
           : [newTodo.id];
-        const update = await ctx.prisma.dateRecord.update({
+        await ctx.prisma.dateRecord.update({
           where: { id: dateRecordId },
           data: { todoIndex: newIndex },
         });
-        console.log(update);
 
         return {
           data: {
@@ -86,11 +59,10 @@ const createTodo = protectedProcedure
         const newIndex = todoIndex
           ? [...(todoIndex as Prisma.JsonArray), newTodo.id]
           : [newTodo.id];
-        const update = await ctx.prisma.dateRecord.update({
+        await ctx.prisma.dateRecord.update({
           where: { id: dateRecordId },
           data: { todoIndex: newIndex },
         });
-        console.log(update);
         return {
           data: {
             content: newTodo.content,
@@ -99,10 +71,48 @@ const createTodo = protectedProcedure
           },
         };
       }
+    };
+
+    try {
+      const userWithDateRecord = await ctx.prisma.user.findUnique({
+        where: { id: userId },
+        include: {
+          dateRecords: {
+            where: {
+              year,
+              month,
+              date,
+            },
+          },
+        },
+      });
+
+      if (!userWithDateRecord) {
+        throw new TRPCError({ message: "BAD_REQUEST", code: "BAD_REQUEST" });
+      }
+
+      const dateRecord = userWithDateRecord.dateRecords[0] as DateRecord;
+
+      if (dateRecord) {
+        const { id: dateRecordId, todoIndex } = dateRecord;
+        return createTodo(dateRecordId, todoIndex);
+      } else {
+        const newDateRecord = await ctx.prisma.dateRecord.create({
+          data: {
+            userId,
+            year: dateObj.year,
+            month: dateObj.month,
+            date: dateObj.date,
+          },
+        });
+        const { id: dateRecordId, todoIndex } = newDateRecord;
+        return createTodo(dateRecordId, todoIndex);
+      }
     } catch (err) {
       throw new TRPCError({
         message: "SERVER_ERROR",
         code: "INTERNAL_SERVER_ERROR",
+        cause: err,
       });
     }
   });

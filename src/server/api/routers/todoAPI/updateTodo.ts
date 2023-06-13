@@ -2,9 +2,6 @@ import { protectedProcedure } from "@/server/api/trpc";
 import { z } from "zod";
 import { TRPCError } from "@trpc/server";
 
-// auth
-import tokenVerify from "@/server/api/routers/auth/tokenVerify";
-
 const Urgency = ["urgent", "important", "trivial"] as const;
 
 const updateTodo = protectedProcedure
@@ -21,15 +18,7 @@ const updateTodo = protectedProcedure
     })
   )
   .mutation(async ({ ctx, input }) => {
-    const session = ctx.session;
-
-    if (!tokenVerify(session)) {
-      throw new TRPCError({ message: "TOKEN ERROR", code: "UNAUTHORIZED" });
-    }
-
     const { id, content, urgency, listBoardId, deadline } = input.data;
-
-    console.log(input);
 
     // prisma update does RecordNotFound check & redundant update (checking if it is undefined)
     const todo = await ctx.prisma.todo.update({

@@ -2,9 +2,6 @@ import { protectedProcedure } from "@/server/api/trpc";
 import { z } from "zod";
 import { TRPCError } from "@trpc/server";
 
-// verify
-import tokenVerify from "@/server/api/routers/auth/tokenVerify";
-
 const dateFormatter = (year: number, month: number, date: number) => {
   return `${year}-${month < 10 ? "0" + String(month) : month}-${
     date < 10 ? "0" + String(date) : date
@@ -25,19 +22,9 @@ const getYearlyChartData = protectedProcedure
     const session = ctx.session;
     const { id: userId } = session.user;
 
-    if (!tokenVerify(session)) {
-      throw new TRPCError({ message: "TOKEN ERROR", code: "UNAUTHORIZED" });
-    }
-
-    const user = await ctx.prisma.user.findUnique({ where: { id: userId } });
-    if (!user) {
-      throw new TRPCError({ message: "BAD_REQUEST", code: "BAD_REQUEST" });
-    }
-
     const queryYearlyData = async (year?: number) => {
       try {
         if (!year) year = new Date().getFullYear();
-        console.log(year);
         const yearlyDateRecordsdata = await ctx.prisma.dateRecord.findMany({
           where: {
             userId,
@@ -163,15 +150,15 @@ const getYearlyChartData = protectedProcedure
               longestCombo,
               mostBusyMonth: mostBusyMonth
                 ? `${year} ${monthsArray[mostBusyMonth - 1] as string}`
-                : undefined,
+                : "",
               averageCompleteRatio: Math.floor(
-                sumOfTodosCompleteRatio / yearlyTotalTodos
+                sumOfTodosCompleteRatio / yearlyDateRecordsdata.length
               ),
             },
           };
 
           // yearly revenues query
-          const revenuesMonthlyCounthMap = new Map<number, number>();
+          const revenuesMonthlyCountMap = new Map<number, number>();
 
           let yearlyTotalLoss = 0;
           let yearlyTotalProfit = 0;
@@ -196,16 +183,16 @@ const getYearlyChartData = protectedProcedure
               );
 
               if (totalCount) {
-                const currentMonthData = revenuesMonthlyCounthMap.get(
+                const currentMonthData = revenuesMonthlyCountMap.get(
                   data.month
                 );
                 if (currentMonthData)
-                  revenuesMonthlyCounthMap.set(
+                  revenuesMonthlyCountMap.set(
                     data.month,
                     currentMonthData + totalRevenue
                   );
                 else {
-                  revenuesMonthlyCounthMap.set(data.month, totalRevenue);
+                  revenuesMonthlyCountMap.set(data.month, totalRevenue);
                 }
               }
 
@@ -213,13 +200,21 @@ const getYearlyChartData = protectedProcedure
             })
             .filter((data) => data.value !== 0);
 
-          const mostEarnedMonth = [
-            ...revenuesMonthlyCounthMap.entries(),
-          ].reduce((acc, cur) => (cur[1] > acc[1] ? [...cur] : [...acc]))[0];
+          const revenuesMonthlyCounts = Array.from(
+            revenuesMonthlyCountMap.entries()
+          );
 
-          const mostLostMonth = [...revenuesMonthlyCounthMap.entries()].reduce(
-            (acc, cur) => (cur[1] < acc[1] ? [...cur] : [...acc])
-          )[0];
+          const mostEarnedMonth = revenuesMonthlyCounts.length
+            ? [...revenuesMonthlyCounts].reduce((acc, cur) =>
+                cur[1] > acc[1] ? [...cur] : [...acc]
+              )[0]
+            : "";
+
+          const mostLostMonth = revenuesMonthlyCounts.length
+            ? [...revenuesMonthlyCounts].reduce((acc, cur) =>
+                cur[1] < acc[1] ? [...cur] : [...acc]
+              )[0]
+            : "";
 
           yearlyRevenuesArray.forEach((data) => {
             if (data.value > 0) {
@@ -247,10 +242,10 @@ const getYearlyChartData = protectedProcedure
             cards: {
               mostEarnedMonth: mostEarnedMonth
                 ? `${year} ${monthsArray[mostEarnedMonth - 1] as string}`
-                : undefined,
+                : "",
               mostLostMonth: mostLostMonth
                 ? `${year} ${monthsArray[mostLostMonth - 1] as string}`
-                : undefined,
+                : "",
               highestProfit,
               highestLoss,
             },
@@ -258,18 +253,33 @@ const getYearlyChartData = protectedProcedure
 
           // yearly moods (daylog) query
           // terrible: 0, bad: 1, normal: 2, good: 3, happy: 4
-          let longestDaylogRecords = 0;
-          let currentDaylogRecords = 0;
+          let longestDaylogRecords = 1;
+          let currentDaylogRecords = 1;
 
           const yearlyMoodsArray = yearlyDateRecordsdata
-            .map((data) => {
+            .map((data, i, arr) => {
               const day = dateFormatter(data.year, data.month, data.date);
               if (data.daylogs) {
-                currentDaylogRecords++;
-                longestDaylogRecords = Math.max(
-                  currentDaylogRecords,
-                  longestDaylogRecords
-                );
+                if (i && arr[i]?.date === (arr[i - 1]?.date as number) + 1) {
+                  currentDaylogRecords++;
+                  longestDaylogRecords = Math.max(
+                    currentDaylogRecords,
+                    longestDaylogRecords
+                  );
+                } else {
+                  if (
+                    i &&
+                    (arr[i]?.month as number) > (arr[i - 1]?.month as number)
+                  ) {
+                    currentDaylogRecords++;
+                    longestDaylogRecords = Math.max(
+                      currentDaylogRecords,
+                      longestDaylogRecords
+                    );
+                  }
+                  currentDaylogRecords = 1;
+                }
+
                 const mood =
                   data.daylogs.mood === "terrible"
                     ? 1
@@ -283,7 +293,6 @@ const getYearlyChartData = protectedProcedure
 
                 return { day, value: mood };
               } else {
-                currentDaylogRecords = 0;
                 return null;
               }
             })
@@ -295,49 +304,59 @@ const getYearlyChartData = protectedProcedure
           const moodCount = [0, 0, 0, 0, 0];
           const moodsArray = ["terrible", "bad", "normal", "good", "happy"];
 
-          yearlyMoodsArray.forEach((data) => {
-            if (data.value) {
-              switch (data.value) {
-                case 1:
-                  moodCount[0]++;
-                  break;
-                case 2:
-                  moodCount[1]++;
-                  break;
-                case 3:
-                  moodCount[2]++;
-                  break;
-                case 4:
-                  moodCount[3]++;
-                  break;
-                case 5:
-                  moodCount[4]++;
-                  break;
+          if (yearlyMoodsArray.length) {
+            yearlyMoodsArray.forEach((data) => {
+              if (data.value) {
+                switch (data.value) {
+                  case 1:
+                    moodCount[0]++;
+                    break;
+                  case 2:
+                    moodCount[1]++;
+                    break;
+                  case 3:
+                    moodCount[2]++;
+                    break;
+                  case 4:
+                    moodCount[3]++;
+                    break;
+                  case 5:
+                    moodCount[4]++;
+                    break;
 
-                default:
-                  throw new TRPCError({
-                    message: "SERVER ERROR, WRONG VALUE",
-                    code: "INTERNAL_SERVER_ERROR",
-                  });
+                  default:
+                    throw new TRPCError({
+                      message: "SERVER ERROR, WRONG VALUE",
+                      code: "INTERNAL_SERVER_ERROR",
+                    });
+                }
               }
-            }
-          });
+            });
+          }
 
-          const averageMood = Math.round(
-            moodCount.reduce((acc, cur, index) => acc + (cur * index + 1), 0) /
-              5
-          );
+          const totalMoodsCount = moodCount.reduce((acc, cur) => acc + cur);
 
-          const goodRatio = Math.round(
-            (((moodCount[3] as number) + (moodCount[4] as number)) /
-              yearlyMoodsArray.length) *
-              100
-          );
-          const badRatio = Math.round(
-            (((moodCount[0] as number) + (moodCount[1] as number)) /
-              yearlyMoodsArray.length) *
-              100
-          );
+          const averageMood = yearlyMoodsArray.length
+            ? Math.round(
+                moodCount.reduce((acc, cur, index) => acc + cur * index, 0) /
+                  totalMoodsCount
+              )
+            : 2;
+
+          const goodRatio = yearlyMoodsArray.length
+            ? Math.round(
+                (((moodCount[3] as number) + (moodCount[4] as number)) /
+                  yearlyMoodsArray.length) *
+                  100
+              )
+            : 0;
+          const badRatio = yearlyMoodsArray.length
+            ? Math.round(
+                (((moodCount[0] as number) + (moodCount[1] as number)) /
+                  yearlyMoodsArray.length) *
+                  100
+              )
+            : 0;
 
           const yearlyMoodsData = {
             data: yearlyMoodsArray,
@@ -357,7 +376,7 @@ const getYearlyChartData = protectedProcedure
               badRatio,
             },
             cards: {
-              averageMood: averageMood ? moodsArray[averageMood] : undefined,
+              averageMood: averageMood ? moodsArray[averageMood] : "",
               longestDaylogRecords,
             },
           };
@@ -373,9 +392,9 @@ const getYearlyChartData = protectedProcedure
                 completed: 0,
               },
               cards: {
-                mostBusyDay: undefined,
+                mostBusyDay: "",
                 longestCombo: 0,
-                mostBusyMonth: undefined,
+                mostBusyMonth: "",
                 averageCompleteRatio: 0,
               },
             },
@@ -387,8 +406,8 @@ const getYearlyChartData = protectedProcedure
                 totalRevenue: 0,
               },
               cards: {
-                mostEarnedMonth: undefined,
-                mostLostMonth: undefined,
+                mostEarnedMonth: "",
+                mostLostMonth: "",
                 highestProfit: 0,
                 highestLoss: 0,
               },
@@ -401,16 +420,18 @@ const getYearlyChartData = protectedProcedure
                 badRatio: 0,
               },
               cards: {
-                averageMood: undefined,
+                averageMood: "",
                 longestDaylogRecords: 0,
               },
             },
           };
         }
       } catch (err) {
+        console.log(err);
         throw new TRPCError({
           message: "QUERY FAILED",
           code: "INTERNAL_SERVER_ERROR",
+          cause: err,
         });
       }
     };

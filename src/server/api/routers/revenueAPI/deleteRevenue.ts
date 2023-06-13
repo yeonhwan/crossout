@@ -2,9 +2,6 @@ import { protectedProcedure } from "@/server/api/trpc";
 import { z } from "zod";
 import { TRPCError } from "@trpc/server";
 
-// auth
-import tokenVerify from "../auth/tokenVerify";
-
 const deleteRevenue = protectedProcedure
   .input(
     z.object({
@@ -14,12 +11,6 @@ const deleteRevenue = protectedProcedure
     })
   )
   .mutation(async ({ ctx, input }) => {
-    const session = ctx.session;
-
-    if (!tokenVerify(session)) {
-      throw new TRPCError({ message: "TOKEN ERROR", code: "UNAUTHORIZED" });
-    }
-
     const { id } = input.data;
 
     try {

@@ -3,9 +3,6 @@ import { z } from "zod";
 import { TRPCError } from "@trpc/server";
 import { type Prisma } from "@prisma/client";
 
-// auth
-import tokenVerify from "../auth/tokenVerify";
-
 const deleteTodo = protectedProcedure
   .input(
     z.object({
@@ -16,12 +13,6 @@ const deleteTodo = protectedProcedure
     })
   )
   .mutation(async ({ ctx, input }) => {
-    const session = ctx.session;
-
-    if (!tokenVerify(session)) {
-      throw new TRPCError({ message: "TOKEN ERROR", code: "UNAUTHORIZED" });
-    }
-
     const { id, dateRecordId } = input.data;
 
     // delete a todo dateRecordId's todo's todosIndex

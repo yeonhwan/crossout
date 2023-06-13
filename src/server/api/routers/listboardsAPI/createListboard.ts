@@ -2,9 +2,6 @@ import { protectedProcedure } from "@/server/api/trpc";
 import { z } from "zod";
 import { TRPCError } from "@trpc/server";
 
-// verify
-import tokenVerify from "@/server/api/routers/auth/tokenVerify";
-
 const createListboard = protectedProcedure
   .input(
     z.object({
@@ -16,11 +13,6 @@ const createListboard = protectedProcedure
   )
   .mutation(async ({ ctx, input }) => {
     const session = ctx.session;
-
-    if (!tokenVerify(session)) {
-      throw new TRPCError({ message: "TOKEN ERROR", code: "UNAUTHORIZED" });
-    }
-
     const { description, title } = input.data;
     const { id: userId } = session.user;
 
