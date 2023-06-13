@@ -7,6 +7,7 @@ import ListView from "@/components/Lists/ListView";
 
 //ICONS
 import TrashIcon from "public/icons/trash.svg";
+import LoaderIcon from "public/icons/spinner.svg";
 
 // types
 import { type ListboardItemType } from "@/types/client";
@@ -38,7 +39,7 @@ const ListboardItem = ({
   );
   const { id } = data;
 
-  const { mutate: deleteListboard } =
+  const { mutate: deleteListboard, isLoading } =
     api.listboards.deleteListboard.useMutation({
       onSuccess: async (res) => {
         const { message, content } = res;
@@ -91,13 +92,17 @@ const ListboardItem = ({
       <div className="flex h-2/3 w-full items-center justify-between rounded-t-3xl border-b-2 border-b-neutral-400 bg-neutral-200 px-2 py-3 dark:border-b-neutral-700 dark:bg-neutral-500">
         <p className="text-neutral-700 dark:text-white">{data.title}</p>
         <div className="flex">
-          <CircleButton
-            onClick={deleteListboardHandler}
-            info="Delete listboard"
-            className="mr-1 h-6 w-6 rounded-md bg-red-300 p-0 hover:bg-red-400 dark:bg-red-400 dark:hover:bg-red-500"
-          >
-            <TrashIcon className="h-3 w-3" fill="white" />
-          </CircleButton>
+          {isLoading ? (
+            <LoaderIcon className="h-6 w-6 fill-neutral-600 dark:fill-white" />
+          ) : (
+            <CircleButton
+              onClick={deleteListboardHandler}
+              info="Delete listboard"
+              className="mr-1 h-6 w-6 rounded-md bg-red-300 p-0 hover:bg-red-400 dark:bg-red-400 dark:hover:bg-red-500"
+            >
+              <TrashIcon className="h-3 w-3" fill="white" />
+            </CircleButton>
+          )}
         </div>
       </div>
       <div className="flex h-full w-full flex-col px-2 py-1">

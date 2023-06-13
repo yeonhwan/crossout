@@ -14,11 +14,11 @@ import ListboardSelect from "../Select/ListboardSelect";
 // api
 import { api } from "@/utils/api";
 
+// Icons
+import LoaderIcon from "public/icons/spinner.svg";
+
 // stores
 import useDateStore from "@/stores/useDateStore";
-
-// styles
-import loader_styles from "@/styles/loader.module.css";
 import useSnackbarStore, { SnackbarRole } from "@/stores/useSnackbarStore";
 
 // Urgency Enum
@@ -150,10 +150,8 @@ const TodoForm = (
       </div>
       <div className="flex">
         {isProceed ? (
-          <Button className="pointer-events-none flex justify-center px-4">
-            <span className="flex h-full w-full items-center justify-center">
-              <span className={`${loader_styles.loader as string}`} />
-            </span>
+          <Button className="pointer-events-none flex items-center justify-center px-4">
+            <LoaderIcon className="h-8 w-8 fill-white" />
           </Button>
         ) : (
           <>

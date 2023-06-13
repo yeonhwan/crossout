@@ -18,8 +18,10 @@ import { api } from "@/utils/api";
 import useDateStore from "@/stores/useDateStore";
 
 // styles
-import loader_styles from "@/styles/loader.module.css";
 import useSnackbarStore, { SnackbarRole } from "@/stores/useSnackbarStore";
+
+// Icons
+import LoaderIcon from "public/icons/spinner.svg";
 
 // Urgency Enum
 enum Urgency {
@@ -147,14 +149,22 @@ const RevenueForm = (
       <div className="flex">
         {isProceed ? (
           <Button className="pointer-events-none flex justify-center px-4">
-            <span className="flex h-full w-full items-center justify-center">
-              <span className={`${loader_styles.loader as string}`} />
-            </span>
+            <LoaderIcon className="h-8 w-8 fill-white" />
           </Button>
         ) : (
           <>
-            <Button onClick={confirmOnClickHandler}>Confirm</Button>
-            <Button onClick={cancelButtonHandler}>Cancel</Button>
+            <Button
+              className="hover:bg-emerald-400 dark:hover:bg-emerald-500"
+              onClick={confirmOnClickHandler}
+            >
+              Confirm
+            </Button>
+            <Button
+              className="hover:bg-red-400 dark:hover:bg-red-500"
+              onClick={cancelButtonHandler}
+            >
+              Cancel
+            </Button>
           </>
         )}
       </div>

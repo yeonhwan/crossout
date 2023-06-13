@@ -21,6 +21,8 @@ import type { EditorState } from "lexical";
 import { useRef, useEffect, type MutableRefObject } from "react";
 import { useDebouncedCallback } from "use-debounce";
 
+import LoaderIcon from "public/icons/spinner.svg";
+
 // api
 import { api } from "@/utils/api";
 
@@ -29,9 +31,6 @@ import _ from "lodash";
 
 // store
 import useDateStore from "@/stores/useDateStore";
-
-// styles
-import style from "@/styles/small_loader.module.css";
 
 function Placeholder() {
   return (
@@ -78,10 +77,6 @@ const TextEditor = ({ editorContent, editorStateRef }: TextEditorProps) => {
 
   const { mutate: upsertTextEditor, isLoading: isUpesrting } =
     api.daylog.upsertEditorContent.useMutation({
-      onSuccess: (res) => {
-        console.log(res.data);
-      },
-
       onError: (err) => {
         console.log(err);
       },
@@ -136,9 +131,9 @@ const TextEditor = ({ editorContent, editorStateRef }: TextEditorProps) => {
       <div className="flex h-max w-full">
         <ToolbarPlugin />
         <span className="ml-1 flex items-center justify-center">
-          <span
-            className={`${style.loader as string} ${
-              isUpesrting ? "opacity-100" : "opacity-0"
+          <LoaderIcon
+            className={`h-6 w-6 fill-white ${
+              isUpesrting ? "opaicty-100" : "opacity-0"
             }`}
           />
         </span>

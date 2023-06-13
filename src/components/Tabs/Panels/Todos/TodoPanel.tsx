@@ -8,6 +8,7 @@ import CircleButton from "@/components/Buttons/CircleButton";
 
 // Icons
 import AddTodoIcon from "/public/icons/lists.svg";
+import LoaderIcon from "public/icons/spinner.svg";
 
 // React
 import { useState, useRef } from "react";
@@ -35,9 +36,6 @@ import useSnackbarStore, { SnackbarRole } from "@/stores/useSnackbarStore";
 
 //types
 import { type TodoWithListboardType } from "@/types/client";
-
-// styles
-import loader_styles from "@/styles/loader.module.css";
 
 // props
 type TodoPanelProps = {
@@ -141,9 +139,7 @@ const TodoPanel = ({ enabled, openCreateTodo }: TodoPanelProps) => {
     return (
       <div className="mt-4 flex h-[90%] max-h-[500px] w-3/5 justify-center rounded-lg bg-neutral-300/40 py-8 backdrop-blur-sm dark:bg-neutral-800/60">
         <div className="flex h-full w-full items-center justify-center">
-          <span className="flex items-center justify-center">
-            <span className={`ml-2 ${loader_styles.loader as string}`} />
-          </span>
+          <LoaderIcon className="h-10 w-10" />
         </div>
       </div>
     );
@@ -202,9 +198,7 @@ const TodoPanel = ({ enabled, openCreateTodo }: TodoPanelProps) => {
     return (
       <div className="mt-4 flex h-[90%] max-h-[500px] w-3/5 justify-center rounded-lg bg-neutral-300/40 py-8 backdrop-blur-sm transition-colors dark:bg-neutral-800/60">
         <div className="flex h-full w-full items-center justify-center">
-          <span className="flex items-center justify-center">
-            <span className={`ml-2 ${loader_styles.loader as string}`} />
-          </span>
+          <LoaderIcon className="h-10 w-10" />
         </div>
       </div>
     );

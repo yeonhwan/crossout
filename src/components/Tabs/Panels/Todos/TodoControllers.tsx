@@ -12,9 +12,7 @@ import CircleButton from "@/components/Buttons/CircleButton";
 import OpenWithIcon from "@mui/icons-material/OpenWith";
 import CloseIcon from "@mui/icons-material/Close";
 import CheckIcon from "@mui/icons-material/Check";
-
-// styles
-import loader_styles from "@/styles/loader.module.css";
+import LoaderIcon from "public/icons/spinner.svg";
 
 // types
 import { type TodoWithListboardType } from "@/types/client";
@@ -51,11 +49,7 @@ const TodoControllers = ({
 
   return (
     <div className="flex h-max w-max items-center justify-center self-end">
-      {isSortProceed && (
-        <div className="mr-2 flex h-6 w-8 items-center justify-center">
-          <span className={`ml-2 ${loader_styles.loader as string}`} />
-        </div>
-      )}
+      {isSortProceed && <LoaderIcon className="h-8 w-8 fill-white" />}
       <div className="my-1 mr-4 flex h-max min-w-max items-center justify-center rounded-full px-2 py-1">
         {/* {!sortingTodos && (
           <select className="mx-2 rounded-xl bg-neutral-600 px-2 py-[3px] text-white outline-none hover:cursor-pointer">

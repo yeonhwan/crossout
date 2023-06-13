@@ -27,11 +27,9 @@ import useSnackbarStore, { SnackbarRole } from "@/stores/useSnackbarStore";
 // types
 import { type InitialConfigType } from "@lexical/react/LexicalComposer";
 
-// styles
-import loader_styles from "@/styles/loader.module.css";
-
 // ICONS
 import SaveIcon from "public/icons/save.svg";
+import LoaderIcon from "public/icons/spinner.svg";
 
 const DaylogPanel = () => {
   const [moodData, setMoodData] = useState<Mood>("normal");
@@ -101,9 +99,7 @@ const DaylogPanel = () => {
     if (isLoading) {
       return (
         <div className="flex h-full w-full items-center justify-center">
-          <span className="flex items-center justify-center">
-            <span className={`ml-2 ${loader_styles.loader as string}`} />
-          </span>
+          <LoaderIcon className="h-10 w-10" />
         </div>
       );
     }
@@ -121,9 +117,9 @@ const DaylogPanel = () => {
       <>
         <div className="mb-2 flex h-max w-full flex-col">
           <div className="absolute right-3 top-3 flex">
-            <span className="m-1 flex items-center justify-center">
-              <span
-                className={`${loader_styles.loader as string} ${
+            <span className="flex items-center justify-center">
+              <LoaderIcon
+                className={`h-8 w-8 fill-white ${
                   isUpserting ? "opacity-100" : "opacity-0"
                 }`}
               />

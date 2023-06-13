@@ -7,6 +7,7 @@ import CheckIcon from "@mui/icons-material/Check";
 import BlockIcon from "@mui/icons-material/Block";
 import TrashIcon from "public/icons/trash.svg";
 import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
+import LoaderIcon from "public/icons/spinner.svg";
 
 // Types
 import { type Todo, type ListBoard } from "@prisma/client";
@@ -25,9 +26,6 @@ import { api } from "@/utils/api";
 
 // React
 import { useState, useRef } from "react";
-
-// styles
-import loader_styles from "@/styles/loader.module.css";
 
 // stores
 import useSnackbarStore, { SnackbarRole } from "@/stores/useSnackbarStore";
@@ -234,7 +232,9 @@ const TodoItem = ({ data, sortingTodos }: TodoItemProps) => {
         <CircleButton
           info="delete"
           className={`h-6 w-6 rounded-md bg-red-300 p-0 hover:bg-red-400 dark:bg-red-400 dark:hover:bg-red-500 ${
-            isProceed ? "pointer-events-none" : ""
+            isProceed
+              ? "pointer-events-none bg-neutral-400 dark:bg-neutral-500"
+              : ""
           }`}
           onClick={(e) => {
             e?.stopPropagation();
@@ -273,9 +273,7 @@ const TodoItem = ({ data, sortingTodos }: TodoItemProps) => {
               <p className="text-xs">{UrgencyDisplay[urgency]}</p>
             </div>
             <div className="ml-2 flex h-6 w-6 items-center justify-center">
-              {isProceed && (
-                <span className={`${loader_styles.loader as string}`} />
-              )}
+              {isProceed && <LoaderIcon className="h-6 w-6" />}
             </div>
           </div>
           {deadlineString && <p>{deadlineString}</p>}
@@ -338,12 +336,10 @@ const TodoItem = ({ data, sortingTodos }: TodoItemProps) => {
                 onChange={setListboardInput}
               />
             </div>
-            <div className="flex w-max justify-between">
+            <div className="flex w-14 justify-between">
               {isProceed ? (
-                <div className="h-full w-full">
-                  <span className="flex h-8 w-8 items-center justify-center">
-                    <span className={`${loader_styles.loader as string}`} />
-                  </span>
+                <div className="flex h-full w-full items-center justify-center">
+                  <LoaderIcon className="h-8 w-8" />
                 </div>
               ) : (
                 ButtonRender()

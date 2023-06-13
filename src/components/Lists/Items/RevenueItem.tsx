@@ -8,15 +8,13 @@ import TrashIcon from "public/icons/trash.svg";
 import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
 import CheckIcon from "@mui/icons-material/Check";
 import CloseIcon from "@mui/icons-material/Close";
+import LoaderIcon from "public/icons/spinner.svg";
 
 // utils
 import { currencyFormatter } from "@/utils/currencyFormatter";
 
 // React
 import React, { useState } from "react";
-
-// styles
-import loader_styles from "@/styles/loader.module.css";
 
 // stores
 import useSnackbarStore, { SnackbarRole } from "@/stores/useSnackbarStore";
@@ -120,11 +118,6 @@ const RevenueItem = ({ data }: RevenueItemProps) => {
               <LossIcon className="h-5 w-5 fill-red-800 pt-1" />
             )}
           </div>
-          {isProceed && (
-            <span className="flex h-8 w-8 items-center justify-center">
-              <span className={`${loader_styles.loader as string}`} />
-            </span>
-          )}
         </div>
         <div className="flex h-14 w-1/2 flex-col items-center justify-between text-white">
           <div
@@ -160,21 +153,27 @@ const RevenueItem = ({ data }: RevenueItemProps) => {
             />
           </div>
         </div>
-        <div className="flex w-[15%] min-w-max items-center justify-between px-2">
-          <CircleButton
-            info="Apply"
-            className="flex h-7 w-7 rounded-lg bg-neutral-600/50 dark:bg-neutral-800/50"
-            onClick={applyUpdateClickHandler}
-          >
-            <CheckIcon className="h-3 w-3" />
-          </CircleButton>
-          <CircleButton
-            info="Cancel"
-            className="flex h-7 w-7 rounded-lg bg-neutral-600/50 dark:bg-neutral-800/50"
-            onClick={cancelClickHandler}
-          >
-            <CloseIcon className="h-3 w-3" fill="white" />
-          </CircleButton>
+        <div className="flex w-20 min-w-max items-center justify-between px-2">
+          {isProceed ? (
+            <LoaderIcon className="h-8 w-8 fill-white" />
+          ) : (
+            <>
+              <CircleButton
+                info="Apply"
+                className="flex h-7 w-7 rounded-lg bg-neutral-600/50 dark:bg-neutral-800/50"
+                onClick={applyUpdateClickHandler}
+              >
+                <CheckIcon className="h-3 w-3" />
+              </CircleButton>
+              <CircleButton
+                info="Cancel"
+                className="flex h-7 w-7 rounded-lg bg-neutral-600/50 dark:bg-neutral-800/50"
+                onClick={cancelClickHandler}
+              >
+                <CloseIcon className="h-3 w-3" fill="white" />
+              </CircleButton>
+            </>
+          )}
         </div>
       </div>
     );
@@ -205,26 +204,32 @@ const RevenueItem = ({ data }: RevenueItemProps) => {
         </p>
       </div>
       <div className="absolute right-4 top-4 flex w-[11%] min-w-max max-w-[60px] items-center justify-between">
-        <CircleButton
-          info="Edit"
-          className="flex h-7 w-7 rounded-lg bg-neutral-600/50 dark:bg-neutral-800/50"
-          onClick={() => {
-            setIsUpdating(true);
-          }}
-        >
-          <ModeEditOutlineIcon className="h-3 w-3" />
-        </CircleButton>
-        <CircleButton
-          info="Delete"
-          className="flex h-7 w-7 rounded-lg bg-neutral-600/50 dark:bg-neutral-800/50"
-          onClick={() => {
-            if (window.confirm("deleting revenue")) {
-              deleteClickHandler();
-            }
-          }}
-        >
-          <TrashIcon className="h-3 w-3" fill="white" />
-        </CircleButton>
+        {isProceed ? (
+          <LoaderIcon className="h-8 w-8 fill-white" />
+        ) : (
+          <>
+            <CircleButton
+              info="Edit"
+              className="flex h-7 w-7 rounded-lg bg-neutral-600/50 dark:bg-neutral-800/50"
+              onClick={() => {
+                setIsUpdating(true);
+              }}
+            >
+              <ModeEditOutlineIcon className="h-3 w-3" />
+            </CircleButton>
+            <CircleButton
+              info="Delete"
+              className="flex h-7 w-7 rounded-lg bg-neutral-600/50 dark:bg-neutral-800/50"
+              onClick={() => {
+                if (window.confirm("deleting revenue")) {
+                  deleteClickHandler();
+                }
+              }}
+            >
+              <TrashIcon className="h-3 w-3" fill="white" />
+            </CircleButton>
+          </>
+        )}
       </div>
     </div>
   );

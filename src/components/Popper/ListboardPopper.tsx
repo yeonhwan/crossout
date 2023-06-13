@@ -12,6 +12,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import CheckIcon from "@mui/icons-material/Check";
 import ClearIcon from "@mui/icons-material/Clear";
 import TrashIcon from "public/icons/trash.svg";
+import LoaderIcon from "public/icons/spinner.svg";
 
 //components
 import Button from "@/components/Buttons/Button";
@@ -19,9 +20,6 @@ import TodoItem from "@/components/Lists/Items/TodoItem";
 import ListView from "@/components/Lists/ListView";
 import CircleButton from "@/components/Buttons/CircleButton";
 import NoItems from "@/components/Graphic/NoItems";
-
-// styles
-import loader_styles from "@/styles/loader.module.css";
 
 // libs
 import ClickAwayListener from "@mui/base/ClickAwayListener";
@@ -138,10 +136,18 @@ const ListboardPopper = ({
     if (isUpdate) {
       return (
         <>
-          <CircleButton onClick={applyUpdateHandler} className="ml-1 h-6 w-6">
+          <CircleButton
+            onClick={applyUpdateHandler}
+            className="ml-1 h-6 w-6 rounded-md bg-emerald-500/50 hover:bg-emerald-500"
+            info="apply"
+          >
             <CheckIcon className="h-4 w-4" />
           </CircleButton>
-          <CircleButton onClick={closeUpdateHandler} className="ml-1 h-6 w-6">
+          <CircleButton
+            onClick={closeUpdateHandler}
+            className="ml-1 h-6 w-6 rounded-md bg-red-500/50 hover:bg-red-500"
+            info="cancel"
+          >
             <ClearIcon className="h-4 w-4" />
           </CircleButton>
         </>
@@ -179,26 +185,29 @@ const ListboardPopper = ({
       return (
         <>
           <label
-            className="font-semibold text-neutral-200 dark:text-white"
+            className="font-semibold text-neutral-700 dark:text-white"
             htmlFor="title"
           >
             Title
           </label>
           <input
             id="title"
-            className="mb-2 w-1/3 bg-neutral-400/40 p-1 text-center text-white outline-none focus:outline-2 focus:outline-blue-500"
+            className="mb-2 w-1/3 bg-neutral-400/40 p-1 text-center text-neutral-700 outline-none focus:outline-2 focus:outline-blue-500 dark:text-white"
             value={boardTitleInput}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
               setBoardTitleInput(e.currentTarget.value);
             }}
           />
-          <label className="font-semibold text-white" htmlFor="description">
+          <label
+            className="font-semibold text-neutral-700 dark:text-white"
+            htmlFor="description"
+          >
             Description
           </label>
           <textarea
             cols={3}
             id="description"
-            className="mb-2 w-1/3 resize-none rounded-lg  bg-neutral-400/40 p-1 text-center text-white outline-none focus:outline-2 focus:outline-blue-500"
+            className="mb-2 w-1/3 resize-none rounded-lg bg-neutral-400/40 p-1 text-center text-neutral-700 outline-none focus:outline-2 focus:outline-blue-500 dark:text-white"
             value={boardDescriptionInput}
             onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => {
               setBoardDescriptionInput(e.currentTarget.value);
@@ -233,12 +242,12 @@ const ListboardPopper = ({
       >
         <div className="relative flex h-2/3 w-2/3 flex-col items-center rounded-2xl bg-neutral-200/70 pb-2 backdrop-blur-sm dark:bg-neutral-800/90">
           <div className="flex self-end p-2">
-            <div className="ml-2 flex h-6 w-6 items-center justify-center">
-              {isProceed && (
-                <span className={`${loader_styles.loader as string}`} />
-              )}
-            </div>
-            {ButtonRender()}
+            <div className="ml-2 flex h-6 w-6 items-center justify-center"></div>
+            {isProceed ? (
+              <LoaderIcon className="h-6 w-6 fill-neutral-600 dark:fill-white" />
+            ) : (
+              ButtonRender()
+            )}
           </div>
           <div className="mb-2 flex w-full flex-col items-center justify-center">
             {InfoRender()}

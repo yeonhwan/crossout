@@ -14,9 +14,8 @@ import Button from "@/components/Buttons/Button";
 
 // api
 import { api } from "@/utils/api";
+import LoaderIcon from "public/icons/spinner.svg";
 
-// styles
-import loader_styles from "@/styles/loader.module.css";
 import useSnackbarStore, { SnackbarRole } from "@/stores/useSnackbarStore";
 
 type ListboardsProps = {
@@ -120,9 +119,7 @@ const ListboardsForm = (
       <div className="flex">
         {isProceed ? (
           <Button className="pointer-events-none flex justify-center px-4">
-            <span className="flex h-full w-full items-center justify-center">
-              <span className={`${loader_styles.loader as string}`} />
-            </span>
+            <LoaderIcon className="h-6 w-6 fill-neutral-500 dark:fill-white" />
           </Button>
         ) : (
           <>

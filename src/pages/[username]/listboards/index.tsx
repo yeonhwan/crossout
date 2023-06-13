@@ -15,17 +15,14 @@ import Layout from "@/components/Layout";
 // api
 import { api } from "@/utils/api";
 
-// styles
-import loader_styles from "@/styles/loader.module.css";
-
 // types
 import { type ListboardItemType } from "@/types/client";
 
 // ICONS
 import AddCardIcon from "@mui/icons-material/AddCard";
+import LoaderIcon from "public/icons/spinner.svg";
 
 // Types
-import { type PreferenceState } from "@/types/client";
 import { type InferGetServerSidePropsType } from "next";
 import { type UserDataState } from "@/types/client";
 
@@ -133,9 +130,7 @@ const ListboardIndex = ({
     } else {
       return (
         <div className="flex h-full w-full items-center justify-center">
-          <span className="flex items-center justify-center">
-            <span className={`ml-2 ${loader_styles.loader as string}`} />
-          </span>
+          <LoaderIcon className="h-10 w-10 fill-neutral-600 dark:fill-white" />
         </div>
       );
     }
@@ -153,9 +148,7 @@ const ListboardIndex = ({
         <div className="mt-4 flex h-[80%] max-h-[600px] w-full flex-col justify-center rounded-xl bg-neutral-300/40 px-10 py-5 pt-10 backdrop-blur-lg transition-colors dark:bg-neutral-800/40">
           {isProceed && (
             <div className="absolute right-4 top-4 h-max w-max">
-              <span className="flex h-8 w-8 items-center justify-center">
-                <span className={`${loader_styles.loader as string}`} />
-              </span>
+              <LoaderIcon className="h-10 w-10" />
             </div>
           )}
           {itemRender()}
