@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 // ICONs
 import GitHubIcon from "@mui/icons-material/GitHub";
 import GoogleIcon from "@mui/icons-material/Google";
+import LoaderIcon from "public/icons/spinner.svg";
 
 // types
 import { type NextPageWithLayout } from "@/pages/_app";
@@ -14,7 +15,6 @@ import { signIn } from "next-auth/react";
 import { useState, useEffect } from "react";
 
 // styles
-import styles from "@/styles/loader.module.css";
 import form_styles from "@/styles/form.module.css";
 
 // api
@@ -298,12 +298,10 @@ const SignUp: NextPageWithLayout = () => {
           onClick={submitHandler}
         >
           {isProceed ? "Proceeding..." : "Sign Up"}
-          {isProceed ? (
-            <span className="flex items-center justify-center">
-              <span className={`ml-2 ${styles.loader as string}`} />
+          {isProceed && (
+            <span>
+              <LoaderIcon className="m-0 h-6 w-6 fill-white" />
             </span>
-          ) : (
-            ""
           )}
         </button>
         <div className="mt-4 flex w-full justify-center">

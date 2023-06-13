@@ -8,6 +8,7 @@ import { useState } from "react";
 //ICONS
 import GitHubIcon from "@mui/icons-material/GitHub";
 import GoogleIcon from "@mui/icons-material/Google";
+import LoaderIcon from "public/icons/spinner.svg";
 
 // NextAuth
 import { signIn } from "next-auth/react";
@@ -17,7 +18,6 @@ import { getSession } from "next-auth/react";
 import { type NextPageWithLayout } from "@/pages/_app";
 
 // styles
-import loader_styles from "@/styles/loader.module.css";
 import form_styles from "@/styles/form.module.css";
 import { type Session } from "next-auth";
 
@@ -108,12 +108,10 @@ const SignIn: NextPageWithLayout = () => {
           onClick={submitHandler}
         >
           {isProceed ? "Proceeding..." : "Sign In"}
-          {isProceed ? (
-            <span className="flex items-center justify-center">
-              <span className={`ml-2 ${loader_styles.loader as string}`} />
+          {isProceed && (
+            <span>
+              <LoaderIcon className="m-0 h-6 w-6 fill-white" />
             </span>
-          ) : (
-            ""
           )}
         </button>
         <div className="mt-4 flex w-full justify-center">
