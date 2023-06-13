@@ -1,6 +1,3 @@
-// hooks / React
-import { forwardRef } from "react";
-
 // components
 import CircleButton from "@/components/Buttons/CircleButton";
 
@@ -11,15 +8,12 @@ import { type SnackbarContentProps } from "@/components/Snackbar/Snackbar";
 import ReplayIcon from "@mui/icons-material/Replay";
 import CloseIcon from "@mui/icons-material/Close";
 
-const SnackbarSuccess = ({ data, ref, setOpen }: SnackbarContentProps) => {
+const SnackbarSuccess = ({ data, setOpen }: SnackbarContentProps) => {
   const { message, handler, previousData, content } = data;
 
   if (handler && previousData) {
     return (
-      <div
-        ref={ref}
-        className="flex h-12 min-h-max w-80 min-w-max items-center justify-center rounded-lg bg-emerald-500 px-4"
-      >
+      <div className="flex h-12 min-h-max w-80 min-w-max items-center justify-center rounded-lg bg-emerald-500 px-4">
         <span className="mx-2 font-bold text-white">{message}</span>
         {content && (
           <span className="mx-2 font-medium text-neutral-200">'{content}'</span>
@@ -48,10 +42,7 @@ const SnackbarSuccess = ({ data, ref, setOpen }: SnackbarContentProps) => {
     );
   } else {
     return (
-      <div
-        ref={ref}
-        className="flex h-12 min-h-max w-80 min-w-max items-center justify-center rounded-lg bg-emerald-500 px-4"
-      >
+      <div className="flex h-12 min-h-max w-80 min-w-max items-center justify-center rounded-lg bg-emerald-500 px-4">
         <span className="mx-2 font-bold text-white">{message}</span>
         {content && (
           <span className="mx-2 font-medium text-neutral-200">'{content}'</span>
@@ -72,4 +63,4 @@ const SnackbarSuccess = ({ data, ref, setOpen }: SnackbarContentProps) => {
   }
 };
 
-export default forwardRef(SnackbarSuccess);
+export default SnackbarSuccess;

@@ -1,6 +1,3 @@
-// hooks / React
-import { forwardRef } from "react";
-
 // components
 import CircleButton from "@/components/Buttons/CircleButton";
 
@@ -11,14 +8,11 @@ import { type SnackbarContentProps } from "@/components/Snackbar/Snackbar";
 import ReplayIcon from "@mui/icons-material/Replay";
 import CloseIcon from "@mui/icons-material/Close";
 
-const SnackbarError = ({ data, ref, setOpen }: SnackbarContentProps) => {
+const SnackbarError = ({ data, setOpen }: SnackbarContentProps) => {
   const { message } = data;
 
   return (
-    <div
-      ref={ref}
-      className="flex h-12 min-h-max w-80 min-w-max items-center justify-center rounded-lg bg-red-400 px-4"
-    >
+    <div className="flex h-12 min-h-max w-80 min-w-max items-center justify-center rounded-lg bg-red-400 px-4">
       <span className="mx-2 font-bold text-white">{message}</span>
       <div className="mx-2 flex w-max justify-between">
         <CircleButton info="cancel" className="mr-1 h-6 w-6 bg-emerald-300">
@@ -38,4 +32,4 @@ const SnackbarError = ({ data, ref, setOpen }: SnackbarContentProps) => {
   );
 };
 
-export default forwardRef(SnackbarError);
+export default SnackbarError;

@@ -25,7 +25,6 @@ function TransitionUp(props: TransitionProps) {
 
 export type SnackbarContentProps = {
   data: SnackbarData;
-  ref: ForwardedRef<HTMLDivElement>;
   setOpen: (openState: boolean) => void;
 };
 
