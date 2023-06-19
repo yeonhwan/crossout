@@ -181,47 +181,12 @@ const ListboardPopper = ({
   };
 
   const InfoRender = () => {
-    if (isUpdate) {
-      return (
-        <>
-          <label
-            className="font-semibold text-neutral-700 dark:text-white"
-            htmlFor="title"
-          >
-            Title
-          </label>
-          <input
-            id="title"
-            className="mb-2 w-1/3 bg-neutral-400/40 p-1 text-center text-neutral-700 outline-none focus:outline-2 focus:outline-blue-500 dark:text-white"
-            value={boardTitleInput}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-              setBoardTitleInput(e.currentTarget.value);
-            }}
-          />
-          <label
-            className="font-semibold text-neutral-700 dark:text-white"
-            htmlFor="description"
-          >
-            Description
-          </label>
-          <textarea
-            cols={3}
-            id="description"
-            className="mb-2 w-1/3 resize-none rounded-lg bg-neutral-400/40 p-1 text-center text-neutral-700 outline-none focus:outline-2 focus:outline-blue-500 dark:text-white"
-            value={boardDescriptionInput}
-            onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => {
-              setBoardDescriptionInput(e.currentTarget.value);
-            }}
-          />
-        </>
-      );
-    }
     return (
       <>
-        <p className="text-lg font-semibold text-neutral-700 dark:text-white">
+        <p className="text-md font-semibold text-neutral-700 dark:text-white sm:text-lg">
           {title}
         </p>
-        <p className="text-md font-light text-neutral-700 dark:text-white">
+        <p className="my-2 px-8 text-xs font-light text-neutral-700 dark:text-white sm:text-sm">
           {description}
         </p>
       </>
@@ -240,16 +205,8 @@ const ListboardPopper = ({
           popperClose();
         }}
       >
-        <div className="relative flex h-2/3 w-2/3 flex-col items-center rounded-2xl bg-neutral-200/70 pb-2 backdrop-blur-sm dark:bg-neutral-800/90">
-          <div className="flex self-end p-2">
-            <div className="ml-2 flex h-6 w-6 items-center justify-center"></div>
-            {isProceed ? (
-              <LoaderIcon className="h-6 w-6 fill-neutral-600 dark:fill-white" />
-            ) : (
-              ButtonRender()
-            )}
-          </div>
-          <div className="mb-2 flex w-full flex-col items-center justify-center">
+        <div className="relative flex h-4/5 w-5/6 flex-col items-center rounded-2xl bg-neutral-200/70 pb-2 backdrop-blur-sm dark:bg-neutral-800/90 sm:h-2/3 sm:w-2/3 sm:max-w-[800px]">
+          <div className="my-4 flex w-full flex-col items-center justify-center">
             {InfoRender()}
           </div>
           <div className="flex h-2/3 w-[90%] items-center justify-center">

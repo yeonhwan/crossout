@@ -130,7 +130,7 @@ const RevenueItem = ({ data }: RevenueItemProps) => {
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                 setPurposeInput(e.currentTarget.value);
               }}
-              className="w-full rounded-md border-none bg-transparent text-center outline-none"
+              className="sm:text-md w-full rounded-md border-none bg-transparent pl-4 text-center text-sm outline-none"
             />
           </div>
           <div
@@ -140,7 +140,7 @@ const RevenueItem = ({ data }: RevenueItemProps) => {
           >
             <span className="ml-2">$</span>
             <input
-              className="w-full rounded-md border-none bg-transparent text-center outline-none"
+              className="w-full rounded-md border-none bg-transparent text-center text-xs outline-none sm:text-sm"
               placeholder="0"
               value={revenueInput.toString()}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
@@ -153,21 +153,21 @@ const RevenueItem = ({ data }: RevenueItemProps) => {
             />
           </div>
         </div>
-        <div className="flex w-20 min-w-max items-center justify-between px-2">
+        <div className="flex h-full w-[15%] max-w-[70px] items-center justify-evenly sm:w-[20%]">
           {isProceed ? (
             <LoaderIcon className="h-8 w-8 fill-white" />
           ) : (
             <>
               <CircleButton
                 info="Apply"
-                className="flex h-7 w-7 rounded-lg bg-neutral-600/50 dark:bg-neutral-800/50"
+                className="flex h-6 w-6 rounded-lg bg-emerald-300 hover:bg-emerald-400 dark:bg-emerald-300 dark:hover:bg-emerald-400 sm:h-7 sm:w-7"
                 onClick={applyUpdateClickHandler}
               >
                 <CheckIcon className="h-3 w-3" />
               </CircleButton>
               <CircleButton
                 info="Cancel"
-                className="flex h-7 w-7 rounded-lg bg-neutral-600/50 dark:bg-neutral-800/50"
+                className="flex h-6 w-6 rounded-lg bg-red-300 hover:bg-red-500 dark:bg-red-300 dark:hover:bg-red-500 sm:h-7 sm:w-7"
                 onClick={cancelClickHandler}
               >
                 <CloseIcon className="h-3 w-3" fill="white" />
@@ -181,52 +181,54 @@ const RevenueItem = ({ data }: RevenueItemProps) => {
 
   return (
     <div
-      className={`relative m-2 flex h-16 w-full justify-center rounded-lg ${
+      className={`relative mb-1 flex h-10 w-full justify-between rounded-lg px-4 py-2 sm:m-2 sm:h-16 ${
         isProfit ? "bg-emerald-500 dark:bg-emerald-600" : "bg-red-400"
-      } p-2 drop-shadow-lg`}
+      } drop-shadow-lg`}
     >
-      <div
-        className={`absolute left-4 top-4 flex h-8 w-8 items-center justify-center rounded-full ${
-          isProfit ? "bg-emerald-400" : "bg-red-300"
-        }`}
-      >
+      <div className="flex h-full w-[18%] max-w-[50px] items-center sm:w-[20%]">
         {isProfit ? (
-          <ProfitIcon className="h-5 w-5 fill-emerald-800 pb-1" />
+          <span className="flex h-max w-max rounded-full bg-emerald-400 p-1 sm:p-2">
+            <ProfitIcon className="h-4 w-4 fill-emerald-800 pb-1 sm:h-5 sm:w-5" />
+          </span>
         ) : (
-          <LossIcon className="h-5 w-5 fill-red-800 pt-1" />
+          <span className="flex h-max w-max rounded-full bg-red-300 p-1 sm:p-2">
+            <LossIcon className="h-4 w-4 fill-red-800 pt-1 sm:h-5 sm:w-5" />
+          </span>
         )}
       </div>
-      <div className="flex flex-col items-center text-white">
-        <p className="font-semibold">{purpose}</p>
-        <p className="font-smibold text-sm">
+      <div className="flex flex-col items-center justify-center text-white">
+        <p className="sm:text-md overflow-hidden text-ellipsis whitespace-nowrap text-xs font-semibold">
+          {purpose}
+        </p>
+        <p className="font-smibold overflow-hidden text-ellipsis whitespace-nowrap text-[8px] sm:text-sm">
           <span>{sign}</span>
           {money}
         </p>
       </div>
-      <div className="absolute right-4 top-4 flex w-[11%] min-w-max max-w-[60px] items-center justify-between">
+      <div className="flex h-full w-[18%] max-w-[50px] items-center justify-evenly sm:w-[20%]">
         {isProceed ? (
           <LoaderIcon className="h-8 w-8 fill-white" />
         ) : (
           <>
             <CircleButton
               info="Edit"
-              className="flex h-7 w-7 rounded-lg bg-neutral-600/50 dark:bg-neutral-800/50"
+              className="flex h-5 w-5 rounded-lg bg-orange-300 hover:bg-orange-400 dark:bg-orange-300 dark:hover:bg-orange-400 sm:h-7 sm:w-7"
               onClick={() => {
                 setIsUpdating(true);
               }}
             >
-              <ModeEditOutlineIcon className="h-3 w-3" />
+              <ModeEditOutlineIcon className="h-3 w-3 sm:h-4 sm:w-4" />
             </CircleButton>
             <CircleButton
               info="Delete"
-              className="flex h-7 w-7 rounded-lg bg-neutral-600/50 dark:bg-neutral-800/50"
+              className="dark:hover-bg-red-500 flex h-5 w-5 rounded-lg bg-red-300 p-0 hover:bg-red-500 dark:bg-red-300 sm:h-7 sm:w-7"
               onClick={() => {
                 if (window.confirm("deleting revenue")) {
                   deleteClickHandler();
                 }
               }}
             >
-              <TrashIcon className="h-3 w-3" fill="white" />
+              <TrashIcon className="h-3 w-3 sm:h-4 sm:w-4" fill="white" />
             </CircleButton>
           </>
         )}

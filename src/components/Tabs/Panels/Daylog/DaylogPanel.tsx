@@ -136,7 +136,7 @@ const DaylogPanel = () => {
               <SaveIcon fill="white" className="h-4 w-4" />
             </CircleButton>
           </div>
-          <p className="self-center font-bold text-neutral-800 dark:text-white">
+          <p className="sm:text-md self-center text-xs font-bold text-neutral-800 dark:text-white">
             Today's Feeling
           </p>
           <MoodSelector moodData={moodData} selectedMoodRef={selectedMoodRef} />
@@ -155,7 +155,7 @@ const DaylogPanel = () => {
   };
 
   return (
-    <div className="mt-4 flex h-[90%] max-h-[500px] w-3/5 flex-col rounded-lg bg-neutral-300/40 px-4 py-2 backdrop-blur-sm transition-colors dark:bg-neutral-800/40">
+    <div className="mt-4 flex h-[90%] w-[90%] flex-col rounded-lg bg-neutral-300/40 px-4 py-2 backdrop-blur-sm transition-colors dark:bg-neutral-800/60 lg:w-3/5">
       {ContentRender()}
     </div>
   );

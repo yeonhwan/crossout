@@ -65,20 +65,22 @@ const ToolbarPlugin = () => {
   }, [editor, updateToolbar]);
 
   return (
-    <div className="top-0 mt-1 flex h-10 min-w-max max-w-[40%] justify-around self-center rounded-lg bg-neutral-300 p-2 dark:bg-neutral-700">
+    <div className="top-0 mt-1 flex h-10 min-w-max max-w-[40%] justify-around self-center rounded-lg bg-neutral-300 px-0 py-2 dark:bg-neutral-700 sm:p-2">
       <OptionsDropdown />
       <button
-        className={`mx-1 flex h-full w-max items-center justify-center p-2 outline-none hover:bg-neutral-400 dark:hover:bg-neutral-600 ${
+        className={`mx-1 flex h-full w-max items-center justify-center p-1 outline-none hover:bg-neutral-400 dark:hover:bg-neutral-600 sm:p-2 ${
           isBold ? "bg-neutral-400" : "bg-neutral-300 dark:bg-neutral-700"
         }`}
         onClick={() => {
           buttonHandler("bold");
         }}
       >
-        <FormatBoldIcon className={`h-4 w-4 ${isBold ? "fill-black" : ""}`} />
+        <FormatBoldIcon
+          className={`h-3 w-3 sm:h-4 sm:w-4 ${isBold ? "fill-black" : ""}`}
+        />
       </button>
       <button
-        className={`mx-1 flex h-full w-max items-center justify-center p-2 outline-none hover:bg-neutral-400 dark:hover:bg-neutral-600 ${
+        className={`mx-1 flex h-full w-max items-center justify-center p-1 outline-none hover:bg-neutral-400 dark:hover:bg-neutral-600 sm:p-2 ${
           isItalic ? "bg-neutral-400" : "bg-neutral-300 dark:bg-neutral-700"
         }`}
         onClick={() => {
@@ -87,12 +89,12 @@ const ToolbarPlugin = () => {
       >
         <div className="flex">
           <FormatItalicIcon
-            className={`h-4 w-4 ${isItalic ? "fill-black" : ""}`}
+            className={`h-3 w-3 sm:h-4 sm:w-4 ${isItalic ? "fill-black" : ""}`}
           />
         </div>
       </button>
       <button
-        className={`mx-1 flex w-max items-center p-2 outline-none hover:bg-neutral-400 dark:hover:bg-neutral-600 ${
+        className={`mx-1 flex w-max items-center p-1 outline-none hover:bg-neutral-400 dark:hover:bg-neutral-600 sm:p-2 ${
           isUnderline ? "bg-neutral-400" : "bg-neutral-300 dark:bg-neutral-700"
         }`}
         onClick={() => {
@@ -100,11 +102,11 @@ const ToolbarPlugin = () => {
         }}
       >
         <FormatUnderlinedIcon
-          className={`h-4 w-4 ${isUnderline ? "fill-black" : ""}`}
+          className={`h-3 w-3 sm:h-4 sm:w-4 ${isUnderline ? "fill-black" : ""}`}
         />
       </button>
       <button
-        className={`mx-1 flex w-max items-center p-2 outline-none hover:bg-neutral-400 dark:hover:bg-neutral-600 ${
+        className={`mx-1 flex w-max items-center p-1 outline-none hover:bg-neutral-400 dark:hover:bg-neutral-600 sm:p-2 ${
           isDash ? "bg-neutral-400" : "bg-neutral-300 dark:bg-neutral-700"
         }`}
         onClick={() => {
@@ -112,7 +114,7 @@ const ToolbarPlugin = () => {
         }}
       >
         <StrikethroughSIcon
-          className={`h-4 w-4 ${isDash ? "fill-black" : ""}`}
+          className={`h-3 w-3 sm:h-4 sm:w-4 ${isDash ? "fill-black" : ""}`}
         />
       </button>
     </div>

@@ -60,15 +60,15 @@ const Home = ({
   return (
     <Layout userData={userData}>
       <HomeContext.Provider value={listboards}>
-        <main className="flex h-[85%] w-full flex-col">
-          <div className="flex w-full justify-center">
+        <main className="flex h-[90%] w-full flex-col">
+          <div className="flex h-[10%] w-full justify-center">
             <DateTimer
               openCalendar={() => {
                 setIsCalendarOpen(true);
               }}
             />
           </div>
-          <div className="flex h-full w-full">
+          <div className="flex h-[90%] w-full">
             <HomeTabs />
           </div>
           {shouldRender && (

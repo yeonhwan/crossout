@@ -63,20 +63,23 @@ const SignIn: NextPageWithLayout = () => {
       setErrMessage(res.error);
       setIsProceed(false);
     } else {
-      const session = (await getSession()) as Session;
-      const { name } = session.user;
-      router.push(`${name as string}/home`);
+      router.push("myapp/home");
     }
   };
 
   return (
     <div className="flex h-full w-full items-center justify-center">
-      <form className="flex h-max w-4/12 flex-col rounded-lg border-2 border-zinc-300 p-12">
-        <h1 className="mb-5 w-full text-center text-xl font-bold">Sign In</h1>
-        <p id="err_message" className="text-red-600">
+      <form className="flex h-max w-[85%] flex-col rounded-lg border-2 border-zinc-300 p-12 sm:w-4/12">
+        <h1 className="mb-5 w-full text-center text-base font-bold sm:text-xl">
+          Sign In
+        </h1>
+        <p id="err_message" className="text-xs text-red-600 sm:text-base">
           {errMessage}
         </p>
-        <label className="mt-4 font-bold text-gray-700" htmlFor="email">
+        <label
+          className="mt-4 text-sm font-bold text-gray-700 sm:text-base"
+          htmlFor="email"
+        >
           Email
         </label>
         <input
@@ -89,7 +92,10 @@ const SignIn: NextPageWithLayout = () => {
             setEmailInput(e.currentTarget.value);
           }}
         />
-        <label className="mt-4 font-bold text-gray-700" htmlFor="password">
+        <label
+          className="mt-4 text-sm font-bold text-gray-700 sm:text-base"
+          htmlFor="password"
+        >
           Password
         </label>
         <input
@@ -130,7 +136,7 @@ const SignIn: NextPageWithLayout = () => {
           />
         </div>
         <Link
-          className="w-full text-center text-cyan-900 hover:cursor-pointer hover:text-orange-400"
+          className="w-full text-center text-sm text-cyan-900 hover:cursor-pointer hover:text-orange-400 sm:text-base"
           href="/signup"
         >
           Don't have an account?

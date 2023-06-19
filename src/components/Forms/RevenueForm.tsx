@@ -5,6 +5,7 @@ import {
   type Dispatch,
   type SetStateAction,
   useState,
+  useEffect,
 } from "react";
 
 // Components
@@ -22,6 +23,7 @@ import useSnackbarStore, { SnackbarRole } from "@/stores/useSnackbarStore";
 
 // Icons
 import LoaderIcon from "public/icons/spinner.svg";
+import MoneyAllIcon from "public/icons/money_all.svg";
 
 // Urgency Enum
 enum Urgency {
@@ -48,25 +50,12 @@ const RevenueForm = (
     (state) => state
   );
   const utils = api.useContext();
+  const [revenueState, setRevenueState] = useState(false);
 
   const cancelButtonHandler = () => {
     setPurposeInput("");
     setOpenDialog(false);
   };
-
-  // const { mutate: abortCreateTodo } = api.todo.deleteTodo.useMutation({
-  //   onSuccess: async (res) => {
-  //     const { message, content } = res.data;
-  //     await utils.todo.getTodos.invalidate();
-  //     setSnackbarOpen(true);
-  //     setSnackbarData({ message, content, role: SnackbarRole.Success });
-  //   },
-  //   onError: (err) => {
-  //     const { message } = err;
-  //     setSnackbarOpen(true);
-  //     setSnackbarData({ message, role: SnackbarRole.Error });
-  //   },
-  // });
 
   const { mutate: createRevenue } = api.revenue.createRevenue.useMutation({
     onSuccess: async (res) => {
@@ -105,56 +94,95 @@ const RevenueForm = (
     });
   };
 
-  const revenueInputRegEx = new RegExp(/^(\+|\-)?\d*\.?\d*$/);
+  useEffect(() => {
+    const revenueInputRegEx = new RegExp(/^(\+|\-)?\d*\.?\d*$/);
+    if (revenueInputRegEx.test(revenueInput) && !revenueState) {
+      setRevenueState(true);
+    } else if (!revenueInputRegEx.test(revenueInput) && revenueState) {
+      setRevenueState(false);
+    }
+
+    return;
+  }, [revenueInput]);
 
   return (
     <form
       ref={ref}
-      className="flex h-2/3 w-1/3 flex-col items-center justify-evenly rounded-lg bg-neutral-400/40 py-4"
+      className="flex h-4/5 w-[90%] flex-col items-center justify-around rounded-lg bg-neutral-200/40 text-neutral-800 dark:bg-neutral-800/80 dark:text-neutral-200 sm:w-1/4 sm:min-w-[500px]"
     >
-      <h1 className="text-2xl font-bold">New Revenue</h1>
+      <div className="flex h-[10%] flex-col items-center justify-center pt-8">
+        <span className="mb-2 flex h-10 w-10 items-center justify-center rounded-xl bg-teal-500/50 p-2 dark:bg-teal-500/50">
+          <MoneyAllIcon className="h-6 w-6 fill-white" />
+        </span>
+        <h1 className="ml-1 text-lg font-bold sm:text-xl">New Revenue</h1>
+        <p className="text-xs text-neutral-700 dark:text-neutral-200">
+          <span className="text-red-400">*</span>
+          should be filled in to submit
+        </p>
+      </div>
       <div className="flex h-2/5 w-2/3 flex-col">
-        <label className="text-lg font-semibold" htmlFor="purpose">
-          Where do you spent to / earn from ?
-        </label>
-        <input
-          className="mb-2 px-2 py-1 text-center"
-          id="purpose"
-          placeholder="Type in your purpose"
-          value={purposeInput}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-            setPurposeInput(e.currentTarget.value);
-          }}
-        />
-        <label className="text-lg font-semibold" htmlFor="money">
-          How much money you spent / earn ?
-        </label>
-        <div className="flex h-[20%] w-full items-center justify-center rounded-lg bg-white">
-          <span className="font-semibold">$</span>
+        <div className="mb-2 flex flex-col justify-center focus-within:text-teal-600 dark:focus-within:text-teal-400">
+          <label
+            className="mb-1 rounded-md font-semibold after:text-red-400 after:content-['*']"
+            htmlFor="purpose"
+          >
+            Purpose of revenue
+          </label>
           <input
-            className="h-full w-[85%] rounded-xl border-0 px-2 py-1 text-center outline-none"
-            id="money"
-            placeholder="0"
-            value={revenueInput.toString()}
+            className="mb-2 border-0 px-2 py-1 text-neutral-700 shadow-lg ring-2 ring-neutral-300 focus:outline-none focus:ring-teal-400 dark:bg-neutral-600 dark:text-neutral-200 dark:ring-neutral-500 dark:placeholder:text-white dark:focus:ring-teal-500"
+            id="purpose"
+            placeholder="Type in your purpose"
+            value={purposeInput}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-              if (!revenueInputRegEx.test(e.currentTarget.value)) {
-                window.alert("Wrong Value");
-              } else {
-                setRevenueInput(e.currentTarget.value);
-              }
+              setPurposeInput(e.currentTarget.value);
             }}
           />
+        </div>
+        <div className="mb-2 flex h-20 flex-col justify-center focus-within:text-teal-600 dark:focus-within:text-teal-400">
+          <label
+            className="rounded-md font-semibold after:text-red-400 after:content-['*']"
+            htmlFor="money"
+          >
+            Amount of Revenue
+          </label>
+          <p className="mb-2 text-xs">Type negative values with '-' sign</p>
+          <div
+            className={`flex h-8 w-full items-center justify-center rounded-md bg-white ring-2 ring-neutral-300 focus:outline-none dark:bg-neutral-600 dark:ring-neutral-500 ${
+              revenueState
+                ? "focus-within:ring-teal-400 dark:focus-within:ring-teal-500"
+                : "focus-within:ring-red-400 dark:focus-within:ring-red-400"
+            }`}
+          >
+            <span
+              className={`font-semibold ${!revenueState ? "text-red-300" : ""}`}
+            >
+              $
+            </span>
+            <input
+              className="h-full w-[85%] rounded-md border-0 px-2 py-1 text-center text-neutral-700 focus:outline-none dark:bg-neutral-600 dark:text-neutral-200"
+              id="money"
+              placeholder="0"
+              value={revenueInput.toString()}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                setRevenueInput(e.currentTarget.value);
+              }}
+            />
+          </div>
         </div>
       </div>
       <div className="flex">
         {isProceed ? (
-          <Button className="pointer-events-none flex justify-center px-4">
-            <LoaderIcon className="h-8 w-8 fill-white" />
+          <Button className="pointer-events-none flex h-10 items-center justify-center px-4 hover:bg-neutral-400 dark:hover:bg-neutral-700">
+            <LoaderIcon className="h-6 w-6 fill-white" />
           </Button>
         ) : (
           <>
             <Button
-              className="hover:bg-emerald-400 dark:hover:bg-emerald-500"
+              className={`h-8 hover:text-white ${
+                purposeInput.length <= 0 || !revenueState
+                  ? "pointer-events-none bg-neutral-400 text-neutral-500 dark:bg-neutral-700 dark:text-neutral-800"
+                  : ""
+              }`}
               onClick={confirmOnClickHandler}
             >
               Confirm

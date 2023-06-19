@@ -32,7 +32,7 @@ const MyApp = ({
   if (getLayout) {
     return (
       <StyledEngineProvider injectFirst>
-        <ReactQueryDevtools initialIsOpen={false} />
+        {/* <ReactQueryDevtools initialIsOpen={false} /> */}
         <SessionProvider session={session}>
           {getLayout(
             <Component {...pageProps}>{<SnackbarComponent />}</Component>
@@ -44,7 +44,7 @@ const MyApp = ({
 
   return (
     <StyledEngineProvider injectFirst>
-      <ReactQueryDevtools initialIsOpen={false} />
+      {/* <ReactQueryDevtools initialIsOpen={false} /> */}
       <SessionProvider session={session}>
         <Component {...pageProps} />
         <SnackbarComponent />

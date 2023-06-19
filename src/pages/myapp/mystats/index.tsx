@@ -66,8 +66,6 @@ export async function getServerSideProps(
     dateObject: { year },
   });
 
-  console.log(userData);
-
   return {
     props: {
       userData: userData.data,
@@ -141,17 +139,17 @@ const Mystats = ({
 
   return (
     <Layout userData={userData}>
-      <div className="relative flex h-full w-full flex-col px-28">
-        <h1 className="text-4xl font-extrabold text-neutral-800 transition-colors dark:text-neutral-300">
+      <div className="relative flex h-[90%] w-full flex-col px-4 lg:px-28">
+        <h1 className="text-3xl font-extrabold text-neutral-800 transition-colors dark:text-neutral-300 lg:text-4xl">
           My Stats
         </h1>
-        <p className="text-lg font-semibold text-neutral-700 transition-colors dark:text-neutral-200">
-          See your daily life in total with monthly view in here!
+        <p className="text-xs font-semibold text-neutral-700 transition-colors dark:text-neutral-200 lg:text-lg">
+          See your daily life in total with monthly view.
         </p>
-        <div className="mt-4 flex h-[80%] max-h-[600px] w-full justify-evenly rounded-xl bg-neutral-300/40 p-6 backdrop-blur-md transition-colors dark:bg-neutral-800/40">
-          <div className="relative flex h-full w-[20%] flex-col justify-between rounded-xl">
-            <div className="flex h-[12%] w-full flex-col items-center justify-evenly">
-              <div className="flex w-[50%] items-center justify-evenly">
+        <div className="mt-4 flex h-[85%] w-full flex-col items-start overflow-scroll rounded-xl bg-neutral-300/40 p-6 backdrop-blur-lg transition-colors dark:bg-neutral-800/40 lg:h-[80%] lg:flex-row lg:justify-evenly lg:overflow-visible">
+          <div className="relative flex h-full w-full flex-col justify-between rounded-xl lg:w-[20%] lg:justify-evenly">
+            <div className="flex h-[12%] w-max flex-row items-center justify-evenly lg:w-full lg:flex-col lg:justify-between">
+              <div className="flex w-full items-center justify-evenly lg:w-[50%]">
                 <select
                   onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
                     setSelectedField(
@@ -177,7 +175,7 @@ const Mystats = ({
                       onClick={() => {
                         setIsCalendarOpen(!isCalendarOpen);
                       }}
-                      className="rounded-md p-1"
+                      className="rounded-lg p-1"
                       info="select year"
                     >
                       <CalendarMonthIcon className="h-3 w-3" />
@@ -202,68 +200,71 @@ const Mystats = ({
                 </div>
               </div>
             </div>
-            <div className="flex h-[55%] w-full items-center justify-center rounded-xl bg-neutral-300/40 p-4 shadow-lg transition-colors dark:bg-neutral-700/80">
-              <DoughnutChart
-                data={
-                  selectedField === "todo"
-                    ? todosDoughnutData
-                    : selectedField === "revenue"
-                    ? revenuesDoughnutData
-                    : moodsDoughnutData
-                }
-                isLight={preference.isLight}
-              />
-            </div>
-            <div className="flex h-[25%] w-full flex-col items-center justify-evenly rounded-xl">
-              <p className="flex h-[40%] w-full items-center rounded-md bg-neutral-400/10 px-4 py-2 text-sm font-bold text-white shadow-2xl">
-                {selectedField === "mood" ? (
-                  <SmileIcon className="mr-2 h-6 w-6 rounded-md bg-neutral-900/20 p-1 shadow-xl" />
-                ) : (
-                  <ListAltIcon className="mr-2 h-6 w-6 rounded-md bg-neutral-900/20 p-1 shadow-xl" />
-                )}
-                <span className="mr-2 text-xs font-semibold">
+            <div className="flex h-[200px] w-full flex-row lg:h-[80%] lg:flex-col ">
+              <div className="mt-2 flex h-full w-1/2 items-center justify-center rounded-xl bg-neutral-300/40 p-4 shadow-lg transition-colors dark:bg-neutral-700/80 lg:mt-0  lg:h-[70%] lg:w-full">
+                <DoughnutChart
+                  data={
+                    selectedField === "todo"
+                      ? todosDoughnutData
+                      : selectedField === "revenue"
+                      ? revenuesDoughnutData
+                      : moodsDoughnutData
+                  }
+                  isLight={preference.isLight}
+                />
+              </div>
+              <div className="mt-2 flex h-full w-1/2 flex-col items-center justify-evenly rounded-xl px-4 lg:mt-0 lg:h-[25%] lg:w-full lg:px-0">
+                <p className="flex h-[45%] w-full flex-col items-center justify-evenly rounded-lg bg-neutral-400/10 px-4 py-2 text-[5px] font-bold text-white shadow-2xl lg:h-[40%] lg:flex-row lg:justify-start lg:text-lg">
+                  {selectedField === "mood" ? (
+                    <SmileIcon className="mr-0 h-6 w-6 rounded-lg bg-neutral-900/20 p-1 shadow-xl lg:mr-2" />
+                  ) : (
+                    <ListAltIcon className="mr-0 h-6 w-6 rounded-lg bg-neutral-900/20 p-1 shadow-xl lg:mr-2" />
+                  )}
+                  <span className="mr-0 text-[5px] font-semibold lg:mr-2 lg:text-xs">
+                    {selectedField === "todo"
+                      ? "Total Todos"
+                      : selectedField === "revenue"
+                      ? "Total Count"
+                      : "Good Rate"}
+                  </span>
                   {selectedField === "todo"
-                    ? "Total Todos"
+                    ? todosSummaryData.completed
                     : selectedField === "revenue"
-                    ? "Total Count"
-                    : "Good Rate"}
-                </span>
-                {selectedField === "todo"
-                  ? todosSummaryData.completed
-                  : selectedField === "revenue"
-                  ? revenuesSummaryData.totalCount
-                  : `${moodsSummaryData.goodRatio} %`}
-              </p>
-              <p className="flex h-[40%] w-full items-center rounded-md bg-neutral-400/10 px-4 py-1 text-sm font-bold text-white shadow-2xl">
-                {selectedField === "todo" ? (
-                  <ChecklistIcon className="mr-2 h-6 w-6 rounded-md bg-neutral-900/20 p-1 shadow-xl" />
-                ) : selectedField === "revenue" ? (
-                  <MoneyAllIcon className="mr-2 h-6 w-6 rounded-md bg-neutral-900/20 fill-white p-1 shadow-xl" />
-                ) : (
-                  <SadIcon className="mr-2 h-6 w-6 rounded-md bg-neutral-900/20 fill-white p-1 shadow-xl" />
-                )}
-                <span className="mr-2 text-xs font-semibold">
+                    ? revenuesSummaryData.totalCount
+                    : `${moodsSummaryData.goodRatio} %`}
+                </p>
+                <p className="flex h-[45%] w-full flex-col items-center justify-evenly rounded-lg bg-neutral-400/10 px-4 py-1 text-[5px] font-bold text-white shadow-2xl lg:h-[40%] lg:flex-row lg:justify-start lg:text-lg">
+                  {selectedField === "todo" ? (
+                    <ChecklistIcon className="mr-0 h-6 w-6 rounded-lg bg-neutral-900/20 p-1 shadow-xl lg:mr-2" />
+                  ) : selectedField === "revenue" ? (
+                    <MoneyAllIcon className="mr-0 h-6 w-6 rounded-lg bg-neutral-900/20 fill-white p-1 shadow-xl lg:mr-2" />
+                  ) : (
+                    <SadIcon className="mr-0 h-6 w-6 rounded-lg bg-neutral-900/20 fill-white p-1 shadow-xl lg:mr-2" />
+                  )}
+                  <span className="mr-0 text-[5px] font-semibold lg:mr-2 lg:text-xs">
+                    {selectedField === "todo"
+                      ? "Completed"
+                      : selectedField === "revenue"
+                      ? "Total Revenue"
+                      : "Bad Rate"}
+                  </span>
                   {selectedField === "todo"
-                    ? "Completed"
+                    ? todosSummaryData.total
+                      ? `${Math.round(
+                          (todosSummaryData.completed /
+                            todosSummaryData.total) *
+                            100
+                        )} %`
+                      : 0
                     : selectedField === "revenue"
-                    ? "Total Revenue"
-                    : "Bad Rate"}
-                </span>
-                {selectedField === "todo"
-                  ? todosSummaryData.total
-                    ? `${Math.round(
-                        (todosSummaryData.completed / todosSummaryData.total) *
-                          100
-                      )} %`
-                    : 0
-                  : selectedField === "revenue"
-                  ? `$ ${revenuesSummaryData.totalRevenue}`
-                  : `${moodsSummaryData.badRatio} %`}
-              </p>
+                    ? `$ ${revenuesSummaryData.totalRevenue}`
+                    : `${moodsSummaryData.badRatio} %`}
+                </p>
+              </div>
             </div>
           </div>
-          <div className="flex h-full w-[75%] flex-col justify-between px-4">
-            <div className="flex h-[60%] w-full overflow-x-scroll rounded-xl bg-neutral-300/40 shadow-lg transition-colors dark:bg-neutral-700/80 lg:items-center lg:justify-center">
+          <div className="flex h-max w-full flex-col-reverse justify-between lg:h-full lg:w-[75%] lg:flex-col lg:px-4">
+            <div className="flex h-[300px] w-full overflow-x-scroll rounded-xl bg-neutral-300/40 shadow-lg transition-colors dark:bg-neutral-700/80 lg:h-[60%] lg:items-center lg:justify-center">
               <YearChart
                 data={
                   selectedField === "todo"
@@ -283,9 +284,9 @@ const Mystats = ({
                 isLight={preference.isLight}
               />
             </div>
-            <div className="flex h-[35%] w-full justify-between">
+            <div className="my-2 flex h-[30%] w-full justify-between lg:my-0 lg:h-[35%]">
               <div
-                className={`flex h-full w-[23%] flex-col items-center justify-center rounded-xl bg-gradient-to-br shadow-lg ${
+                className={`flex h-full w-[23%] flex-col items-center justify-center rounded-xl bg-transparent lg:h-full lg:w-[23%] lg:bg-gradient-to-br lg:shadow-lg ${
                   selectedField === "todo"
                     ? "from-pink-300 to-pink-500"
                     : selectedField === "revenue"
@@ -293,7 +294,15 @@ const Mystats = ({
                     : "from-cyan-300 to-blue-500"
                 }`}
               >
-                <div className="mb-2 flex h-14 w-14 items-center justify-center rounded-xl shadow-xl">
+                <div
+                  className={`mb-2 flex h-14 w-14 items-center justify-center rounded-xl bg-gradient-to-br lg:h-14 lg:w-14 lg:bg-transparent lg:shadow-xl ${
+                    selectedField === "todo"
+                      ? "from-pink-300 to-pink-500"
+                      : selectedField === "revenue"
+                      ? "from-emerald-300 to-green-500"
+                      : "from-cyan-300 to-blue-500"
+                  }`}
+                >
                   {selectedField === "todo" ? (
                     <BusyIcon className="h-8 w-8 fill-white" />
                   ) : selectedField === "revenue" ? (
@@ -302,14 +311,14 @@ const Mystats = ({
                     <MoodIcon className="h-8 w-8 fill-white" />
                   )}
                 </div>
-                <p className="text-sm font-semibold text-white">
+                <p className="hidden text-[5px] font-medium text-white md:block lg:text-[12px] lg:font-semibold xl:text-lg">
                   {selectedField === "todo"
                     ? "Most Busy Day"
                     : selectedField === "revenue"
                     ? "Most Earned Month"
                     : "Average Mood"}
                 </p>
-                <p className="text-md font-extrabold text-white">
+                <p className="text-[5px] font-extrabold text-white lg:text-[12px] xl:text-lg">
                   {selectedField === "todo"
                     ? todosCardData.mostBusyDay
                       ? todosCardData.mostBusyDay
@@ -324,15 +333,23 @@ const Mystats = ({
                 </p>
               </div>
               <div
-                className={`flex h-full w-[23%] flex-col items-center justify-center rounded-xl bg-gradient-to-br ${
+                className={`flex h-full w-[23%] flex-col items-center justify-center rounded-xl bg-transparent lg:bg-gradient-to-br lg:shadow-lg ${
                   selectedField === "todo"
-                    ? "from-red-300 to-red-500 shadow-lg"
+                    ? "from-red-300 to-red-500"
                     : selectedField === "revenue"
                     ? "from-red-300 to-red-500"
                     : "from-purple-300 to-violet-500"
                 }`}
               >
-                <div className="relative mb-2 flex h-14 w-14 items-center justify-center rounded-xl shadow-xl">
+                <div
+                  className={`relative mb-2 flex h-14 w-14 items-center justify-center rounded-xl bg-gradient-to-br lg:shadow-xl ${
+                    selectedField === "todo"
+                      ? "from-red-300 to-red-500"
+                      : selectedField === "revenue"
+                      ? "from-red-300 to-red-500"
+                      : "from-purple-300 to-violet-500"
+                  }`}
+                >
                   {selectedField === "todo" ? (
                     <>
                       <BusyIcon className="h-8 w-8 fill-white" />
@@ -346,14 +363,14 @@ const Mystats = ({
                     <DiaryIcon className="h-8 w-8 fill-white" />
                   )}
                 </div>
-                <p className="text-sm font-semibold text-white">
+                <p className="hidden text-[8px] font-semibold text-white md:block lg:text-[12px] xl:text-lg">
                   {selectedField === "todo"
                     ? "Most Busy Month"
                     : selectedField === "revenue"
                     ? "Most Spent Month"
                     : "Longest Kept Daylogs"}
                 </p>
-                <p className="text-md font-extrabold text-white">
+                <p className="text-[8px] font-extrabold text-white lg:block lg:text-[12px] xl:text-lg">
                   {selectedField === "todo"
                     ? todosCardData.mostBusyMonth
                       ? todosCardData.mostBusyMonth
@@ -367,78 +384,94 @@ const Mystats = ({
               </div>
               {selectedField === "mood" ? (
                 <div className="relative h-full w-[46%] flex-col rounded-xl bg-neutral-400/40 p-4 shadow-lg">
-                  <p className="text-xl font-extrabold text-white">
+                  <p className="text-xs font-extrabold text-white lg:text-xl">
                     Did You Know ?
                   </p>
-                  <p className="flex flex-col text-sm text-white">
+                  <p className="flex flex-col text-xs text-white lg:text-sm xl:text-lg">
                     <span>Jusy by tracking your moods regularly,</span>
                     <span>
                       you can ease your minds and help you feel better.
                     </span>
                   </p>
-                  <p className="mt-3 flex flex-col text-xs text-neutral-800">
-                    <span>If you struggle with your feelings,</span>
-                    <span>get reach for someone to help you</span>
-                  </p>
-                  <a
-                    className="absolute bottom-5 w-max text-xs font-bold text-cyan-400"
-                    href="https://en.wikipedia.org/wiki/List_of_suicide_crisis_lines"
-                  >
-                    Lists of World Crisis Hotlines
-                  </a>
-                  <div className="absolute bottom-2 right-4 flex h-12 w-12 items-center justify-center rounded-full bg-white">
-                    <BulbIcon className="h-10 w-10" />
+                  <div className="flex flex-col">
+                    <p className="mt-2 hidden flex-col text-[8px] text-neutral-800 sm:flex lg:mt-4 lg:text-sm">
+                      <span>If you struggle with your feelings,</span>
+                      <span>get reach for someone to help you</span>
+                    </p>
+                    <a
+                      className="mt-1 hidden w-max text-[8px] font-bold text-cyan-400 sm:block sm:text-xs"
+                      href="https://en.wikipedia.org/wiki/List_of_suicide_crisis_lines"
+                    >
+                      Lists of World Crisis Hotlines
+                    </a>
+                  </div>
+                  <div className="absolute right-2 top-2 flex h-8 w-8 items-center justify-center rounded-full bg-white lg:bottom-2 lg:right-4 lg:h-12 lg:w-12">
+                    <BulbIcon className="h-6 w-6 lg:h-10 lg:w-10" />
                   </div>
                 </div>
               ) : (
                 <>
                   <div
-                    className={`flex h-full w-[23%] flex-col items-center justify-center rounded-xl bg-gradient-to-br ${
+                    className={`flex h-full w-[23%] flex-col items-center justify-center rounded-xl bg-transparent lg:bg-gradient-to-br lg:shadow-lg ${
                       selectedField === "todo"
-                        ? "from-cyan-300 to-blue-500 shadow-lg"
+                        ? "from-cyan-300 to-blue-500"
                         : selectedField === "revenue"
                         ? "from-blue-300 to-indigo-500"
                         : "from-purple-300 to-violet-500"
                     }`}
                   >
-                    <div className="mb-2 flex h-14 w-14 items-center justify-center rounded-xl shadow-xl">
+                    <div
+                      className={`mb-2 flex h-14 w-14 items-center justify-center rounded-xl bg-gradient-to-br lg:bg-transparent lg:shadow-xl ${
+                        selectedField === "todo"
+                          ? "from-cyan-300 to-blue-500"
+                          : selectedField === "revenue"
+                          ? "from-blue-300 to-indigo-500"
+                          : "from-purple-300 to-violet-500"
+                      }`}
+                    >
                       {selectedField === "todo" ? (
                         <PercentageIcon className="h-6 w-6 fill-white" />
                       ) : (
                         <MoneyPlusIcon className="h-8 w-8 fill-white" />
                       )}
                     </div>
-                    <p className="text-sm font-semibold text-white">
+                    <p className="hidden text-[12px] font-semibold text-white md:block xl:text-lg">
                       {selectedField === "todo"
                         ? "Average Complete Ratio"
                         : "Highest Profit"}
                     </p>
-                    <p className="text-lg font-extrabold text-white">
+                    <p className="text-[12px] font-extrabold text-white lg:block xl:text-lg">
                       {selectedField === "todo"
                         ? `${todosCardData.averageCompleteRatio} %`
                         : `$ ${revenuesCardData.highestProfit}`}
                     </p>
                   </div>
                   <div
-                    className={`flex h-full w-[23%] flex-col items-center justify-center rounded-xl bg-gradient-to-br ${
+                    className={`flex h-full w-[23%] flex-col items-center justify-center rounded-xl bg-transparent lg:bg-gradient-to-br lg:shadow-lg ${
                       selectedField === "todo"
-                        ? "from-lime-300 to-emerald-500 shadow-lg"
+                        ? "from-lime-300 to-emerald-500"
                         : "from-red-300 to-red-500"
                     }`}
                   >
-                    <div className="mb-2 flex h-14 w-14 items-center justify-center rounded-xl shadow-xl">
+                    <div
+                      className={`mb-2 flex h-14 w-14 items-center justify-center rounded-xl bg-gradient-to-br lg:bg-transparent lg:shadow-xl ${
+                        selectedField === "todo"
+                          ? "from-lime-300 to-emerald-500"
+                          : "from-red-300 to-red-500"
+                      }`}
+                    >
                       {selectedField === "todo" ? (
                         <FeverIcon className="h-8 w-8 fill-lime-500" />
                       ) : (
                         <MoneyMinusIcon className="h-8 w-8 fill-white" />
                       )}
                     </div>
-                    <p className="text-sm font-semibold text-white">
+                    <p className="hidden text-[12px] font-semibold text-white md:block xl:text-lg">
                       {selectedField === "todo"
                         ? "All-Clear Combos"
                         : "Highest Spent"}
                     </p>
-                    <p className="text-md font-extrabold text-white">
+                    <p className="text-xs font-extrabold text-white lg:block lg:text-[12px] xl:text-lg">
                       {selectedField === "todo"
                         ? todosCardData.longestCombo
                         : revenuesCardData.highestLoss}

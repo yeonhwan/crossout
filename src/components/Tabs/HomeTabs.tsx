@@ -45,14 +45,14 @@ const HomeTabs = () => {
         onChange={handleTabChange}
         aria-label="home tabs"
         centered
-        className="mt-4"
+        className="mt-4 min-h-[36px] sm:min-h-[48px]"
         TabIndicatorProps={{
           className:
-            "rounded-full bg-neutral-800/80 dark:bg-neutral-100/80 z-0 w-full h-full",
+            "rounded-full h-8 sm:h-full bg-neutral-800/80 dark:bg-neutral-100/80 z-0 w-full mb-1 sm:mb-0 sm:mt-1",
         }}
       >
         <Tab
-          className={`z-10 mr-4 rounded-full px-4 py-2 transition-colors  ${
+          className={`z-10 mr-2 h-8 w-20 rounded-full px-3 py-1 text-xs transition-colors hover:bg-neutral-500/30 dark:hover:bg-neutral-300/30 sm:mr-4 sm:h-12 sm:w-20 sm:px-4 ${
             tabValue === TabPanels.todos
               ? "text-white dark:text-neutral-800"
               : "dark:text-white"
@@ -60,9 +60,13 @@ const HomeTabs = () => {
           label="Todos"
           disableRipple
           disabled={tabValue === TabPanels.todos}
+          style={{
+            minWidth: 50,
+            minHeight: 20,
+          }}
         />
         <Tab
-          className={`z-10 mr-4 rounded-full px-4 py-2 transition-colors  ${
+          className={`z-10 mr-2 h-8 w-20 rounded-full px-3 py-1 text-xs transition-colors hover:bg-neutral-500/30 dark:hover:bg-neutral-300/30 sm:mr-4 sm:h-12 sm:w-20 sm:px-4 sm:py-2  ${
             tabValue === TabPanels.daylog
               ? "text-white dark:text-neutral-800"
               : "dark:text-white"
@@ -70,9 +74,13 @@ const HomeTabs = () => {
           label="DayLog"
           disableRipple
           disabled={tabValue === TabPanels.daylog}
+          style={{
+            minWidth: 50,
+            minHeight: 20,
+          }}
         />
         <Tab
-          className={`z-10 mr-4 rounded-full px-4 py-2 transition-colors  ${
+          className={`sm:text-md z-10 mr-2 h-8 w-20 rounded-full  px-3 py-1 text-xs transition-colors hover:bg-neutral-500/30 dark:hover:bg-neutral-300/30 sm:mr-4 sm:h-12 sm:w-20 sm:px-4 sm:py-2   ${
             tabValue === TabPanels.revenues
               ? "text-white dark:text-neutral-800"
               : "dark:text-white"
@@ -80,6 +88,10 @@ const HomeTabs = () => {
           label="Revenues"
           disableRipple
           disabled={tabValue === TabPanels.revenues}
+          style={{
+            minWidth: 50,
+            minHeight: 20,
+          }}
         />
       </Tabs>
       <TabPanel

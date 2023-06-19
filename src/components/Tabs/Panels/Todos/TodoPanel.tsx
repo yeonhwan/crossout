@@ -7,8 +7,8 @@ import NoTodos from "@/components/Graphic/NoTodos";
 import CircleButton from "@/components/Buttons/CircleButton";
 
 // Icons
-import AddTodoIcon from "/public/icons/lists.svg";
 import LoaderIcon from "public/icons/spinner.svg";
+import AddIcon from "@mui/icons-material/Add";
 
 // React
 import { useState, useRef } from "react";
@@ -137,9 +137,9 @@ const TodoPanel = ({ enabled, openCreateTodo }: TodoPanelProps) => {
 
   if (isLoading) {
     return (
-      <div className="mt-4 flex h-[90%] max-h-[500px] w-3/5 justify-center rounded-lg bg-neutral-300/40 py-8 backdrop-blur-sm dark:bg-neutral-800/60">
+      <div className="mt-4 flex h-[90%] w-[90%] justify-center rounded-lg bg-neutral-300/40 py-8 backdrop-blur-sm dark:bg-neutral-800/60 lg:w-3/5">
         <div className="flex h-full w-full items-center justify-center">
-          <LoaderIcon className="h-10 w-10" />
+          <LoaderIcon className="h-10 w-10 fill-neutral-700 dark:fill-white" />
         </div>
       </div>
     );
@@ -147,7 +147,7 @@ const TodoPanel = ({ enabled, openCreateTodo }: TodoPanelProps) => {
 
   if (todosData && todosData.length > 0) {
     return (
-      <div className="mt-4 flex h-[90%] max-h-[500px] w-3/5 flex-col justify-center rounded-lg bg-neutral-300/40 py-2 backdrop-blur-sm transition-colors dark:bg-neutral-800/60">
+      <div className="mt-4 flex h-[90%] max-h-[67vh] w-[90%] flex-col rounded-lg bg-neutral-300/40 py-2 backdrop-blur-sm transition-colors dark:bg-neutral-800/60 lg:w-3/5">
         <TodoControllers
           sortingTodos={sortingTodos}
           setSortingTodos={setSortingTodos}
@@ -157,7 +157,7 @@ const TodoPanel = ({ enabled, openCreateTodo }: TodoPanelProps) => {
           isSortProceed={isSortProceed}
           setIsSortProceed={setIsSortProceed}
         />
-        <ListView className="min-h-[90%]">
+        <ListView viewHeight={80}>
           <DndContext sensors={sensors} onDragEnd={handleDragEnd}>
             <SortableContext
               items={todosData}
@@ -183,22 +183,22 @@ const TodoPanel = ({ enabled, openCreateTodo }: TodoPanelProps) => {
             onClick={openCreateTodo}
             className="absolute bottom-4 right-2 mr-5 hover:bg-cyan-400 dark:hover:bg-cyan-500"
           >
-            <AddTodoIcon className="h-6 w-6" />
+            <AddIcon className="h-6 w-6" />
           </CircleButton>
         )}
       </div>
     );
   } else if (todosData && !todosData.length) {
     return (
-      <div className="mt-4 flex h-[90%] max-h-[500px] w-3/5 justify-center rounded-lg bg-neutral-300/40 py-8 backdrop-blur-sm transition-colors dark:bg-neutral-800/60">
+      <div className="mt-4 flex h-[90%] w-[90%] flex-col rounded-lg bg-neutral-300/40 py-2 backdrop-blur-sm transition-colors dark:bg-neutral-800/60 lg:w-3/5">
         <NoTodos buttonHandler={openCreateTodo} />
       </div>
     );
   } else {
     return (
-      <div className="mt-4 flex h-[90%] max-h-[500px] w-3/5 justify-center rounded-lg bg-neutral-300/40 py-8 backdrop-blur-sm transition-colors dark:bg-neutral-800/60">
+      <div className="mt-4 flex h-[90%] w-[90%] flex-col rounded-lg bg-neutral-300/40 py-2 backdrop-blur-sm transition-colors dark:bg-neutral-800/60 lg:w-3/5">
         <div className="flex h-full w-full items-center justify-center">
-          <LoaderIcon className="h-10 w-10" />
+          <LoaderIcon className="h-10 w-10 fill-neutral-700 dark:fill-white" />
         </div>
       </div>
     );

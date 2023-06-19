@@ -146,10 +146,10 @@ const getYearlyChartData = protectedProcedure
               completed: yearlyTotalCompletedTodos,
             },
             cards: {
-              mostBusyDay: mostBusyDay,
+              mostBusyDay: mostBusyDay ? mostBusyDay.slice(5) : "",
               longestCombo,
               mostBusyMonth: mostBusyMonth
-                ? `${year} ${monthsArray[mostBusyMonth - 1] as string}`
+                ? (monthsArray[mostBusyMonth - 1] as string)
                 : "",
               averageCompleteRatio: Math.floor(
                 sumOfTodosCompleteRatio / yearlyDateRecordsdata.length
@@ -241,10 +241,10 @@ const getYearlyChartData = protectedProcedure
             },
             cards: {
               mostEarnedMonth: mostEarnedMonth
-                ? `${year} ${monthsArray[mostEarnedMonth - 1] as string}`
+                ? (monthsArray[mostEarnedMonth - 1] as string)
                 : "",
               mostLostMonth: mostLostMonth
-                ? `${year} ${monthsArray[mostLostMonth - 1] as string}`
+                ? (monthsArray[mostLostMonth - 1] as string)
                 : "",
               highestProfit,
               highestLoss,

@@ -178,7 +178,7 @@ const TodoItem = ({ data, sortingTodos }: TodoItemProps) => {
       return (
         <CircleButton
           info="delete"
-          className={`h-6 w-6 rounded-md p-0 hover:bg-red-400 dark:hover:bg-red-400 ${
+          className={`h-5 w-5 rounded-md p-0 hover:bg-red-400 dark:hover:bg-red-400 sm:h-6 sm:w-6 ${
             isProceed ? "pointer-events-none" : ""
           }`}
           onClick={(e) => {
@@ -189,7 +189,7 @@ const TodoItem = ({ data, sortingTodos }: TodoItemProps) => {
             }
           }}
         >
-          <TrashIcon className="h-4 w-4" fill="white" />
+          <TrashIcon className="h-3 w-3 sm:h-4 sm:w-4" fill="white" />
         </CircleButton>
       );
     }
@@ -199,17 +199,17 @@ const TodoItem = ({ data, sortingTodos }: TodoItemProps) => {
         <>
           <CircleButton
             info="apply"
-            className="mr-2 h-6 w-6 rounded-md bg-emerald-300 p-0 hover:bg-emerald-400 dark:bg-emerald-400 dark:hover:bg-emerald-500"
+            className="mr-2 h-5 w-5 rounded-md bg-emerald-300 p-0 hover:bg-emerald-400 dark:bg-emerald-400 dark:hover:bg-emerald-500 sm:h-6 sm:w-6"
             onClick={applyUpdateClickHandler}
           >
-            <CheckIcon className="h-4 w-4" />
+            <CheckIcon className="h-3 w-3 sm:h-4 sm:w-4" />
           </CircleButton>
           <CircleButton
             info="cancel"
-            className="h-6 w-6 rounded-md bg-red-300 p-0 hover:bg-red-400 dark:bg-red-400 dark:hover:bg-red-500"
+            className="h-5 w-5 rounded-md bg-red-300 p-0 hover:bg-red-400 dark:bg-red-400 dark:hover:bg-red-500 sm:h-6 sm:w-6"
             onClick={cancelUpdateTodo}
           >
-            <BlockIcon className="h-4 w-4" />
+            <BlockIcon className="h-3 w-3 sm:h-4 sm:w-4" />
           </CircleButton>
         </>
       );
@@ -219,7 +219,7 @@ const TodoItem = ({ data, sortingTodos }: TodoItemProps) => {
       <>
         <CircleButton
           info="edit"
-          className={`mr-1 h-6 w-6 rounded-md bg-orange-300 p-0 hover:bg-orange-400 dark:bg-orange-400 dark:hover:bg-orange-500 ${
+          className={`mr-1 h-5 w-5 rounded-md bg-orange-300 p-0 hover:bg-orange-400 dark:bg-orange-400 dark:hover:bg-orange-500 sm:h-6 sm:w-6 ${
             isProceed ? "pointer-events-none" : ""
           }`}
           onClick={(e) => {
@@ -227,11 +227,11 @@ const TodoItem = ({ data, sortingTodos }: TodoItemProps) => {
             setIsUpdating(true);
           }}
         >
-          <ModeEditOutlineIcon className="h-4 w-4" />
+          <ModeEditOutlineIcon className="h-3 w-3 sm:h-4 sm:w-4" />
         </CircleButton>
         <CircleButton
           info="delete"
-          className={`h-6 w-6 rounded-md bg-red-300 p-0 hover:bg-red-400 dark:bg-red-400 dark:hover:bg-red-500 ${
+          className={`h-5 w-5 rounded-md bg-red-300 p-0 hover:bg-red-400 dark:bg-red-400 dark:hover:bg-red-500 sm:h-6 sm:w-6 ${
             isProceed
               ? "pointer-events-none bg-neutral-400 dark:bg-neutral-500"
               : ""
@@ -244,7 +244,7 @@ const TodoItem = ({ data, sortingTodos }: TodoItemProps) => {
             }
           }}
         >
-          <TrashIcon className="h-4 w-4" fill="white" />
+          <TrashIcon className="h-3 w-3 sm:h-4 sm:w-4" fill="white" />
         </CircleButton>
       </>
     );
@@ -253,47 +253,50 @@ const TodoItem = ({ data, sortingTodos }: TodoItemProps) => {
   // Item Render (not Updating state)
   if (!isUpdating) {
     return (
-      <div className="my-1.5 flex h-max w-5/6 items-center rounded-full border-2 border-neutral-500 shadow-lg drop-shadow-xl hover:border-cyan-600 dark:border-neutral-300 dark:hover:border-cyan-500">
+      <div className="my-1.5 flex h-max w-[90%] items-center rounded-full border-2 border-neutral-500 shadow-lg drop-shadow-xl hover:border-cyan-600 dark:border-neutral-300 dark:hover:border-cyan-500 sm:w-5/6">
         <div
           onClick={completeTodoHandler}
-          className={`flex h-20 w-full items-center justify-between rounded-full transition-colors ${
+          className={`flex h-14 w-full items-center justify-between rounded-full transition-colors sm:h-20 ${
             completed
               ? "bg-neutral-300 dark:bg-neutral-600"
               : "bg-neutral-200 dark:bg-neutral-700"
-          } px-10 py-4 text-white hover:cursor-pointer`}
+          } px-4 py-2 text-white hover:cursor-pointer sm:px-10 sm:py-4`}
         >
-          <div className="flex">
+          <div className="flex items-center">
             <div
-              className={`flex h-6 w-6 items-center justify-center rounded-full ${
+              className={`flex h-5 w-5 items-center justify-center rounded-full sm:h-6 sm:w-6 ${
                 completed
                   ? "bg-neutral-200 dark:bg-neutral-700"
                   : "bg-neutral-300 dark:bg-neutral-500"
               }`}
             >
-              <p className="text-xs">{UrgencyDisplay[urgency]}</p>
+              <p className="text-[10px] sm:text-xs">
+                {UrgencyDisplay[urgency]}
+              </p>
             </div>
             <div className="ml-2 flex h-6 w-6 items-center justify-center">
-              {isProceed && <LoaderIcon className="h-6 w-6" />}
+              {isProceed && (
+                <LoaderIcon className="h-6 w-6 fill-neutral-700 dark:fill-neutral-200" />
+              )}
             </div>
           </div>
-          {deadlineString && <p>{deadlineString}</p>}
           <div className="flex w-8/12 flex-col items-center justify-center">
             <p
-              className={`relative text-center text-neutral-800 after:absolute after:left-0 after:top-1/2 after:h-[2px] after:w-0 after:bg-neutral-500 after:transition-all after:duration-200 after:ease-in-out after:content-[''] dark:text-neutral-200 dark:after:bg-neutral-600 ${
+              className={`sm:text-md relative overflow-hidden text-ellipsis whitespace-nowrap text-center text-xs text-neutral-800 after:absolute after:left-0 after:top-1/2 after:h-[2px] after:w-0 after:bg-neutral-500 after:transition-all after:duration-200 after:ease-in-out after:content-[''] dark:text-neutral-200 dark:after:bg-neutral-600 ${
                 completed ? "after:w-full" : ""
               }`}
             >
               {content}
             </p>
             {listBoard && (
-              <p className="text-sm font-light text-neutral-800 dark:text-neutral-400">
+              <p className="overflow-hidden text-ellipsis whitespace-nowrap text-[10px] font-light text-neutral-800 dark:text-neutral-400 sm:text-sm">
                 {listboardTitle}
               </p>
             )}
           </div>
           <div
-            className={`flex w-max ${
-              data.completed ? "justify-center" : "justify-between"
+            className={`flex w-12 ${
+              data.completed ? "justify-center" : "justify-evenly"
             }`}
           >
             {ButtonRender()}
@@ -305,12 +308,12 @@ const TodoItem = ({ data, sortingTodos }: TodoItemProps) => {
   // Item Render (Updating state)
   else {
     return (
-      <div className="my-1.5 flex h-max min-h-[3.5rem] w-5/6 items-center rounded-full border-2 border-neutral-300 shadow-lg drop-shadow-xl dark:border-neutral-500">
+      <div className="my-1.5 flex h-max min-h-[3.5rem] w-5/6 items-center rounded-xl border-2 border-neutral-300 shadow-lg drop-shadow-xl dark:border-neutral-500">
         <ClickAwayListener onClickAway={cancelUpdateTodo}>
-          <div className="flex w-full items-center justify-between rounded-full bg-cyan-600 px-10 py-4 text-white dark:bg-cyan-700">
-            <div className="flex w-max">
+          <div className="flex w-full items-center justify-between rounded-xl bg-teal-600 px-2 py-4 text-white dark:bg-cyan-700 sm:px-10">
+            <div className="flex w-full flex-col items-center sm:flex-row">
               <select
-                className="rounded-xl bg-neutral-600/20 px-2 hover:cursor-pointer focus-visible:ring-2 focus-visible:ring-cyan-300 dark:bg-neutral-400/40"
+                className="mb-2 flex h-4 w-max rounded-xl bg-neutral-600/20 text-xs hover:cursor-pointer focus-visible:ring-2 focus-visible:ring-cyan-300 dark:bg-neutral-400/40 sm:mb-0 sm:px-2"
                 value={urgencyInput}
                 onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
                   setUrgencyInput(e.currentTarget.value as UrgencyInput);
@@ -320,26 +323,25 @@ const TodoItem = ({ data, sortingTodos }: TodoItemProps) => {
                 <option value={UrgencyInput.important}>⚡️important</option>
                 <option value={UrgencyInput.urgent}>🔥urgent</option>
               </select>
-              {deadlineString && <p>{deadlineString}</p>}
+              <div className="flex h-max w-8/12 flex-col items-center justify-center">
+                <input
+                  className="w-full bg-neutral-600/20 py-1 text-center text-xs outline-0 focus-visible:ring-2 focus-visible:ring-cyan-300 dark:bg-neutral-400/40 sm:w-8/12 sm:align-middle sm:text-sm"
+                  value={todoInput}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                    setTodoInput(e.currentTarget.value);
+                  }}
+                />
+                <ListboardSelect
+                  className="mt-2 w-full bg-neutral-600/20 text-xs focus-visible:ring-2 focus-visible:ring-cyan-300 dark:bg-neutral-400/40 sm:mt-4 sm:w-8/12 sm:text-sm"
+                  input={listboardInput}
+                  onChange={setListboardInput}
+                />
+              </div>
             </div>
-            <div className="flex h-max w-8/12 flex-col items-center justify-center">
-              <input
-                className="w-8/12 bg-neutral-600/20 py-1 text-center align-middle outline-0 focus-visible:ring-2 focus-visible:ring-cyan-300 dark:bg-neutral-400/40"
-                value={todoInput}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                  setTodoInput(e.currentTarget.value);
-                }}
-              />
-              <ListboardSelect
-                className="mt-4 w-8/12 bg-neutral-600/20 focus-visible:ring-2 focus-visible:ring-cyan-300 dark:bg-neutral-400/40"
-                input={listboardInput}
-                onChange={setListboardInput}
-              />
-            </div>
-            <div className="flex w-14 justify-between">
+            <div className="mr-2 flex w-14 justify-between sm:mr-0">
               {isProceed ? (
                 <div className="flex h-full w-full items-center justify-center">
-                  <LoaderIcon className="h-8 w-8" />
+                  <LoaderIcon className="h-6 w-6 sm:h-8 sm:w-8" />
                 </div>
               ) : (
                 ButtonRender()

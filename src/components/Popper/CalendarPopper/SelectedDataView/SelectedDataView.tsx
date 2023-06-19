@@ -37,7 +37,7 @@ const SelectedDataView = ({
         {showDetail && (
           <span
             onClick={closeShowDetail}
-            className="absolute right-0 top-1/2 flex h-8 w-8 animate-pulse items-center justify-center rounded-full hover:animate-none hover:cursor-pointer hover:bg-neutral-400/40"
+            className="absolute bottom-4 right-[23%] flex h-8 w-8 animate-pulse items-center justify-center rounded-full hover:animate-none hover:cursor-pointer hover:bg-neutral-400/40 sm:right-0 sm:top-1/2"
           >
             <LoadDetailIcon className="h-4 w-4 fill-white" />
           </span>

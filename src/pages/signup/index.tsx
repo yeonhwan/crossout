@@ -118,7 +118,7 @@ const SignUp: NextPageWithLayout = () => {
     onSuccess: (res) => {
       const { userId } = res.data;
       setIsProceed(false);
-      return router.push(`/signup/${userId}`);
+      return router.push(`/signin`);
     },
     onError: (err) => {
       const formEl = document.querySelector<HTMLFormElement>("form");
@@ -143,12 +143,12 @@ const SignUp: NextPageWithLayout = () => {
 
   const gitHubSignIn = () => {
     setIsProceed(true);
-    return signIn("github", { callbackUrl: "/" });
+    return signIn("github", { callbackUrl: "/oauth" });
   };
 
   const googleSignIn = () => {
     setIsProceed(true);
-    return signIn("google", { callbackUrl: "/" });
+    return signIn("google", { callbackUrl: "/oauth" });
   };
 
   const submitHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -196,12 +196,17 @@ const SignUp: NextPageWithLayout = () => {
 
   return (
     <div className="flex h-full w-full items-center justify-center">
-      <form className="flex h-max w-4/12 flex-col rounded-lg border-2 border-zinc-300 p-12">
-        <h1 className="mb-5 w-full text-center text-xl font-bold">Sign Up</h1>
-        <p id="err_message" className="text-red-600">
+      <form className="flex h-max w-[85%] flex-col rounded-lg border-2 border-zinc-300 p-12 sm:w-4/12">
+        <h1 className="mb-5 w-full text-center text-base font-bold sm:text-xl">
+          Sign Up
+        </h1>
+        <p id="err_message" className="text-xs text-red-600 sm:text-base">
           {errMessage}
         </p>
-        <label className="mt-2 font-bold text-gray-600" htmlFor="username">
+        <label
+          className="mt-2 text-sm font-bold text-gray-600 sm:text-base"
+          htmlFor="username"
+        >
           Username
         </label>
         <input
@@ -223,7 +228,10 @@ const SignUp: NextPageWithLayout = () => {
             ? USERNAME_ERR_MESSAGE.INVALID_LENGTH
             : ""}
         </p>
-        <label className="mt-2 font-bold text-gray-600" htmlFor="email">
+        <label
+          className="mt-2 text-sm font-bold text-gray-600 sm:text-base"
+          htmlFor="email"
+        >
           Email
         </label>
         <input
@@ -246,7 +254,10 @@ const SignUp: NextPageWithLayout = () => {
             ? EMAIL_ERR_MESSAGE.INVALID_FORM
             : ""}
         </p>
-        <label className="mt-2 font-bold text-gray-600" htmlFor="password">
+        <label
+          className="mt-2 text-sm font-bold text-gray-600 sm:text-base"
+          htmlFor="password"
+        >
           Password
         </label>
         <input
@@ -270,7 +281,10 @@ const SignUp: NextPageWithLayout = () => {
             ? PWD_ERR_MESSAGE.INVALID_CHARACTER
             : ""}
         </p>
-        <label className="mt-2 font-bold text-gray-600" htmlFor="confirm">
+        <label
+          className="mt-2 text-sm font-bold text-gray-600 sm:text-base"
+          htmlFor="confirm"
+        >
           Password Confirm
         </label>
         <input

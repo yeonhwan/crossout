@@ -93,7 +93,7 @@ const ListboardIndex = ({
     if (listboardsData && listboardsData.length) {
       return (
         <>
-          <ListView className="mt-5 grid grid-cols-listboard items-start justify-around gap-x-5 gap-y-8">
+          <ListView className="mt-5 grid  grid-cols-listboard items-start justify-around gap-x-10 gap-y-8">
             {listboardsData.map((data) => (
               <ListboardItem
                 popperOpen={() => {
@@ -106,7 +106,7 @@ const ListboardIndex = ({
               />
             ))}
           </ListView>
-          <div className="flex self-end">
+          <div className="flex self-end pr-4 sm:pr-0">
             <CircleButton
               className=""
               info="Add new listboard"
@@ -138,14 +138,16 @@ const ListboardIndex = ({
 
   return (
     <Layout userData={userData}>
-      <div className="flex h-full w-full flex-col px-40">
-        <h1 className="text-4xl font-extrabold text-neutral-800 dark:text-neutral-300">
-          Listboards
-        </h1>
-        <p className="text-lg font-semibold text-neutral-700 transition-colors dark:text-neutral-200">
-          Manage your listboards and todos in here!
-        </p>
-        <div className="mt-4 flex h-[80%] max-h-[600px] w-full flex-col justify-center rounded-xl bg-neutral-300/40 px-10 py-5 pt-10 backdrop-blur-lg transition-colors dark:bg-neutral-800/40">
+      <div className="flex h-[90%] w-full flex-col px-5 sm:px-20 md:px-40">
+        <div className="flex h-[10%] flex-col">
+          <h1 className="text-3xl font-extrabold text-neutral-800 dark:text-neutral-300 sm:text-4xl">
+            Listboards
+          </h1>
+          <p className="text-xs text-neutral-700 transition-colors dark:text-neutral-200 sm:text-lg">
+            Manage your listboards, todos by listboard.
+          </p>
+        </div>
+        <div className="mt-4 flex h-[85%] w-full flex-col justify-center rounded-xl bg-neutral-300/40 px-0 py-5 pt-10 shadow-lg backdrop-blur-lg transition-colors dark:bg-neutral-800/60 sm:h-[75%] sm:px-10">
           {isProceed && (
             <div className="absolute right-4 top-4 h-max w-max">
               <LoaderIcon className="h-10 w-10" />

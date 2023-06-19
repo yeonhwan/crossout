@@ -34,7 +34,7 @@ import useDateStore from "@/stores/useDateStore";
 
 function Placeholder() {
   return (
-    <div className="editor-placeholder pointer-events-none absolute text-neutral-400 dark:text-neutral-500">
+    <div className="editor-placeholder sm:text-md pointer-events-none absolute text-xs text-neutral-400 dark:text-neutral-500">
       Enter your daylog / journal in here!
     </div>
   );
@@ -105,8 +105,6 @@ const TextEditor = ({ editorContent, editorStateRef }: TextEditorProps) => {
           root.getChildrenSize() === 1;
         const noWhiteSpace = $isRootTextContentEmpty(true, true);
 
-        console.log(isDiff, isDateSame, isEmpty, noWhiteSpace);
-
         if (isDiff && isDateSame && !isEmpty && !noWhiteSpace) {
           upsertTextEditor(data);
         }
@@ -139,11 +137,11 @@ const TextEditor = ({ editorContent, editorStateRef }: TextEditorProps) => {
         </span>
       </div>
       <div
-        className={`editor-inner relative mt-2 flex h-[80%] w-full rounded-md border-2 border-neutral-400 bg-neutral-300 p-2 shadow-lg transition-colors dark:border-neutral-500 dark:bg-neutral-700 `}
+        className={`editor-inner relative mt-2 flex h-[80%] w-full rounded-md border-2 border-neutral-400 bg-neutral-300 p-2 text-xs shadow-lg transition-colors dark:border-neutral-500 dark:bg-neutral-700 `}
       >
         <RichTextPlugin
           contentEditable={
-            <ContentEditable className="editor-input flex w-full flex-col overflow-y-scroll text-black focus:outline-none dark:text-white" />
+            <ContentEditable className="editor-input sm:text-md flex w-full flex-col overflow-y-scroll text-xs text-black focus:outline-none dark:text-white" />
           }
           placeholder={<Placeholder />}
           ErrorBoundary={LexicalErrorBoundary}

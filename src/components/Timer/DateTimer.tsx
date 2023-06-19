@@ -41,33 +41,35 @@ const DateTimer = ({ openCalendar }: DateTimerProps) => {
   };
 
   return (
-    <div className="flex h-max w-max items-end text-4xl font-extrabold">
+    <div className="flex h-full w-max items-center justify-center font-extrabold">
       <CircleButton
-        className="mr-2 h-6 w-6 bg-neutral-600/60 hover:bg-neutral-300/60 dark:bg-white/60 dark:hover:bg-neutral-800/60"
+        className="mr-2 h-5 w-5 bg-neutral-600/60 hover:bg-neutral-300/60 dark:bg-white/60 dark:hover:bg-neutral-800/60 lg:h-6 lg:w-6"
         onClick={decreaseDate}
+        info="yesterday"
       >
-        <KeyboardArrowLeftIcon className="transition-none hover:fill-neutral-700 dark:fill-neutral-700 dark:hover:fill-neutral-200" />
+        <KeyboardArrowLeftIcon className="h-4 w-4 transition-none hover:fill-neutral-700 dark:fill-neutral-700 dark:hover:fill-neutral-200 lg:h-5 lg:w-5" />
       </CircleButton>
       <Tooltip title="Open Calendar" arrow placement="top">
         <div
-          className="flex h-max w-max items-center transition-colors duration-75 hover:cursor-pointer hover:text-neutral-200 dark:text-white dark:hover:text-neutral-800"
+          className="flex h-max w-max items-center transition-colors duration-75 hover:cursor-pointer hover:text-teal-400 dark:text-white dark:hover:text-teal-400"
           onClick={openCalendar}
         >
-          <span className="mr-2 text-lg font-semibold">{year}</span>
-          <span className="mr-2">
+          <span className="mr-2 text-xs font-semibold lg:text-sm">{year}</span>
+          <span className="mr-2 text-2xl lg:text-4xl">
             {`${month} ${date}`}
-            <span className="text-base font-semibold">
+            <span className="text-sm font-semibold lg:text-lg">
               {generateDateSub(date)}
             </span>
           </span>
-          <span className="mr-2 text-xl font-bold">{day}</span>
+          <span className="text-md mr-2 font-bold lg:text-xl">{day}</span>
         </div>
       </Tooltip>
       <CircleButton
-        className="ml-2 h-6 w-6 bg-neutral-500/60 transition-none hover:bg-neutral-300/60 dark:bg-white/60 dark:hover:bg-neutral-800/60"
+        className="ml-2 h-5 w-5 bg-neutral-500/60 transition-none hover:bg-neutral-300/60 dark:bg-white/60 dark:hover:bg-neutral-800/60 lg:h-6 lg:w-6"
         onClick={increaseDate}
+        info="tomorrow"
       >
-        <KeyboardArrowRightIcon className="transition-none hover:fill-neutral-700 dark:fill-neutral-700 dark:hover:fill-neutral-200" />
+        <KeyboardArrowRightIcon className="h-4 w-4 transition-none hover:fill-neutral-700 dark:fill-neutral-700 dark:hover:fill-neutral-200 lg:h-5 lg:w-5" />
       </CircleButton>
     </div>
   );

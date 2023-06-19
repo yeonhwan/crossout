@@ -12,6 +12,9 @@ import { useState } from "react";
 // Components
 import Button from "@/components/Buttons/Button";
 
+// Icons
+import ContentPasteIcon from "@mui/icons-material/ContentPaste";
+
 // api
 import { api } from "@/utils/api";
 import LoaderIcon from "public/icons/spinner.svg";
@@ -87,45 +90,81 @@ const ListboardsForm = (
   return (
     <form
       ref={ref}
-      className="flex h-2/3 w-1/3 flex-col items-center justify-evenly rounded-lg bg-neutral-400/40 py-4 text-neutral-800 dark:bg-neutral-800/80 dark:text-white"
+      className="flex h-4/5 w-[90%] flex-col items-center justify-around rounded-lg bg-neutral-200/40 text-neutral-800 dark:bg-neutral-800/80 dark:text-neutral-200 sm:w-1/4 sm:min-w-[500px]"
     >
-      <h1 className="text-2xl font-bold">New Listboard</h1>
-      <div className="flex w-2/3 flex-col">
-        <label className="text-lg font-semibold" htmlFor="title">
-          What is your listboard title?
-        </label>
-        <input
-          className="mb-2 px-2 py-1"
-          id="title"
-          placeholder="Type in your listboard title"
-          value={titleInput}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-            setTitleInput(e.currentTarget.value);
-          }}
-        />
-        <label className="text-lg font-semibold" htmlFor="deadline">
-          Describe your listboard
-        </label>
-        <textarea
-          placeholder="Describe your listboard"
-          className="mb-2 px-2 py-1"
-          id="description"
-          value={descriptionInput}
-          onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => {
-            setDescriptionInput(e.currentTarget.value);
-          }}
-        />
+      <div className="flex h-[10%] flex-col items-center justify-center pt-8">
+        <span className="mb-2 flex h-10 w-10 items-center justify-center rounded-xl bg-teal-500/50 p-2 dark:bg-teal-500/50">
+          <ContentPasteIcon className="h-6 w-6 fill-white" />
+        </span>
+        <h1 className="ml-1 text-lg font-bold sm:text-xl">New Listboard</h1>
+        <p className="text-xs text-neutral-700 dark:text-neutral-200">
+          <span className="text-red-400">*</span>
+          should be filled in to submit
+        </p>
       </div>
-      <div className="flex">
+      <div className="flex h-[45%] w-2/3 flex-col justify-center">
+        <div className="mb-2 flex flex-col justify-center focus-within:text-teal-600 dark:focus-within:text-teal-400">
+          <label
+            className="rounded-md font-semibold after:text-red-400 after:content-['*']"
+            htmlFor="title"
+          >
+            Listboard title
+          </label>
+          <input
+            className="mb-2 border-0 px-2 py-1 text-neutral-700 shadow-lg ring-2 ring-neutral-300 focus:outline-none focus:ring-teal-400 dark:bg-neutral-600 dark:text-neutral-200 dark:ring-neutral-500 dark:placeholder:text-white dark:focus:ring-teal-500"
+            id="title"
+            placeholder="Type in your listboard title"
+            value={titleInput}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+              setTitleInput(e.currentTarget.value);
+            }}
+          />
+        </div>
+        <div className="flex flex-col justify-center focus-within:text-teal-600 dark:focus-within:text-teal-400">
+          <label className="font-semibold" htmlFor="deadline">
+            Describe your listboard
+          </label>
+          <p className="mb-3 text-xs">Describes should be less 50 characters</p>
+          <textarea
+            placeholder="Describe your listboard"
+            className={`${
+              descriptionInput.length > 50
+                ? "focus:ring-red-400 dark:focus:ring-red-300"
+                : "focus:ring-teal-400 dark:focus:ring-teal-500"
+            } mb-2 resize-none rounded-md border-0 px-2 py-1 text-neutral-700 shadow-lg ring-2 ring-neutral-300 focus:outline-none dark:bg-neutral-600 dark:text-neutral-200 dark:ring-neutral-500 dark:placeholder:text-white dark:focus:ring-teal-500`}
+            id="description"
+            cols={2}
+            value={descriptionInput}
+            onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => {
+              setDescriptionInput(e.currentTarget.value);
+            }}
+          />
+          <span
+            className={`self-end text-xs ${
+              descriptionInput.length > 50 ? "text-red-400" : ""
+            }`}
+          >{`${descriptionInput.length} / 50`}</span>
+        </div>
+      </div>
+      <div className="flex h-[10%]">
         {isProceed ? (
-          <Button className="pointer-events-none flex justify-center px-4">
-            <LoaderIcon className="h-6 w-6 fill-neutral-500 dark:fill-white" />
+          <Button className="pointer-events-none flex h-10 items-center justify-center px-4 hover:bg-neutral-400 dark:hover:bg-neutral-700">
+            <LoaderIcon className="h-6 w-6 fill-white" />
           </Button>
         ) : (
           <>
-            <Button onClick={confirmOnClickHandler}>Confirm</Button>
             <Button
-              className="hover:bg-red-400 dark:hover:bg-red-500"
+              className={`h-8 hover:text-white ${
+                titleInput.length <= 0 || descriptionInput.length > 50
+                  ? "pointer-events-none bg-neutral-400 text-neutral-500 dark:bg-neutral-700 dark:text-neutral-800"
+                  : ""
+              }`}
+              onClick={confirmOnClickHandler}
+            >
+              Confirm
+            </Button>
+            <Button
+              className="h-8 hover:bg-red-400 hover:text-white dark:hover:bg-red-500"
               onClick={cancelButtonHandler}
             >
               Cancel

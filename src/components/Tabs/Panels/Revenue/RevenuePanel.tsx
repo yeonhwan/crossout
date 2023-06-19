@@ -1,5 +1,6 @@
 // Hooks
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useWindowWidth } from "@/hooks/useWindowWidth";
 
 // components
 import CircleButton from "@/components/Buttons/CircleButton";
@@ -11,7 +12,7 @@ import NoRevenus from "@/components/Graphic/NoRevenues";
 import MoneyAllIcon from "public/icons/money_all.svg";
 import MoneyPlusIcon from "public/icons/money_plus.svg";
 import MoneyMinusIcon from "public/icons/money_minus.svg";
-import AddMoneyIcon from "public/icons/add_money.svg";
+import AddIcon from "@mui/icons-material/Add";
 
 // api
 import { api } from "@/utils/api";
@@ -37,6 +38,7 @@ const RevenuePanel = ({ openCreateRevenue }: RevenuePanelProps) => {
   const [viewProfit, setViewProfit] = useState(false);
   const [viewLoss, setViewLoss] = useState(false);
   const { dateObj } = useDateStore((state) => state);
+  const isMediaMatches = useWindowWidth(false, 640);
 
   api.revenue.getRevenues.useQuery(
     {
@@ -62,66 +64,70 @@ const RevenuePanel = ({ openCreateRevenue }: RevenuePanelProps) => {
   );
 
   return (
-    <div className="mt-4 flex h-[90%] max-h-[500px] w-3/5 flex-col justify-center rounded-lg bg-neutral-300/40 p-6 backdrop-blur-sm transition-colors dark:bg-neutral-800/40">
-      <div className="flex h-full w-full justify-around">
-        <div className="relative flex h-[65%] w-1/6 flex-col items-center justify-between self-center">
-          <div className="mt-2 flex h-[80%] w-full flex-col items-center justify-between rounded-xl bg-neutral-300/60 py-4 transition-colors dark:bg-neutral-600/40">
+    <div className="mt-4 flex h-[90%] w-[90%] flex-col rounded-lg bg-neutral-300/40 px-4 pt-4 backdrop-blur-sm transition-colors dark:bg-neutral-800/60 sm:p-6 lg:w-3/5">
+      <div className="flex h-full w-full flex-col justify-around sm:flex-row">
+        <div className="relative flex h-20 w-full flex-col-reverse items-center justify-center self-center px-10 sm:h-[65%] sm:w-1/4 sm:min-w-[180px] sm:flex-col sm:justify-between">
+          <div className="flex h-max w-max items-center sm:h-[80%] sm:w-36 sm:flex-col">
+            <div className="flex h-max w-36 items-center justify-evenly rounded-xl bg-neutral-300/60 py-2 transition-colors dark:bg-neutral-600/40 sm:mt-2 sm:h-[80%] sm:max-h-48 sm:w-full sm:flex-col sm:justify-between">
+              <CircleButton
+                className={`h-8 w-8 hover:bg-cyan-400 dark:hover:bg-cyan-500 sm:h-10 sm:w-10 ${
+                  viewAll
+                    ? "pointer-events-none bg-cyan-400 dark:bg-cyan-500"
+                    : ""
+                }`}
+                infoPlace={isMediaMatches ? "left" : "top"}
+                info="All"
+                onClick={() => {
+                  setViewAll(true);
+                  setViewProfit(false);
+                  setViewLoss(false);
+                }}
+              >
+                <MoneyAllIcon className="h-6 w-6" />
+              </CircleButton>
+              <CircleButton
+                className={`h-8 w-8 sm:h-10 sm:w-10 ${
+                  viewProfit
+                    ? "pointer-events-none bg-emerald-400 dark:bg-emerald-500"
+                    : ""
+                }`}
+                infoPlace={isMediaMatches ? "left" : "top"}
+                info="Profit"
+                onClick={() => {
+                  setViewProfit(true);
+                  setViewAll(false);
+                  setViewLoss(false);
+                }}
+              >
+                <MoneyPlusIcon className="h-6 w-6" />
+              </CircleButton>
+              <CircleButton
+                className={`h-8 w-8 hover:bg-red-500 sm:h-10 sm:w-10 ${
+                  viewLoss
+                    ? "pointer-events-none bg-red-500 dark:bg-red-500"
+                    : ""
+                }`}
+                infoPlace={isMediaMatches ? "left" : "top"}
+                info="Loss"
+                onClick={() => {
+                  setViewLoss(true);
+                  setViewAll(false);
+                  setViewProfit(false);
+                }}
+              >
+                <MoneyMinusIcon className="h-6 w-6" />
+              </CircleButton>
+            </div>
             <CircleButton
-              className={`hover:bg-cyan-400 dark:hover:bg-cyan-500 ${
-                viewAll
-                  ? "pointer-events-none bg-cyan-400 dark:bg-cyan-500"
-                  : ""
-              }`}
-              infoPlace="left"
-              info="All"
-              onClick={() => {
-                setViewAll(true);
-                setViewProfit(false);
-                setViewLoss(false);
-              }}
+              info="Add Record"
+              infoPlace={isMediaMatches ? "left" : "top"}
+              className="ml-2 flex h-8 w-8 items-center justify-center hover:bg-cyan-400 dark:hover:bg-cyan-500 sm:mt-2 sm:h-10 sm:w-10"
+              onClick={openCreateRevenue}
             >
-              <MoneyAllIcon className="h-6 w-6" />
-            </CircleButton>
-            <CircleButton
-              className={`${
-                viewProfit
-                  ? "pointer-events-none bg-emerald-400 dark:bg-emerald-500"
-                  : ""
-              }`}
-              infoPlace="left"
-              info="Profit"
-              onClick={() => {
-                setViewProfit(true);
-                setViewAll(false);
-                setViewLoss(false);
-              }}
-            >
-              <MoneyPlusIcon className="h-6 w-6" />
-            </CircleButton>
-            <CircleButton
-              className={`hover:bg-red-500 ${
-                viewLoss ? "pointer-events-none bg-red-500 dark:bg-red-500" : ""
-              }`}
-              infoPlace="left"
-              info="Loss"
-              onClick={() => {
-                setViewLoss(true);
-                setViewAll(false);
-                setViewProfit(false);
-              }}
-            >
-              <MoneyMinusIcon className="h-6 w-6" />
+              <AddIcon className="h-6 w-6" />
             </CircleButton>
           </div>
-          <CircleButton
-            info="Add Record"
-            infoPlace="bottom"
-            className="mt-2 flex h-10 w-10 items-center justify-center hover:bg-cyan-400 dark:hover:bg-cyan-500"
-            onClick={openCreateRevenue}
-          >
-            <AddMoneyIcon className="h-6 w-6" />
-          </CircleButton>
-          <div className="mt-2 flex flex-col items-center justify-center">
+          <div className="mb-2 mt-0 flex flex-col items-center justify-center rounded-md bg-neutral-500/20 px-4 py-1 sm:mt-2">
             <p className="text-sm font-bold text-white">Total</p>
             <p
               className={`text-sm font-semibold ${
@@ -134,9 +140,9 @@ const RevenuePanel = ({ openCreateRevenue }: RevenuePanelProps) => {
             </p>
           </div>
         </div>
-        <div className="flex w-3/4 flex-col items-center justify-around">
+        <div className="flex h-3/4 w-full flex-col items-center justify-around sm:h-full sm:w-3/4">
           <div
-            className={`flex w-full overflow-y-scroll rounded-xl bg-emerald-400/50 p-2 transition-all delay-[100] duration-200 dark:bg-emerald-300/50 ${
+            className={`flex w-full overflow-y-scroll rounded-xl bg-emerald-400/50 px-2 py-2 transition-all delay-[100] duration-200 dark:bg-emerald-300/50 ${
               viewProfit
                 ? "h-full"
                 : viewLoss
@@ -145,7 +151,7 @@ const RevenuePanel = ({ openCreateRevenue }: RevenuePanelProps) => {
             }`}
           >
             {profitData.length ? (
-              <ListView className="px-6 py-4">
+              <ListView className="sm:px-6 sm:py-3">
                 {profitData.map((data) => (
                   <RevenueItem data={data} key={data.id} />
                 ))}
@@ -158,7 +164,7 @@ const RevenuePanel = ({ openCreateRevenue }: RevenuePanelProps) => {
             <div className="h-[1px] w-[90%] border-b-2 border-dotted border-b-neutral-600 dark:border-b-neutral-200 " />
           )}
           <div
-            className={`flex w-full overflow-y-scroll rounded-xl bg-red-400/50 p-2 transition-all delay-[100] duration-200 dark:bg-red-300/50 ${
+            className={`flex w-full overflow-y-scroll rounded-xl bg-red-400/50 px-2 pt-2 transition-all delay-[100] duration-200 dark:bg-red-300/50 ${
               viewLoss
                 ? "h-full"
                 : viewProfit
@@ -167,7 +173,7 @@ const RevenuePanel = ({ openCreateRevenue }: RevenuePanelProps) => {
             }`}
           >
             {lossData.length ? (
-              <ListView className="px-6 py-4">
+              <ListView className="pt-2 sm:px-6 sm:py-3">
                 {lossData.map((data) => (
                   <RevenueItem data={data} key={data.id} />
                 ))}

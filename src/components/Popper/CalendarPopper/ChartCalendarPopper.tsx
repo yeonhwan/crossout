@@ -33,7 +33,7 @@ const ChartCalenderPopper = ({
     <ClickAwayListener onClickAway={closeCalendar}>
       <div
         onTransitionEnd={handleTransition}
-        className={`absolute left-0 top-6 z-50 flex h-32 w-[250px] rounded-xl border-2 border-white/30 bg-neutral-700 text-white transition-all duration-150 ${
+        className={`absolute -right-28 top-6 z-50 flex h-32 w-[250px] rounded-xl border-2 border-white/30 bg-neutral-700 text-white transition-all duration-150 sm:left-0 ${
           animateTrigger
             ? "translate-y-0 opacity-100"
             : "pointer-events-none translate-y-[-50px] opacity-0"

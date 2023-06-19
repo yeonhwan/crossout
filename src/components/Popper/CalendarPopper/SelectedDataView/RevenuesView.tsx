@@ -19,7 +19,7 @@ const RevenuesView = ({ data }: RevenuesViewProps) => {
   const lossData = revenues.filter((data) => Number(data.revenue) < 0);
 
   return (
-    <div className="flex h-full w-full flex-col px-8 py-4">
+    <div className="flex h-full w-full flex-col px-8 py-10 sm:py-4">
       <p className="self-center text-lg font-semibold text-white">Revenue</p>
       <p className="self-center text-white">
         Total:
@@ -40,7 +40,7 @@ const RevenuesView = ({ data }: RevenuesViewProps) => {
               return (
                 <li
                   key={data.id}
-                  className="dark:emerald-500 my-1 flex h-max w-[80%] flex-col rounded-md bg-emerald-400 p-1 text-center"
+                  className="dark:emerald-500 my-1 flex h-max w-[80%] flex-col overflow-hidden text-ellipsis whitespace-nowrap rounded-md bg-emerald-400 p-1 text-center"
                 >
                   <p className="text-sm font-bold text-white">{data.purpose}</p>
                   <p className="text-sm text-white">
@@ -60,7 +60,7 @@ const RevenuesView = ({ data }: RevenuesViewProps) => {
               return (
                 <li
                   key={data.id}
-                  className="my-1 flex h-max w-[80%] flex-col rounded-md bg-red-300 p-1 text-center dark:bg-red-400"
+                  className="my-1 flex h-max w-[80%] flex-col overflow-hidden text-ellipsis whitespace-nowrap rounded-md bg-red-300 p-1 text-center dark:bg-red-400"
                 >
                   <p className="text-sm font-bold text-white">{data.purpose}</p>
                   <p className="text-sm text-white">

@@ -46,7 +46,7 @@ const DaylogView = ({ data }: DaylogViewProps) => {
             placeholder={null}
             ErrorBoundary={LexicalErrorBoundary}
             contentEditable={
-              <ContentEditable className="editor-input flex h-[90%] w-[90%] flex-col overflow-y-scroll rounded-lg border-2 border-white bg-neutral-200 p-4 text-sm text-neutral-700 dark:bg-neutral-700 dark:text-white" />
+              <ContentEditable className="editor-input flex h-[70%] w-[90%] flex-col overflow-y-scroll rounded-lg border-2 border-white bg-neutral-200 p-4 text-sm text-neutral-700 dark:bg-neutral-700 dark:text-white sm:h-[90%]" />
             }
           />
           <ListPlugin />

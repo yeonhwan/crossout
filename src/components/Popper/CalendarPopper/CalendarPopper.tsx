@@ -167,7 +167,7 @@ const CalendarPopper = ({
     <ClickAwayListener onClickAway={closeCalendar}>
       <div
         onTransitionEnd={handleTransition}
-        className={`absolute left-1/4 top-10 z-50 flex h-[90%] w-1/2 flex-col items-center justify-center rounded-xl bg-white/20 backdrop-blur-md transition-all duration-150 dark:bg-black/20 ${
+        className={`absolute left-[3%] top-10 z-50 flex h-[90%] w-[95%] flex-col items-center justify-center rounded-xl bg-white/20 backdrop-blur-md transition-all duration-150 dark:bg-black/20 lg:left-1/4 lg:w-1/2 ${
           animateTrigger
             ? "translate-y-0 opacity-100"
             : "translate-y-40 opacity-0"
@@ -175,15 +175,15 @@ const CalendarPopper = ({
       >
         <CircleButton
           onClick={closeCalendar}
-          className="absolute right-2 top-2 h-6 w-6"
+          className="absolute right-2 top-2 z-50 h-6 w-6"
         >
           <CloseIcon className="h-4 w-4" />
         </CircleButton>
-        <div className="relative flex h-full w-5/6 flex-col justify-around overflow-hidden py-6">
+        <div className="relative flex h-full w-full flex-col justify-around overflow-hidden py-2 sm:w-5/6 sm:py-6">
           <div className="flex flex-col items-center justify-center">
-            <p className="text-xl font-bold text-white ">Calendar</p>
+            <p className="text-md font-bold text-white sm:text-xl ">Calendar</p>
             <p
-              className={`w-full text-center text-lg ${
+              className={`w-full text-center text-sm sm:text-lg ${
                 selectedDateData ? "font-semibold text-cyan-400" : "text-white"
               }`}
             >
@@ -191,12 +191,12 @@ const CalendarPopper = ({
             </p>
           </div>
           <div
-            className={`flex h-full w-[200%] transition-transform duration-200 ${
+            className={`flex h-[90%] w-[200%] transition-transform duration-200 sm:h-full ${
               showDetail ? "translate-x-[-50%]" : "translate-x-0"
             }`}
           >
-            <div className={`flex h-full w-1/2 flex-col justify-start py-8`}>
-              <div className="flex h-[90%] w-full flex-col justify-evenly">
+            <div className={`flex h-full w-1/2 flex-col justify-start sm:py-8`}>
+              <div className="flex h-[90%] w-full flex-col justify-evenly sm:h-[90%]">
                 {ButtonContainer()}
                 <Calendar
                   loading={isLoading}
@@ -228,7 +228,7 @@ const CalendarPopper = ({
               onClick={() => {
                 setShowDetail(true);
               }}
-              className="absolute right-0 top-1/2 my-2 flex h-8 w-8 rotate-180 animate-pulse items-center justify-center rounded-full hover:animate-none hover:cursor-pointer hover:bg-neutral-400/40"
+              className="absolute bottom-16 left-[46%] my-2 flex h-8 w-8 rotate-180 animate-pulse items-center justify-center rounded-full hover:animate-none hover:cursor-pointer hover:bg-neutral-400/40 sm:bottom-0 sm:left-[90%] sm:top-1/2"
             >
               <LoadDetailIcon className="h-4 w-4 fill-white" />
             </span>
@@ -238,7 +238,7 @@ const CalendarPopper = ({
               setDateObj({ now: dateInput });
               closeCalendar();
             }}
-            className="self-center text-sm"
+            className="mb-4 self-center text-sm"
           >
             Move
           </Button>

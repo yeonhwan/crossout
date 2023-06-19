@@ -121,6 +121,12 @@ select:focus-visible {
   animation: simple 30s ease alternate-reverse infinite;
 }
 
+.main_background {
+  background: linear-gradient(53deg, #95c650, #3da48a, #1c7d9a, #3a8fca);
+  background-size: 800% 800%;
+  animation: mainbg 20s ease infinite;
+}
+
 .vertical {
   position: absolute;
   --base: 367px;
@@ -133,6 +139,18 @@ select:focus-visible {
     width: calc(100% + var(--increasement) + 30vw);
     height: calc(100% + var(--increasement) + 30vw);
     top: calc(-1 * (var(--increasement) + 30vw));
+  }
+}
+
+@keyframes mainbg {
+  0% {
+    background-position: 50% 0%;
+  }
+  50% {
+    background-position: 51% 100%;
+  }
+  100% {
+    background-position: 50% 0%;
   }
 }
 

@@ -187,7 +187,7 @@ const OptionsDropdown = () => {
         }}
         className="relative flex hover:cursor-pointer"
       >
-        <div className="flex h-full w-32 items-center justify-center rounded-md bg-neutral-400 text-white dark:bg-neutral-800">
+        <div className="ml-2 flex h-full w-24 items-center justify-center rounded-md bg-neutral-400 text-white dark:bg-neutral-800 sm:w-32">
           <span className="mr-2 h-4 w-4">{iconsForSelected(selected)}</span>
           <span className="text-xs font-bold">{selected}</span>
         </div>
