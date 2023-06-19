@@ -8,7 +8,10 @@ const config = {
   theme: {
     extend: {
       gridTemplateColumns: {
-        listboard: "repeat(auto-fill, minmax(320px, 25%))",
+        listboard: "repeat(auto-fill, minmax(280px, 320px))",
+      },
+      screens: {
+        mobile: "400px",
       },
     },
   },
