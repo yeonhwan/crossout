@@ -7,6 +7,9 @@ const config = {
   important: "#__next",
   theme: {
     extend: {
+      backgroundImage: {
+        pattern: "url('/bg/pp.svg')",
+      },
       gridTemplateColumns: {
         listboard: "repeat(auto-fill, minmax(280px, 320px))",
       },

@@ -34,6 +34,7 @@ const Splash = () => {
 
   return (
     <div className="main_background relative flex h-full w-full items-center justify-center overflow-hidden">
+      <div className="absolute left-0 top-0 z-0 h-full w-full bg-pattern bg-repeat-round opacity-40"></div>
       <div className="z-10 flex h-full w-full items-center justify-center mobile:h-[70%] mobile:w-[80%] lg:h-[80%] lg:w-[50%]">
         <div className="mt-10 flex h-0 w-0 items-center py-24 opacity-0 lg:h-full lg:w-[30%] lg:opacity-100">
           <div className="relative flex h-[80%] w-full flex-col items-center justify-center">
@@ -104,7 +105,7 @@ const Splash = () => {
           </div>
         </div>
       </div>
-      <Waves className="z-1 absolute -bottom-28 opacity-50 md:-bottom-36" />
+      <Waves className="z-1 absolute -bottom-28 opacity-50 md:-bottom-40" />
     </div>
   );
 };

@@ -71,6 +71,7 @@ const SignIn: NextPageWithLayout = () => {
 
   return (
     <div className="main_background flex h-full w-full items-center justify-center overflow-hidden">
+      <div className="absolute left-0 top-0 h-full w-full bg-pattern bg-repeat opacity-40"></div>
       <form className="z-50 flex h-max w-[85%] max-w-[500px] flex-col rounded-lg border-2 border-zinc-300 bg-white p-12 shadow-lg sm:w-4/12 sm:min-w-[450px]">
         <div
           onClick={() => {
@@ -123,7 +124,7 @@ const SignIn: NextPageWithLayout = () => {
           />
         </div>
         <button
-          className={`mr-2 mt-8 flex items-center justify-center p-2 outline-0 hover:bg-teal-500 ${
+          className={`mr-2 mt-8 flex items-center justify-center bg-teal-500 p-2 outline-0 hover:bg-teal-600 ${
             isProceed ? "pointer-events-none" : ""
           }`}
           onClick={submitHandler}
