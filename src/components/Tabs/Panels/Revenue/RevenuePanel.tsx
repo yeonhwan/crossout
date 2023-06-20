@@ -1,5 +1,5 @@
 // Hooks
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useWindowWidth } from "@/hooks/useWindowWidth";
 
 // components
@@ -55,6 +55,10 @@ const RevenuePanel = ({ openCreateRevenue }: RevenuePanelProps) => {
           setProfitData(profitData);
           setLossData(lossData);
           setTotal(currencyFormatter(total));
+        } else {
+          setProfitData([]);
+          setLossData([]);
+          setTotal("$0");
         }
       },
       onError: (err) => {
