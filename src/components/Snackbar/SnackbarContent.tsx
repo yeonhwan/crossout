@@ -93,7 +93,7 @@ const SnackbarSuccess = ({ data, setOpen, loading }: SnackbarContentProps) => {
         </span>
         {content && (
           <span className="mx-2 text-[8px] font-medium text-neutral-200 sm:text-base">
-            '{content}'
+            {content}
           </span>
         )}
         <div className="mx-2 flex w-max justify-between">
