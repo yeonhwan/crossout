@@ -8,7 +8,7 @@ const config = {
   theme: {
     extend: {
       backgroundImage: {
-        pattern: "url('/bg/pp.svg')",
+        pattern: "url('/bg/pattern.svg')",
       },
       gridTemplateColumns: {
         listboard: "repeat(auto-fill, minmax(280px, 320px))",
