@@ -195,7 +195,7 @@ const RevenueItem = ({ data }: RevenueItemProps) => {
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                 setPurposeInput(e.currentTarget.value);
               }}
-              className="sm:text-md w-full rounded-md border-none bg-transparent pl-4 text-center text-sm outline-none"
+              className="w-full rounded-md border-none bg-transparent pl-4 text-center text-sm outline-none sm:text-base"
             />
           </div>
           <div
@@ -262,7 +262,7 @@ const RevenueItem = ({ data }: RevenueItemProps) => {
         )}
       </div>
       <div className="flex flex-col items-center justify-center text-white">
-        <p className="sm:text-md overflow-hidden text-ellipsis whitespace-nowrap text-xs font-semibold">
+        <p className="overflow-hidden text-ellipsis whitespace-nowrap text-xs font-semibold sm:text-base">
           {purpose}
         </p>
         <p className="font-smibold overflow-hidden text-ellipsis whitespace-nowrap text-[8px] sm:text-sm">

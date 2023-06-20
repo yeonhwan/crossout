@@ -287,24 +287,20 @@ const TodoItem = ({ data, sortingTodos }: TodoItemProps) => {
     );
   };
 
-  // Item Render (not Updating state)
-  if (!isUpdating) {
-    return (
-      <div className="my-1.5 flex h-max w-[90%] items-center rounded-lg border-2 border-neutral-500 shadow-lg drop-shadow-xl hover:border-cyan-600 dark:border-neutral-300 dark:hover:border-cyan-500 sm:w-5/6">
+  const contentRender = () => {
+    // Item Render (not Updating state)
+    if (!isUpdating) {
+      return (
         <div
           onClick={completeTodoHandler}
-          className={`flex h-14 w-full items-center justify-between rounded-lg transition-colors sm:h-20 ${
-            completed
-              ? "bg-neutral-300 dark:bg-neutral-600"
-              : "bg-neutral-200 dark:bg-neutral-700"
-          } px-4 py-2 text-white hover:cursor-pointer sm:px-10 sm:py-4`}
+          className={`flex h-full w-full items-center justify-between rounded-lg px-4 py-2 text-white hover:cursor-pointer sm:px-10 sm:py-4`}
         >
           <div className="flex items-center">
             <div
               className={`flex h-5 w-5 items-center justify-center rounded-full sm:h-6 sm:w-6 ${
                 completed
                   ? "bg-neutral-200 dark:bg-neutral-700"
-                  : "bg-neutral-300 dark:bg-neutral-500"
+                  : "bg-neutral-100 dark:bg-neutral-500"
               }`}
             >
               <p className="text-[10px] sm:text-xs">
@@ -319,7 +315,7 @@ const TodoItem = ({ data, sortingTodos }: TodoItemProps) => {
           </div>
           <div className="flex w-8/12 flex-col items-center justify-center">
             <p
-              className={`sm:text-md relative overflow-hidden text-ellipsis whitespace-nowrap text-center text-xs text-neutral-800 after:absolute after:left-0 after:top-1/2 after:h-[2px] after:w-0 after:bg-neutral-500 after:transition-all after:duration-200 after:ease-in-out after:content-[''] dark:text-neutral-200 dark:after:bg-neutral-600 ${
+              className={`relative overflow-hidden text-ellipsis whitespace-nowrap text-center text-xs text-neutral-800 after:absolute after:left-0 after:top-1/2 after:h-[2px] after:w-0 after:bg-neutral-500 after:transition-all after:duration-200 after:ease-in-out after:content-[''] dark:text-neutral-200 dark:after:bg-neutral-600 sm:text-base ${
                 completed ? "after:w-full" : ""
               }`}
             >
@@ -332,25 +328,23 @@ const TodoItem = ({ data, sortingTodos }: TodoItemProps) => {
             )}
           </div>
           <div
-            className={`flex w-12 ${
+            className={`flex w-14 ${
               data.completed ? "justify-center" : "justify-evenly"
             }`}
           >
             {ButtonRender()}
           </div>
         </div>
-      </div>
-    );
-  }
-  // Item Render (Updating state)
-  else {
-    return (
-      <div className="my-1.5 flex h-max min-h-[3.5rem] w-[90%] items-center rounded-xl border-2 border-neutral-300 shadow-lg drop-shadow-xl dark:border-neutral-500 sm:w-5/6">
+      );
+    }
+    // Item Render (Updating state)
+    else {
+      return (
         <ClickAwayListener onClickAway={cancelUpdateTodo}>
-          <div className="flex w-full items-center justify-between rounded-xl bg-teal-600 px-2 py-4 text-white dark:bg-cyan-700 sm:px-10">
+          <div className="flex w-full items-center justify-between rounded-xl bg-transparent px-2 py-4 text-white sm:px-10">
             <div className="flex w-full flex-col items-center sm:flex-row">
               <select
-                className="mb-2 flex h-4 w-max rounded-xl bg-neutral-600/20 text-xs hover:cursor-pointer focus-visible:ring-2 focus-visible:ring-cyan-300 dark:bg-neutral-400/40 sm:mb-0 sm:px-2"
+                className="mb-2 flex h-4 w-max rounded-lg bg-neutral-600/20 text-xs hover:cursor-pointer focus-visible:ring-2 focus-visible:ring-cyan-300 dark:bg-neutral-400/40 sm:mb-0 sm:h-6 sm:px-2"
                 value={urgencyInput}
                 onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
                   setUrgencyInput(e.currentTarget.value as UrgencyInput);
@@ -360,9 +354,9 @@ const TodoItem = ({ data, sortingTodos }: TodoItemProps) => {
                 <option value={UrgencyInput.important}>⚡️important</option>
                 <option value={UrgencyInput.urgent}>🔥urgent</option>
               </select>
-              <div className="flex h-max w-8/12 flex-col items-center justify-center">
+              <div className="mx-auto flex h-max w-8/12 flex-col items-center justify-center">
                 <input
-                  className="w-full bg-neutral-600/20 py-1 text-center text-xs outline-0 focus-visible:ring-2 focus-visible:ring-cyan-300 dark:bg-neutral-400/40 sm:w-8/12 sm:align-middle sm:text-sm"
+                  className="w-full border-0 bg-neutral-600/20 py-1 text-center text-xs outline-0 ring-transparent focus-visible:ring-2 focus-visible:ring-teal-300 dark:bg-neutral-400/40 sm:w-8/12 sm:align-middle sm:text-sm"
                   value={todoInput}
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                     setTodoInput(e.currentTarget.value);
@@ -386,9 +380,23 @@ const TodoItem = ({ data, sortingTodos }: TodoItemProps) => {
             </div>
           </div>
         </ClickAwayListener>
-      </div>
-    );
-  }
+      );
+    }
+  };
+
+  return (
+    <div
+      className={`my-1.5 flex w-[90%] items-center rounded-lg border-0 shadow-lg ring-2 drop-shadow-xl transition-all duration-200 sm:w-5/6 ${
+        isUpdating
+          ? "h-28 bg-teal-500 ring-teal-300 dark:bg-teal-700"
+          : completed
+          ? "h-14 bg-neutral-300 ring-neutral-500 hover:ring-teal-600 dark:bg-neutral-600 dark:ring-neutral-300 dark:hover:ring-teal-500 sm:h-20"
+          : "h-14 bg-neutral-200 ring-neutral-500 hover:ring-teal-600 dark:bg-neutral-700 dark:ring-neutral-300 dark:hover:ring-teal-500 sm:h-20"
+      }`}
+    >
+      {contentRender()}
+    </div>
+  );
 };
 
 export default TodoItem;
