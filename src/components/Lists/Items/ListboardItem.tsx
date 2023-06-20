@@ -438,7 +438,7 @@ const ListboardItem = ({
               {data.todos.length ? (
                 data.todos.map((todo) => (
                   <li
-                    className="text-sm text-neutral-700 dark:text-neutral-200"
+                    className="w-full overflow-hidden text-ellipsis whitespace-nowrap text-sm text-neutral-700 dark:text-neutral-200"
                     key={todo.id}
                   >
                     {todo.content}

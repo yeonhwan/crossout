@@ -315,7 +315,7 @@ const TodoItem = ({ data, sortingTodos }: TodoItemProps) => {
           </div>
           <div className="flex w-8/12 flex-col items-center justify-center">
             <p
-              className={`relative w-full overflow-hidden text-ellipsis whitespace-nowrap text-center text-[8px] text-neutral-800 after:absolute after:left-0 after:top-1/2 after:h-[2px] after:w-0 after:bg-neutral-500 after:transition-all after:duration-200 after:ease-in-out after:content-[''] dark:text-neutral-200 dark:after:bg-neutral-600 mobile:text-xs sm:text-base ${
+              className={`relative w-max max-w-full overflow-hidden text-ellipsis whitespace-nowrap text-center text-[8px] text-neutral-800 after:absolute after:left-0 after:top-1/2 after:h-[2px] after:w-0 after:bg-neutral-500 after:transition-all after:duration-200 after:ease-in-out after:content-[''] dark:text-neutral-200 dark:after:bg-neutral-600 mobile:text-xs sm:text-base ${
                 completed ? "after:w-full" : ""
               }`}
             >

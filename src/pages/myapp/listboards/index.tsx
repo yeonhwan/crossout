@@ -139,12 +139,12 @@ const ListboardIndex = ({
   return (
     <Layout userData={userData}>
       <div className="flex h-[90%] w-full flex-col px-5 sm:px-20 md:px-40">
-        <div className="flex h-[10%] flex-col">
-          <h1 className="text-3xl font-extrabold text-neutral-800 dark:text-neutral-300 sm:text-4xl">
+        <div className="flex h-[7%] flex-col items-center sm:items-start">
+          <h1 className="text-4xl font-extrabold text-neutral-800 dark:text-neutral-300 sm:text-4xl">
             Listboards
           </h1>
           <p className="text-xs text-neutral-700 transition-colors dark:text-neutral-200 sm:text-lg">
-            Manage your listboards, todos by listboard.
+            Manage your listboards, todos by listboard
           </p>
         </div>
         <div className="mt-4 flex h-[85%] w-full flex-col justify-center rounded-xl bg-neutral-300/40 px-0 py-5 pt-10 shadow-lg backdrop-blur-lg transition-colors dark:bg-neutral-800/60 sm:h-[75%] sm:px-10">

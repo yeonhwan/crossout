@@ -140,12 +140,14 @@ const Mystats = ({
   return (
     <Layout userData={userData}>
       <div className="relative flex h-[90%] w-full flex-col px-4 lg:px-28">
-        <h1 className="text-3xl font-extrabold text-neutral-800 transition-colors dark:text-neutral-300 lg:text-4xl">
-          My Stats
-        </h1>
-        <p className="text-xs font-semibold text-neutral-700 transition-colors dark:text-neutral-200 lg:text-lg">
-          See your daily life in total with monthly view.
-        </p>
+        <div className="flex h-[7%] flex-col items-center sm:items-start">
+          <h1 className="text-4xl font-extrabold text-neutral-800 transition-colors dark:text-neutral-300 lg:text-4xl">
+            My Stats
+          </h1>
+          <p className="text-xs font-semibold text-neutral-700 transition-colors dark:text-neutral-200 lg:text-lg">
+            See your daily life in total with monthly view
+          </p>
+        </div>
         <div className="mt-4 flex h-[85%] w-full flex-col items-start overflow-scroll rounded-xl bg-neutral-300/40 p-6 backdrop-blur-lg transition-colors dark:bg-neutral-800/40 lg:h-[80%] lg:flex-row lg:justify-evenly lg:overflow-visible">
           <div className="relative flex h-full w-full flex-col justify-between rounded-xl lg:w-[20%] lg:justify-evenly">
             <div className="flex h-[12%] w-max flex-row items-center justify-evenly lg:w-full lg:flex-col lg:justify-between">

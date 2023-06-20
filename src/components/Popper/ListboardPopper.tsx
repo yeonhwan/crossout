@@ -205,11 +205,11 @@ const ListboardPopper = ({
           popperClose();
         }}
       >
-        <div className="relative flex h-4/5 w-5/6 flex-col items-center rounded-2xl bg-neutral-200/70 pb-2 backdrop-blur-sm dark:bg-neutral-800/90 sm:h-2/3 sm:w-2/3 sm:max-w-[800px]">
+        <div className="relative flex h-4/5 max-h-[700px] w-5/6 flex-col items-center rounded-2xl bg-neutral-200/70 pb-2 backdrop-blur-sm dark:bg-neutral-800/90 sm:h-2/3 sm:w-2/3 sm:max-w-[800px]">
           <div className="my-4 flex w-full flex-col items-center justify-center">
             {InfoRender()}
           </div>
-          <div className="flex h-2/3 w-[90%] items-center justify-center">
+          <div className="my-auto flex h-[80%] w-[90%] items-center justify-center">
             {todos.length ? (
               <ListView>
                 {todos.map((todo) => {
@@ -220,8 +220,9 @@ const ListboardPopper = ({
               <NoItems />
             )}
           </div>
-          <div className="absolute bottom-5 flex justify-center">
+          <div className="my-auto flex justify-center">
             <Button
+              className="hover:bg-teal-400 dark:hover:bg-teal-500"
               onClick={() => {
                 popperClose();
               }}
