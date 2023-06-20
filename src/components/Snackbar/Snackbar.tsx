@@ -1,95 +1,54 @@
-// React
-import { type ForwardedRef } from "react";
+// Hooks
+import { useWindowWidth } from "@/hooks/useWindowWidth";
 
 // libs
 import Snackbar from "@mui/material/Snackbar";
 import Slide, { type SlideProps } from "@mui/material/Slide";
 
-// types
-import { type SnackbarData } from "@/stores/useSnackbarStore";
-
 // stores
 import useSnackbarStore from "@/stores/useSnackbarStore";
 
 // components
-import SnackbarSuccess from "@/components/Snackbar/SnackbarSuccess";
-import SnackbarError from "@/components/Snackbar/SnackbarError";
-import SnackbarInfo from "@/components/Snackbar/SnackbarInfo";
-import { SnackbarRole } from "@/stores/useSnackbarStore";
+import SnackbarContent from "@/components/Snackbar/SnackbarContent";
 
 type TransitionProps = Omit<SlideProps, "direction">;
 
+// Snackbar animation component
 function TransitionUp(props: TransitionProps) {
   return <Slide {...props} direction="up" />;
 }
 
-export type SnackbarContentProps = {
-  data: SnackbarData;
-  setOpen: (openState: boolean) => void;
-};
-
 const SnackbarComponent = () => {
-  const { open, setSnackbarOpen, snackbarData } = useSnackbarStore(
+  const { open, setSnackbarOpen, snackbarData, loading } = useSnackbarStore(
     (state) => state
   );
+  const isDesktop = useWindowWidth(false, 640);
 
-  switch (snackbarData?.role) {
-    case SnackbarRole.Success:
-      return (
-        <Snackbar
-          anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-          open={open}
-          autoHideDuration={4000}
-          onClose={() => {
-            setSnackbarOpen(false);
-          }}
-          TransitionComponent={TransitionUp}
-        >
-          {/* MUI Snackbar Components needs real html tag not Component to hold a ref of children */}
-          <div>
-            <SnackbarSuccess data={snackbarData} setOpen={setSnackbarOpen} />
-          </div>
-        </Snackbar>
-      );
-
-    case SnackbarRole.Error:
-      return (
-        <Snackbar
-          anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-          open={open}
-          autoHideDuration={4000}
-          onClose={() => {
-            setSnackbarOpen(false);
-          }}
-          TransitionComponent={TransitionUp}
-        >
-          {/* MUI Snackbar Components needs real html tag not Component to hold a ref of children */}
-          <div>
-            <SnackbarError data={snackbarData} setOpen={setSnackbarOpen} />
-          </div>
-        </Snackbar>
-      );
-
-    case SnackbarRole.Info:
-      return (
-        <Snackbar
-          anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-          open={open}
-          autoHideDuration={4000}
-          onClose={() => {
-            setSnackbarOpen(false);
-          }}
-          TransitionComponent={TransitionUp}
-        >
-          <div>
-            <SnackbarInfo data={snackbarData} setOpen={setSnackbarOpen} />
-          </div>
-        </Snackbar>
-      );
-
-    default:
-      return null;
-  }
+  return (
+    <Snackbar
+      anchorOrigin={{
+        vertical: "bottom",
+        horizontal: isDesktop ? "right" : "center",
+      }}
+      open={open}
+      autoHideDuration={4000}
+      onClose={() => {
+        setSnackbarOpen(false);
+      }}
+      TransitionComponent={TransitionUp}
+    >
+      {/* MUI Snackbar Components needs real html tag not Component to hold a ref of children */}
+      <div>
+        {snackbarData && (
+          <SnackbarContent
+            data={snackbarData}
+            setOpen={setSnackbarOpen}
+            loading={loading}
+          />
+        )}
+      </div>
+    </Snackbar>
+  );
 };
 
 export default SnackbarComponent;

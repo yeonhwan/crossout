@@ -58,6 +58,8 @@ const createRevenue = protectedProcedure
 
         return {
           data: {
+            id: newRevenue.id,
+            dateRecordId: newRevenue.dateRecordId,
             content: newRevenue.purpose,
             message: "Successfully Created",
           },
@@ -85,6 +87,8 @@ const createRevenue = protectedProcedure
 
         return {
           data: {
+            id: newRevenue.id,
+            dateRecordId: newRevenue.dateRecordId,
             content: newRevenue.purpose,
             message: "Successfully Created",
           },

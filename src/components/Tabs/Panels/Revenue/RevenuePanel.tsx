@@ -155,7 +155,7 @@ const RevenuePanel = ({ openCreateRevenue }: RevenuePanelProps) => {
             }`}
           >
             {profitData.length ? (
-              <ListView className="sm:px-6 sm:py-3">
+              <ListView className="pt-2 sm:px-6 sm:py-3">
                 {profitData.map((data) => (
                   <RevenueItem data={data} key={data.id} />
                 ))}

@@ -1,5 +1,5 @@
 // Hooks
-import { type Dispatch, type SetStateAction, useState, useEffect } from "react";
+import { type Dispatch, type SetStateAction, useState, useRef } from "react";
 
 // components
 import CircleButton from "@/components/Buttons/CircleButton";
@@ -43,49 +43,109 @@ const ListboardItem = ({
     data.description ? data.description : ""
   );
   const utils = api.useContext();
-  const { setSnackbarOpen, setSnackbarData } = useSnackbarStore(
-    (state) => state
-  );
+  const { setSnackbarOpen, setSnackbarData, setSnackbarLoadingState } =
+    useSnackbarStore((state) => state);
   const { id } = data;
+  const currentListboard = {
+    data: {
+      id: data.id,
+      title: data.title,
+      description: data.description,
+    },
+  };
+  const previousData = useRef(currentListboard);
 
-  const {
-    isLoading: isDeleteLoading,
-    mutate: deleteListboard,
-    isLoading,
-  } = api.listboards.deleteListboard.useMutation({
-    onSuccess: async (res) => {
-      const { message, content } = res;
-      await utils.listboards.getListboards.invalidate();
-      setSnackbarData({
-        message,
-        content,
-        role: SnackbarRole.Success,
-      });
-      setIsProceed(false);
-      setSnackbarOpen(true);
-    },
-    onError: (err) => {
-      const { message } = err;
-      setSnackbarData({
-        message,
-        role: SnackbarRole.Error,
-      });
-      setIsProceed(false);
-      setSnackbarOpen(true);
-    },
-  });
+  const { mutate: abortUpdateListboard } =
+    api.listboards.updateListboard.useMutation({
+      onSuccess: async (res) => {
+        await utils.listboards.getListboards.invalidate();
+        const listboard = res.data;
+        setSnackbarLoadingState(false);
+        setSnackbarOpen(true);
+        const currentListboard = {
+          data: {
+            id: listboard.id,
+            title: listboard.title,
+            description: listboard.description,
+          },
+        };
+        previousData.current = currentListboard;
+        setSnackbarData({
+          message: "Canceld update listboard",
+          role: SnackbarRole.Success,
+        });
+      },
+      onError: () => {
+        setSnackbarLoadingState(false);
+        setSnackbarOpen(true);
+        setSnackbarData({
+          message: "Request failed. Please try again or report the issue.",
+          role: SnackbarRole.Error,
+        });
+      },
+    });
+
+  const { mutate: deleteListboard } =
+    api.listboards.deleteListboard.useMutation({
+      onSuccess: async (res) => {
+        const { content } = res;
+        await utils.listboards.getListboards.invalidate();
+        setIsProceed(false);
+        setSnackbarOpen(true);
+        setSnackbarData({
+          message: "Deleted listboard",
+          content,
+          role: SnackbarRole.Success,
+        });
+      },
+
+      onError: (err) => {
+        const { message } = err;
+        setSnackbarData({
+          message,
+          role: SnackbarRole.Error,
+        });
+        setIsProceed(false);
+        setSnackbarOpen(true);
+      },
+    });
 
   const { isLoading: isTitleLoading, mutate: updateListboardTitle } =
     api.listboards.updateListboard.useMutation({
       onSuccess: async (res) => {
-        const { message, content } = res;
-        setTitleUpdate(false);
         await utils.listboards.getListboards.invalidate();
+        const { content, data: listboard } = res;
+        setTitleUpdate(false);
         setSnackbarData({
-          message,
+          message: "Updated title",
           content,
           role: SnackbarRole.Success,
+          previousData: {
+            data: {
+              id: previousData.current.data.id,
+              title: previousData.current.data.title,
+            },
+          },
+          handler: (data) => {
+            setSnackbarLoadingState(true);
+            abortUpdateListboard(
+              data as {
+                data: {
+                  id: number;
+                  title: string;
+                };
+              }
+            );
+          },
         });
+        const currentListboard = {
+          data: {
+            id: listboard.id,
+            title: listboard.title,
+            description: listboard.description,
+          },
+        };
+        previousData.current = currentListboard;
         setSnackbarOpen(true);
       },
       onError: (err) => {
@@ -104,14 +164,39 @@ const ListboardItem = ({
     mutate: updateListboardDescription,
   } = api.listboards.updateListboard.useMutation({
     onSuccess: async (res) => {
-      const { message, content } = res;
-      setDescriptionUpdate(false);
       await utils.listboards.getListboards.invalidate();
+      const { content, data: listboard } = res;
+      setDescriptionUpdate(false);
       setSnackbarData({
-        message,
+        message: "Updated description",
         content,
         role: SnackbarRole.Success,
+        previousData: {
+          data: {
+            id: previousData.current.data.id,
+            description: previousData.current.data.description,
+          },
+        },
+        handler: (data) => {
+          setSnackbarLoadingState(true);
+          abortUpdateListboard(
+            data as {
+              data: {
+                id: number;
+                description: string;
+              };
+            }
+          );
+        },
       });
+      const currentListboard = {
+        data: {
+          id: listboard.id,
+          title: listboard.title,
+          description: listboard.description,
+        },
+      };
+      previousData.current = currentListboard;
       setSnackbarOpen(true);
     },
     onError: (err) => {
@@ -254,14 +339,14 @@ const ListboardItem = ({
                     }
                   }}
                   tabIndex={-1}
-                  className={`relative flex h-14 w-full flex-col items-center rounded-md ring-2 ring-neutral-400 dark:bg-neutral-600 dark:ring-neutral-500 ${
+                  className={`relative flex h-14 w-full flex-col items-center rounded-md bg-neutral-200 ring-2 ring-neutral-400 dark:bg-neutral-600 dark:ring-neutral-500 ${
                     descriptionInput.length > 50
                       ? "focus-within:ring-red-400 dark:focus-within:ring-red-400"
                       : "focus-within:ring-teal-400 dark:focus-within:ring-teal-500"
                   }`}
                 >
                   <textarea
-                    className="h-10 w-full resize-none rounded-md border-0 px-2 py-1 text-xs text-neutral-700 ring-neutral-300 focus:outline-none dark:bg-neutral-600 dark:text-neutral-200 dark:ring-neutral-500 dark:placeholder:text-white"
+                    className="h-10 w-full resize-none rounded-md border-0 bg-neutral-200 px-2 py-1 text-xs text-neutral-700 ring-neutral-300 focus:outline-none dark:bg-neutral-600 dark:text-neutral-200 dark:ring-neutral-500 dark:placeholder:text-white"
                     value={descriptionInput}
                     autoFocus
                     onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => {

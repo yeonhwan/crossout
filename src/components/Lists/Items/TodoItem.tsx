@@ -11,14 +11,9 @@ import LoaderIcon from "public/icons/spinner.svg";
 
 // Types
 import { type Todo, type ListBoard } from "@prisma/client";
-import {
-  UrgencyDisplay,
-  UrgencyInput,
-  type SnackbarHandlerType,
-} from "@/types/client";
+import { UrgencyDisplay, UrgencyInput } from "@/types/client";
 
 // libs
-import dayjs from "dayjs";
 import ClickAwayListener from "@mui/base/ClickAwayListener";
 
 // api
@@ -39,12 +34,10 @@ type TodoItemProps = {
 };
 
 const TodoItem = ({ data, sortingTodos }: TodoItemProps) => {
-  const { urgency, content, deadline, listBoard, id, completed, dateRecordId } =
-    data;
+  const { urgency, content, listBoard, id, completed, dateRecordId } = data;
 
   const listboardTitle = listBoard?.title;
   const listboardId = listBoard?.id;
-  const deadlineString = deadline ? dayjs(deadline).format("YYYY-M-D") : null;
   const [isUpdating, setIsUpdating] = useState(false);
   const [todoInput, setTodoInput] = useState(content);
   const [urgencyInput, setUrgencyInput] = useState(urgency);
@@ -52,28 +45,46 @@ const TodoItem = ({ data, sortingTodos }: TodoItemProps) => {
     listboardId
   );
   const [isProceed, setIsProceed] = useState(false);
-  const { setSnackbarOpen, setSnackbarData } = useSnackbarStore(
-    (state) => state
-  );
+  const { setSnackbarOpen, setSnackbarData, setSnackbarLoadingState } =
+    useSnackbarStore((state) => state);
   const utils = api.useContext();
-  const currentData = useRef(data);
+  const currentTodo = {
+    id: data.id,
+    content: data.content,
+    urgency: data.urgency,
+    listBoardId: data.listBoardId ? data.listBoardId : undefined,
+    deadline: undefined,
+  };
+  const previousData = useRef(currentTodo);
 
   // apis
 
   const { mutate: abortUpdateTodo } = api.todo.updateTodo.useMutation({
     onSuccess: async (res) => {
-      const { message, content, todo } = res.data;
+      const { todo } = res.data;
       await utils.todo.getTodos.invalidate();
-      setIsUpdating(false);
-      setIsProceed(false);
+      setSnackbarLoadingState(false);
       setSnackbarOpen(true);
-      currentData.current = todo;
-      setSnackbarData({ message, content, role: SnackbarRole.Success });
+      const currentTodo = {
+        id: todo.id,
+        content: todo.content,
+        urgency: todo.urgency,
+        listBoardId: todo.listBoardId ? todo.listBoardId : undefined,
+        deadline: undefined,
+      };
+      previousData.current = currentTodo;
+      setSnackbarData({
+        message: "Canceld update todo",
+        role: SnackbarRole.Success,
+      });
     },
-    onError: (err) => {
-      const { message } = err;
+    onError: () => {
+      setSnackbarLoadingState(false);
       setSnackbarOpen(true);
-      setSnackbarData({ message, role: SnackbarRole.Error });
+      setSnackbarData({
+        message: "Request failed. Please try again or report the issue.",
+        role: SnackbarRole.Error,
+      });
     },
   });
 
@@ -82,17 +93,37 @@ const TodoItem = ({ data, sortingTodos }: TodoItemProps) => {
       const { message, content, todo } = res.data;
       await utils.todo.getTodos.invalidate();
       await utils.listboards.getListboards.invalidate();
+      setSnackbarLoadingState(false);
       setIsUpdating(false);
       setIsProceed(false);
       setSnackbarOpen(true);
-      currentData.current = todo;
       setSnackbarData({
         message,
         content,
         role: SnackbarRole.Success,
-        handler: abortUpdateTodo as SnackbarHandlerType,
-        previousData: { data: currentData.current },
+        handler: (data) => {
+          setSnackbarLoadingState(true);
+          abortUpdateTodo(
+            data as {
+              data: {
+                id: number;
+                content?: string;
+                urgency?: "urgent" | "important" | "trivial";
+                listboardId?: number;
+              };
+            }
+          );
+        },
+        previousData: { data: previousData.current },
       });
+      const currentTodo = {
+        id: todo.id,
+        content: todo.content,
+        urgency: todo.urgency,
+        listBoardId: todo.listBoardId ? todo.listBoardId : undefined,
+        deadline: undefined,
+      };
+      previousData.current = currentTodo;
     },
     onError: (err) => {
       const { message } = err;
@@ -103,12 +134,16 @@ const TodoItem = ({ data, sortingTodos }: TodoItemProps) => {
 
   const { mutate: deleteTodo } = api.todo.deleteTodo.useMutation({
     onSuccess: async (res) => {
-      const { message, content } = res.data;
+      const { content } = res.data;
       await utils.todo.getTodos.invalidate();
       await utils.listboards.getListboards.invalidate();
       setIsUpdating(false);
       setSnackbarOpen(true);
-      setSnackbarData({ message, content, role: SnackbarRole.Success });
+      setSnackbarData({
+        message: "Deleted Todo",
+        content,
+        role: SnackbarRole.Success,
+      });
     },
     onError: (err) => {
       const { message } = err;
@@ -148,11 +183,13 @@ const TodoItem = ({ data, sortingTodos }: TodoItemProps) => {
     const data = {
       id,
       content:
-        currentData.current.content !== todoInput ? todoInput : undefined,
+        previousData.current.content !== todoInput ? todoInput : undefined,
       urgency:
-        currentData.current.urgency !== urgencyInput ? urgencyInput : undefined,
+        previousData.current.urgency !== urgencyInput
+          ? urgencyInput
+          : undefined,
       listBoardId:
-        currentData.current.listBoardId !== listboardInput
+        previousData.current.listBoardId !== listboardInput
           ? listboardInput
           : undefined,
       deadline: undefined,
@@ -253,10 +290,10 @@ const TodoItem = ({ data, sortingTodos }: TodoItemProps) => {
   // Item Render (not Updating state)
   if (!isUpdating) {
     return (
-      <div className="my-1.5 flex h-max w-[90%] items-center rounded-full border-2 border-neutral-500 shadow-lg drop-shadow-xl hover:border-cyan-600 dark:border-neutral-300 dark:hover:border-cyan-500 sm:w-5/6">
+      <div className="my-1.5 flex h-max w-[90%] items-center rounded-lg border-2 border-neutral-500 shadow-lg drop-shadow-xl hover:border-cyan-600 dark:border-neutral-300 dark:hover:border-cyan-500 sm:w-5/6">
         <div
           onClick={completeTodoHandler}
-          className={`flex h-14 w-full items-center justify-between rounded-full transition-colors sm:h-20 ${
+          className={`flex h-14 w-full items-center justify-between rounded-lg transition-colors sm:h-20 ${
             completed
               ? "bg-neutral-300 dark:bg-neutral-600"
               : "bg-neutral-200 dark:bg-neutral-700"
@@ -308,7 +345,7 @@ const TodoItem = ({ data, sortingTodos }: TodoItemProps) => {
   // Item Render (Updating state)
   else {
     return (
-      <div className="my-1.5 flex h-max min-h-[3.5rem] w-5/6 items-center rounded-xl border-2 border-neutral-300 shadow-lg drop-shadow-xl dark:border-neutral-500">
+      <div className="my-1.5 flex h-max min-h-[3.5rem] w-[90%] items-center rounded-xl border-2 border-neutral-300 shadow-lg drop-shadow-xl dark:border-neutral-500 sm:w-5/6">
         <ClickAwayListener onClickAway={cancelUpdateTodo}>
           <div className="flex w-full items-center justify-between rounded-xl bg-teal-600 px-2 py-4 text-white dark:bg-cyan-700 sm:px-10">
             <div className="flex w-full flex-col items-center sm:flex-row">

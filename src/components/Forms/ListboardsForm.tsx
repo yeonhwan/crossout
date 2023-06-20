@@ -32,9 +32,8 @@ const ListboardsForm = (
   const [titleInput, setTitleInput] = useState("");
   const [descriptionInput, setDescriptionInput] = useState("");
   const [isProceed, setIsProceed] = useState(false);
-  const { setSnackbarOpen, setSnackbarData } = useSnackbarStore(
-    (state) => state
-  );
+  const { setSnackbarOpen, setSnackbarData, setSnackbarLoadingState } =
+    useSnackbarStore((state) => state);
   const utils = api.useContext();
 
   const cancelButtonHandler = () => {
@@ -42,31 +41,37 @@ const ListboardsForm = (
     setOpenDialog(false);
   };
 
-  const { mutate: abortCreateListboard } = api.todo.deleteTodo.useMutation({
-    onSuccess: async (res) => {
-      const { message, content } = res.data;
-      await utils.todo.getTodos.invalidate();
-      await utils.listboards.getListboards.invalidate();
-      setSnackbarOpen(true);
-      setSnackbarData({ message, content, role: SnackbarRole.Success });
-    },
-    onError: (err) => {
-      const { message } = err;
-      setSnackbarOpen(true);
-      setSnackbarData({ message, role: SnackbarRole.Error });
-    },
-  });
+  const { mutate: abortCreateListboard } =
+    api.listboards.deleteListboard.useMutation({
+      onSuccess: async () => {
+        setSnackbarLoadingState(false);
+        await utils.listboards.getListboards.invalidate();
+        setSnackbarOpen(true);
+        setSnackbarData({
+          message: "Canceld create new listboard",
+          role: SnackbarRole.Success,
+        });
+      },
+      onError: (err) => {
+        const { message } = err;
+        setSnackbarOpen(true);
+        setSnackbarData({ message, role: SnackbarRole.Error });
+      },
+    });
 
   const { mutate: createListboard } =
     api.listboards.createListboard.useMutation({
       onSuccess: async (res) => {
-        const { data, message, content } = res.data;
+        const { data, content } = res.data;
         setSnackbarData({
           role: SnackbarRole.Success,
-          message,
+          message: "New listboard",
           content,
           previousData: { data: { id: data.id } },
-          // handler: abortCreateTodo as SnackbarHandlerType,
+          handler: (data) => {
+            setSnackbarLoadingState(true);
+            abortCreateListboard(data as { data: { id: number } });
+          },
         });
         setSnackbarOpen(true);
         await utils.listboards.getListboards.invalidate();

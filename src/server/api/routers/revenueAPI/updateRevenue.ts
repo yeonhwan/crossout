@@ -28,6 +28,7 @@ const updateRevenue = protectedProcedure
         return {
           data: {
             content: updatedRevenue.purpose,
+            revenue: updatedRevenue,
             message: "Successfully Updated",
           },
         };

@@ -14,7 +14,7 @@ import LoaderIcon from "public/icons/spinner.svg";
 import { currencyFormatter } from "@/utils/currencyFormatter";
 
 // React
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 
 // stores
 import useSnackbarStore, { SnackbarRole } from "@/stores/useSnackbarStore";
@@ -40,22 +40,83 @@ const RevenueItem = ({ data }: RevenueItemProps) => {
   const [isUpdating, setIsUpdating] = useState(false);
   const [purposeInput, setPurposeInput] = useState(purpose);
   const [revenueInput, setRevenueInput] = useState(revenue.toString());
-  const { setSnackbarOpen, setSnackbarData } = useSnackbarStore(
-    (state) => state
-  );
+  const { setSnackbarOpen, setSnackbarData, setSnackbarLoadingState } =
+    useSnackbarStore((state) => state);
+  const currentRevenue = {
+    data: {
+      id: data.id,
+      purpose: data.purpose,
+      revenue: data.revenue,
+    },
+  };
+  const previousData = useRef(currentRevenue);
 
   const revenueInputRegEx = new RegExp(/^(\+|\-)?\d*\.?\d*$/);
 
   const utils = api.useContext();
 
+  const { mutate: abortUpdateRevenue } = api.revenue.updateRevenue.useMutation({
+    onSuccess: async (res) => {
+      const { revenue } = res.data;
+      await utils.revenue.getRevenues.invalidate();
+      setSnackbarLoadingState(false);
+      setSnackbarOpen(true);
+      const currentRevenue = {
+        data: {
+          id: revenue.id,
+          purpose: revenue.purpose,
+          revenue: Number(revenue.revenue),
+        },
+      };
+      previousData.current = currentRevenue;
+      setSnackbarData({
+        message: "Canceld update revenue",
+        role: SnackbarRole.Success,
+      });
+    },
+    onError: () => {
+      setSnackbarLoadingState(false);
+      setSnackbarOpen(true);
+      setSnackbarData({
+        message: "Request failed. Please try again or report the issue.",
+        role: SnackbarRole.Error,
+      });
+    },
+  });
+
   const { mutate: applyUpdate } = api.revenue.updateRevenue.useMutation({
     onSuccess: async (res) => {
-      const { message, content } = res.data;
+      const { content, revenue } = res.data;
       await utils.revenue.getRevenues.invalidate();
       setIsUpdating(false);
       setIsProceed(false);
       setSnackbarOpen(true);
-      setSnackbarData({ message, content, role: SnackbarRole.Success });
+      setSnackbarData({
+        message: "Updated revenue",
+        content,
+        role: SnackbarRole.Success,
+        previousData: previousData.current,
+        handler: (data) => {
+          setSnackbarLoadingState(true);
+          abortUpdateRevenue(
+            data as {
+              data: {
+                id: number;
+                revenue: number;
+                purpose: string;
+              };
+            }
+          );
+        },
+      });
+      const currentRevenue = {
+        data: {
+          id: revenue.id,
+          purpose: revenue.purpose,
+          revenue: Number(revenue.revenue),
+        },
+      };
+      previousData.current = currentRevenue;
     },
     onError: (err) => {
       const { message } = err;
@@ -66,12 +127,16 @@ const RevenueItem = ({ data }: RevenueItemProps) => {
 
   const { mutate: deleteRevenue } = api.revenue.deleteRevenue.useMutation({
     onSuccess: async (res) => {
-      const { message, content } = res.data;
+      const { content } = res.data;
       await utils.revenue.getRevenues.invalidate();
       setIsUpdating(false);
       setIsProceed(false);
       setSnackbarOpen(true);
-      setSnackbarData({ message, content, role: SnackbarRole.Success });
+      setSnackbarData({
+        message: "Deleted Revenue",
+        content,
+        role: SnackbarRole.Success,
+      });
     },
     onError: (err) => {
       const { message } = err;

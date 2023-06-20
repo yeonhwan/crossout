@@ -49,6 +49,7 @@ const createTodo = protectedProcedure
           data: {
             content: newTodo.content,
             id: newTodo.id,
+            dateRecordId: newTodo.dateRecordId,
             message: "Successfuly Created",
           },
         };
@@ -67,6 +68,7 @@ const createTodo = protectedProcedure
           data: {
             content: newTodo.content,
             id: newTodo.id,
+            dateRecordId: newTodo.dateRecordId,
             message: "Successfuly Created",
           },
         };

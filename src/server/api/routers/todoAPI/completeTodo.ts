@@ -36,7 +36,7 @@ const completeTodo = protectedProcedure
           data: {
             content: todo.content,
             todo: todo,
-            message: "Restore Todo",
+            message: "Restored Todo",
           },
         };
       }

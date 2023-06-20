@@ -29,8 +29,6 @@ enum Urgency {
   trivial = "trivial",
 }
 
-type SnackbarHandlerType = (data: object) => void;
-
 type TodoFormProps = {
   setOpenDialog: Dispatch<SetStateAction<boolean>>;
 };
@@ -44,9 +42,8 @@ const TodoForm = (
   const [listboardInput, setListboardInput] = useState<number | undefined>();
   const [isProceed, setIsProceed] = useState(false);
   const { year, month, date } = useDateStore((state) => state.dateObj);
-  const { setSnackbarOpen, setSnackbarData } = useSnackbarStore(
-    (state) => state
-  );
+  const { setSnackbarOpen, setSnackbarData, setSnackbarLoadingState } =
+    useSnackbarStore((state) => state);
   const utils = api.useContext();
 
   const cancelButtonHandler = () => {
@@ -57,28 +54,38 @@ const TodoForm = (
   };
 
   const { mutate: abortCreateTodo } = api.todo.deleteTodo.useMutation({
-    onSuccess: async (res) => {
-      const { message, content } = res.data;
+    onSuccess: async () => {
+      setSnackbarLoadingState(false);
       await utils.todo.getTodos.invalidate();
       setSnackbarOpen(true);
-      setSnackbarData({ message, content, role: SnackbarRole.Success });
+      setSnackbarData({
+        message: "Canceled create new todo",
+        role: SnackbarRole.Success,
+      });
     },
-    onError: (err) => {
-      const { message } = err;
+    onError: () => {
       setSnackbarOpen(true);
-      setSnackbarData({ message, role: SnackbarRole.Error });
+      setSnackbarData({
+        message: "Request failed. Please try again or report the issue.",
+        role: SnackbarRole.Error,
+      });
     },
   });
 
   const { mutate: createTodo } = api.todo.createTodo.useMutation({
     onSuccess: async (res) => {
-      const { message, content, id } = res.data;
+      const { content, id, dateRecordId } = res.data;
       setSnackbarData({
         role: SnackbarRole.Success,
-        message,
+        message: "New Todo",
         content,
-        previousData: { data: { id } },
-        handler: abortCreateTodo as SnackbarHandlerType,
+        previousData: { data: { id, dateRecordId } },
+        handler: (data) => {
+          setSnackbarLoadingState(true);
+          abortCreateTodo(
+            data as { data: { id: number; dateRecordId: number } }
+          );
+        },
       });
       setSnackbarOpen(true);
       await utils.todo.getTodos.invalidate();

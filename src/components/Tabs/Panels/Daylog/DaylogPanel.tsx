@@ -71,17 +71,21 @@ const DaylogPanel = () => {
     api.daylog.upsertDaylog.useMutation({
       onSuccess: async (res) => {
         if (res) {
-          const { message } = res.data;
           await utils.daylog.getDaylog.invalidate();
           setSnackbarOpen(true);
-          setSnackbarData({ message, role: SnackbarRole.Success });
+          setSnackbarData({
+            message: "Updated current daylog",
+            role: SnackbarRole.Success,
+          });
         }
       },
 
-      onError: (err) => {
-        const { message } = err;
+      onError: () => {
         setSnackbarOpen(true);
-        setSnackbarData({ message, role: SnackbarRole.Error });
+        setSnackbarData({
+          message: "Request failed. Please try again or report the issue.",
+          role: SnackbarRole.Error,
+        });
       },
     });
 

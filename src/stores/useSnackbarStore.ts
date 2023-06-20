@@ -17,18 +17,32 @@ export type SnackbarData = {
 
 export type SnackbarState = {
   open: boolean;
+  loading: boolean;
   snackbarData?: SnackbarData;
 };
 
 type SnackbarAction = {
   setSnackbarOpen: (openState: boolean) => void;
   setSnackbarData: (snackbarData?: SnackbarData) => void;
+  setSnackbarLoadingState: (newState: boolean) => void;
 };
 
 const useSnackbarStore = create<SnackbarState & SnackbarAction>()((set) => ({
   open: false,
+  loading: false,
 
-  setSnackbarOpen: (openState: boolean) => set(() => ({ open: openState })),
+  setSnackbarOpen: (openState: boolean) =>
+    set(
+      produce((state: SnackbarState) => {
+        state.open = openState;
+      })
+    ),
+  setSnackbarLoadingState: (newState: boolean) =>
+    set(
+      produce((state: SnackbarState) => {
+        state.loading = newState;
+      })
+    ),
   setSnackbarData: (snackbarData: SnackbarData | undefined) =>
     set(
       produce((state: SnackbarState) => {

@@ -10,7 +10,6 @@ import {
 
 // Components
 import Button from "@/components/Buttons/Button";
-import ListboardSelect from "../Select/ListboardSelect";
 
 // api
 import { api } from "@/utils/api";
@@ -25,15 +24,6 @@ import useSnackbarStore, { SnackbarRole } from "@/stores/useSnackbarStore";
 import LoaderIcon from "public/icons/spinner.svg";
 import MoneyAllIcon from "public/icons/money_all.svg";
 
-// Urgency Enum
-enum Urgency {
-  urgent = "urgent",
-  important = "important",
-  trivial = "trivial",
-}
-
-type SnackbarHandlerType = (data: object) => void;
-
 type TodoFormProps = {
   setOpenDialog: Dispatch<SetStateAction<boolean>>;
 };
@@ -46,9 +36,8 @@ const RevenueForm = (
   const [revenueInput, setRevenueInput] = useState("");
   const [isProceed, setIsProceed] = useState(false);
   const { year, month, date } = useDateStore((state) => state.dateObj);
-  const { setSnackbarOpen, setSnackbarData } = useSnackbarStore(
-    (state) => state
-  );
+  const { setSnackbarOpen, setSnackbarData, setSnackbarLoadingState } =
+    useSnackbarStore((state) => state);
   const utils = api.useContext();
   const [revenueState, setRevenueState] = useState(false);
 
@@ -57,25 +46,51 @@ const RevenueForm = (
     setOpenDialog(false);
   };
 
+  const { mutate: abortCreateRevenue } = api.revenue.deleteRevenue.useMutation({
+    onSuccess: async () => {
+      setSnackbarLoadingState(false);
+      await utils.revenue.getRevenues.invalidate();
+      setSnackbarOpen(true);
+      setSnackbarData({
+        message: "Canceled create new revenue",
+        role: SnackbarRole.Success,
+      });
+    },
+    onError: () => {
+      setSnackbarOpen(true);
+      setSnackbarData({
+        message: "Request failed. Please try again or report the issue.",
+        role: SnackbarRole.Error,
+      });
+    },
+  });
+
   const { mutate: createRevenue } = api.revenue.createRevenue.useMutation({
     onSuccess: async (res) => {
-      const { message, content } = res.data;
+      const { content, id, dateRecordId } = res.data;
       setSnackbarData({
         role: SnackbarRole.Success,
-        message,
+        message: "New revenue",
         content,
-        // previousData: { data: { id } },
-        // handler: abortCreateTodo as SnackbarHandlerType,
+        previousData: { data: { id, dateRecordId } },
+        handler: (data) => {
+          setSnackbarLoadingState(true);
+          abortCreateRevenue(
+            data as { data: { id: number; dateRecordId: number } }
+          );
+        },
       });
       setSnackbarOpen(true);
       await utils.revenue.getRevenues.invalidate();
       setIsProceed(false);
       setOpenDialog(false);
     },
-    onError: (err) => {
-      const { message } = err;
+    onError: () => {
       setSnackbarOpen(true);
-      setSnackbarData({ message, role: SnackbarRole.Error });
+      setSnackbarData({
+        message: "Request failed. Please try again or report the issue.",
+        role: SnackbarRole.Error,
+      });
     },
   });
 
