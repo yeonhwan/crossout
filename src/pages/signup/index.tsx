@@ -1,9 +1,11 @@
 // Next
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 // ICONs
 import GitHubIcon from "@mui/icons-material/GitHub";
 import GoogleIcon from "@mui/icons-material/Google";
 import LoaderIcon from "public/icons/spinner.svg";
+import LogoSimple from "public/logo/logo_simple.svg";
+import Waves from "public/icons/waves.svg";
 
 // types
 import { type NextPageWithLayout } from "@/pages/_app";
@@ -195,32 +197,51 @@ const SignUp: NextPageWithLayout = () => {
   };
 
   return (
-    <div className="flex h-full w-full items-center justify-center">
-      <form className="flex h-max w-[85%] flex-col rounded-lg border-2 border-zinc-300 p-12 sm:w-4/12">
+    <div className="main_background flex h-full w-full items-center justify-center overflow-hidden">
+      <form className="z-50 flex h-max w-[85%] max-w-[500px] flex-col rounded-lg border-2 border-zinc-300 bg-white p-12 shadow-lg sm:w-4/12 sm:min-w-[450px]">
+        <div
+          onClick={() => {
+            router.push("/");
+          }}
+          className="flex h-max w-full flex-col items-center justify-center hover:cursor-pointer"
+        >
+          <LogoSimple className="mb-2 h-8 w-8 self-center fill-none stroke-teal-400" />
+          <p className="mb-2 self-center text-xs font-bold text-teal-500">
+            CROSSOUT
+          </p>
+        </div>
         <h1 className="mb-5 w-full text-center text-base font-bold sm:text-xl">
           Sign Up
         </h1>
         <p id="err_message" className="text-xs text-red-600 sm:text-base">
           {errMessage}
         </p>
-        <label
-          className="mt-2 text-sm font-bold text-gray-600 sm:text-base"
-          htmlFor="username"
-        >
-          Username
-        </label>
-        <input
-          id="username"
-          placeholder="username"
-          className={`p-2 ${
-            usernameStatus !== INPUT_VALIDATION.VALID ? "outline-red-500" : ""
-          }`}
-          value={usernameInput}
-          onChange={(e: React.FormEvent<HTMLInputElement>) => {
-            setUsernameInput(e.currentTarget.value);
-          }}
-          onFocus={inputFocusHandler}
-        />
+        <div className="group flex h-max w-full flex-col justify-center">
+          <label
+            className={`mt-2 text-sm font-bold text-gray-600 sm:text-base ${
+              usernameStatus !== INPUT_VALIDATION.VALID
+                ? "group-focus-within:text-red-500"
+                : "group-focus-within:text-teal-400"
+            }`}
+            htmlFor="username"
+          >
+            Username
+          </label>
+          <input
+            id="username"
+            placeholder="username"
+            className={`w-full p-2 ${
+              usernameStatus !== INPUT_VALIDATION.VALID
+                ? "outline-red-500"
+                : "group-focus-within:outline-teal-400"
+            }`}
+            value={usernameInput}
+            onChange={(e: React.FormEvent<HTMLInputElement>) => {
+              setUsernameInput(e.currentTarget.value);
+            }}
+            onFocus={inputFocusHandler}
+          />
+        </div>
         <p id="username_valid_info" className="hidden text-red-600">
           {usernameStatus === INPUT_VALIDATION.EMPTY
             ? USERNAME_ERR_MESSAGE.NOT_EMPTY
@@ -228,25 +249,33 @@ const SignUp: NextPageWithLayout = () => {
             ? USERNAME_ERR_MESSAGE.INVALID_LENGTH
             : ""}
         </p>
-        <label
-          className="mt-2 text-sm font-bold text-gray-600 sm:text-base"
-          htmlFor="email"
-        >
-          Email
-        </label>
-        <input
-          id="email"
-          type="email"
-          placeholder="email"
-          className={`p-2 ${
-            emailStatus !== INPUT_VALIDATION.VALID ? "outline-red-500" : ""
-          }`}
-          value={emailInput}
-          onChange={(e: React.FormEvent<HTMLInputElement>) => {
-            setEmailInput(e.currentTarget.value);
-          }}
-          onFocus={inputFocusHandler}
-        />
+        <div className="group flex h-max w-full flex-col justify-center">
+          <label
+            className={`mt-2 text-sm font-bold text-gray-600 sm:text-base ${
+              emailStatus !== INPUT_VALIDATION.VALID
+                ? "group-focus-within:text-red-500"
+                : "group-focus-within:text-teal-400"
+            }`}
+            htmlFor="email"
+          >
+            Email
+          </label>
+          <input
+            id="email"
+            type="email"
+            placeholder="email"
+            className={`w-full p-2 ${
+              emailStatus !== INPUT_VALIDATION.VALID
+                ? "group-focus-within:outline-red-500"
+                : "group-focus-within:outline-teal-400"
+            }`}
+            value={emailInput}
+            onChange={(e: React.FormEvent<HTMLInputElement>) => {
+              setEmailInput(e.currentTarget.value);
+            }}
+            onFocus={inputFocusHandler}
+          />
+        </div>
         <p id="email_valid_info" className={`hidden text-red-500`}>
           {emailStatus === INPUT_VALIDATION.EMPTY
             ? EMAIL_ERR_MESSAGE.NOT_EMPTY
@@ -254,24 +283,32 @@ const SignUp: NextPageWithLayout = () => {
             ? EMAIL_ERR_MESSAGE.INVALID_FORM
             : ""}
         </p>
-        <label
-          className="mt-2 text-sm font-bold text-gray-600 sm:text-base"
-          htmlFor="password"
-        >
-          Password
-        </label>
-        <input
-          id="password"
-          type="password"
-          placeholder="password"
-          className={`p-2 ${
-            passwordStatus !== INPUT_VALIDATION.VALID ? "outline-red-500" : ""
-          }`}
-          onChange={(e: React.FormEvent<HTMLInputElement>) => {
-            setPasswordInput(e.currentTarget.value);
-          }}
-          onFocus={inputFocusHandler}
-        />
+        <div className="group flex h-max w-full flex-col justify-center">
+          <label
+            className={`mt-2 text-sm font-bold text-gray-600 sm:text-base  ${
+              passwordStatus !== INPUT_VALIDATION.VALID
+                ? "group-focus-within:text-red-500"
+                : "group-focus-within:text-teal-400"
+            }`}
+            htmlFor="password"
+          >
+            Password
+          </label>
+          <input
+            id="password"
+            type="password"
+            placeholder="password"
+            className={`w-full p-2 ${
+              passwordStatus !== INPUT_VALIDATION.VALID
+                ? "group-focus-within:outline-red-500"
+                : "group-focus-within:outline-teal-400"
+            }`}
+            onChange={(e: React.FormEvent<HTMLInputElement>) => {
+              setPasswordInput(e.currentTarget.value);
+            }}
+            onFocus={inputFocusHandler}
+          />
+        </div>
         <p id="password_valid_info" className="hidden text-red-500">
           {passwordStatus === INPUT_VALIDATION.EMPTY
             ? PWD_ERR_MESSAGE.NOT_EMPTY
@@ -281,32 +318,40 @@ const SignUp: NextPageWithLayout = () => {
             ? PWD_ERR_MESSAGE.INVALID_CHARACTER
             : ""}
         </p>
-        <label
-          className="mt-2 text-sm font-bold text-gray-600 sm:text-base"
-          htmlFor="confirm"
-        >
-          Password Confirm
-        </label>
-        <input
-          id="confirm"
-          type="password"
-          placeholder="confirm password"
-          className={`p-2 ${
-            confirmStatus !== INPUT_VALIDATION.VALID ? "outline-red-500" : ""
-          }`}
-          value={confirmInput}
-          onChange={(e: React.FormEvent<HTMLInputElement>) => {
-            setConfirmInput(e.currentTarget.value);
-          }}
-          onFocus={inputFocusHandler}
-        />
+        <div className="group flex h-max w-full flex-col justify-center">
+          <label
+            className={`mt-2 text-sm font-bold text-gray-600 sm:text-base  ${
+              confirmStatus !== INPUT_VALIDATION.VALID
+                ? "group-focus-within:text-red-500"
+                : "group-focus-within:text-teal-400"
+            }`}
+            htmlFor="confirm"
+          >
+            Password Confirm
+          </label>
+          <input
+            id="confirm"
+            type="password"
+            placeholder="confirm password"
+            className={`w-full p-2 ${
+              confirmStatus !== INPUT_VALIDATION.VALID
+                ? "group-focus-within:outline-red-500"
+                : "group-focus-within:outline-teal-400"
+            }`}
+            value={confirmInput}
+            onChange={(e: React.FormEvent<HTMLInputElement>) => {
+              setConfirmInput(e.currentTarget.value);
+            }}
+            onFocus={inputFocusHandler}
+          />
+        </div>
         <p id="confirm_valid_info" className="hidden text-red-500">
           {confirmStatus === INPUT_VALIDATION.INVALID
             ? CONFIRM_ERR_MESSAGE.NOT_SAME
             : ""}
         </p>
         <button
-          className={`mr-2 mt-8 flex items-center justify-center p-2 ${
+          className={`mr-2 mt-8 flex items-center justify-center p-2 outline-0 hover:bg-teal-500  ${
             isProceed ? "pointer-events-none" : ""
           }`}
           onClick={submitHandler}
@@ -322,18 +367,19 @@ const SignUp: NextPageWithLayout = () => {
           <GitHubIcon
             className={`${
               isProceed ? "pointer-events-none" : ""
-            } hover:cursor-pointer`}
+            } transition-none hover:cursor-pointer hover:fill-neutral-500`}
             onClick={gitHubSignIn}
           />
           <GoogleIcon
             className={`${
               isProceed ? "pointer-events-none" : ""
-            } hover:cursor-pointer`}
+            } transition-none hover:cursor-pointer hover:fill-blue-400`}
             color="info"
             onClick={googleSignIn}
           />
         </div>
       </form>
+      <Waves className="z-1 absolute -bottom-28 opacity-50 md:-bottom-36" />
     </div>
   );
 };

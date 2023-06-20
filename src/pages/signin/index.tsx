@@ -9,6 +9,8 @@ import { useState } from "react";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import GoogleIcon from "@mui/icons-material/Google";
 import LoaderIcon from "public/icons/spinner.svg";
+import LogoSimple from "public/logo/logo_simple.svg";
+import Waves from "public/icons/waves.svg";
 
 // NextAuth
 import { signIn } from "next-auth/react";
@@ -68,47 +70,60 @@ const SignIn: NextPageWithLayout = () => {
   };
 
   return (
-    <div className="flex h-full w-full items-center justify-center">
-      <form className="flex h-max w-[85%] flex-col rounded-lg border-2 border-zinc-300 p-12 sm:w-4/12">
+    <div className="main_background flex h-full w-full items-center justify-center overflow-hidden">
+      <form className="z-50 flex h-max w-[85%] max-w-[500px] flex-col rounded-lg border-2 border-zinc-300 bg-white p-12 shadow-lg sm:w-4/12 sm:min-w-[450px]">
+        <div
+          onClick={() => {
+            router.push("/");
+          }}
+          className="flex h-max w-full flex-col items-center justify-center hover:cursor-pointer"
+        >
+          <LogoSimple className="mb-2 h-8 w-8 fill-none stroke-teal-400" />
+          <p className="mb-2 text-xs font-bold text-teal-500">CROSSOUT</p>
+        </div>
         <h1 className="mb-5 w-full text-center text-base font-bold sm:text-xl">
           Sign In
         </h1>
         <p id="err_message" className="text-xs text-red-600 sm:text-base">
           {errMessage}
         </p>
-        <label
-          className="mt-4 text-sm font-bold text-gray-700 sm:text-base"
-          htmlFor="email"
-        >
-          Email
-        </label>
-        <input
-          id="email"
-          type="email"
-          placeholder="type in your email"
-          className="p-2"
-          value={emailInput}
-          onChange={(e: React.FormEvent<HTMLInputElement>) => {
-            setEmailInput(e.currentTarget.value);
-          }}
-        />
-        <label
-          className="mt-4 text-sm font-bold text-gray-700 sm:text-base"
-          htmlFor="password"
-        >
-          Password
-        </label>
-        <input
-          id="password"
-          type="password"
-          placeholder="type in your password"
-          className="p-2"
-          onChange={(e: React.FormEvent<HTMLInputElement>) => {
-            setPasswordInput(e.currentTarget.value);
-          }}
-        />
+        <div className="group flex h-max w-full flex-col justify-center">
+          <label
+            className="mt-4 text-sm font-bold text-gray-700 group-focus-within:text-teal-400 sm:text-base"
+            htmlFor="email"
+          >
+            Email
+          </label>
+          <input
+            id="email"
+            type="email"
+            placeholder="type in your email"
+            className="w-full p-2 group-focus-within:outline-teal-400"
+            value={emailInput}
+            onChange={(e: React.FormEvent<HTMLInputElement>) => {
+              setEmailInput(e.currentTarget.value);
+            }}
+          />
+        </div>
+        <div className="group flex h-max w-full flex-col justify-center">
+          <label
+            className="mt-4 text-sm font-bold text-gray-700 group-focus-within:text-teal-400 sm:text-base"
+            htmlFor="password"
+          >
+            Password
+          </label>
+          <input
+            id="password"
+            type="password"
+            placeholder="type in your password"
+            className="w-full p-2 group-focus-within:outline-teal-400"
+            onChange={(e: React.FormEvent<HTMLInputElement>) => {
+              setPasswordInput(e.currentTarget.value);
+            }}
+          />
+        </div>
         <button
-          className={`mr-2 mt-8 flex items-center justify-center p-2 ${
+          className={`mr-2 mt-8 flex items-center justify-center p-2 outline-0 hover:bg-teal-500 ${
             isProceed ? "pointer-events-none" : ""
           }`}
           onClick={submitHandler}
@@ -124,24 +139,25 @@ const SignIn: NextPageWithLayout = () => {
           <GitHubIcon
             className={`${
               isProceed ? "pointer-events-none" : ""
-            } hover:cursor-pointer`}
+            } transition-none hover:cursor-pointer hover:fill-neutral-500`}
             onClick={gitHubSignIn}
           />
           <GoogleIcon
             className={`${
               isProceed ? "pointer-events-none" : ""
-            } hover:cursor-pointer`}
+            } transition-none hover:cursor-pointer hover:fill-blue-400`}
             color="info"
             onClick={googleSignIn}
           />
         </div>
         <Link
-          className="w-full text-center text-sm text-cyan-900 hover:cursor-pointer hover:text-orange-400 sm:text-base"
+          className="mt-auto w-full text-center text-xs text-cyan-900 hover:cursor-pointer hover:text-orange-400 sm:text-sm"
           href="/signup"
         >
           Don't have an account?
         </Link>
       </form>
+      <Waves className="z-1 absolute -bottom-28 opacity-50 md:-bottom-36" />
     </div>
   );
 };
