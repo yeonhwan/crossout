@@ -8,6 +8,10 @@ import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 // libs
 import { Tooltip } from "@mui/material";
 
+// Hooks
+import { useEffect } from "react";
+import { useAnimate } from "framer-motion";
+
 // store
 import useDateStore from "@/stores/useDateStore";
 
@@ -20,11 +24,11 @@ const DateTimer = ({ openCalendar }: DateTimerProps) => {
   const { dateObj, increaseDate, decreaseDate } = useDateStore(
     (state) => state
   );
-
   const year = dateObj.year;
   const month = dateObj.monthString;
   const date = dateObj.date;
   const day = dateObj.day;
+  const [scope, animate] = useAnimate();
 
   const generateDateSub = (date: number): string => {
     switch (date) {
@@ -40,6 +44,17 @@ const DateTimer = ({ openCalendar }: DateTimerProps) => {
     }
   };
 
+  useEffect(() => {
+    animate(scope.current, { opacity: [0, 100], y: [-10, 0] })
+      .then(() => {
+        return;
+      })
+      .catch(() => {
+        return;
+      });
+    return;
+  }, [dateObj]);
+
   return (
     <div className="flex h-full w-max items-center justify-center font-extrabold">
       <CircleButton
@@ -51,6 +66,7 @@ const DateTimer = ({ openCalendar }: DateTimerProps) => {
       </CircleButton>
       <Tooltip title="Open Calendar" arrow placement="top">
         <div
+          ref={scope}
           className="flex h-max w-max items-center transition-colors duration-75 hover:cursor-pointer hover:text-teal-400 dark:text-white dark:hover:text-teal-400"
           onClick={openCalendar}
         >
