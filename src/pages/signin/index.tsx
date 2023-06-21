@@ -14,14 +14,12 @@ import Waves from "public/icons/waves.svg";
 
 // NextAuth
 import { signIn } from "next-auth/react";
-import { getSession } from "next-auth/react";
 
 // type
 import { type NextPageWithLayout } from "@/pages/_app";
 
 // styles
 import form_styles from "@/styles/form.module.css";
-import { type Session } from "next-auth";
 
 const SignIn: NextPageWithLayout = () => {
   const [isProceed, setIsProceed] = useState(false);
@@ -70,7 +68,7 @@ const SignIn: NextPageWithLayout = () => {
   };
 
   return (
-    <div className="main_background flex h-full w-full items-center justify-center overflow-hidden">
+    <div className="main_background relative flex h-full w-full items-center justify-center overflow-hidden">
       <div className="absolute left-0 top-0 h-full w-full bg-pattern bg-repeat opacity-40"></div>
       <form className="z-50 flex h-max w-[85%] max-w-[500px] flex-col rounded-lg border-2 border-zinc-300 bg-white p-12 shadow-lg sm:w-4/12 sm:min-w-[450px]">
         <div
@@ -158,7 +156,7 @@ const SignIn: NextPageWithLayout = () => {
           Don't have an account?
         </Link>
       </form>
-      <Waves className="z-1 absolute -bottom-28 opacity-50 md:-bottom-36" />
+      <Waves className="z-1 absolute -bottom-28 overflow-hidden opacity-50 md:-bottom-36" />
     </div>
   );
 };

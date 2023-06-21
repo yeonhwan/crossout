@@ -1,6 +1,5 @@
 // hooks
-import { useState } from "react";
-import { createPortal } from "react-dom";
+import { useState, useRef, useEffect } from "react";
 
 // Components
 import TabPanel from "@/components/Tabs/TabPanel";
@@ -14,6 +13,20 @@ import RevenueForm from "@/components/Forms/RevenueForm";
 // libs
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
+import { motion, AnimatePresence } from "framer-motion";
+
+// api
+import { api } from "@/utils/api";
+
+// store
+import useDateStore from "@/stores/useDateStore";
+
+//types
+import {
+  type GetTodoOutput,
+  type GetDayLogOutput,
+  type GetRevenuesOutput,
+} from "@/utils/api";
 
 enum TabPanels {
   todos = 0,
@@ -25,6 +38,12 @@ const HomeTabs = () => {
   const [tabValue, setTabValue] = useState<TabPanels>(TabPanels.todos);
   const [isOpenTodoDialog, setIsOpenTodoDialog] = useState(false);
   const [isOpenRevenueDialog, setIsOpenRevenueDialog] = useState(false);
+  const [moveTabLeft, setMoveTabLeft] = useState(true);
+  const prevTabValue = useRef(tabValue);
+  const { year, month, date } = useDateStore((state) => state.dateObj);
+  const [todoTabData, setTodoTabData] = useState<GetTodoOutput>();
+  const [daylogTabData, setDaylogTabData] = useState<GetDayLogOutput>();
+  const [revenueTabData, setRevenueTabData] = useState<GetRevenuesOutput>();
 
   const openCreateTodo = () => {
     setIsOpenTodoDialog(true);
@@ -37,6 +56,60 @@ const HomeTabs = () => {
   const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
     setTabValue(newValue);
   };
+
+  const dateObj = { year, month, date };
+
+  // apis
+  const { isLoading: todosDataLoading } = api.todo.getTodos.useQuery(
+    { data: { dateObject: { year, month, date } } },
+    {
+      queryKey: [
+        "todo.getTodos",
+        { data: { dateObject: { year, month, date } } },
+      ],
+      onSuccess(res) {
+        setTodoTabData(res);
+      },
+      keepPreviousData: true,
+      refetchOnWindowFocus: false,
+    }
+  );
+
+  const { isLoading: daylogDataLoading } = api.daylog.getDaylog.useQuery(
+    { data: { dateObject: { year, month, date } } },
+    {
+      queryKey: [
+        "daylog.getDaylog",
+        { data: { dateObject: { year, month, date } } },
+      ],
+      onSuccess: (res) => {
+        setDaylogTabData(res);
+      },
+
+      onError: (err) => {
+        console.log(err);
+      },
+      keepPreviousData: true,
+      refetchOnWindowFocus: false,
+    }
+  );
+
+  const { isLoading: revenuesDataLoading } = api.revenue.getRevenues.useQuery(
+    {
+      dateObj,
+    },
+    {
+      queryKey: ["revenue.getRevenues", { dateObj }],
+      onSuccess: (res) => {
+        setRevenueTabData(res);
+      },
+      onError: (err) => {
+        console.log(err);
+      },
+      refetchOnWindowFocus: false,
+      keepPreviousData: true,
+    }
+  );
 
   return (
     <div className="flex h-full w-full flex-col justify-center">
@@ -64,6 +137,9 @@ const HomeTabs = () => {
             minWidth: 50,
             minHeight: 20,
           }}
+          onClick={() => {
+            prevTabValue.current = tabValue;
+          }}
         />
         <Tab
           className={`z-10 mr-2 h-8 w-20 rounded-full px-3 py-1 text-xs transition-colors hover:bg-neutral-500/30 dark:hover:bg-neutral-300/30 sm:mr-4 sm:h-12 sm:w-20 sm:px-4 sm:py-2  ${
@@ -77,6 +153,9 @@ const HomeTabs = () => {
           style={{
             minWidth: 50,
             minHeight: 20,
+          }}
+          onClick={() => {
+            prevTabValue.current = tabValue;
           }}
         />
         <Tab
@@ -92,38 +171,64 @@ const HomeTabs = () => {
             minWidth: 50,
             minHeight: 20,
           }}
+          onClick={() => {
+            prevTabValue.current = tabValue;
+          }}
         />
       </Tabs>
-      <TabPanel
-        className={`${
-          tabValue === 0 ? "flex" : "hidden"
-        } h-full w-full justify-center`}
-        index={TabPanels.todos}
-        value={TabPanels.todos}
-      >
-        <TodoPanel
-          openCreateTodo={openCreateTodo}
-          enabled={tabValue === TabPanels.todos}
-        />
-      </TabPanel>
-      <TabPanel
-        className={`${
-          tabValue === 1 ? "flex" : "hidden"
-        } h-full w-full justify-center`}
-        index={TabPanels.daylog}
-        value={TabPanels.daylog}
-      >
-        <DaylogPanel />
-      </TabPanel>
-      <TabPanel
-        className={`${
-          tabValue === 2 ? "flex" : "hidden"
-        } h-full w-full justify-center`}
-        index={TabPanels.revenues}
-        value={TabPanels.revenues}
-      >
-        <RevenuePanel openCreateRevenue={openCreateRevenue} />
-      </TabPanel>
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={`tabPanel-${tabValue}`}
+          initial={{ y: -10, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          exit={{ y: 10, opacity: 0 }}
+          transition={{ duration: 0.2 }}
+          className="flex h-full
+      w-full justify-center"
+        >
+          {tabValue === TabPanels.todos && (
+            <TabPanel
+              className="flex h-full
+            w-full justify-center transition-tab"
+              index={TabPanels.todos}
+              value={TabPanels.todos}
+            >
+              <TodoPanel
+                openCreateTodo={openCreateTodo}
+                data={todoTabData?.data}
+                isTodoLoading={todosDataLoading}
+              />
+            </TabPanel>
+          )}
+          {tabValue === TabPanels.daylog && (
+            <TabPanel
+              className="flex h-full
+            w-full justify-center transition-tab"
+              index={TabPanels.daylog}
+              value={TabPanels.daylog}
+            >
+              <DaylogPanel
+                data={daylogTabData?.data}
+                isDaylogLoading={daylogDataLoading}
+              />
+            </TabPanel>
+          )}
+          {tabValue === TabPanels.revenues && (
+            <TabPanel
+              className="flex h-full
+            w-full justify-center transition-tab"
+              index={TabPanels.revenues}
+              value={TabPanels.revenues}
+            >
+              <RevenuePanel
+                isRevenuesLoading={revenuesDataLoading}
+                data={revenueTabData?.data}
+                openCreateRevenue={openCreateRevenue}
+              />
+            </TabPanel>
+          )}
+        </motion.div>
+      </AnimatePresence>
       {/* Todo Dialog */}
       <Dialog
         onClickAway={() => {

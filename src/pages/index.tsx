@@ -9,6 +9,8 @@ import Waves from "public/icons/waves.svg";
 import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
 
+import { motion } from "framer-motion";
+
 // GSSP
 import { type GetServerSidePropsContext } from "next";
 import { getServerAuthSession } from "@/server/auth";
@@ -37,12 +39,22 @@ const Splash = () => {
       <div className="absolute left-0 top-0 z-0 h-full w-full bg-pattern bg-repeat-round opacity-40"></div>
       <div className="z-10 flex h-full w-full items-center justify-center mobile:h-[70%] mobile:w-[80%] lg:h-[80%] lg:w-[50%]">
         <div className="mt-10 flex h-0 w-0 items-center py-24 opacity-0 lg:h-full lg:w-[30%] lg:opacity-100">
-          <div className="relative flex h-[80%] w-full flex-col items-center justify-center">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.3 }}
+            className="relative flex h-[80%] w-full flex-col items-center justify-center"
+          >
             <MainTitle className="absolute bottom-0 h-72 w-72 fill-none" />
             <Logo className="h-48 w-48 fill-none lg:absolute lg:top-0" />
-          </div>
+          </motion.div>
         </div>
-        <div className="z-20 flex h-full w-full flex-col items-center justify-center lg:h-[80%] lg:w-1/2 lg:min-w-[400px]">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.3 }}
+          className="z-20 flex h-full w-full flex-col items-center justify-center lg:h-[80%] lg:w-1/2 lg:min-w-[400px]"
+        >
           <div className="z-20 flex h-full w-[70%] flex-col items-center justify-center rounded-xl bg-transparent from-teal-400 to-cyan-500 lg:w-[90%] lg:bg-gradient-to-br lg:shadow-lg">
             <div className="flex h-full w-full max-w-[500px] flex-col justify-between py-10">
               <div className="flex h-[80%] w-full flex-col-reverse lg:h-[60%] lg:flex-col">
@@ -103,9 +115,16 @@ const Splash = () => {
               </div>
             </div>
           </div>
-        </div>
+        </motion.div>
       </div>
-      <Waves className="z-1 absolute -bottom-28 opacity-50 md:-bottom-40" />
+      <motion.div
+        initial={{ opacity: 0, y: 200 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.1 }}
+        className="z-1 absolute -bottom-28 flex h-full w-full items-center justify-center md:-bottom-40"
+      >
+        <Waves className="opacity-50" />
+      </motion.div>
     </div>
   );
 };

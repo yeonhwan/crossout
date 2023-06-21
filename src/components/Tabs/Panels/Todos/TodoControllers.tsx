@@ -21,8 +21,10 @@ type TodoControllersProps = {
   sortingTodos: boolean;
   setSortingTodos: Dispatch<SetStateAction<boolean>>;
   updateTodoIndex: () => void;
-  savedTodosData: MutableRefObject<TodoWithListboardType[]>;
+  prevTodosData: MutableRefObject<TodoWithListboardType[]>;
+  prevTodoIndexes: MutableRefObject<number[]>;
   setTodosData: Dispatch<SetStateAction<TodoWithListboardType[] | undefined>>;
+  setTodoIndexes: Dispatch<SetStateAction<number[]>>;
   isSortProceed: boolean;
   setIsSortProceed: Dispatch<SetStateAction<boolean>>;
 };
@@ -32,13 +34,16 @@ const TodoControllers = ({
   setSortingTodos,
   updateTodoIndex,
   setTodosData,
-  savedTodosData,
+  prevTodosData,
   isSortProceed,
   setIsSortProceed,
+  prevTodoIndexes,
+  setTodoIndexes,
 }: TodoControllersProps) => {
   const cancelSortingHandler = () => {
-    setTodosData(savedTodosData.current);
+    setTodosData(prevTodosData.current);
     setSortingTodos(false);
+    setTodoIndexes(prevTodoIndexes.current);
   };
 
   const applySortingHandler = () => {
@@ -49,7 +54,9 @@ const TodoControllers = ({
 
   return (
     <div className="flex h-max w-max items-center justify-center self-end">
-      {isSortProceed && <LoaderIcon className="h-8 w-8 fill-white" />}
+      {isSortProceed && (
+        <LoaderIcon className="h-8 w-8 fill-neutral-700 dark:fill-white" />
+      )}
       <div className="my-1 mr-4 flex h-max min-w-max items-center justify-center rounded-full px-2 py-1">
         {/* {!sortingTodos && (
           <select className="mx-2 rounded-xl bg-neutral-600 px-2 py-[3px] text-white outline-none hover:cursor-pointer">

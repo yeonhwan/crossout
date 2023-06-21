@@ -17,11 +17,12 @@ import Happy from "public/lottie/happy.json";
 import { type Mood } from "@prisma/client";
 
 type MoodSelectorProps = {
-  moodData: Mood;
-  selectedMoodRef: MutableRefObject<Mood | undefined>
+  moodData: Mood | undefined;
+  selectedMoodRef: MutableRefObject<Mood | undefined>;
+  isDaylogLoading: boolean;
 }
 
-const MoodSelector = ({moodData, selectedMoodRef}:MoodSelectorProps) => {
+const MoodSelector = ({moodData, selectedMoodRef, isDaylogLoading}:MoodSelectorProps) => {
 
   const [selectedMood, setSelectedMood] = useState(moodData);
 
@@ -90,8 +91,8 @@ const MoodSelector = ({moodData, selectedMoodRef}:MoodSelectorProps) => {
 
   return (
     <div className="flex flex-col w-full h-max">
-      <p className="mb-1 self-center dark:text-neutral-300 text-neutral-600 text-sm">
-        {selectedMood.toUpperCase()}
+      <p className="mb-1 h-5 self-center dark:text-neutral-300 text-neutral-600 text-sm">
+        {selectedMood && selectedMood.toUpperCase()}
       </p>
     <div className="flex h-max w-max justify-center self-center transition-colors rounded-xl border-2 dark:bg-neutral-800/70 dark:border-neutral-700 border-neutral-300 bg-neutral-400/70 px-2">
       <div className="flex h-full w-full items-center justify-center py-2">
@@ -137,7 +138,7 @@ const MoodSelector = ({moodData, selectedMoodRef}:MoodSelectorProps) => {
           </Tooltip>
         <Tooltip title="happy" arrow placement="bottom">
           <div
-            className={`h-8 w-8 hover:bg-neutral-500 hover:cursor-pointer transition-all ${selectedMood === "happy" ? "bg-cyan-600" : "bg-transparent"} rounded-full`}
+            className={`h-8 w-8 hover:bg-neutral-500 hover:cursor-pointer transition-all ${selectedMood === "happy"  ? "bg-cyan-600" : "bg-transparent"} rounded-full`}
             onMouseOver={() => {mouseOverHandler('happy', happyPlay)}}
             onMouseLeave={()=>{mouseOutHandler('happy', happyStop)}}
             onClick={()=>{onClickHandler("happy")}}

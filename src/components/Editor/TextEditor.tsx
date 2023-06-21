@@ -98,6 +98,8 @@ const TextEditor = ({ editorContent, editorStateRef }: TextEditorProps) => {
       const isDiff = !_.isEqual(prevEditorState, editorStateJSON);
       const isDateSame = _.isEqual(prevDateObj.current, dateObj);
 
+      console.log(prevEditorState, editorStateJSON);
+
       editorState.read(() => {
         const root = $getRoot();
         const isEmpty =
@@ -130,7 +132,7 @@ const TextEditor = ({ editorContent, editorStateRef }: TextEditorProps) => {
         <ToolbarPlugin />
         <span className="ml-1 flex items-center justify-center">
           <LoaderIcon
-            className={`h-6 w-6 fill-white ${
+            className={`h-6 w-6 fill-neutral-700 dark:fill-white ${
               isUpesrting ? "opaicty-100" : "opacity-0"
             }`}
           />

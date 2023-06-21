@@ -6,10 +6,12 @@ import { type Prisma, type Todo, type ListBoard } from "@prisma/client";
 const getTodos = protectedProcedure
   .input(
     z.object({
-      dateObject: z.object({
-        year: z.number(),
-        month: z.number(),
-        date: z.number(),
+      data: z.object({
+        dateObject: z.object({
+          year: z.number(),
+          month: z.number(),
+          date: z.number(),
+        }),
       }),
     })
   )
@@ -23,7 +25,7 @@ const getTodos = protectedProcedure
     // 3. Query all todos in related Dayrecord
 
     const { id: userId } = session.user;
-    const { year, month, date } = input.dateObject;
+    const { year, month, date } = input.data.dateObject;
 
     try {
       const dateRecordsWithTodos = await ctx.prisma.user.findUniqueOrThrow({
@@ -74,7 +76,16 @@ const getTodos = protectedProcedure
         return { data };
       }
 
-      return { data };
+      return {
+        data: {
+          todos: [] as (Todo & { listBoard: ListBoard | null })[],
+          id: null,
+          year,
+          month,
+          date,
+          todoIndex: [] as number[],
+        },
+      };
     } catch (err) {
       throw new TRPCError({
         message: "SERVER_ERROR",

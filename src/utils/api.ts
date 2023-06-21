@@ -96,6 +96,7 @@ export type GetListboardsOutput       = RouterOutputs["listboards"]["getListboar
 export type CreateListboardOutput     = RouterOutputs["listboards"]["createListboard"];
 export type UpdateListboardOutput     = RouterOutputs["listboards"]["updateListboard"];
 export type DeleteListboardOutput     = RouterOutputs["listboards"]["deleteListboard"];
+export type GetDayLogOutput           = RouterOutputs["daylog"]["getDaylog"];
 export type UpsertDaylogOutput        = RouterOutputs["daylog"]["upsertDaylog"];
 export type UpsertEditorContentOutput = RouterOutputs["daylog"]["upsertEditorContent"];
 export type CreateRevenueOutput       = RouterOutputs["revenue"]["createRevenue"];

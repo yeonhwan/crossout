@@ -1,5 +1,5 @@
 // React, hooks
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { type Mood } from "@prisma/client";
 
 // components
@@ -26,13 +26,19 @@ import useSnackbarStore, { SnackbarRole } from "@/stores/useSnackbarStore";
 
 // types
 import { type InitialConfigType } from "@lexical/react/LexicalComposer";
+import { type GetDayLogOutput } from "@/utils/api";
 
 // ICONS
 import SaveIcon from "public/icons/save.svg";
 import LoaderIcon from "public/icons/spinner.svg";
 
-const DaylogPanel = () => {
-  const [moodData, setMoodData] = useState<Mood>("normal");
+type DaylogPanelProps = {
+  data: GetDayLogOutput["data"] | undefined;
+  isDaylogLoading: boolean;
+};
+
+const DaylogPanel = ({ data, isDaylogLoading }: DaylogPanelProps) => {
+  const [moodData, setMoodData] = useState<Mood>();
   const [editorContentData, setEditorContentData] = useState<string>();
   const editorStateRef = useRef<SerializedEditorState<SerializedLexicalNode>>();
   const selectedMoodRef = useRef<Mood>();
@@ -42,30 +48,10 @@ const DaylogPanel = () => {
   );
   const utils = api.useContext();
 
-  const { isLoading } = api.daylog.getDaylog.useQuery(
-    { data: { dateObject: { year, month, date } } },
-    {
-      queryKey: [
-        "daylog.getDaylog",
-        { data: { dateObject: { year, month, date } } },
-      ],
-      onSuccess: (res) => {
-        const daylog = res.data;
-        if (daylog) {
-          const { mood, content } = daylog;
-          setMoodData(mood);
-          setEditorContentData(content);
-        } else {
-          setMoodData("normal");
-          setEditorContentData(undefined);
-        }
-      },
-
-      onError: (err) => {
-        console.log(err);
-      },
-    }
-  );
+  useEffect(() => {
+    setMoodData(data ? data.mood : "normal");
+    setEditorContentData(data ? data.content : undefined);
+  }, [data]);
 
   const { mutate: upsertDaylog, isLoading: isUpserting } =
     api.daylog.upsertDaylog.useMutation({
@@ -100,7 +86,7 @@ const DaylogPanel = () => {
   };
 
   const ContentRender = () => {
-    if (isLoading) {
+    if (isDaylogLoading) {
       return (
         <div className="flex h-full w-full items-center justify-center">
           <LoaderIcon className="h-10 w-10" />
@@ -143,12 +129,16 @@ const DaylogPanel = () => {
           <p className="self-center text-xs font-bold text-neutral-800 dark:text-white sm:text-base">
             Today's Feeling
           </p>
-          <MoodSelector moodData={moodData} selectedMoodRef={selectedMoodRef} />
+          <MoodSelector
+            isDaylogLoading={isDaylogLoading}
+            moodData={moodData}
+            selectedMoodRef={selectedMoodRef}
+          />
         </div>
         <div className="flex h-4/5 w-full">
           <LexicalComposer initialConfig={editorConfig}>
             <TextEditor
-              isContentLoading={isLoading}
+              isContentLoading={isDaylogLoading}
               editorStateRef={editorStateRef}
               editorContent={editorContentData}
             />

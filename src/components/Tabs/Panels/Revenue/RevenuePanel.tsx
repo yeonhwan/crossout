@@ -1,5 +1,5 @@
 // Hooks
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useWindowWidth } from "@/hooks/useWindowWidth";
 
 // components
@@ -14,58 +14,42 @@ import MoneyPlusIcon from "public/icons/money_plus.svg";
 import MoneyMinusIcon from "public/icons/money_minus.svg";
 import AddIcon from "@mui/icons-material/Add";
 
-// api
-import { api } from "@/utils/api";
-
-// store
-import useDateStore from "@/stores/useDateStore";
-
 // type
 import { type RevenueClient } from "@/types/client";
 
 // utils
 import { currencyFormatter } from "@/utils/currencyFormatter";
+import { type GetRevenuesOutput } from "@/utils/api";
 
 type RevenuePanelProps = {
   openCreateRevenue: () => void;
+  data: GetRevenuesOutput["data"] | undefined;
+  isRevenuesLoading: boolean;
 };
 
-const RevenuePanel = ({ openCreateRevenue }: RevenuePanelProps) => {
+const RevenuePanel = ({ openCreateRevenue, data }: RevenuePanelProps) => {
   const [profitData, setProfitData] = useState<RevenueClient[]>([]);
   const [lossData, setLossData] = useState<RevenueClient[]>([]);
-  const [total, setTotal] = useState("");
+  const [total, setTotal] = useState("$0");
   const [viewAll, setViewAll] = useState(true);
   const [viewProfit, setViewProfit] = useState(false);
   const [viewLoss, setViewLoss] = useState(false);
-  const { dateObj } = useDateStore((state) => state);
   const isMediaMatches = useWindowWidth(false, 640);
 
-  api.revenue.getRevenues.useQuery(
-    {
-      dateObj,
-    },
-    {
-      queryKey: ["revenue.getRevenues", { dateObj }],
-      onSuccess: (res) => {
-        const { data } = res;
-        if (data) {
-          const total = data.reduce((acc, cur) => acc + Number(cur.revenue), 0);
-          const profitData = data.filter((data) => Number(data.revenue) >= 0);
-          const lossData = data.filter((data) => Number(data.revenue) < 0);
-          setProfitData(profitData);
-          setLossData(lossData);
-          setTotal(currencyFormatter(total));
-        } else {
-          setProfitData([]);
-          setLossData([]);
-          setTotal("$0");
-        }
-      },
-      onError: (err) => {
-        console.log(err);
-      },
+  useEffect(() => {
+    if (data) {
+      const total = data.reduce((acc, cur) => acc + Number(cur.revenue), 0);
+      const profitData = data.filter((data) => Number(data.revenue) >= 0);
+      const lossData = data.filter((data) => Number(data.revenue) < 0);
+      setProfitData(profitData);
+      setLossData(lossData);
+      setTotal(currencyFormatter(total));
+    } else {
+      setProfitData([]);
+      setLossData([]);
+      setTotal("$0");
     }
-  );
+  }, [data]);
 
   return (
     <div className="mt-4 flex h-[95%] w-[90%] flex-col rounded-lg bg-neutral-300/40 px-4 pt-4 backdrop-blur-sm transition-colors dark:bg-neutral-800/60 sm:h-[80%] sm:p-6 lg:w-3/5">

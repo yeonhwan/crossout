@@ -10,6 +10,9 @@ const config = {
       backgroundImage: {
         pattern: "url('/bg/pattern.svg')",
       },
+      transitionProperty: {
+        tab: "opacity, transform",
+      },
       gridTemplateColumns: {
         listboard: "repeat(auto-fill, minmax(280px, 320px))",
       },
