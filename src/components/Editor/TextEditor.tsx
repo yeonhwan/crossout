@@ -31,6 +31,7 @@ import _ from "lodash";
 
 // store
 import useDateStore from "@/stores/useDateStore";
+import useSnackbarStore, { SnackbarRole } from "@/stores/useSnackbarStore";
 
 function Placeholder() {
   return (
@@ -54,6 +55,10 @@ const TextEditor = ({ editorContent, editorStateRef }: TextEditorProps) => {
   const prevEditorContent = useRef<string | undefined>(editorContent);
   const prevDateObj = useRef(dateObj);
   const { year, month, date } = dateObj;
+  const utils = api.useContext();
+  const { setSnackbarOpen, setSnackbarData } = useSnackbarStore(
+    (state) => state
+  );
 
   useEffect(() => {
     if (editorContent) {
@@ -77,8 +82,15 @@ const TextEditor = ({ editorContent, editorStateRef }: TextEditorProps) => {
 
   const { mutate: upsertTextEditor, isLoading: isUpesrting } =
     api.daylog.upsertEditorContent.useMutation({
-      onError: (err) => {
-        console.log(err);
+      onSuccess: async () => {
+        await utils.daylog.getDaylog.invalidate();
+      },
+      onError: () => {
+        setSnackbarOpen(true);
+        setSnackbarData({
+          message: "Autosave failed. Please report the issue.",
+          role: SnackbarRole.Error,
+        });
       },
     });
 
@@ -97,8 +109,6 @@ const TextEditor = ({ editorContent, editorStateRef }: TextEditorProps) => {
 
       const isDiff = !_.isEqual(prevEditorState, editorStateJSON);
       const isDateSame = _.isEqual(prevDateObj.current, dateObj);
-
-      console.log(prevEditorState, editorStateJSON);
 
       editorState.read(() => {
         const root = $getRoot();
