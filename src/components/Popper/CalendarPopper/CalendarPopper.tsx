@@ -183,8 +183,8 @@ const CalendarPopper = ({
           <div className="flex flex-col items-center justify-center">
             <p className="text-md font-bold text-white sm:text-xl ">Calendar</p>
             <p
-              className={`w-full text-center text-sm sm:text-lg ${
-                selectedDateData ? "font-semibold text-cyan-400" : "text-white"
+              className={`w-full text-center text-sm font-semibold transition-colors sm:text-lg ${
+                selectedDateData ? "text-teal-400" : "text-white"
               }`}
             >
               {dateInput.format("YYYY MMM DD ddd")}

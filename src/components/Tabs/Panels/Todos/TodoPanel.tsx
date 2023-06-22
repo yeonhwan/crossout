@@ -27,11 +27,14 @@ import {
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 
+import { useAnimate, stagger, motion, easeIn } from "framer-motion";
+
 // api
 import { api } from "@/utils/api";
 
 // stores
 import useSnackbarStore, { SnackbarRole } from "@/stores/useSnackbarStore";
+import useDateStore from "@/stores/useDateStore";
 
 //types
 import { type TodoWithListboardType } from "@/types/client";
@@ -47,25 +50,60 @@ type TodoPanelProps = {
 const TodoPanel = ({ openCreateTodo, data, isTodoLoading }: TodoPanelProps) => {
   const [todosData, setTodosData] = useState<
     TodoWithListboardType[] | undefined
-  >([]);
+  >(undefined);
   const [todoIndexes, setTodoIndexes] = useState<number[]>([]);
   const [sortingTodos, setSortingTodos] = useState(false);
   const [isSortProceed, setIsSortProceed] = useState(false);
-  const dateRecordId = useRef<null | number>(null);
-  const prevTodosData = useRef<TodoWithListboardType[]>([]);
-  const prevTodoIndexes = useRef<number[]>([]);
   const sensors = useSensors(useSensor(PointerSensor));
+  const [scope, animate] = useAnimate();
   const { setSnackbarOpen, setSnackbarData } = useSnackbarStore(
     (state) => state
   );
+  const { year, month, date } = useDateStore((state) => state.dateObj);
+  const dateRecordId = useRef<null | number>(null);
+  const prevTodosData = useRef<TodoWithListboardType[]>();
+  const prevTodoIndexes = useRef<number[]>([]);
+  const prevDateString = useRef<string>();
 
   useEffect(() => {
-    setTodosData(data ? data.todos : []);
+    setTodosData(data ? data.todos : undefined);
     setTodoIndexes(data ? (data.todoIndex as number[]) : []);
-    prevTodosData.current = data ? data.todos : [];
+    prevTodosData.current = data ? data.todos : undefined;
     dateRecordId.current = data ? data.id : null;
     prevTodoIndexes.current = data ? (data.todoIndex as number[]) : [];
   }, [data]);
+
+  useEffect(() => {
+    const dateString = String(year + month + date);
+    if (
+      todosData &&
+      todosData.length &&
+      dateString !== prevDateString.current
+    ) {
+      animate(
+        "li",
+        { y: [10, 0], opacity: [0, 1] },
+        {
+          duration: 0.2,
+          ease: "linear",
+          delay: stagger(0.1, { startDelay: 0.1 }),
+        }
+      )
+        .then(() => {
+          return;
+        })
+        .catch(() => {
+          return;
+        });
+    }
+  }, [todosData]);
+
+  useEffect(() => {
+    const dateString = String(year + month + date);
+    if (todosData && dateString !== prevDateString.current) {
+      prevDateString.current = dateString;
+    }
+  }, [todosData]);
 
   function handleDragEnd(event: DragEndEvent) {
     const { active, over } = event;
@@ -154,7 +192,10 @@ const TodoPanel = ({ openCreateTodo, data, isTodoLoading }: TodoPanelProps) => {
               items={todosData}
               strategy={verticalListSortingStrategy}
             >
-              <ul className="flex h-full w-full flex-col items-center justify-center">
+              <ul
+                ref={scope}
+                className="flex h-full w-full flex-col items-center justify-center"
+              >
                 {todosData.map((data) => (
                   <SortableWrapper
                     key={data.id}

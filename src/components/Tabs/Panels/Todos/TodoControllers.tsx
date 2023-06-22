@@ -21,7 +21,7 @@ type TodoControllersProps = {
   sortingTodos: boolean;
   setSortingTodos: Dispatch<SetStateAction<boolean>>;
   updateTodoIndex: () => void;
-  prevTodosData: MutableRefObject<TodoWithListboardType[]>;
+  prevTodosData: MutableRefObject<TodoWithListboardType[] | undefined>;
   prevTodoIndexes: MutableRefObject<number[]>;
   setTodosData: Dispatch<SetStateAction<TodoWithListboardType[] | undefined>>;
   setTodoIndexes: Dispatch<SetStateAction<number[]>>;

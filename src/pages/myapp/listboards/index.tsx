@@ -12,6 +12,8 @@ import ListboardPopper from "@/components/Popper/ListboardPopper";
 import NoListboards from "@/components/Graphic/NoListboards";
 import Layout from "@/components/Layout";
 
+import { motion } from "framer-motion";
+
 // api
 import { api } from "@/utils/api";
 
@@ -139,22 +141,31 @@ const ListboardIndex = ({
   return (
     <Layout userData={userData}>
       <div className="flex h-[90%] w-full flex-col px-5 sm:px-20 md:px-40">
-        <div className="flex h-[7%] flex-col items-center sm:items-start">
+        <motion.div
+          initial={{ y: -20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          className="flex h-[7%] flex-col items-center sm:items-start"
+        >
           <h1 className="text-4xl font-extrabold text-neutral-800 dark:text-neutral-300 sm:text-4xl">
             Listboards
           </h1>
           <p className="text-xs text-neutral-700 transition-colors dark:text-neutral-200 sm:text-lg">
             Manage your listboards, todos by listboard
           </p>
-        </div>
-        <div className="mt-4 flex h-[85%] w-full flex-col justify-center rounded-xl bg-neutral-300/40 px-0 py-5 pt-10 shadow-lg backdrop-blur-lg transition-colors dark:bg-neutral-800/60 sm:h-[75%] sm:px-10">
+        </motion.div>
+        <motion.div
+          initial={{ y: 20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.3 }}
+          className="mt-4 flex h-[85%] w-full flex-col justify-center rounded-xl bg-neutral-300/40 px-0 py-5 pt-10 shadow-lg backdrop-blur-lg transition-colors dark:bg-neutral-800/60 sm:h-[75%] sm:px-10"
+        >
           {isProceed && (
             <div className="absolute right-4 top-4 h-max w-max">
               <LoaderIcon className="h-10 w-10" />
             </div>
           )}
           {itemRender()}
-        </div>
+        </motion.div>
         <Dialog
           onClickAway={() => {
             setIsOpenListboardsDialog(false);

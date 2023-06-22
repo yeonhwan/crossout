@@ -26,24 +26,16 @@ const Layout = ({ children, userData }: LayoutProps) => {
   const { preference, username } = userData;
   const { isLight, background } = preference;
 
-  if (background === "2") {
-    return (
-      <div className={`${isLight ? "" : "dark"} layout flex h-full w-full`}>
-        <div className="simple flex h-full w-full flex-col overflow-hidden transition-all">
-          <Header username={username} />
-          {children}
-        </div>
-      </div>
-    );
-  } else {
-    return (
-      <div
-        className={`${
-          isLight ? "" : "dark"
-        } layout relative flex h-full w-full`}
-      >
-        <div className="flex h-full w-full flex-col overflow-hidden">
-          <span className="absolute left-0 top-0 z-[-1] flex min-h-full min-w-full justify-center overflow-hidden">
+  return (
+    <div
+      className={`${isLight ? "" : "dark"} layout relative flex h-full w-full`}
+    >
+      <div className="flex h-full w-full flex-col overflow-hidden">
+        {background === "2" && (
+          <div className="simple absolute left-0 top-0 z-[-1] flex h-full w-full transition-all" />
+        )}
+        {background === "1" && (
+          <div className="absolute left-0 top-0 z-[-1] flex min-h-full min-w-full justify-center overflow-hidden">
             {isVertical ? (
               isLight ? (
                 <Lottie
@@ -79,13 +71,14 @@ const Layout = ({ children, userData }: LayoutProps) => {
                 }}
               />
             )}
-          </span>
-          <Header username={username} />
-          {children}
-        </div>
+          </div>
+        )}
+
+        <Header username={username} />
+        {children}
       </div>
-    );
-  }
+    </div>
+  );
 };
 
 export default Layout;

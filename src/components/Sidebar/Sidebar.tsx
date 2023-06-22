@@ -41,7 +41,7 @@ const Sidebar = ({
           animateTrigger ? "opacity-100" : "translate-x-40 opacity-0"
         } absolute right-0 top-0 flex h-screen w-48 flex-col bg-neutral-400/50 pt-10 backdrop-blur-md transition-all ease-in-out will-change-transform dark:bg-neutral-800/50 lg:w-56`}
       >
-        <p className="mb-4 ml-2 mt-2 flex w-full flex-col items-center dark:text-white">
+        <p className="mb-4 ml-2 mt-10 flex w-full flex-col items-center dark:text-white">
           Welcome back,{" "}
           <span className="font-bold text-teal-600 dark:text-teal-400">
             {username}

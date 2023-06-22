@@ -7,6 +7,8 @@ import CircleButton from "@/components/Buttons/CircleButton";
 import Layout from "@/components/Layout";
 import { signOut } from "next-auth/react";
 
+import { motion } from "framer-motion";
+
 // Icons
 import LightModeIcon from "@mui/icons-material/LightMode";
 import NightsStayIcon from "@mui/icons-material/NightsStay";
@@ -112,17 +114,26 @@ const Preference = ({
   return (
     <Layout userData={currentUserData}>
       <div className="relative flex h-[90%] w-full flex-col items-center px-4 sm:px-28">
-        <h1 className="text-3xl font-extrabold text-neutral-800 transition-colors dark:text-neutral-300 sm:text-4xl">
+        <motion.h1
+          initial={{ y: -20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          className="text-3xl font-extrabold text-neutral-800 transition-colors dark:text-neutral-300 sm:text-4xl"
+        >
           Preference
-        </h1>
-        <div className="relative mt-4 flex h-[85%] w-full flex-col justify-evenly rounded-xl bg-neutral-300/40 text-neutral-700 backdrop-blur-md transition-colors dark:bg-neutral-800/60 dark:text-neutral-200 sm:w-1/3 sm:min-w-[500px] sm:p-6 sm:py-8">
+        </motion.h1>
+        <motion.div
+          initial={{ y: 20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.3 }}
+          className="relative mt-4 flex h-[85%] w-full flex-col justify-evenly rounded-xl bg-neutral-300/40 text-neutral-700 backdrop-blur-md transition-colors dark:bg-neutral-800/60 dark:text-neutral-200 sm:w-1/3 sm:min-w-[500px] sm:p-6 sm:py-8"
+        >
           <div className="mb-2 flex h-max w-full flex-col items-center justify-center">
             <div className="mb-2 flex items-center justify-center">
               <p className="text-sm font-extrabold sm:text-lg">Username</p>
               {isEditUsername ? (
                 <div className="flex w-14 items-center justify-evenly sm:w-16">
                   {isLoading ? (
-                    <LoaderIcon className="h-10 w-10" />
+                    <LoaderIcon className="h-8 w-8" />
                   ) : (
                     <>
                       <CircleButton
@@ -293,7 +304,7 @@ const Preference = ({
           >
             Delete Account
           </p>
-        </div>
+        </motion.div>
       </div>
     </Layout>
   );
