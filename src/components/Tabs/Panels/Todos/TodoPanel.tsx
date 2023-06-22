@@ -27,7 +27,7 @@ import {
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 
-import { useAnimate, stagger, motion, easeIn } from "framer-motion";
+import { useAnimate, stagger } from "framer-motion";
 
 // api
 import { api } from "@/utils/api";

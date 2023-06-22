@@ -1,5 +1,5 @@
 // Hooks
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useWindowWidth } from "@/hooks/useWindowWidth";
 
 // components
@@ -17,9 +17,15 @@ import AddIcon from "@mui/icons-material/Add";
 // type
 import { type RevenueClient } from "@/types/client";
 
+// libs
+import { useAnimate, stagger } from "framer-motion";
+
 // utils
 import { currencyFormatter } from "@/utils/currencyFormatter";
 import { type GetRevenuesOutput } from "@/utils/api";
+
+// store
+import useDateStore from "@/stores/useDateStore";
 
 type RevenuePanelProps = {
   openCreateRevenue: () => void;
@@ -28,13 +34,16 @@ type RevenuePanelProps = {
 };
 
 const RevenuePanel = ({ openCreateRevenue, data }: RevenuePanelProps) => {
-  const [profitData, setProfitData] = useState<RevenueClient[]>([]);
-  const [lossData, setLossData] = useState<RevenueClient[]>([]);
+  const [profitData, setProfitData] = useState<RevenueClient[]>();
+  const [lossData, setLossData] = useState<RevenueClient[]>();
   const [total, setTotal] = useState("$0");
   const [viewAll, setViewAll] = useState(true);
   const [viewProfit, setViewProfit] = useState(false);
   const [viewLoss, setViewLoss] = useState(false);
   const isMediaMatches = useWindowWidth(false, 640);
+  const [scope, animate] = useAnimate();
+  const { year, month, date } = useDateStore((state) => state.dateObj);
+  const prevDateString = useRef<string>();
 
   useEffect(() => {
     if (data) {
@@ -50,6 +59,39 @@ const RevenuePanel = ({ openCreateRevenue, data }: RevenuePanelProps) => {
       setTotal("$0");
     }
   }, [data]);
+
+  useEffect(() => {
+    const dateString = String(year + month + date);
+    if (
+      profitData &&
+      lossData &&
+      (profitData.length || lossData.length) &&
+      dateString !== prevDateString.current
+    ) {
+      animate(
+        "li",
+        { y: [10, 0], opacity: [0, 1] },
+        {
+          duration: 0.2,
+          ease: "linear",
+          delay: stagger(0.1, { startDelay: 0.1 }),
+        }
+      )
+        .then(() => {
+          return;
+        })
+        .catch(() => {
+          return;
+        });
+    }
+  }, [profitData, lossData]);
+
+  useEffect(() => {
+    const dateString = String(year + month + date);
+    if ((profitData || lossData) && dateString !== prevDateString.current) {
+      prevDateString.current = dateString;
+    }
+  }, [profitData, lossData]);
 
   return (
     <div className="mt-4 flex h-[95%] w-[90%] flex-col rounded-lg bg-neutral-300/40 px-4 pt-4 backdrop-blur-sm transition-colors dark:bg-neutral-800/60 sm:h-[80%] sm:p-6 lg:w-3/5">
@@ -128,8 +170,11 @@ const RevenuePanel = ({ openCreateRevenue, data }: RevenuePanelProps) => {
             </p>
           </div>
         </div>
-        <div className="flex h-3/4 w-full flex-col items-center justify-around sm:h-full sm:w-3/4">
-          <div
+        <div
+          ref={scope}
+          className="flex h-3/4 w-full flex-col items-center justify-around sm:h-full sm:w-3/4"
+        >
+          <ul
             className={`flex w-full overflow-y-scroll rounded-xl bg-emerald-400/50 px-2 py-2 transition-all delay-[100] duration-200 dark:bg-emerald-300/50 ${
               viewProfit
                 ? "h-full"
@@ -138,7 +183,7 @@ const RevenuePanel = ({ openCreateRevenue, data }: RevenuePanelProps) => {
                 : "h-[45%]"
             }`}
           >
-            {profitData.length ? (
+            {profitData && profitData.length ? (
               <ListView className="pt-2 sm:px-6 sm:py-3">
                 {profitData.map((data) => (
                   <RevenueItem data={data} key={data.id} />
@@ -147,11 +192,11 @@ const RevenuePanel = ({ openCreateRevenue, data }: RevenuePanelProps) => {
             ) : (
               <NoRevenus color="green" />
             )}
-          </div>
+          </ul>
           {viewAll && (
             <div className="h-[1px] w-[90%] border-b-2 border-dotted border-b-neutral-600 dark:border-b-neutral-200 " />
           )}
-          <div
+          <ul
             className={`flex w-full overflow-y-scroll rounded-xl bg-red-400/50 px-2 pt-2 transition-all delay-[100] duration-200 dark:bg-red-300/50 ${
               viewLoss
                 ? "h-full"
@@ -160,7 +205,7 @@ const RevenuePanel = ({ openCreateRevenue, data }: RevenuePanelProps) => {
                 : "h-[45%]"
             }`}
           >
-            {lossData.length ? (
+            {lossData && lossData.length ? (
               <ListView className="pt-2 sm:px-6 sm:py-3">
                 {lossData.map((data) => (
                   <RevenueItem data={data} key={data.id} />
@@ -169,7 +214,7 @@ const RevenuePanel = ({ openCreateRevenue, data }: RevenuePanelProps) => {
             ) : (
               <NoRevenus color="red" />
             )}
-          </div>
+          </ul>
         </div>
       </div>
     </div>

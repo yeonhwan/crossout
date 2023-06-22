@@ -1,5 +1,5 @@
 // hooks
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 
 // Components
 import TabPanel from "@/components/Tabs/TabPanel";
@@ -38,12 +38,11 @@ const HomeTabs = () => {
   const [tabValue, setTabValue] = useState<TabPanels>(TabPanels.todos);
   const [isOpenTodoDialog, setIsOpenTodoDialog] = useState(false);
   const [isOpenRevenueDialog, setIsOpenRevenueDialog] = useState(false);
-  const [moveTabLeft, setMoveTabLeft] = useState(true);
-  const prevTabValue = useRef(tabValue);
-  const { year, month, date } = useDateStore((state) => state.dateObj);
   const [todoTabData, setTodoTabData] = useState<GetTodoOutput>();
   const [daylogTabData, setDaylogTabData] = useState<GetDayLogOutput>();
   const [revenueTabData, setRevenueTabData] = useState<GetRevenuesOutput>();
+  const prevTabValue = useRef(tabValue);
+  const { year, month, date } = useDateStore((state) => state.dateObj);
 
   const openCreateTodo = () => {
     setIsOpenTodoDialog(true);
