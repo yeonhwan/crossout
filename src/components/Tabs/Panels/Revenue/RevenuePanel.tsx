@@ -184,7 +184,7 @@ const RevenuePanel = ({ openCreateRevenue, data }: RevenuePanelProps) => {
             }`}
           >
             {profitData && profitData.length ? (
-              <ListView className="pt-2 sm:px-6 sm:py-3">
+              <ListView viewHeight={95} className="pt-2 sm:px-6 sm:py-1">
                 {profitData.map((data) => (
                   <RevenueItem data={data} key={data.id} />
                 ))}
@@ -206,7 +206,7 @@ const RevenuePanel = ({ openCreateRevenue, data }: RevenuePanelProps) => {
             }`}
           >
             {lossData && lossData.length ? (
-              <ListView className="pt-2 sm:px-6 sm:py-3">
+              <ListView viewHeight={95} className="pt-2 sm:px-6 sm:py-3">
                 {lossData.map((data) => (
                   <RevenueItem data={data} key={data.id} />
                 ))}

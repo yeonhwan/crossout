@@ -314,7 +314,7 @@ const RevenueItem = ({ data }: RevenueItemProps) => {
 
   return (
     <li
-      className={`relative m-2 flex w-full items-center justify-between rounded-lg px-2 py-1 drop-shadow-lg transition-all sm:p-2 ${
+      className={`relative my-1 flex w-full items-center justify-between rounded-lg px-2 py-1 drop-shadow-lg transition-all sm:my-1.5 sm:p-2 ${
         isProfit ? "bg-emerald-500 dark:bg-emerald-600" : "bg-red-400"
       } ${isUpdating ? "h-16 sm:h-20" : "h-12 sm:h-16"}`}
     >

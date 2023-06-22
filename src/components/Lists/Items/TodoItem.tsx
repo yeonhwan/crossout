@@ -386,7 +386,7 @@ const TodoItem = ({ data, sortingTodos }: TodoItemProps) => {
 
   return (
     <li
-      className={`my-1.5 flex w-[90%] items-center rounded-lg border-0 shadow-lg ring-2 drop-shadow-xl transition-all duration-200 sm:w-5/6 ${
+      className={`my-1.5 flex w-[90%] items-center rounded-lg border-0 shadow-lg ring-2 drop-shadow-xl transition-all duration-200 sm:my-2.5 sm:w-5/6 ${
         isUpdating
           ? "h-28 bg-teal-500 ring-teal-300 dark:bg-teal-700"
           : completed
