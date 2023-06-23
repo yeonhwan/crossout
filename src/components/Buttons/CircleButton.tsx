@@ -4,7 +4,7 @@ import { twMerge } from "tailwind-merge";
 
 type ButtonProps = {
   children: JSX.Element;
-  onClick?: (e?: React.MouseEvent<HTMLButtonElement>) => void;
+  onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
   info?: string;
   className?: string;
   infoPlace?: "top" | "bottom" | "left" | "right";

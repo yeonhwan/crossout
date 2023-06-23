@@ -9,9 +9,15 @@ type ListViewProps = {
   children?: JSX.Element | JSX.Element[];
   className?: string;
   viewHeight?: number;
+  maskOn?: boolean;
 };
 
-const ListView = ({ children, className, viewHeight }: ListViewProps) => {
+const ListView = ({
+  children,
+  className,
+  viewHeight,
+  maskOn = true,
+}: ListViewProps) => {
   const defaultClassName = "flex h-max min-h-full w-full flex-col items-center";
 
   if (className) {
@@ -24,7 +30,7 @@ const ListView = ({ children, className, viewHeight }: ListViewProps) => {
     return (
       <div
         className={`flex ${height} w-full justify-center overflow-scroll ${
-          masking_styles.masking as string
+          maskOn ? (masking_styles.masking as string) : ""
         }`}
       >
         <div className={className || defaultClassName}>{children}</div>
@@ -34,7 +40,7 @@ const ListView = ({ children, className, viewHeight }: ListViewProps) => {
     return (
       <div
         className={`flex h-full w-full overflow-scroll ${
-          masking_styles.masking as string
+          maskOn ? (masking_styles.masking as string) : ""
         }`}
       >
         <div className={className || defaultClassName}>{children}</div>
