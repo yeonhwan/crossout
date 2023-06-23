@@ -16,79 +16,101 @@ import LoaderIcon from "public/icons/spinner.svg";
 
 // types
 import { type TodoWithListboardType } from "@/types/client";
+import { type SortingOption } from "./TodoPanel";
 
 type TodoControllersProps = {
-  sortingTodos: boolean;
-  setSortingTodos: Dispatch<SetStateAction<boolean>>;
+  reorderingTodos: boolean;
+  setReorderingTodos: Dispatch<SetStateAction<boolean>>;
   updateTodoIndex: () => void;
   prevTodosData: MutableRefObject<TodoWithListboardType[] | undefined>;
   prevTodoIndexes: MutableRefObject<number[]>;
   setTodosData: Dispatch<SetStateAction<TodoWithListboardType[] | undefined>>;
   setTodoIndexes: Dispatch<SetStateAction<number[]>>;
-  isSortProceed: boolean;
-  setIsSortProceed: Dispatch<SetStateAction<boolean>>;
+  isReorderProceed: boolean;
+  setIsReorderProceed: Dispatch<SetStateAction<boolean>>;
+  sortingOption: SortingOption;
+  setSortingOption: Dispatch<SetStateAction<SortingOption>>;
 };
 
 const TodoControllers = ({
-  sortingTodos,
-  setSortingTodos,
+  reorderingTodos,
+  setReorderingTodos,
   updateTodoIndex,
   setTodosData,
   prevTodosData,
-  isSortProceed,
-  setIsSortProceed,
+  isReorderProceed,
+  setIsReorderProceed,
   prevTodoIndexes,
   setTodoIndexes,
+  sortingOption,
+  setSortingOption,
 }: TodoControllersProps) => {
   const cancelSortingHandler = () => {
     setTodosData(prevTodosData.current);
-    setSortingTodos(false);
+    setReorderingTodos(false);
     setTodoIndexes(prevTodoIndexes.current);
   };
 
   const applySortingHandler = () => {
-    setSortingTodos(false);
-    setIsSortProceed(true);
+    setReorderingTodos(false);
+    setIsReorderProceed(true);
     updateTodoIndex();
   };
 
   return (
     <div className="flex h-max w-max items-center justify-center self-end">
-      {isSortProceed && (
+      {isReorderProceed && (
         <LoaderIcon className="h-8 w-8 fill-neutral-700 dark:fill-white" />
       )}
       <div className="my-1 mr-4 flex h-max min-w-max items-center justify-center rounded-full px-2 py-1">
-        {/* {!sortingTodos && (
-          <select className="mx-2 rounded-xl bg-neutral-600 px-2 py-[3px] text-white outline-none hover:cursor-pointer">
-            <option>sort</option>
-          </select>
-        )} */}
-        {!sortingTodos ? (
-          <CircleButton
-            onClick={() => {
-              setSortingTodos(true);
+        {!reorderingTodos && (
+          <select
+            value={sortingOption}
+            onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
+              setSortingOption(e.currentTarget.value as SortingOption);
+              if (sessionStorage.getItem("sort")) {
+                sessionStorage.removeItem("sort");
+              }
+              sessionStorage.setItem("sort", e.currentTarget.value);
             }}
-            info="switching mode"
-            className="h-6 w-6 hover:bg-cyan-400 dark:hover:bg-cyan-500"
+            className="mx-2 rounded-xl bg-neutral-600 px-1 py-1 text-center text-xs text-white outline-none hover:cursor-pointer"
           >
-            <OpenWithIcon className="h-4 w-4" />
-          </CircleButton>
-        ) : (
+            <option value="default">default</option>
+            <option value="completed">completed</option>
+            <option value="urgency">urgency</option>
+            <option value="recent">recent</option>
+          </select>
+        )}
+        {sortingOption === "default" && (
           <>
-            <CircleButton
-              onClick={cancelSortingHandler}
-              info="cancel"
-              className="mr-1 h-6 w-6 bg-red-300 hover:bg-red-400  dark:bg-red-400 dark:hover:bg-red-500"
-            >
-              <CloseIcon className="h-4 w-4" />
-            </CircleButton>
-            <CircleButton
-              onClick={applySortingHandler}
-              info="apply"
-              className="mr-1 h-6 w-6 bg-emerald-300 hover:bg-emerald-400 dark:bg-emerald-400 dark:hover:bg-emerald-500"
-            >
-              <CheckIcon className="h-4 w-4" />
-            </CircleButton>
+            {!reorderingTodos ? (
+              <CircleButton
+                onClick={() => {
+                  setReorderingTodos(true);
+                }}
+                info="switching mode"
+                className="h-6 w-6 hover:bg-cyan-400 dark:hover:bg-cyan-500"
+              >
+                <OpenWithIcon className="h-4 w-4" />
+              </CircleButton>
+            ) : (
+              <>
+                <CircleButton
+                  onClick={cancelSortingHandler}
+                  info="cancel"
+                  className="mr-1 h-6 w-6 bg-red-300 hover:bg-red-400  dark:bg-red-400 dark:hover:bg-red-500"
+                >
+                  <CloseIcon className="h-4 w-4" />
+                </CircleButton>
+                <CircleButton
+                  onClick={applySortingHandler}
+                  info="apply"
+                  className="mr-1 h-6 w-6 bg-emerald-300 hover:bg-emerald-400 dark:bg-emerald-400 dark:hover:bg-emerald-500"
+                >
+                  <CheckIcon className="h-4 w-4" />
+                </CircleButton>
+              </>
+            )}
           </>
         )}
       </div>

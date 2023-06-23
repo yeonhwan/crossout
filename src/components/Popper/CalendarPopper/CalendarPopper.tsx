@@ -104,10 +104,10 @@ const CalendarPopper = ({
       <div className="flex h-max w-full justify-center drop-shadow-md">
         <CircleButton
           info="Todos"
-          className={`h-10 w-10 rounded-r-none bg-neutral-200 hover:bg-neutral-400 dark:bg-neutral-700 ${
+          className={`h-10 w-10 rounded-r-none bg-neutral-200 dark:bg-neutral-700 ${
             field === "todo"
-              ? "pointer-events-none bg-emerald-500 dark:bg-emerald-400"
-              : ""
+              ? "pointer-events-none bg-teal-500 dark:bg-teal-400"
+              : "hover:bg-neutral-400 dark:hover:bg-neutral-500"
           }`}
           onClick={() => {
             setField("todo");
@@ -122,10 +122,10 @@ const CalendarPopper = ({
           />
         </CircleButton>
         <CircleButton
-          className={`h-10 w-10 rounded-none bg-neutral-200 hover:bg-neutral-400 dark:bg-neutral-700 ${
+          className={`h-10 w-10 rounded-none bg-neutral-200 dark:bg-neutral-700 ${
             field === "daylog"
-              ? "pointer-events-none bg-emerald-400 dark:bg-emerald-500"
-              : ""
+              ? "pointer-events-none bg-teal-400 dark:bg-teal-500"
+              : "hover:bg-neutral-400 dark:hover:bg-neutral-500"
           }`}
           info="Daylogs"
           onClick={() => {
@@ -141,10 +141,10 @@ const CalendarPopper = ({
           />
         </CircleButton>
         <CircleButton
-          className={`h-10 w-10 rounded-l-none bg-neutral-200 hover:bg-neutral-400 dark:bg-neutral-700 ${
+          className={`h-10 w-10 rounded-l-none bg-neutral-200 dark:bg-neutral-700 ${
             field === "revenue"
-              ? "pointer-events-none bg-emerald-400 dark:bg-emerald-500"
-              : ""
+              ? "pointer-events-none bg-teal-400 dark:bg-teal-500"
+              : "hover:bg-neutral-400 dark:hover:bg-neutral-500"
           }`}
           info="Revenues"
           onClick={() => {

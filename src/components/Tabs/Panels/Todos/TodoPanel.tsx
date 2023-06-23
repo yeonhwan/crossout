@@ -47,13 +47,16 @@ type TodoPanelProps = {
   isTodoLoading: boolean;
 };
 
+export type SortingOption = "default" | "completed" | "urgency" | "recent";
+
 const TodoPanel = ({ openCreateTodo, data, isTodoLoading }: TodoPanelProps) => {
   const [todosData, setTodosData] = useState<
     TodoWithListboardType[] | undefined
   >(undefined);
   const [todoIndexes, setTodoIndexes] = useState<number[]>([]);
-  const [sortingTodos, setSortingTodos] = useState(false);
-  const [isSortProceed, setIsSortProceed] = useState(false);
+  const [reorderingTodos, setReorderingTodos] = useState(false);
+  const [isReorderProceed, setIsReorderProceed] = useState(false);
+  const [sortingOption, setSortingOption] = useState<SortingOption>("default");
   const sensors = useSensors(useSensor(PointerSensor));
   const [scope, animate] = useAnimate();
   const { setSnackbarOpen, setSnackbarData } = useSnackbarStore(
@@ -64,14 +67,84 @@ const TodoPanel = ({ openCreateTodo, data, isTodoLoading }: TodoPanelProps) => {
   const prevTodosData = useRef<TodoWithListboardType[]>();
   const prevTodoIndexes = useRef<number[]>([]);
   const prevDateString = useRef<string>();
+  const utils = api.useContext();
+
+  const sortTodosData = (
+    todos: TodoWithListboardType[],
+    mode: SortingOption
+  ) => {
+    switch (mode) {
+      case "default":
+        setTodosData(todos);
+        return;
+      case "completed":
+        const completedTodos: TodoWithListboardType[] = [];
+        const uncompletedTodos: TodoWithListboardType[] = [];
+        todos.forEach((todo) => {
+          if (todo.completed) {
+            completedTodos.push(todo);
+          } else {
+            uncompletedTodos.push(todo);
+          }
+        });
+        setTodosData([...completedTodos, ...uncompletedTodos]);
+        return;
+      case "recent":
+        const sortedTodos = [...todos];
+        sortedTodos.sort((cur, next) => {
+          const curDate = new Date(cur.createdAt);
+          const nextDate = new Date(next.createdAt);
+          return nextDate.getTime() - curDate.getTime();
+        });
+        setTodosData(sortedTodos);
+        return;
+      case "urgency":
+        const urgentTodos: TodoWithListboardType[] = [];
+        const importantTodos: TodoWithListboardType[] = [];
+        const trivialTodos: TodoWithListboardType[] = [];
+        todos.forEach((todo) => {
+          if (todo.urgency === "urgent") {
+            urgentTodos.push(todo);
+          } else if (todo.urgency === "important") {
+            importantTodos.push(todo);
+          } else {
+            trivialTodos.push(todo);
+          }
+        });
+        setTodosData([...urgentTodos, ...importantTodos, ...trivialTodos]);
+        return;
+
+      default:
+        throw new Error("Wrong Parameter");
+    }
+  };
 
   useEffect(() => {
-    setTodosData(data ? data.todos : undefined);
-    setTodoIndexes(data ? (data.todoIndex as number[]) : []);
-    prevTodosData.current = data ? data.todos : undefined;
-    dateRecordId.current = data ? data.id : null;
-    prevTodoIndexes.current = data ? (data.todoIndex as number[]) : [];
-  }, [data]);
+    const storedSortOption = sessionStorage.getItem("sort");
+    console.log(storedSortOption);
+    if (
+      storedSortOption &&
+      (storedSortOption === "default" ||
+        storedSortOption === "completed" ||
+        storedSortOption === "recent" ||
+        storedSortOption === "urgency")
+    ) {
+      setSortingOption(storedSortOption);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!data) {
+      setTodosData(undefined);
+      setTodoIndexes([]);
+      return;
+    }
+    sortTodosData(data.todos, sortingOption);
+    setTodoIndexes(data.todoIndex as number[]);
+    prevTodosData.current = data.todos;
+    dateRecordId.current = data.id;
+    prevTodoIndexes.current = data.todoIndex as number[];
+  }, [data, sortingOption]);
 
   useEffect(() => {
     const dateString = String(year + month + date);
@@ -96,10 +169,6 @@ const TodoPanel = ({ openCreateTodo, data, isTodoLoading }: TodoPanelProps) => {
           return;
         });
     }
-  }, [todosData]);
-
-  useEffect(() => {
-    const dateString = String(year + month + date);
     if (todosData && dateString !== prevDateString.current) {
       prevDateString.current = dateString;
     }
@@ -131,24 +200,25 @@ const TodoPanel = ({ openCreateTodo, data, isTodoLoading }: TodoPanelProps) => {
   }
 
   const { mutate: updateTodoIndex } = api.todo.updateTodoIndex.useMutation({
-    onSuccess: () => {
+    onSuccess: async () => {
+      await utils.todo.getTodos.invalidate();
       setSnackbarData({
         message: "Updated todo indexes",
         role: SnackbarRole.Success,
       });
-      setIsSortProceed(false);
+      setIsReorderProceed(false);
       setSnackbarOpen(true);
       return;
     },
     onError: () => {
-      setIsSortProceed(false);
+      setIsReorderProceed(false);
       setSnackbarData({
         message: "Updated failed. Please try again or report the issue.",
         role: SnackbarRole.Error,
       });
       setSnackbarOpen(true);
       setTodosData(prevTodosData.current);
-      setIsSortProceed(false);
+      setIsReorderProceed(false);
     },
   });
 
@@ -176,15 +246,17 @@ const TodoPanel = ({ openCreateTodo, data, isTodoLoading }: TodoPanelProps) => {
     return (
       <div className="mt-4 flex h-[95%] max-h-[72vh] w-[90%] flex-col rounded-lg bg-neutral-300/40 py-2 backdrop-blur-sm transition-colors dark:bg-neutral-800/60 sm:h-[80%] lg:w-3/5">
         <TodoControllers
-          sortingTodos={sortingTodos}
-          setSortingTodos={setSortingTodos}
+          reorderingTodos={reorderingTodos}
+          setReorderingTodos={setReorderingTodos}
           updateTodoIndex={updateTodoIndexApplyHandler}
           prevTodosData={prevTodosData}
           prevTodoIndexes={prevTodoIndexes}
           setTodosData={setTodosData}
-          isSortProceed={isSortProceed}
-          setIsSortProceed={setIsSortProceed}
+          isReorderProceed={isReorderProceed}
+          setIsReorderProceed={setIsReorderProceed}
           setTodoIndexes={setTodoIndexes}
+          sortingOption={sortingOption}
+          setSortingOption={setSortingOption}
         />
         <ListView viewHeight={80}>
           <DndContext sensors={sensors} onDragEnd={handleDragEnd}>
@@ -200,16 +272,16 @@ const TodoPanel = ({ openCreateTodo, data, isTodoLoading }: TodoPanelProps) => {
                   <SortableWrapper
                     key={data.id}
                     id={data.id}
-                    active={sortingTodos}
+                    active={reorderingTodos}
                   >
-                    <TodoItem data={data} sortingTodos={sortingTodos} />
+                    <TodoItem data={data} sortingTodos={reorderingTodos} />
                   </SortableWrapper>
                 ))}
               </ul>
             </SortableContext>
           </DndContext>
         </ListView>
-        {!sortingTodos && (
+        {!reorderingTodos && (
           <CircleButton
             info="Add Todo"
             onClick={openCreateTodo}
