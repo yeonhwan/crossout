@@ -88,7 +88,7 @@ const TodoControllers = ({
                 onClick={() => {
                   setReorderingTodos(true);
                 }}
-                info="switching mode"
+                info="reorder todos"
                 className="h-6 w-6 hover:bg-cyan-400 dark:hover:bg-cyan-500"
               >
                 <OpenWithIcon className="h-4 w-4" />
