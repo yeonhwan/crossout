@@ -165,3 +165,20 @@ select:focus-visible {
     background-position: 0% 48%;
   }
 }
+
+// progress bar css
+#nprogress {
+  pointer-events: none;
+}
+
+#nprogress .bar {
+  background: rgb(20 184 166);
+
+  position: fixed;
+  z-index: 1031;
+  top: 0;
+  left: 0;
+
+  width: 100%;
+  height: 2px;
+}

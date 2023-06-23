@@ -1,12 +1,12 @@
 import { type AppProps } from "next/app";
 import { type Session } from "next-auth";
 import { SessionProvider } from "next-auth/react";
-import Layout from "@/components/Layout";
 import { api } from "@/utils/api";
 import "@/styles/globals.scss";
 import { type NextPage } from "next";
 import { StyledEngineProvider } from "@mui/material/styles";
-import { type GetServerSidePropsContext } from "next";
+import { Router } from "next/router";
+import NProgress from "nprogress";
 
 // components
 import SnackbarComponent from "@/components/Snackbar/Snackbar";
@@ -22,6 +22,10 @@ type AppPropsWithLayout = AppProps<{ session: Session | null }> & {
   Component: NextPageWithLayout;
   pageProps: object;
 };
+
+Router.events.on("routeChangeStart", () => NProgress.start());
+Router.events.on("routeChangeComplete", () => NProgress.done());
+Router.events.on("routeChangeError", () => NProgress.done());
 
 const MyApp = ({
   Component,
