@@ -88,7 +88,7 @@ const Sidebar = ({
             }`}
           >
             <ShowChartIcon className="mr-2 h-5 w-5 lg:h-6 lg:w-6" />
-            Charts
+            My Stats
           </li>
           <li
             onClick={() => {

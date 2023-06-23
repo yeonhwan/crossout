@@ -6,7 +6,7 @@ import ChartCalenderPopper from "@/components/Popper/CalendarPopper/ChartCalenda
 
 // hooks
 import { useAnimation } from "@/hooks/useAnimation";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 // icons
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
@@ -31,7 +31,7 @@ import { api } from "@/utils/api";
 
 import { type InferGetServerSidePropsType } from "next";
 import dayjs from "dayjs";
-import { motion } from "framer-motion";
+import { motion, useAnimate, stagger } from "framer-motion";
 
 // icons
 import PercentageIcon from "public/icons/percentage.svg";
@@ -110,6 +110,8 @@ const Mystats = ({
   );
   const [moodsSummaryData, setMoodsSummaryData] = useState(moods.summary);
 
+  const [scope, animate] = useAnimate();
+
   const { isFetching } = api.daterecord.getYearlyChartData.useQuery(
     { dateObject: { year: dateInput.get("year") } },
     {
@@ -138,6 +140,20 @@ const Mystats = ({
     }
   );
 
+  useEffect(() => {
+    animate(
+      ".stat-item",
+      { y: [20, 0], opacity: [0, 1] },
+      { delay: stagger(0.05, { startDelay: 0.05 }) }
+    )
+      .then(() => {
+        return;
+      })
+      .catch(() => {
+        return;
+      });
+  }, [selectedField]);
+
   return (
     <Layout userData={userData}>
       <div className="relative flex h-[90%] w-full flex-col px-4 lg:px-28">
@@ -154,13 +170,21 @@ const Mystats = ({
           </p>
         </motion.div>
         <motion.div
+          ref={scope}
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.3 }}
+          transition={{
+            duration: 0.3,
+          }}
           className="mt-4 flex h-[85%] w-full flex-col items-start overflow-scroll rounded-xl bg-neutral-300/40 p-6 backdrop-blur-lg transition-colors dark:bg-neutral-800/40 lg:h-[80%] lg:flex-row lg:justify-evenly lg:overflow-visible"
         >
           <div className="relative flex h-full w-full flex-col justify-between rounded-xl lg:w-[20%] lg:justify-evenly">
-            <div className="flex h-[12%] w-max flex-row items-center justify-evenly lg:w-full lg:flex-col lg:justify-between">
+            <motion.div
+              initial={{ y: 20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ duration: 0.3, delay: 0.1 }}
+              className="flex h-[12%] w-max flex-row items-center justify-evenly lg:w-full lg:flex-col lg:justify-between"
+            >
               <div className="flex w-full items-center justify-evenly lg:w-[50%]">
                 <select
                   onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -211,9 +235,14 @@ const Mystats = ({
                   )}
                 </div>
               </div>
-            </div>
-            <div className="flex h-[200px] w-full flex-row lg:h-[80%] lg:flex-col ">
-              <div className="mt-2 flex h-full w-1/2 items-center justify-center rounded-xl bg-neutral-300/40 p-4 shadow-lg transition-colors dark:bg-neutral-700/80 lg:mt-0  lg:h-[70%] lg:w-full">
+            </motion.div>
+            <motion.div
+              initial={{ y: 20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ duration: 0.3, delay: 0.15 }}
+              className="flex h-[200px] w-full flex-row lg:h-[80%] lg:flex-col"
+            >
+              <div className="stat-item mt-2 flex h-full w-1/2 items-center justify-center rounded-xl bg-neutral-300/40 p-4 shadow-lg transition-colors dark:bg-neutral-700/80 lg:mt-0  lg:h-[70%] lg:w-full">
                 <DoughnutChart
                   data={
                     selectedField === "todo"
@@ -226,7 +255,7 @@ const Mystats = ({
                 />
               </div>
               <div className="mt-2 flex h-full w-1/2 flex-col items-center justify-evenly rounded-xl px-4 lg:mt-0 lg:h-[25%] lg:w-full lg:px-0">
-                <p className="flex h-[45%] w-full flex-col items-center justify-evenly rounded-lg bg-neutral-400/10 px-4 py-2 text-[5px] font-bold text-white shadow-2xl lg:h-[40%] lg:flex-row lg:justify-start lg:text-lg">
+                <p className="stat-item flex h-[45%] w-full flex-col items-center justify-evenly rounded-lg bg-neutral-400/10 px-4 py-2 text-[5px] font-bold text-white shadow-2xl lg:h-[40%] lg:flex-row lg:justify-start lg:text-lg">
                   {selectedField === "mood" ? (
                     <SmileIcon className="mr-0 h-6 w-6 rounded-lg bg-neutral-900/20 p-1 shadow-xl lg:mr-2" />
                   ) : (
@@ -245,7 +274,7 @@ const Mystats = ({
                     ? revenuesSummaryData.totalCount
                     : `${moodsSummaryData.goodRatio} %`}
                 </p>
-                <p className="flex h-[45%] w-full flex-col items-center justify-evenly rounded-lg bg-neutral-400/10 px-4 py-1 text-[5px] font-bold text-white shadow-2xl lg:h-[40%] lg:flex-row lg:justify-start lg:text-lg">
+                <p className="stat-item flex h-[45%] w-full flex-col items-center justify-evenly rounded-lg bg-neutral-400/10 px-4 py-1 text-[5px] font-bold text-white shadow-2xl lg:h-[40%] lg:flex-row lg:justify-start lg:text-lg">
                   {selectedField === "todo" ? (
                     <ChecklistIcon className="mr-0 h-6 w-6 rounded-lg bg-neutral-900/20 p-1 shadow-xl lg:mr-2" />
                   ) : selectedField === "revenue" ? (
@@ -273,10 +302,10 @@ const Mystats = ({
                     : `${moodsSummaryData.badRatio} %`}
                 </p>
               </div>
-            </div>
+            </motion.div>
           </div>
           <div className="flex h-max w-full flex-col-reverse justify-between lg:h-full lg:w-[75%] lg:flex-col lg:px-4">
-            <div className="flex h-[300px] w-full overflow-x-scroll rounded-xl bg-neutral-300/40 shadow-lg transition-colors dark:bg-neutral-700/80 lg:h-[60%] lg:items-center lg:justify-center">
+            <div className="stat-item flex h-[300px] w-full overflow-x-scroll rounded-xl bg-neutral-300/40 shadow-lg transition-colors dark:bg-neutral-700/80 lg:h-[60%] lg:items-center lg:justify-center">
               <YearChart
                 data={
                   selectedField === "todo"
@@ -298,7 +327,7 @@ const Mystats = ({
             </div>
             <div className="my-2 flex h-[30%] w-full justify-between lg:my-0 lg:h-[35%]">
               <div
-                className={`flex h-full w-[23%] flex-col items-center justify-center rounded-xl bg-transparent lg:h-full lg:w-[23%] lg:bg-gradient-to-br lg:shadow-lg ${
+                className={`stat-item flex h-full w-[23%] flex-col items-center justify-center rounded-xl bg-transparent lg:h-full lg:w-[23%] lg:bg-gradient-to-br lg:shadow-lg ${
                   selectedField === "todo"
                     ? "from-pink-300 to-pink-500"
                     : selectedField === "revenue"
@@ -345,7 +374,7 @@ const Mystats = ({
                 </p>
               </div>
               <div
-                className={`flex h-full w-[23%] flex-col items-center justify-center rounded-xl bg-transparent lg:bg-gradient-to-br lg:shadow-lg ${
+                className={`stat-item flex h-full w-[23%] flex-col items-center justify-center rounded-xl bg-transparent lg:bg-gradient-to-br lg:shadow-lg ${
                   selectedField === "todo"
                     ? "from-red-300 to-red-500"
                     : selectedField === "revenue"
@@ -395,7 +424,7 @@ const Mystats = ({
                 </p>
               </div>
               {selectedField === "mood" ? (
-                <div className="relative h-full w-[46%] flex-col rounded-xl bg-neutral-400/40 p-4 shadow-lg">
+                <div className="stat-item relative h-full w-[46%] flex-col rounded-xl bg-neutral-400/40 p-4 shadow-lg">
                   <p className="text-xs font-extrabold text-white lg:text-xl">
                     Did You Know ?
                   </p>
@@ -424,7 +453,7 @@ const Mystats = ({
               ) : (
                 <>
                   <div
-                    className={`flex h-full w-[23%] flex-col items-center justify-center rounded-xl bg-transparent lg:bg-gradient-to-br lg:shadow-lg ${
+                    className={`stat-item flex h-full w-[23%] flex-col items-center justify-center rounded-xl bg-transparent lg:bg-gradient-to-br lg:shadow-lg ${
                       selectedField === "todo"
                         ? "from-cyan-300 to-blue-500"
                         : selectedField === "revenue"
@@ -459,7 +488,7 @@ const Mystats = ({
                     </p>
                   </div>
                   <div
-                    className={`flex h-full w-[23%] flex-col items-center justify-center rounded-xl bg-transparent lg:bg-gradient-to-br lg:shadow-lg ${
+                    className={`stat-item flex h-full w-[23%] flex-col items-center justify-center rounded-xl bg-transparent lg:bg-gradient-to-br lg:shadow-lg ${
                       selectedField === "todo"
                         ? "from-lime-300 to-emerald-500"
                         : "from-red-300 to-red-500"

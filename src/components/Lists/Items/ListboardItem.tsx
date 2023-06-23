@@ -96,7 +96,7 @@ const ListboardItem = ({
       },
     });
 
-  const { mutate: deleteListboard } =
+  const { mutate: deleteListboard, isLoading: deleteListboardLoading } =
     api.listboards.deleteListboard.useMutation({
       onSuccess: async (res) => {
         const { content } = res;
@@ -418,11 +418,14 @@ const ListboardItem = ({
                         <ClearIcon className="h-3 w-3" />
                       </CircleButton>
                     </>
+                  ) : deleteListboardLoading ? (
+                    <LoaderIcon className="h-6 w-6 fill-neutral-600 dark:fill-white" />
                   ) : (
                     <>
                       <CircleButton
                         info="Edit listboard title"
-                        onClick={() => {
+                        onClick={(e) => {
+                          e.stopPropagation();
                           setTitleUpdate(true);
                         }}
                         className="h-5 w-5 rounded-md bg-orange-300 hover:bg-orange-400 dark:bg-orange-400 dark:hover:bg-orange-500"
@@ -530,14 +533,9 @@ const ListboardItem = ({
                         </p>
                         <span
                           className="group/icon ml-1 flex h-4 w-4 items-center justify-center rounded-full transition-none hover:cursor-pointer hover:bg-neutral-500"
-                          onClick={() => {
+                          onClick={(e) => {
+                            e.stopPropagation();
                             setDescriptionUpdate(true);
-                          }}
-                          onMouseDown={(e) => {
-                            e.stopPropagation();
-                          }}
-                          onMouseUp={(e) => {
-                            e.stopPropagation();
                           }}
                         >
                           <EditIcon className="h-3 w-3 fill-neutral-500 transition-none group-hover/icon:fill-neutral-300 dark:fill-neutral-300" />
