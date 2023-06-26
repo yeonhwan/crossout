@@ -105,7 +105,11 @@ const ListboardIndex = ({
               />
             ))}
           </ListView>
-          <div className="flex self-end pr-4 sm:pr-0">
+          <div
+            className={`${
+              backDropOpen ? "z-0" : "z-50"
+            } flex self-end pr-4 sm:pr-0`}
+          >
             <CircleButton
               className=""
               info="Add new listboard"
@@ -137,11 +141,11 @@ const ListboardIndex = ({
 
   return (
     <Layout userData={userData}>
-      <div className="flex h-[90%] w-full flex-col px-5 sm:px-20 md:px-40">
+      <div className="flex h-[90%] max-h-[900px] min-h-[500px] w-full max-w-[1700px] flex-col px-5 sm:px-20 md:px-40 lg:min-h-[700px]">
         <motion.div
           initial={{ y: -20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          className="flex h-[7%] flex-col items-center sm:items-start"
+          className="mb-2 flex h-[7%] flex-col items-center sm:items-start"
         >
           <h1 className="text-4xl font-extrabold text-neutral-800 dark:text-neutral-300 sm:text-4xl">
             Listboards

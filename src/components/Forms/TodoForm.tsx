@@ -116,7 +116,7 @@ const TodoForm = (
   return (
     <form
       ref={ref}
-      className="flex h-4/5 max-h-[550px] w-[90%] flex-col items-center justify-around rounded-lg bg-neutral-200/40 text-neutral-800 dark:bg-neutral-800/80 dark:text-neutral-200 sm:w-1/4 sm:min-w-[500px]"
+      className="flex h-4/5 max-h-[550px] min-h-[500px] w-[90%] flex-col items-center justify-around rounded-lg bg-neutral-200/40 text-neutral-800 dark:bg-neutral-800/80 dark:text-neutral-200 sm:min-h-[500px] sm:w-1/4 sm:min-w-[500px]"
     >
       <div className="mb-4 flex h-[10%] w-max flex-col items-center pt-8">
         <span className="mb-2 flex h-10 w-10 items-center justify-center rounded-xl bg-teal-500/50 p-2 dark:bg-teal-500/50">

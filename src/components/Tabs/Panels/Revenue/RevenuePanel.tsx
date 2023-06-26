@@ -96,9 +96,9 @@ const RevenuePanel = ({ openCreateRevenue, data }: RevenuePanelProps) => {
   return (
     <div className="mt-4 flex h-[95%] w-[90%] flex-col rounded-lg bg-neutral-300/40 px-4 pt-4 backdrop-blur-sm transition-colors dark:bg-neutral-800/60 sm:h-[80%] sm:p-6 lg:w-3/5">
       <div className="flex h-full w-full flex-col justify-around sm:flex-row">
-        <div className="relative flex h-20 w-full flex-col-reverse items-center justify-center self-center px-10 sm:h-[65%] sm:w-1/4 sm:min-w-[180px] sm:flex-col sm:justify-between">
-          <div className="flex h-max w-max items-center sm:h-[80%] sm:w-36 sm:flex-col">
-            <div className="flex h-max w-36 items-center justify-evenly rounded-xl bg-neutral-300/60 py-2 transition-colors dark:bg-neutral-600/40 sm:mt-2 sm:h-[80%] sm:max-h-48 sm:w-full sm:flex-col sm:justify-between">
+        <div className="relative flex h-20 w-full flex-col-reverse items-center justify-center self-center px-10 sm:h-[70%] sm:w-1/4 sm:min-w-[180px] sm:flex-col sm:justify-between">
+          <div className="flex h-max w-max items-center sm:h-[90%] sm:w-36 sm:flex-col">
+            <div className="sm:min-h-48 flex h-max w-36 items-center justify-evenly rounded-xl bg-neutral-300/60 py-2 transition-colors dark:bg-neutral-600/40 sm:mt-2 sm:h-[80%] sm:max-h-48 sm:w-full sm:flex-col sm:justify-between">
               <CircleButton
                 className={`h-8 w-8 hover:bg-cyan-400 dark:hover:bg-cyan-500 sm:h-10 sm:w-10 ${
                   viewAll

@@ -43,17 +43,17 @@ const Splash = () => {
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.3 }}
-            className="relative flex h-[80%] w-full flex-col items-center justify-center"
+            className="relative flex h-full max-h-[600px] min-h-[600px] w-full flex-col items-center justify-center"
           >
-            <MainTitle className="absolute bottom-0 h-72 w-72 fill-none" />
-            <Logo className="h-48 w-48 fill-none lg:absolute lg:top-0" />
+            <Logo className="h-44 w-44 translate-y-14 fill-none xl:h-48 xl:w-48" />
+            <MainTitle className="xl::w-72 h-56 w-56 fill-none sm:h-64 sm:w-64 xl:h-72" />
           </motion.div>
         </div>
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.3 }}
-          className="z-20 flex h-full w-full flex-col items-center justify-center lg:h-[80%] lg:w-1/2 lg:min-w-[400px]"
+          className="z-20 flex h-full max-h-[600px] min-h-[650px] w-full flex-col items-center justify-center lg:h-[80%] lg:min-h-[550px] lg:w-1/2 lg:min-w-[400px]"
         >
           <div className="z-20 flex h-full w-[70%] flex-col items-center justify-center rounded-xl bg-transparent from-teal-400 to-cyan-500 lg:w-[90%] lg:bg-gradient-to-br lg:shadow-lg">
             <div className="flex h-full w-full max-w-[500px] flex-col justify-between py-10">

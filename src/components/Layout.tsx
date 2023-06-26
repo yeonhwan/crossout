@@ -30,7 +30,7 @@ const Layout = ({ children, userData }: LayoutProps) => {
     <div
       className={`${isLight ? "" : "dark"} layout relative flex h-full w-full`}
     >
-      <div className="flex h-full w-full flex-col overflow-hidden">
+      <div className="flex h-full w-full flex-col items-center overflow-hidden">
         {background === "2" && (
           <div className="simple absolute left-0 top-0 z-[-1] flex h-full w-full transition-all" />
         )}
