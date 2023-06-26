@@ -7,8 +7,8 @@ const createRevenue = protectedProcedure
   .input(
     z.object({
       data: z.object({
-        purpose: z.string(),
-        revenue: z.number(),
+        purpose: z.string().min(1).max(45),
+        revenue: z.number().gt(0).or(z.number().lt(0)),
       }),
       dateObj: z.object({
         year: z.number(),

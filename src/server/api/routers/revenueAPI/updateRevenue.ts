@@ -7,8 +7,8 @@ const updateRevenue = protectedProcedure
     z.object({
       data: z.object({
         id: z.number(),
-        purpose: z.string(),
-        revenue: z.number(),
+        purpose: z.string().min(1).max(45),
+        revenue: z.number().gt(0).or(z.number().lt(0)),
       }),
     })
   )

@@ -179,7 +179,7 @@ const RevenueItem = ({ data }: RevenueItemProps) => {
           <div
             className={`relative flex h-full w-full items-center justify-between rounded-lg drop-shadow-lg`}
           >
-            <div className="flex h-full w-[15%] items-center justify-center">
+            <div className="flex h-full w-[10%] items-center justify-center sm:w-[10%]">
               <div
                 className={`flex h-6 w-6 items-center justify-center rounded-full sm:h-8 sm:w-8 ${
                   isProfit ? "bg-emerald-400" : "bg-red-300"
@@ -193,54 +193,64 @@ const RevenueItem = ({ data }: RevenueItemProps) => {
               </div>
             </div>
             <div className="flex h-full w-[60%] flex-col items-center justify-evenly text-white">
-              <div
-                className={`flex h-[40%] w-full justify-center rounded-md focus-within:outline-none focus-within:ring-2 focus-within:ring-teal-300 ${
-                  isProfit ? "bg-emerald-400" : "bg-red-300"
-                }`}
-              >
+              <div className="flex h-[40%] max-h-[30px] min-h-[25px] w-full justify-center rounded-md bg-neutral-400/50 focus-within:outline-none focus-within:ring-2 focus-within:ring-teal-300">
                 <input
                   value={purposeInput}
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                     setPurposeInput(e.currentTarget.value);
                   }}
                   className="w-full rounded-md border-none bg-transparent pl-4 text-center text-xs outline-none sm:text-base"
+                  autoFocus
                 />
               </div>
-              <div
-                className={`flex h-[40%] w-full justify-center rounded-md focus-within:outline-none focus-within:ring-2 focus-within:ring-teal-300 ${
-                  isProfit ? "bg-emerald-400" : "bg-red-300"
+              <span
+                className={`my-1 w-full pl-4 text-center text-[8px] sm:my-1 ${
+                  purposeInput.length > 45 || purposeInput.length <= 0
+                    ? "text-red-400"
+                    : ""
                 }`}
-              >
-                <span className="ml-2">$</span>
+              >{`${purposeInput.length} / 45`}</span>
+              <div className="flex h-[40%] max-h-[30px] min-h-[25px] w-full justify-center rounded-md bg-neutral-400/50 focus-within:outline-none focus-within:ring-2 focus-within:ring-teal-300">
+                <span className="ml-2 sm:pt-1">$</span>
                 <input
                   className="w-full rounded-md border-none bg-transparent text-center text-xs outline-none sm:text-sm"
                   placeholder="0"
                   value={revenueInput.toString()}
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                    if (!revenueInputRegEx.test(e.currentTarget.value)) {
-                      window.alert("Wrong Value");
-                    } else {
-                      setRevenueInput(e.currentTarget.value);
-                    }
+                    setRevenueInput(e.currentTarget.value);
                   }}
                 />
               </div>
             </div>
-            <div className="flex h-full w-[18%] max-w-[50px] items-center justify-evenly sm:w-[20%] sm:max-w-[70px]">
+            <div className="flex h-full w-[18%] max-w-[50px] items-center justify-evenly sm:w-[10%] sm:max-w-[70px]">
               {isProceed ? (
                 <LoaderIcon className="h-8 w-8 fill-white" />
               ) : (
                 <>
                   <CircleButton
                     info="Apply"
-                    className="flex h-5 w-5 rounded-md bg-emerald-300 hover:bg-emerald-400 dark:bg-emerald-300 dark:hover:bg-emerald-400 sm:h-7 sm:w-7"
+                    className={`flex h-5 w-5 rounded-md bg-emerald-400 transition-none hover:bg-emerald-400 dark:bg-emerald-500 dark:hover:bg-emerald-400 sm:h-6 sm:w-6 ${
+                      purposeInput.length <= 0 ||
+                      purposeInput.length > 45 ||
+                      !revenueInputRegEx.test(revenueInput)
+                        ? "pointer-events-none bg-neutral-400 text-neutral-500 dark:bg-neutral-700 dark:text-neutral-800"
+                        : ""
+                    }`}
                     onClick={applyUpdateClickHandler}
                   >
-                    <CheckIcon className="h-3 w-3 sm:h-4 sm:w-4" />
+                    <CheckIcon
+                      className={`h-3 w-3 transition-none sm:h-4 sm:w-4 ${
+                        purposeInput.length <= 0 ||
+                        purposeInput.length > 45 ||
+                        !revenueInputRegEx.test(revenueInput)
+                          ? "fill-white"
+                          : ""
+                      }`}
+                    />
                   </CircleButton>
                   <CircleButton
                     info="Cancel"
-                    className="flex h-5 w-5 rounded-md bg-red-300 hover:bg-red-500 dark:bg-red-300 dark:hover:bg-red-500 sm:h-7 sm:w-7"
+                    className="flex h-5 w-5 rounded-md bg-red-300 hover:bg-red-400 dark:bg-red-400 dark:hover:bg-red-500 sm:h-6 sm:w-6"
                     onClick={cancelClickHandler}
                   >
                     <CloseIcon className="h-3 w-3 sm:h-4 sm:w-4" fill="white" />
@@ -280,14 +290,14 @@ const RevenueItem = ({ data }: RevenueItemProps) => {
             {money}
           </p>
         </div>
-        <div className="flex h-full w-[18%] max-w-[50px] items-center justify-evenly sm:w-[25%] sm:max-w-[70px]">
+        <div className="flex h-full w-[17%] max-w-[50px] items-center justify-evenly sm:w-[10%] sm:max-w-[70px]">
           {isProceed ? (
             <LoaderIcon className="h-8 w-8 fill-white" />
           ) : (
             <>
               <CircleButton
                 info="Edit"
-                className="flex h-5 w-5 rounded-md bg-orange-300 hover:bg-orange-400 dark:bg-orange-300 dark:hover:bg-orange-400 sm:h-7 sm:w-7"
+                className="flex h-5 w-5 rounded-md bg-orange-300 hover:bg-orange-400 dark:bg-orange-300 dark:hover:bg-orange-400 sm:h-6 sm:w-6"
                 onClick={() => {
                   setIsUpdating(true);
                 }}
@@ -296,7 +306,7 @@ const RevenueItem = ({ data }: RevenueItemProps) => {
               </CircleButton>
               <CircleButton
                 info="Delete"
-                className="dark:hover-bg-red-500 flex h-5 w-5 rounded-md bg-red-300 p-0 hover:bg-red-500 dark:bg-red-300 sm:h-7 sm:w-7 sm:p-2"
+                className="dark:hover-bg-red-500 flex h-5 w-5 rounded-md bg-red-300 p-0 hover:bg-red-500 dark:bg-red-300 sm:h-6 sm:w-6"
                 onClick={() => {
                   if (window.confirm("deleting revenue")) {
                     deleteClickHandler();
@@ -314,9 +324,9 @@ const RevenueItem = ({ data }: RevenueItemProps) => {
 
   return (
     <li
-      className={`relative my-1 flex w-full items-center justify-between rounded-lg px-2 py-1 drop-shadow-lg transition-all sm:my-1.5 sm:p-2 ${
+      className={`relative my-1 flex w-full items-center justify-between rounded-lg px-2 py-2 drop-shadow-lg transition-all sm:my-1.5 sm:p-2 ${
         isProfit ? "bg-emerald-500 dark:bg-emerald-600" : "bg-red-400"
-      } ${isUpdating ? "h-16 sm:h-20" : "h-12 sm:h-16"}`}
+      } ${isUpdating ? "h-20 sm:h-28" : "h-12 sm:h-16"}`}
     >
       {contentRender()}
     </li>

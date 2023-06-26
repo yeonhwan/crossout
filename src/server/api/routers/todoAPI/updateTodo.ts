@@ -9,7 +9,7 @@ const updateTodo = protectedProcedure
     z.object({
       data: z.object({
         id: z.number(),
-        content: z.optional(z.string().min(1)).or(z.null()),
+        content: z.optional(z.string().min(1).max(45)).or(z.null()),
         urgency: z.optional(z.enum(Urgency)).or(z.null()),
         listBoardId: z.optional(z.number()),
         deadline: z.optional(z.date()).or(z.null()),

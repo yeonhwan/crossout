@@ -236,10 +236,20 @@ const TodoItem = ({ data, sortingTodos }: TodoItemProps) => {
         <>
           <CircleButton
             info="apply"
-            className="mr-2 h-5 w-5 rounded-md bg-emerald-300 p-0 hover:bg-emerald-400 dark:bg-emerald-400 dark:hover:bg-emerald-500 sm:h-6 sm:w-6"
+            className={`mr-2 h-5 w-5 rounded-md bg-emerald-300 p-0 transition-none hover:bg-emerald-400 dark:bg-emerald-400 dark:hover:bg-emerald-500 sm:h-6 sm:w-6 ${
+              todoInput.length <= 0 || todoInput.length > 45
+                ? "pointer-events-none bg-neutral-400 text-neutral-500 dark:bg-neutral-700 dark:text-neutral-800"
+                : ""
+            }`}
             onClick={applyUpdateClickHandler}
           >
-            <CheckIcon className="h-3 w-3 sm:h-4 sm:w-4" />
+            <CheckIcon
+              className={`h-3 w-3 transition-none sm:h-4 sm:w-4 ${
+                todoInput.length <= 0 || todoInput.length > 45
+                  ? "fill-neutral-400"
+                  : ""
+              }`}
+            />
           </CircleButton>
           <CircleButton
             info="cancel"
@@ -355,15 +365,25 @@ const TodoItem = ({ data, sortingTodos }: TodoItemProps) => {
                 <option value={UrgencyInput.urgent}>🔥urgent</option>
               </select>
               <div className="mx-auto flex h-max w-8/12 flex-col items-center justify-center">
-                <input
-                  className="w-full border-0 bg-neutral-600/20 py-1 text-center text-xs outline-0 ring-transparent focus-visible:ring-2 focus-visible:ring-teal-300 dark:bg-neutral-400/40 sm:w-8/12 sm:align-middle sm:text-sm"
-                  value={todoInput}
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                    setTodoInput(e.currentTarget.value);
-                  }}
-                />
+                <div className="flex w-full flex-col items-center justify-center">
+                  <input
+                    className="w-full border-0 bg-neutral-600/20 py-1 text-center text-xs outline-0 ring-transparent focus-visible:ring-2 focus-visible:ring-teal-300 dark:bg-neutral-400/40 sm:w-8/12 sm:align-middle sm:text-sm"
+                    value={todoInput}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                      setTodoInput(e.currentTarget.value);
+                    }}
+                    autoFocus
+                  />
+                  <span
+                    className={`my-1 w-full text-center text-[8px] sm:my-1 sm:w-8/12 ${
+                      todoInput.length > 45 || todoInput.length <= 0
+                        ? "text-red-400"
+                        : ""
+                    }`}
+                  >{`${todoInput.length} / 45`}</span>
+                </div>
                 <ListboardSelect
-                  className="mt-2 w-full bg-neutral-600/20 text-xs focus-visible:ring-2 focus-visible:ring-cyan-300 dark:bg-neutral-400/40 sm:mt-4 sm:w-8/12 sm:text-sm"
+                  className="mt-1 w-full bg-neutral-600/20 text-xs focus-visible:ring-2 focus-visible:ring-cyan-300 dark:bg-neutral-400/40 sm:mt-2 sm:w-8/12 sm:text-sm"
                   input={listboardInput}
                   onChange={setListboardInput}
                 />

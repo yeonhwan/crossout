@@ -129,13 +129,14 @@ const TodoForm = (
         </p>
       </div>
       <div className="flex h-[60%] w-2/3 flex-col justify-center">
-        <div className="mb-2 flex flex-col focus-within:text-teal-600 dark:focus-within:text-teal-400">
+        <div className="mb-1 flex flex-col focus-within:text-teal-600 dark:focus-within:text-teal-400">
           <label
             className="mb-1 rounded-md font-semibold after:text-red-400 after:content-['*']"
             htmlFor="todo"
           >
             Todo name
           </label>
+          <p className="mb-3 text-xs">Todo can be 45 characters at max</p>
           <input
             className="mb-2 border-0 px-2 py-1 text-neutral-700 shadow-lg ring-2 ring-neutral-300 focus:outline-none focus:ring-teal-400 dark:bg-neutral-600 dark:text-neutral-200 dark:ring-neutral-500 dark:placeholder:text-white dark:focus:ring-teal-500"
             id="todo"
@@ -145,6 +146,13 @@ const TodoForm = (
               setTodoInput(e.currentTarget.value);
             }}
           />
+          <span
+            className={`self-end text-xs ${
+              todoInput.length > 45 || todoInput.length <= 0
+                ? "text-red-400"
+                : ""
+            }`}
+          >{`${todoInput.length} / 45`}</span>
         </div>
         <div className="mb-2 flex flex-col focus-within:text-teal-600 dark:focus-within:text-teal-400">
           <label className="mb-1 font-semibold" htmlFor="urgency">
@@ -183,7 +191,7 @@ const TodoForm = (
           <>
             <Button
               className={`h-8 hover:text-white ${
-                todoInput.length <= 0
+                todoInput.length <= 0 || todoInput.length > 45
                   ? "pointer-events-none bg-neutral-400 text-neutral-500 dark:bg-neutral-700 dark:text-neutral-800"
                   : ""
               }`}

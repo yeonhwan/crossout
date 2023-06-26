@@ -8,7 +8,7 @@ const updateListboard = protectedProcedure
       data: z.object({
         id: z.number(),
         description: z.optional(z.string()),
-        title: z.optional(z.string()),
+        title: z.optional(z.string().min(1).max(30)),
       }),
     })
   )

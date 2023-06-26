@@ -8,7 +8,7 @@ const Urgency = ["urgent", "important", "trivial"] as const;
 const createTodo = protectedProcedure
   .input(
     z.object({
-      content: z.string().min(1),
+      content: z.string().min(1).max(45),
       urgency: z.enum(Urgency),
       listBoardId: z.optional(z.number()),
       dateObj: z.object({

@@ -7,7 +7,7 @@ const createListboard = protectedProcedure
     z.object({
       data: z.object({
         description: z.optional(z.string()),
-        title: z.string(),
+        title: z.string().min(1).max(30),
       }),
     })
   )

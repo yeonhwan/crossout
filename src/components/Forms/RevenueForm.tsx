@@ -143,6 +143,7 @@ const RevenueForm = (
           >
             Purpose of revenue
           </label>
+          <p className="mb-3 text-xs">Purpose can be 45 characters at max</p>
           <input
             className="mb-2 border-0 px-2 py-1 text-neutral-700 shadow-lg ring-2 ring-neutral-300 focus:outline-none focus:ring-teal-400 dark:bg-neutral-600 dark:text-neutral-200 dark:ring-neutral-500 dark:placeholder:text-white dark:focus:ring-teal-500"
             id="purpose"
@@ -152,6 +153,13 @@ const RevenueForm = (
               setPurposeInput(e.currentTarget.value);
             }}
           />
+          <span
+            className={`self-end text-xs ${
+              purposeInput.length > 45 || purposeInput.length <= 0
+                ? "text-red-400"
+                : ""
+            }`}
+          >{`${purposeInput.length} / 45`}</span>
         </div>
         <div className="mb-2 flex h-20 flex-col justify-center focus-within:text-teal-600 dark:focus-within:text-teal-400">
           <label

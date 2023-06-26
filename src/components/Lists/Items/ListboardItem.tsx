@@ -363,24 +363,33 @@ const ListboardItem = ({
                 className="flex h-1/5 w-full items-center justify-between rounded-t-3xl border-b-2 border-b-neutral-400 bg-neutral-200 px-2 py-3 dark:border-b-neutral-700 dark:bg-neutral-500"
               >
                 {titleUpdate ? (
-                  <input
-                    autoFocus
-                    className={`sm:text-md h-full w-[80%] border-0 px-2 py-2 text-sm text-neutral-700 shadow-lg ring-2 ring-transparent focus:outline-none dark:bg-neutral-600 dark:text-neutral-200 dark:placeholder:text-white sm:py-0 ${
-                      titleInput.length <= 0
-                        ? "focus:ring-red-400 dark:focus:ring-red-400"
-                        : "focus:ring-teal-400 dark:focus:ring-teal-500"
-                    }}`}
-                    value={titleInput}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                      setTitleInput(e.currentTarget.value);
-                    }}
-                    onMouseDown={(e) => {
-                      e.stopPropagation();
-                    }}
-                    onMouseUp={(e) => {
-                      e.stopPropagation();
-                    }}
-                  />
+                  <>
+                    <input
+                      autoFocus
+                      className={`sm:text-md h-full w-[55%] border-0 px-2 py-2 text-sm text-neutral-700 shadow-lg ring-2 ring-transparent focus:outline-none dark:bg-neutral-600 dark:text-neutral-200 dark:placeholder:text-white sm:w-[65%] sm:py-0 ${
+                        titleInput.length <= 0
+                          ? "focus:ring-red-400 dark:focus:ring-red-400"
+                          : "focus:ring-teal-400 dark:focus:ring-teal-500"
+                      }}`}
+                      value={titleInput}
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                        setTitleInput(e.currentTarget.value);
+                      }}
+                      onMouseDown={(e) => {
+                        e.stopPropagation();
+                      }}
+                      onMouseUp={(e) => {
+                        e.stopPropagation();
+                      }}
+                    />
+                    <span
+                      className={`w-max text-neutral-700 dark:text-neutral-200 sm:text-[8px] ${
+                        titleInput.length <= 0 || titleInput.length > 30
+                          ? "text-red-400"
+                          : ""
+                      }`}
+                    >{`${titleInput.length} / 30`}</span>
+                  </>
                 ) : (
                   <p className="sm:text-md w-[80%] overflow-hidden text-ellipsis whitespace-nowrap text-sm text-neutral-700 dark:text-white">
                     {data.title}
@@ -399,7 +408,7 @@ const ListboardItem = ({
                           });
                         }}
                         className={`ml-1 h-5 w-5 rounded-md hover:bg-emerald-500 dark:hover:bg-emerald-400/70 ${
-                          titleInput.length <= 0
+                          titleInput.length <= 0 || titleInput.length > 30
                             ? "pointer-events-none bg-neutral-400 dark:bg-neutral-600"
                             : "bg-emerald-500/50 dark:bg-emerald-400/70"
                         }`}

@@ -115,8 +115,9 @@ const ListboardsForm = (
           >
             Listboard title
           </label>
+          <p className="mb-3 text-xs">Title can be 30 characters at max</p>
           <input
-            className="mb-2 border-0 px-2 py-1 text-neutral-700 shadow-lg ring-2 ring-neutral-300 focus:outline-none focus:ring-teal-400 dark:bg-neutral-600 dark:text-neutral-200 dark:ring-neutral-500 dark:placeholder:text-white dark:focus:ring-teal-500"
+            className="border-0 px-2 py-1 text-neutral-700 shadow-lg ring-2 ring-neutral-300 focus:outline-none focus:ring-teal-400 dark:bg-neutral-600 dark:text-neutral-200 dark:ring-neutral-500 dark:placeholder:text-white dark:focus:ring-teal-500"
             id="title"
             placeholder="Type in your listboard title"
             value={titleInput}
@@ -124,12 +125,21 @@ const ListboardsForm = (
               setTitleInput(e.currentTarget.value);
             }}
           />
+          <span
+            className={`mt-1 self-end text-xs ${
+              titleInput.length > 30 || titleInput.length <= 0
+                ? "text-red-400"
+                : ""
+            }`}
+          >{`${titleInput.length} / 30`}</span>
         </div>
         <div className="flex flex-col justify-center focus-within:text-teal-600 dark:focus-within:text-teal-400">
           <label className="font-semibold" htmlFor="deadline">
             Describe your listboard
           </label>
-          <p className="mb-3 text-xs">Describes should be less 50 characters</p>
+          <p className="mb-3 text-xs">
+            Description can be 50 characters at max
+          </p>
           <textarea
             placeholder="Describe your listboard"
             className={`${
@@ -160,7 +170,9 @@ const ListboardsForm = (
           <>
             <Button
               className={`h-8 hover:text-white ${
-                titleInput.length <= 0 || descriptionInput.length > 50
+                titleInput.length <= 0 ||
+                titleInput.length > 30 ||
+                descriptionInput.length > 50
                   ? "pointer-events-none bg-neutral-400 text-neutral-500 dark:bg-neutral-700 dark:text-neutral-800"
                   : ""
               }`}
