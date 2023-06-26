@@ -243,7 +243,7 @@ const TodoPanel = ({ openCreateTodo, data, isTodoLoading }: TodoPanelProps) => {
 
   if (todosData && todosData.length > 0) {
     return (
-      <div className="mt-4 flex h-[95%] max-h-[72vh] w-[90%] flex-col rounded-lg bg-neutral-300/40 py-2 backdrop-blur-sm transition-colors dark:bg-neutral-800/60 sm:h-[80%] lg:w-3/5">
+      <div className="relative mt-4 flex h-[95%] max-h-[72vh] w-[90%] flex-col rounded-lg bg-neutral-300/40 py-2 backdrop-blur-sm transition-colors dark:bg-neutral-800/60 sm:h-[80%] lg:w-3/5">
         <TodoControllers
           reorderingTodos={reorderingTodos}
           setReorderingTodos={setReorderingTodos}

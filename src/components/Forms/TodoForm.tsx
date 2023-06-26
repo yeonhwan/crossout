@@ -10,6 +10,7 @@ import {
 // Components
 import Button from "@/components/Buttons/Button";
 import ListboardSelect from "../Select/ListboardSelect";
+import Select from "@/components/Select/Select";
 
 // api
 import { api } from "@/utils/api";
@@ -158,25 +159,27 @@ const TodoForm = (
           <label className="mb-1 font-semibold" htmlFor="urgency">
             Urgency
           </label>
-          <select
-            className="mb-2 rounded-md border-0 py-2 text-center text-black shadow-lg ring-neutral-300 hover:cursor-pointer focus:border-0 focus:outline-none focus:ring-2 focus:ring-teal-400 dark:bg-neutral-600 dark:text-white dark:ring-neutral-500 dark:focus:ring-teal-500"
+          <Select
             id="urgency"
             value={urgencyInput}
             onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
               setUrgencyInput(e.currentTarget.value as Urgency);
             }}
+            className="border-0 bg-white fill-neutral-700 text-center text-neutral-700 ring-2 ring-neutral-300 focus-within:fill-teal-500 focus-within:outline-none focus-within:ring-teal-400 hover:cursor-pointer focus:border-0 focus:ring-2 dark:bg-neutral-600 dark:fill-white dark:text-neutral-200 dark:ring-neutral-500 dark:focus-within:ring-teal-500"
           >
-            <option value={Urgency.trivial}>🌱trivial</option>
-            <option value={Urgency.important}>⚡️important</option>
-            <option value={Urgency.urgent}>🔥urgent</option>
-          </select>
+            <>
+              <option value={Urgency.trivial}>🌱trivial</option>
+              <option value={Urgency.important}>⚡️important</option>
+              <option value={Urgency.urgent}>🔥urgent</option>
+            </>
+          </Select>
         </div>
         <div className="mb-2 flex flex-col focus-within:text-teal-600 dark:focus-within:text-teal-400">
           <label className="mb-1 font-semibold" htmlFor="listboard">
             Listboard
           </label>
           <ListboardSelect
-            className="rounded-md border-0 py-2 text-black shadow-lg ring-neutral-300 focus:outline-none focus:ring-2 focus:ring-teal-400 dark:bg-neutral-600 dark:text-white dark:ring-neutral-500 dark:focus:ring-teal-500"
+            className="border-0 bg-white fill-neutral-700 text-center text-neutral-700 ring-2 ring-neutral-300 focus-within:fill-teal-500 focus-within:outline-none focus-within:ring-teal-400 hover:cursor-pointer focus:border-0 focus:ring-2 dark:bg-neutral-600 dark:fill-neutral-200 dark:text-neutral-200 dark:ring-neutral-500 dark:focus-within:ring-teal-500"
             input={listboardInput}
             onChange={setListboardInput}
           />

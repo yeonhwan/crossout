@@ -1,6 +1,7 @@
 // components
 import CircleButton from "@/components/Buttons/CircleButton";
 import ListboardSelect from "@/components/Select/ListboardSelect";
+import Select from "@/components/Select/Select";
 
 // ICONS
 import CheckIcon from "@mui/icons-material/Check";
@@ -354,17 +355,19 @@ const TodoItem = ({ data, sortingTodos, listboards }: TodoItemProps) => {
         <ClickAwayListener onClickAway={cancelUpdateTodo}>
           <div className="flex w-full items-center justify-between rounded-xl bg-transparent px-2 py-4 text-white sm:px-10">
             <div className="flex w-full flex-col items-center sm:flex-row">
-              <select
-                className="mb-2 flex h-4 w-max rounded-lg bg-neutral-600/20 text-xs hover:cursor-pointer focus-visible:ring-2 focus-visible:ring-cyan-300 dark:bg-neutral-400/40 sm:mb-0 sm:h-6 sm:px-2"
+              <Select
+                className="relative flex w-[100px] items-center justify-center rounded-md bg-neutral-600/20 fill-neutral-600/70 pr-2 text-xs focus-within:fill-teal-400 focus-within:ring-2 focus-within:ring-teal-300 hover:cursor-pointer dark:bg-neutral-400/40"
                 value={urgencyInput}
                 onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
                   setUrgencyInput(e.currentTarget.value as UrgencyInput);
                 }}
               >
-                <option value={UrgencyInput.trivial}>🌱trivial</option>
-                <option value={UrgencyInput.important}>⚡️important</option>
-                <option value={UrgencyInput.urgent}>🔥urgent</option>
-              </select>
+                <>
+                  <option value={UrgencyInput.trivial}>🌱trivial</option>
+                  <option value={UrgencyInput.important}>⚡️important</option>
+                  <option value={UrgencyInput.urgent}>🔥urgent</option>
+                </>
+              </Select>
               <div className="mx-auto flex h-max w-8/12 flex-col items-center justify-center">
                 <div className="flex w-full flex-col items-center justify-center">
                   <input
@@ -384,7 +387,7 @@ const TodoItem = ({ data, sortingTodos, listboards }: TodoItemProps) => {
                   >{`${todoInput.length} / 45`}</span>
                 </div>
                 <ListboardSelect
-                  className="mt-1 w-full bg-neutral-600/20 text-xs focus-visible:ring-2 focus-visible:ring-cyan-300 dark:bg-neutral-400/40 sm:mt-2 sm:w-8/12 sm:text-sm"
+                  className="relative flex w-full items-center justify-center rounded-md bg-neutral-600/20 fill-neutral-600/70 pr-2 text-xs focus-within:fill-teal-400 focus-within:ring-2 focus-within:ring-teal-300 hover:cursor-pointer dark:bg-neutral-400/40 sm:w-8/12"
                   input={listboardInput}
                   onChange={setListboardInput}
                   data={listboards ? listboards : undefined}

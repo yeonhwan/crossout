@@ -19,6 +19,9 @@ const config = {
       screens: {
         mobile: "400px",
       },
+      content: {
+        arrow: 'url("/icons/down_arrow.svg")',
+      },
     },
   },
   plugins: [],

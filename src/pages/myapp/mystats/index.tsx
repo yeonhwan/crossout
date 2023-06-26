@@ -3,6 +3,7 @@ import CircleButton from "@/components/Buttons/CircleButton";
 import DoughnutChart from "@/components/Charts/DoughnutChart";
 import YearChart from "@/components/Charts/YearChart";
 import ChartCalenderPopper from "@/components/Popper/CalendarPopper/ChartCalendarPopper";
+import Select from "@/components/Select/Select";
 
 // hooks
 import { useAnimation } from "@/hooks/useAnimation";
@@ -186,20 +187,21 @@ const Mystats = ({
               className="flex h-[12%] w-max flex-row items-center justify-evenly lg:w-full lg:flex-col lg:justify-between"
             >
               <div className="flex w-full items-center justify-evenly lg:w-[50%]">
-                <select
+                <Select
                   onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
                     setSelectedField(
                       e.currentTarget.value as "todo" | "revenue" | "mood"
                     );
                   }}
                   value={selectedField}
-                  className="foucs:border-0 relative flex h-max w-max rounded-lg bg-neutral-300 px-2 py-1 text-center text-xs font-bold text-black transition-colors hover:cursor-pointer focus:outline-blue-400 dark:bg-neutral-700 dark:text-white"
+                  className="relative flex h-6 w-[90px] rounded-lg bg-neutral-300 text-center text-[8px] font-bold text-black transition-colors hover:cursor-pointer focus:border-0 focus:outline-blue-400 dark:bg-neutral-700 dark:fill-neutral-200 dark:text-white mobile:text-xs"
                 >
-                  category
-                  <option value="todo">todo</option>
-                  <option value="revenue">revenue</option>
-                  <option value="mood">mood</option>
-                </select>
+                  <>
+                    <option value="todo">todo</option>
+                    <option value="revenue">revenue</option>
+                    <option value="mood">mood</option>
+                  </>
+                </Select>
               </div>
               <div className="flex w-full items-center justify-center">
                 <div className="flex w-24 items-center justify-evenly">
@@ -255,13 +257,13 @@ const Mystats = ({
                 />
               </div>
               <div className="mt-2 flex h-full w-1/2 flex-col items-center justify-evenly rounded-xl px-4 lg:mt-0 lg:h-[25%] lg:w-full lg:px-0">
-                <p className="stat-item flex h-[45%] w-full flex-col items-center justify-evenly rounded-lg bg-neutral-400/10 px-4 py-2 text-[5px] font-bold text-white shadow-2xl lg:h-[40%] lg:flex-row lg:justify-start lg:text-sm">
+                <p className="stat-item flex h-[45%] w-full flex-col items-center justify-evenly rounded-lg bg-neutral-400/10 px-4 py-2 text-xs font-bold text-white shadow-2xl lg:h-[40%] lg:flex-row lg:justify-start lg:text-sm">
                   {selectedField === "mood" ? (
                     <SmileIcon className="mr-0 h-6 w-6 rounded-lg bg-neutral-900/20 p-1 shadow-xl lg:mr-2" />
                   ) : (
                     <ListAltIcon className="mr-0 h-6 w-6 rounded-lg bg-neutral-900/20 p-1 shadow-xl lg:mr-2" />
                   )}
-                  <span className="mr-0 text-[5px] font-semibold lg:mr-2 lg:text-xs">
+                  <span className="mr-0 text-[8px] font-semibold mobile:text-xs md:text-sm lg:mr-2">
                     {selectedField === "todo"
                       ? "Total Todos"
                       : selectedField === "revenue"
@@ -274,7 +276,7 @@ const Mystats = ({
                     ? revenuesSummaryData.totalCount
                     : `${moodsSummaryData.goodRatio} %`}
                 </p>
-                <p className="stat-item flex h-[45%] w-full flex-col items-center justify-evenly rounded-lg bg-neutral-400/10 px-4 py-1 text-[5px] font-bold text-white shadow-2xl lg:h-[40%] lg:flex-row lg:justify-start lg:text-sm">
+                <p className="stat-item flex h-[45%] w-full flex-col items-center justify-evenly rounded-lg bg-neutral-400/10 px-4 py-1 text-xs font-bold text-white shadow-2xl lg:h-[40%] lg:flex-row lg:justify-start lg:text-sm">
                   {selectedField === "todo" ? (
                     <ChecklistIcon className="mr-0 h-6 w-6 rounded-lg bg-neutral-900/20 p-1 shadow-xl lg:mr-2" />
                   ) : selectedField === "revenue" ? (
@@ -282,7 +284,7 @@ const Mystats = ({
                   ) : (
                     <SadIcon className="mr-0 h-6 w-6 rounded-lg bg-neutral-900/20 fill-white p-1 shadow-xl lg:mr-2" />
                   )}
-                  <span className="mr-0 text-[5px] font-semibold lg:mr-2 lg:text-xs">
+                  <span className="mr-0 text-[8px] font-semibold mobile:text-xs md:text-sm lg:mr-2 ">
                     {selectedField === "todo"
                       ? "Completed"
                       : selectedField === "revenue"
@@ -352,14 +354,14 @@ const Mystats = ({
                     <MoodIcon className="h-8 w-8 fill-white" />
                   )}
                 </div>
-                <p className="hidden text-[5px] font-medium text-white md:block lg:text-[12px] lg:font-semibold xl:text-[13px]">
+                <p className="hidden text-[8px] font-medium text-white mobile:text-xs md:block lg:text-[12px] lg:font-semibold xl:text-[13px]">
                   {selectedField === "todo"
                     ? "Most Busy Day"
                     : selectedField === "revenue"
                     ? "Most Earned Month"
                     : "Average Mood"}
                 </p>
-                <p className="text-[5px] font-extrabold text-white lg:text-[12px] xl:text-[13px]">
+                <p className="text-[8px] font-extrabold text-white mobile:text-xs lg:text-[12px] xl:text-[13px]">
                   {selectedField === "todo"
                     ? todosCardData.mostBusyDay
                       ? todosCardData.mostBusyDay
@@ -404,14 +406,14 @@ const Mystats = ({
                     <DiaryIcon className="h-8 w-8 fill-white" />
                   )}
                 </div>
-                <p className="hidden text-[8px] font-semibold text-white md:block lg:text-[12px] xl:text-[13px]">
+                <p className="hidden text-[8px] font-semibold text-white mobile:text-xs md:block lg:text-[12px] xl:text-[13px]">
                   {selectedField === "todo"
                     ? "Most Busy Month"
                     : selectedField === "revenue"
                     ? "Most Spent Month"
                     : "Longest Kept Daylogs"}
                 </p>
-                <p className="text-[8px] font-extrabold text-white lg:block lg:text-[12px] xl:text-[13px]">
+                <p className="text-[8px] font-extrabold text-white mobile:text-xs lg:block lg:text-[12px] xl:text-[13px]">
                   {selectedField === "todo"
                     ? todosCardData.mostBusyMonth
                       ? todosCardData.mostBusyMonth
@@ -425,29 +427,29 @@ const Mystats = ({
               </div>
               {selectedField === "mood" ? (
                 <div className="stat-item relative h-full w-[46%] flex-col rounded-xl bg-neutral-400/40 p-4 shadow-lg">
-                  <p className="text-xs font-extrabold text-white lg:text-xl">
+                  <p className="text-[8px] font-extrabold text-white mobile:text-xs lg:text-xl">
                     Did You Know ?
                   </p>
-                  <p className="flex flex-col text-xs text-white lg:text-sm xl:text-[13px]">
+                  <p className="flex flex-col text-[8px] text-white mobile:text-xs lg:text-sm xl:text-[13px]">
                     <span>Jusy by tracking your moods regularly,</span>
                     <span>
                       you can ease your minds and help you feel better.
                     </span>
                   </p>
                   <div className="flex flex-col">
-                    <p className="mt-2 hidden flex-col text-[8px] text-neutral-800 sm:flex lg:mt-4 lg:text-sm">
+                    <p className="mt-2 hidden flex-col text-[8px] text-neutral-800 mobile:text-xs sm:flex lg:mt-4 lg:text-sm">
                       <span>If you struggle with your feelings,</span>
                       <span>get reach for someone to help you</span>
                     </p>
                     <a
-                      className="mt-1 hidden w-max text-[8px] font-bold text-cyan-400 sm:block sm:text-xs"
+                      className="mt-1 hidden w-max font-bold text-cyan-400 sm:block sm:text-xs"
                       href="https://en.wikipedia.org/wiki/List_of_suicide_crisis_lines"
                     >
                       Lists of World Crisis Hotlines
                     </a>
                   </div>
-                  <div className="absolute right-2 top-2 flex h-8 w-8 items-center justify-center rounded-full bg-white lg:bottom-2 lg:right-4 lg:h-12 lg:w-12">
-                    <BulbIcon className="h-6 w-6 lg:h-10 lg:w-10" />
+                  <div className="absolute bottom-2 right-2 flex h-6 w-6 items-center justify-center rounded-full bg-white mobile:top-2 mobile:h-8 mobile:w-8 lg:bottom-2 lg:right-4 lg:h-12 lg:w-12">
+                    <BulbIcon className="h-4 w-4 mobile:h-6 mobile:w-6 lg:h-10 lg:w-10" />
                   </div>
                 </div>
               ) : (
@@ -476,12 +478,12 @@ const Mystats = ({
                         <MoneyPlusIcon className="h-8 w-8 fill-white" />
                       )}
                     </div>
-                    <p className="hidden text-[12px] font-semibold text-white md:block xl:text-[13px]">
+                    <p className="hidden text-[8px] font-semibold text-white mobile:text-xs md:block xl:text-[13px]">
                       {selectedField === "todo"
                         ? "Average Complete Ratio"
                         : "Highest Profit"}
                     </p>
-                    <p className="text-[12px] font-extrabold text-white lg:block xl:text-[13px]">
+                    <p className="text-[8px] font-extrabold text-white mobile:text-xs lg:block xl:text-[13px]">
                       {selectedField === "todo"
                         ? `${todosCardData.averageCompleteRatio} %`
                         : `$ ${revenuesCardData.highestProfit}`}
@@ -507,15 +509,15 @@ const Mystats = ({
                         <MoneyMinusIcon className="h-8 w-8 fill-white" />
                       )}
                     </div>
-                    <p className="hidden text-[12px] font-semibold text-white md:block xl:text-[13px]">
+                    <p className="hidden text-[8px] font-semibold text-white mobile:text-xs md:block xl:text-[13px]">
                       {selectedField === "todo"
                         ? "All-Clear Combos"
                         : "Highest Spent"}
                     </p>
-                    <p className="text-xs font-extrabold text-white lg:block lg:text-[12px] xl:text-[13px]">
+                    <p className="text-[8px] font-extrabold text-white mobile:text-xs lg:block lg:text-[12px] xl:text-[13px]">
                       {selectedField === "todo"
                         ? todosCardData.longestCombo
-                        : revenuesCardData.highestLoss}
+                        : `$ ${revenuesCardData.highestLoss}`}
                     </p>
                   </div>
                 </>

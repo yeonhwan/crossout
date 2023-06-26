@@ -51,7 +51,7 @@ const CustomDay = (props: CustomDayProps) => {
             }}
           />
           <span
-            className={`absolute right-1 top-0 text-center text-[5px] font-semibold ${
+            className={`absolute right-1 top-0 text-center text-[10px] font-semibold ${
               selected
                 ? "text-white"
                 : "animate-pulse text-emerald-600 dark:text-emerald-300"
@@ -165,7 +165,7 @@ const CustomDay = (props: CustomDayProps) => {
         if (total > 0) {
           return (
             <span
-              className={`absolute right-1 top-0 text-center text-[5px] font-semibold ${
+              className={`absolute right-1 top-0 text-center text-[10px] font-semibold ${
                 selected
                   ? "text-white"
                   : "animate-pulse text-emerald-400 dark:text-emerald-300"
@@ -177,7 +177,7 @@ const CustomDay = (props: CustomDayProps) => {
         } else {
           return (
             <span
-              className={`absolute right-1 top-0 animate-pulse text-center text-[5px] font-semibold ${
+              className={`absolute right-1 top-0 animate-pulse text-center text-[10px] font-semibold ${
                 selected ? "text-white" : "text-red-400 dark:text-red-300"
               }`}
             >

@@ -7,6 +7,7 @@ import {
 
 // components
 import CircleButton from "@/components/Buttons/CircleButton";
+import Select from "@/components/Select/Select";
 
 // ICONS
 import OpenWithIcon from "@mui/icons-material/OpenWith";
@@ -64,7 +65,8 @@ const TodoControllers = ({
       )}
       <div className="my-1 mr-4 flex h-max min-w-max items-center justify-center rounded-full px-2 py-1">
         {!reorderingTodos && (
-          <select
+          <Select
+            className="relative mr-2 flex h-6 w-[100px] rounded-lg bg-neutral-200 fill-neutral-700 text-xs text-neutral-700 hover:cursor-pointer dark:bg-neutral-700 dark:fill-neutral-200 dark:text-white"
             value={sortingOption}
             onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
               setSortingOption(e.currentTarget.value as SortingOption);
@@ -73,13 +75,14 @@ const TodoControllers = ({
               }
               sessionStorage.setItem("sort", e.currentTarget.value);
             }}
-            className="mx-2 rounded-xl bg-neutral-600 px-1 py-1 text-center text-xs text-white outline-none hover:cursor-pointer"
           >
-            <option value="default">default</option>
-            <option value="completed">completed</option>
-            <option value="urgency">urgency</option>
-            <option value="recent">recent</option>
-          </select>
+            <>
+              <option value="default">default</option>
+              <option value="completed">completed</option>
+              <option value="urgency">urgency</option>
+              <option value="recent">recent</option>
+            </>
+          </Select>
         )}
         {sortingOption === "default" && (
           <>
