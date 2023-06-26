@@ -2,6 +2,7 @@ import { protectedProcedure } from "@/server/api/trpc";
 import { z } from "zod";
 import { TRPCError } from "@trpc/server";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime";
+import { dateIndexFormatter } from "@/utils/dateIndexFormatter";
 
 import {
   type DateRecord,
@@ -87,6 +88,7 @@ const upsertDaylog = protectedProcedure
             year,
             month,
             date,
+            dateIndex: dateIndexFormatter(year, month, date),
           },
         });
         const { id: dateRecordId } = dateRecord;

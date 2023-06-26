@@ -2,6 +2,7 @@ import { protectedProcedure } from "@/server/api/trpc";
 import { z } from "zod";
 import { TRPCError } from "@trpc/server";
 import { type DateRecord } from "@prisma/client";
+import { dateIndexFormatter } from "@/utils/dateIndexFormatter";
 
 const createRevenue = protectedProcedure
   .input(
@@ -71,6 +72,7 @@ const createRevenue = protectedProcedure
             year,
             month,
             date,
+            dateIndex: dateIndexFormatter(year, month, date),
           },
         });
 

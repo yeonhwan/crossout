@@ -26,6 +26,7 @@ const getYearlyChartData = protectedProcedure
       try {
         if (!year) year = new Date().getFullYear();
         const yearlyDateRecordsdata = await ctx.prisma.dateRecord.findMany({
+          orderBy: { dateIndex: "asc" },
           where: {
             userId,
             year,
@@ -123,24 +124,32 @@ const getYearlyChartData = protectedProcedure
             sumOfTodosCompleteRatio += completeRatio;
           });
 
-          const mostBusyMonth = [...todosMonthlyCounthMap.entries()].reduce(
-            (acc, cur) => (cur[1] > acc[1] ? [...cur] : [...acc])
-          )[0];
+          const todosMonthlyCountArray = Array.from(
+            todosMonthlyCounthMap.entries()
+          );
+
+          const mostBusyMonth = todosMonthlyCountArray.length
+            ? [...todosMonthlyCountArray].reduce((acc, cur) =>
+                cur[1] > acc[1] ? [...cur] : [...acc]
+              )[0]
+            : "";
 
           const yearlyTodosData = {
             data: yearlyTodosArray,
-            doughnut: [
-              {
-                id: "not yet",
-                label: "not yet",
-                value: yearlyTotalTodos - yearlyTotalCompletedTodos,
-              },
-              {
-                id: "completed",
-                label: "completed",
-                value: yearlyTotalCompletedTodos,
-              },
-            ],
+            doughnut: yearlyTotalTodos
+              ? [
+                  {
+                    id: "not yet",
+                    label: "not yet",
+                    value: yearlyTotalTodos - yearlyTotalCompletedTodos,
+                  },
+                  {
+                    id: "completed",
+                    label: "completed",
+                    value: yearlyTotalCompletedTodos,
+                  },
+                ]
+              : [],
             summary: {
               total: yearlyTotalTodos,
               completed: yearlyTotalCompletedTodos,
@@ -231,10 +240,17 @@ const getYearlyChartData = protectedProcedure
 
           const yearlyRevenuesData = {
             data: yearlyRevenuesArray,
-            doughnut: [
-              { id: "profit", label: "profit", value: yearlyTotalProfit },
-              { id: "loss", label: "loss", value: Math.abs(yearlyTotalLoss) },
-            ],
+            doughnut:
+              yearlyTotalProfit + yearlyTotalLoss !== 0
+                ? [
+                    { id: "profit", label: "profit", value: yearlyTotalProfit },
+                    {
+                      id: "loss",
+                      label: "loss",
+                      value: Math.abs(yearlyTotalLoss),
+                    },
+                  ]
+                : [],
             summary: {
               totalCount: yearlyTotalCount,
               totalRevenue: yearlyTotalProfit + yearlyTotalLoss,
@@ -253,31 +269,33 @@ const getYearlyChartData = protectedProcedure
 
           // yearly moods (daylog) query
           // terrible: 0, bad: 1, normal: 2, good: 3, happy: 4
-          let longestDaylogRecords = 1;
+          let longestDaylogRecords = 0;
           let currentDaylogRecords = 1;
 
           const yearlyMoodsArray = yearlyDateRecordsdata
             .map((data, i, arr) => {
               const day = dateFormatter(data.year, data.month, data.date);
               if (data.daylogs) {
-                if (i && arr[i]?.date === (arr[i - 1]?.date as number) + 1) {
+                if (i === 0) {
                   currentDaylogRecords++;
-                  longestDaylogRecords = Math.max(
-                    currentDaylogRecords,
-                    longestDaylogRecords
-                  );
+                  longestDaylogRecords++;
                 } else {
-                  if (
-                    i &&
-                    (arr[i]?.month as number) > (arr[i - 1]?.month as number)
-                  ) {
+                  const prevDateRecordData = arr[i - 1];
+                  const isCountable =
+                    !!prevDateRecordData?.daylogs &&
+                    (prevDateRecordData?.date + 1 === data.date ||
+                      (prevDateRecordData?.month + 1 === data.month &&
+                        data.date === 1));
+
+                  if (isCountable) {
                     currentDaylogRecords++;
                     longestDaylogRecords = Math.max(
                       currentDaylogRecords,
                       longestDaylogRecords
                     );
+                  } else {
+                    currentDaylogRecords = 1;
                   }
-                  currentDaylogRecords = 1;
                 }
 
                 const mood =
@@ -335,13 +353,16 @@ const getYearlyChartData = protectedProcedure
           }
 
           const totalMoodsCount = moodCount.reduce((acc, cur) => acc + cur);
+          console.log(totalMoodsCount);
 
           const averageMood = yearlyMoodsArray.length
             ? Math.round(
                 moodCount.reduce((acc, cur, index) => acc + cur * index, 0) /
                   totalMoodsCount
               )
-            : 2;
+            : "";
+
+          console.log(averageMood);
 
           const goodRatio = yearlyMoodsArray.length
             ? Math.round(
@@ -376,7 +397,7 @@ const getYearlyChartData = protectedProcedure
               badRatio,
             },
             cards: {
-              averageMood: averageMood ? moodsArray[averageMood] : "",
+              averageMood: averageMood !== "" ? moodsArray[averageMood] : "",
               longestDaylogRecords,
             },
           };

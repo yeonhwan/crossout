@@ -2,6 +2,7 @@ import { protectedProcedure } from "@/server/api/trpc";
 import { z } from "zod";
 import { TRPCError } from "@trpc/server";
 import { type Prisma, type DateRecord } from "@prisma/client";
+import { dateIndexFormatter } from "@/utils/dateIndexFormatter";
 
 const upsertEditorContent = protectedProcedure
   .input(
@@ -69,6 +70,7 @@ const upsertEditorContent = protectedProcedure
           year,
           month,
           date,
+          dateIndex: dateIndexFormatter(year, month, date),
         },
       });
       const { id: dateRecordId } = dateRecord;

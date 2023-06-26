@@ -2,6 +2,7 @@ import { protectedProcedure } from "@/server/api/trpc";
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 import { type DateRecord, type Prisma, type Todo } from "@prisma/client";
+import { dateIndexFormatter } from "@/utils/dateIndexFormatter";
 
 const Urgency = ["urgent", "important", "trivial"] as const;
 
@@ -22,7 +23,7 @@ const createTodo = protectedProcedure
     const session = ctx.session;
     const { id: userId } = session.user;
     const { year, month, date } = input.dateObj;
-    const { content, dateObj, urgency, listBoardId } = input;
+    const { content, urgency, listBoardId } = input;
 
     // Creating a New Todo
     // 1. Find Dayrecord, if not create new one
@@ -102,9 +103,10 @@ const createTodo = protectedProcedure
         const newDateRecord = await ctx.prisma.dateRecord.create({
           data: {
             userId,
-            year: dateObj.year,
-            month: dateObj.month,
-            date: dateObj.date,
+            year,
+            month,
+            date,
+            dateIndex: dateIndexFormatter(year, month, date),
           },
         });
         const { id: dateRecordId, todoIndex } = newDateRecord;
