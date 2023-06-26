@@ -126,6 +126,7 @@ model DateRecord {
     month Int
     date Int
     todoIndex Json?
+    dateIndex Int
 
     @@index([userId])
     @@index([date])
