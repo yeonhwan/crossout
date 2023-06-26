@@ -31,9 +31,10 @@ type TodoItemProps = {
   };
   id?: number;
   sortingTodos?: boolean;
+  listboards?: ListBoard[];
 };
 
-const TodoItem = ({ data, sortingTodos }: TodoItemProps) => {
+const TodoItem = ({ data, sortingTodos, listboards }: TodoItemProps) => {
   const { urgency, content, listBoard, id, completed, dateRecordId } = data;
 
   const listboardTitle = listBoard?.title;
@@ -386,6 +387,7 @@ const TodoItem = ({ data, sortingTodos }: TodoItemProps) => {
                   className="mt-1 w-full bg-neutral-600/20 text-xs focus-visible:ring-2 focus-visible:ring-cyan-300 dark:bg-neutral-400/40 sm:mt-2 sm:w-8/12 sm:text-sm"
                   input={listboardInput}
                   onChange={setListboardInput}
+                  data={listboards ? listboards : undefined}
                 />
               </div>
             </div>

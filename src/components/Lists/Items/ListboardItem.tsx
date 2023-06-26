@@ -30,12 +30,14 @@ import ClickAwayListener from "@mui/base/ClickAwayListener";
 
 // api
 import { api } from "@/utils/api";
+import { type ListBoard } from "@prisma/client";
 
 type ListboardItemProps = {
   data: ListboardItemType;
   setIsProceed: Dispatch<SetStateAction<boolean>>;
   setMaskOn: Dispatch<SetStateAction<boolean>>;
   setBackDropOpen: Dispatch<SetStateAction<boolean>>;
+  listboards: ListBoard[];
 };
 
 const ListboardItem = ({
@@ -43,6 +45,7 @@ const ListboardItem = ({
   setIsProceed,
   setBackDropOpen,
   setMaskOn,
+  listboards,
 }: ListboardItemProps) => {
   const [titleUpdate, setTitleUpdate] = useState(false);
   const [descriptionUpdate, setDescriptionUpdate] = useState(false);
@@ -236,7 +239,7 @@ const ListboardItem = ({
       setBackDropOpen(true);
       const itemRect = e.currentTarget.getClientRects()[0] as DOMRect;
       const scrollTop = (
-        document.querySelector(".overflow-scroll") as HTMLElement
+        document.querySelector(".overflow-y-auto") as HTMLElement
       ).scrollTop;
       const x = isOverSmall
         ? window.innerWidth / 2 - (itemRect.width * 0.5 + itemRect.x)
@@ -270,7 +273,7 @@ const ListboardItem = ({
   const itemCloseHandler = () => {
     setIsOpen(false);
     const scrollTop = (
-      document.querySelector(".overflow-scroll") as HTMLElement
+      document.querySelector(".overflow-y-auto") as HTMLElement
     ).scrollTop;
     setBackDropOpen(false);
     animate(
@@ -315,6 +318,7 @@ const ListboardItem = ({
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
+                layout={"size"}
                 className="flex h-full w-full flex-col items-center justify-start rounded-3xl bg-neutral-200/70 py-4 backdrop-blur-sm dark:bg-neutral-800/90"
               >
                 <div className="flex h-[10%] w-full flex-col items-center justify-center">
@@ -329,7 +333,13 @@ const ListboardItem = ({
                   {data.todos.length ? (
                     <ListView>
                       {data.todos.map((todo) => {
-                        return <TodoItem data={todo} key={todo.id} />;
+                        return (
+                          <TodoItem
+                            data={todo}
+                            key={todo.id}
+                            listboards={listboards}
+                          />
+                        );
                       })}
                     </ListView>
                   ) : (

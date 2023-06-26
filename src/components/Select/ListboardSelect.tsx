@@ -11,16 +11,20 @@ type ListboardSelectProps = {
   input: number | undefined;
   onChange: Dispatch<SetStateAction<number | undefined>>;
   className?: string;
+  data?: ListBoard[];
 };
 
 import { HomeContext } from "@/pages/myapp/home";
+import { type ListBoard } from "@prisma/client";
 
 const ListboardSelect = ({
   input,
   onChange,
   className,
+  data,
 }: ListboardSelectProps) => {
-  const listboards = useContext(HomeContext);
+  const contextData = useContext(HomeContext);
+  const listboards = data ? data : contextData;
   const onChangeHandler = (e: React.ChangeEvent<HTMLSelectElement>) => {
     onChange(Number(e.currentTarget.value));
   };

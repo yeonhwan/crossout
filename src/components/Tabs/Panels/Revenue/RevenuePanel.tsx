@@ -70,11 +70,11 @@ const RevenuePanel = ({ openCreateRevenue, data }: RevenuePanelProps) => {
     ) {
       animate(
         "li",
-        { y: [10, 0], opacity: [0, 1] },
+        { opacity: [0, 1] },
         {
-          duration: 0.2,
+          duration: 0.3,
           ease: "linear",
-          delay: stagger(0.1, { startDelay: 0.1 }),
+          delay: stagger(0.1, { startDelay: 0.2 }),
         }
       )
         .then(() => {

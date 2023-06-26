@@ -102,6 +102,7 @@ const ListboardIndex = ({
                 setIsProceed={setIsProceed}
                 setMaskOn={setIsMaskOn}
                 setBackDropOpen={setBackDropOpen}
+                listboards={listboardsData}
               />
             ))}
           </ListView>

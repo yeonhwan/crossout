@@ -1,6 +1,6 @@
 .masking {
   /* scroll bar width, for use in mask calculations */
-  --scrollbar-width: 8px;
+  --scrollbar-width: 0px;
 
   /* mask fade distance, for use in mask calculations */
   --mask-height: 10px;
