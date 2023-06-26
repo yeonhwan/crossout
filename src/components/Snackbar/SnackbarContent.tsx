@@ -30,11 +30,11 @@ const SnackbarSuccess = ({ data, setOpen, loading }: SnackbarContentProps) => {
         }`}
       >
         <div className="flex w-max items-center">
-          <span className="mx-2 text-center text-[8px] font-bold text-white sm:text-base">
+          <span className="mx-2 w-max text-center text-[8px] font-bold text-white sm:text-base">
             {message}
           </span>
           {content && (
-            <span className="mx-2 max-w-[20] overflow-hidden text-ellipsis whitespace-nowrap text-[8px] font-medium text-neutral-200 sm:text-base">
+            <span className="mx-2 w-28 overflow-hidden text-ellipsis whitespace-nowrap text-center text-[8px] font-medium text-neutral-200 sm:w-max sm:max-w-[300px] sm:text-base">
               {content}
             </span>
           )}
@@ -80,7 +80,7 @@ const SnackbarSuccess = ({ data, setOpen, loading }: SnackbarContentProps) => {
   } else {
     return (
       <div
-        className={`flex h-12 min-h-max w-72 items-center justify-center rounded-lg px-4 sm:w-80 sm:min-w-max ${
+        className={`flex h-12 min-h-max w-80 items-center justify-center rounded-lg px-4 sm:w-80 sm:min-w-max ${
           role === "success"
             ? "bg-emerald-500"
             : role === "error"
@@ -92,7 +92,7 @@ const SnackbarSuccess = ({ data, setOpen, loading }: SnackbarContentProps) => {
           {message}
         </span>
         {content && (
-          <span className="mx-2 text-[8px] font-medium text-neutral-200 sm:text-base">
+          <span className="mx-2 w-28 overflow-hidden text-ellipsis whitespace-nowrap text-center text-[8px] font-medium text-neutral-200 sm:w-max sm:max-w-[300px] sm:text-base">
             {content}
           </span>
         )}

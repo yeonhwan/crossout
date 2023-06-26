@@ -92,7 +92,7 @@ const TodoItem = ({ data, sortingTodos, listboards }: TodoItemProps) => {
 
   const { mutate: updateTodo } = api.todo.updateTodo.useMutation({
     onSuccess: async (res) => {
-      const { message, content, todo } = res.data;
+      const { content, todo } = res.data;
       await utils.todo.getTodos.invalidate();
       await utils.listboards.getListboards.invalidate();
       setSnackbarLoadingState(false);
@@ -100,7 +100,7 @@ const TodoItem = ({ data, sortingTodos, listboards }: TodoItemProps) => {
       setIsProceed(false);
       setSnackbarOpen(true);
       setSnackbarData({
-        message,
+        message: "Updated Todo",
         content,
         role: SnackbarRole.Success,
         handler: (data) => {
@@ -325,7 +325,7 @@ const TodoItem = ({ data, sortingTodos, listboards }: TodoItemProps) => {
               )}
             </div>
           </div>
-          <div className="flex w-8/12 flex-col items-center justify-center">
+          <div className="flex w-7/12 flex-col items-center justify-center">
             <p
               className={`relative w-max max-w-full overflow-hidden text-ellipsis whitespace-nowrap text-center text-[8px] text-neutral-800 after:absolute after:left-0 after:top-1/2 after:h-[2px] after:w-0 after:bg-neutral-500 after:transition-all after:duration-200 after:ease-in-out after:content-[''] dark:text-neutral-200 dark:after:bg-neutral-600 mobile:text-xs sm:text-base ${
                 completed ? "after:w-full" : ""
@@ -356,7 +356,7 @@ const TodoItem = ({ data, sortingTodos, listboards }: TodoItemProps) => {
           <div className="flex w-full items-center justify-between rounded-xl bg-transparent px-2 py-4 text-white sm:px-10">
             <div className="flex w-full flex-col items-center sm:flex-row">
               <Select
-                className="relative flex w-[100px] items-center justify-center rounded-md bg-neutral-600/20 fill-neutral-600/70 pr-2 text-xs focus-within:fill-teal-400 focus-within:ring-2 focus-within:ring-teal-300 hover:cursor-pointer dark:bg-neutral-400/40"
+                className="relative mb-1 flex h-6 w-[100px] items-center justify-center rounded-md bg-neutral-600/20 fill-neutral-600/70 pr-2 text-xs focus-within:fill-teal-400 focus-within:ring-2 focus-within:ring-teal-300 hover:cursor-pointer dark:bg-neutral-400/40"
                 value={urgencyInput}
                 onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
                   setUrgencyInput(e.currentTarget.value as UrgencyInput);
@@ -371,7 +371,7 @@ const TodoItem = ({ data, sortingTodos, listboards }: TodoItemProps) => {
               <div className="mx-auto flex h-max w-8/12 flex-col items-center justify-center">
                 <div className="flex w-full flex-col items-center justify-center">
                   <input
-                    className="w-full border-0 bg-neutral-600/20 py-1 text-center text-xs outline-0 ring-transparent focus-visible:ring-2 focus-visible:ring-teal-300 dark:bg-neutral-400/40 sm:w-8/12 sm:align-middle sm:text-sm"
+                    className="w-full border-0 bg-neutral-600/20 px-1 py-1 text-center text-xs outline-0 ring-transparent focus-visible:ring-2 focus-visible:ring-teal-300 dark:bg-neutral-400/40 sm:w-8/12 sm:align-middle sm:text-sm"
                     value={todoInput}
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                       setTodoInput(e.currentTarget.value);
@@ -379,7 +379,7 @@ const TodoItem = ({ data, sortingTodos, listboards }: TodoItemProps) => {
                     autoFocus
                   />
                   <span
-                    className={`my-1 w-full text-center text-[8px] sm:my-1 sm:w-8/12 ${
+                    className={`my-1 w-full text-center text-[8px] sm:my-1 sm:w-7/12 ${
                       todoInput.length > 45 || todoInput.length <= 0
                         ? "text-red-400"
                         : ""
@@ -387,7 +387,7 @@ const TodoItem = ({ data, sortingTodos, listboards }: TodoItemProps) => {
                   >{`${todoInput.length} / 45`}</span>
                 </div>
                 <ListboardSelect
-                  className="relative flex w-full items-center justify-center rounded-md bg-neutral-600/20 fill-neutral-600/70 pr-2 text-xs focus-within:fill-teal-400 focus-within:ring-2 focus-within:ring-teal-300 hover:cursor-pointer dark:bg-neutral-400/40 sm:w-8/12"
+                  className="relative flex h-6 w-full items-center justify-center rounded-md bg-neutral-600/20 fill-neutral-600/70 pr-2 text-xs focus-within:fill-teal-400 focus-within:ring-2 focus-within:ring-teal-300 hover:cursor-pointer dark:bg-neutral-400/40 sm:w-8/12"
                   input={listboardInput}
                   onChange={setListboardInput}
                   data={listboards ? listboards : undefined}

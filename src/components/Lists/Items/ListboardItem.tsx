@@ -248,7 +248,7 @@ const ListboardItem = ({
         window.innerHeight / 2 -
         (itemRect.height + itemRect.y) -
         scrollTop -
-        40;
+        window.innerHeight * 0.03;
       const itemWidth = isOverSmall
         ? itemRect.width + 380
         : window.innerWidth * 0.8;

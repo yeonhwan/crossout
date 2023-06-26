@@ -199,7 +199,7 @@ const RevenueItem = ({ data }: RevenueItemProps) => {
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                     setPurposeInput(e.currentTarget.value);
                   }}
-                  className="w-full rounded-md border-none bg-transparent pl-4 text-center text-xs outline-none sm:text-base"
+                  className="w-full rounded-md border-none bg-transparent px-1 text-center text-xs outline-none sm:text-base"
                   autoFocus
                 />
               </div>
@@ -281,11 +281,11 @@ const RevenueItem = ({ data }: RevenueItemProps) => {
             )}
           </span>
         </div>
-        <div className="flex flex-col items-center justify-center text-white">
-          <p className="overflow-hidden text-ellipsis whitespace-nowrap text-xs font-semibold sm:text-base">
+        <div className="flex w-[60%] flex-col items-center justify-center text-white">
+          <p className="w-full overflow-hidden text-ellipsis whitespace-nowrap text-center text-xs font-semibold sm:text-base">
             {purpose}
           </p>
-          <p className="font-smibold overflow-hidden text-ellipsis whitespace-nowrap text-[8px] sm:text-sm">
+          <p className="font-smibold w-full overflow-hidden text-ellipsis whitespace-nowrap text-center text-[8px] sm:text-sm">
             <span>{sign}</span>
             {money}
           </p>
@@ -326,7 +326,7 @@ const RevenueItem = ({ data }: RevenueItemProps) => {
     <li
       className={`relative my-1 flex w-full items-center justify-between rounded-lg px-2 py-2 drop-shadow-lg transition-all sm:my-1.5 sm:p-2 ${
         isProfit ? "bg-emerald-500 dark:bg-emerald-600" : "bg-red-400"
-      } ${isUpdating ? "h-20 sm:h-28" : "h-12 sm:h-16"}`}
+      } ${isUpdating ? "h-[90px] sm:h-28" : "h-12 sm:h-16"}`}
     >
       {contentRender()}
     </li>
