@@ -109,7 +109,7 @@ const DaylogPanel = ({ data, isDaylogLoading }: DaylogPanelProps) => {
           <div className="absolute right-3 top-3 flex">
             <span className="flex items-center justify-center">
               <LoaderIcon
-                className={`h-8 w-8 fill-white ${
+                className={`h-8 w-8 fill-neutral-700 dark:fill-white ${
                   isUpserting ? "opacity-100" : "opacity-0"
                 }`}
               />

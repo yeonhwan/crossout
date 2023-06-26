@@ -23,6 +23,7 @@ type DoughnutChartProps = {
 };
 
 const DoughnutChart = ({ data, isLight }: DoughnutChartProps) => {
+  console.log(data);
   if (data.length) {
     return (
       <ResponsivePie
@@ -118,9 +119,11 @@ const DoughnutChart = ({ data, isLight }: DoughnutChartProps) => {
   } else {
     return (
       <div className="flex h-full w-full flex-col items-center justify-center">
-        <NoChartIcons className="m-0 h-24 w-24 stroke-white" />
-        <p className="mt-2 font-bold text-white">Oops, Nothing to show</p>
-        <p className="flex flex-col items-center text-xs text-white">
+        <NoChartIcons className="m-0 h-24 w-24 stroke-neutral-700 dark:stroke-white" />
+        <p className="mt-2 font-bold text-neutral-700 dark:text-white">
+          Oops, Nothing to show
+        </p>
+        <p className="flex flex-col items-center text-xs text-neutral-700 dark:text-white">
           No datas exist in this period.
         </p>
       </div>

@@ -17,7 +17,7 @@ const NoListboards = ({ buttonHandler }: NoListboardsProps) => {
       </p>
       <Button
         onClick={buttonHandler}
-        className="mt-2 bg-cyan-700 text-white outline-none hover:border-none hover:bg-orange-400 hover:outline-0 dark:bg-cyan-500 dark:text-white"
+        className="mt-2 min-w-max bg-cyan-700 text-white outline-none hover:border-none hover:bg-orange-400 hover:outline-0 dark:bg-cyan-500 dark:text-white"
       >
         New Listboard
       </Button>

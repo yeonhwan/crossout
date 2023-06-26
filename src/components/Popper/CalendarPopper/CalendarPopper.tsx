@@ -181,10 +181,14 @@ const CalendarPopper = ({
         </CircleButton>
         <div className="relative flex h-full w-full flex-col justify-around overflow-hidden py-2 sm:w-5/6 sm:py-6">
           <div className="flex flex-col items-center justify-center">
-            <p className="text-md font-bold text-white sm:text-xl ">Calendar</p>
+            <p className="text-md font-bold text-neutral-700 dark:text-white sm:text-xl ">
+              Calendar
+            </p>
             <p
               className={`w-full text-center text-sm font-semibold transition-colors sm:text-lg ${
-                selectedDateData ? "text-teal-400" : "text-white"
+                selectedDateData
+                  ? "text-teal-400"
+                  : "text-neutral-700 dark:text-white"
               }`}
             >
               {dateInput.format("YYYY MMM DD ddd")}

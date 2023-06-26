@@ -196,7 +196,7 @@ const RevenueForm = (
       <div className="flex">
         {isProceed ? (
           <Button className="pointer-events-none flex h-10 items-center justify-center px-4 hover:bg-neutral-400 dark:hover:bg-neutral-700">
-            <LoaderIcon className="h-6 w-6 fill-white" />
+            <LoaderIcon className="h-6 w-6 fill-neutral-700 dark:fill-white" />
           </Button>
         ) : (
           <>

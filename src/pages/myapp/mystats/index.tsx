@@ -30,6 +30,8 @@ import Layout from "@/components/Layout";
 // apis
 import { api } from "@/utils/api";
 
+import { currencyFormatter } from "@/utils/currencyFormatter";
+
 import { type InferGetServerSidePropsType } from "next";
 import dayjs from "dayjs";
 import { motion, useAnimate, stagger } from "framer-motion";
@@ -257,13 +259,13 @@ const Mystats = ({
                 />
               </div>
               <div className="mt-2 flex h-full w-1/2 flex-col items-center justify-evenly rounded-xl px-4 lg:mt-0 lg:h-[25%] lg:w-full lg:px-0">
-                <p className="stat-item flex h-[45%] w-full flex-col items-center justify-evenly rounded-lg bg-neutral-400/10 px-4 py-2 text-xs font-bold text-white shadow-2xl lg:h-[40%] lg:flex-row lg:justify-start lg:text-sm">
+                <p className="stat-item flex h-[45%] w-full flex-col items-center justify-evenly rounded-lg bg-neutral-400/10 px-4 py-2 text-xs font-bold text-neutral-700 shadow-2xl dark:text-white lg:h-[40%] lg:flex-row lg:justify-start lg:text-sm">
                   {selectedField === "mood" ? (
-                    <SmileIcon className="mr-0 h-6 w-6 rounded-lg bg-neutral-900/20 p-1 shadow-xl lg:mr-2" />
+                    <SmileIcon className="mr-0 h-6 w-6 rounded-lg bg-neutral-900/20 fill-white p-1 shadow-xl lg:mr-2" />
                   ) : (
-                    <ListAltIcon className="mr-0 h-6 w-6 rounded-lg bg-neutral-900/20 p-1 shadow-xl lg:mr-2" />
+                    <ListAltIcon className="mr-0 h-6 w-6 rounded-lg bg-neutral-900/20 fill-white p-1 shadow-xl lg:mr-2" />
                   )}
-                  <span className="mr-0 text-[8px] font-semibold mobile:text-xs md:text-sm lg:mr-2">
+                  <span className="mr-0 text-[8px] font-semibold text-neutral-700 dark:text-white mobile:text-xs md:text-sm lg:mr-2">
                     {selectedField === "todo"
                       ? "Total Todos"
                       : selectedField === "revenue"
@@ -276,15 +278,15 @@ const Mystats = ({
                     ? revenuesSummaryData.totalCount
                     : `${moodsSummaryData.goodRatio} %`}
                 </p>
-                <p className="stat-item flex h-[45%] w-full flex-col items-center justify-evenly rounded-lg bg-neutral-400/10 px-4 py-1 text-xs font-bold text-white shadow-2xl lg:h-[40%] lg:flex-row lg:justify-start lg:text-sm">
+                <p className="stat-item flex h-[45%] w-full flex-col items-center justify-evenly rounded-lg bg-neutral-400/10 px-4 py-1 text-xs font-bold text-neutral-700 shadow-2xl dark:text-white lg:h-[40%] lg:flex-row lg:justify-start lg:text-sm">
                   {selectedField === "todo" ? (
-                    <ChecklistIcon className="mr-0 h-6 w-6 rounded-lg bg-neutral-900/20 p-1 shadow-xl lg:mr-2" />
+                    <ChecklistIcon className="mr-0 h-6 w-6 rounded-lg bg-neutral-900/20 fill-white p-1 shadow-xl lg:mr-2" />
                   ) : selectedField === "revenue" ? (
                     <MoneyAllIcon className="mr-0 h-6 w-6 rounded-lg bg-neutral-900/20 fill-white p-1 shadow-xl lg:mr-2" />
                   ) : (
                     <SadIcon className="mr-0 h-6 w-6 rounded-lg bg-neutral-900/20 fill-white p-1 shadow-xl lg:mr-2" />
                   )}
-                  <span className="mr-0 text-[8px] font-semibold mobile:text-xs md:text-sm lg:mr-2 ">
+                  <span className="mr-0 text-[8px] font-semibold text-neutral-700 dark:text-white mobile:text-xs md:text-sm lg:mr-2">
                     {selectedField === "todo"
                       ? "Completed"
                       : selectedField === "revenue"
@@ -300,7 +302,7 @@ const Mystats = ({
                         )} %`
                       : 0
                     : selectedField === "revenue"
-                    ? `$ ${revenuesSummaryData.totalRevenue}`
+                    ? `${currencyFormatter(revenuesSummaryData.totalRevenue)}`
                     : `${moodsSummaryData.badRatio} %`}
                 </p>
               </div>
@@ -370,7 +372,7 @@ const Mystats = ({
                     ? revenuesCardData.mostEarnedMonth
                       ? revenuesCardData.mostEarnedMonth
                       : "No Data"
-                    : moodsCardData.averageMood
+                    : moodsCardData.averageMood !== ""
                     ? moodsCardData.averageMood
                     : "No Data"}
                 </p>
@@ -486,7 +488,9 @@ const Mystats = ({
                     <p className="text-[8px] font-extrabold text-white mobile:text-xs lg:block xl:text-[13px]">
                       {selectedField === "todo"
                         ? `${todosCardData.averageCompleteRatio} %`
-                        : `$ ${revenuesCardData.highestProfit}`}
+                        : `${currencyFormatter(
+                            revenuesCardData.highestProfit
+                          )}`}
                     </p>
                   </div>
                   <div
@@ -517,7 +521,7 @@ const Mystats = ({
                     <p className="text-[8px] font-extrabold text-white mobile:text-xs lg:block lg:text-[12px] xl:text-[13px]">
                       {selectedField === "todo"
                         ? todosCardData.longestCombo
-                        : `$ ${revenuesCardData.highestLoss}`}
+                        : `${currencyFormatter(revenuesCardData.highestLoss)}`}
                     </p>
                   </div>
                 </>
