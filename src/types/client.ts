@@ -40,6 +40,7 @@ export type SelectedDateDateType = {
     content: string;
     id: number;
     urgency: Urgency;
+    listBoard: ListBoard;
   }[];
   revenues?: {
     purpose: string;

@@ -44,6 +44,7 @@ const getMonthlyData = protectedProcedure
                     content: true,
                     id: true,
                     urgency: true,
+                    listBoard: true,
                   },
                 },
               },

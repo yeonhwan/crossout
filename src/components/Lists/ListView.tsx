@@ -29,7 +29,7 @@ const ListView = ({
 
     return (
       <div
-        className={`flex ${height} w-full justify-center overflow-y-auto overflow-x-hidden ${
+        className={`scrollable flex ${height} w-full justify-center overflow-y-auto overflow-x-hidden ${
           maskOn ? (masking_styles.masking as string) : ""
         }`}
       >
@@ -39,7 +39,7 @@ const ListView = ({
   } else {
     return (
       <div
-        className={`flex h-full w-full overflow-y-auto overflow-x-hidden ${
+        className={`scrollable flex h-full w-full overflow-y-auto overflow-x-hidden ${
           maskOn ? (masking_styles.masking as string) : ""
         }`}
       >

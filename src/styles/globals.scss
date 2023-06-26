@@ -18,6 +18,9 @@ body {
   text-rendering: optimizeSpeed;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  scrollbar-width: thin;
+  scrollbar-track-color: transparent;
+  scrollbar-color: #3737372b;
 }
 
 #__next {
@@ -193,4 +196,15 @@ select:focus-visible {
 
   width: 100%;
   height: 4px;
+}
+
+// scroll bar
+.scrollable::-webkit-scrollbar {
+  background-color: transparent;
+  width: 5px;
+}
+
+.scrollable::-webkit-scrollbar-thumb {
+  background-color: #3737372b;
+  border-radius: 25px;
 }

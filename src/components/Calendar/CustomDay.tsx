@@ -38,7 +38,7 @@ const CustomDay = (props: CustomDayProps) => {
         <div className="relative h-max w-max flex-col">
           <PickersDay
             className={`text-neutral-600 dark:text-white ${
-              selected ? "bg-emerald-400" : ""
+              selected ? "bg-teal-400" : ""
             }`}
             {...other}
             day={day}
@@ -54,7 +54,7 @@ const CustomDay = (props: CustomDayProps) => {
             className={`absolute right-1 top-0 text-center text-[10px] font-semibold ${
               selected
                 ? "text-white"
-                : "animate-pulse text-emerald-600 dark:text-emerald-300"
+                : "animate-pulse text-teal-600 dark:text-teal-300"
             }`}
           >
             {count}
@@ -66,7 +66,7 @@ const CustomDay = (props: CustomDayProps) => {
         <div className="relative h-max w-max flex-col">
           <PickersDay
             className={`text-neutral-600 dark:text-white ${
-              selected ? "bg-emerald-300 dark:bg-emerald-400" : ""
+              selected ? "bg-teal-300 dark:bg-teal-400" : ""
             }`}
             day={day}
             today={today}
@@ -108,7 +108,7 @@ const CustomDay = (props: CustomDayProps) => {
         <div className="relative h-max w-max flex-col">
           <PickersDay
             className={`text-neutral-600 dark:text-white ${
-              selected ? "bg-emerald-300 dark:bg-emerald-400" : ""
+              selected ? "bg-teal-300 dark:bg-teal-400" : ""
             }`}
             day={day}
             today={today}
@@ -132,7 +132,7 @@ const CustomDay = (props: CustomDayProps) => {
         <div className="relative h-max w-max flex-col">
           <PickersDay
             className={`text-neutral-600 dark:text-white ${
-              selected ? "bg-emerald-400" : ""
+              selected ? "bg-teal-400" : ""
             }`}
             day={day}
             today={today}
@@ -168,7 +168,7 @@ const CustomDay = (props: CustomDayProps) => {
               className={`absolute right-1 top-0 text-center text-[10px] font-semibold ${
                 selected
                   ? "text-white"
-                  : "animate-pulse text-emerald-400 dark:text-emerald-300"
+                  : "animate-pulse text-teal-400 dark:text-teal-300"
               }`}
             >
               +$
@@ -191,7 +191,7 @@ const CustomDay = (props: CustomDayProps) => {
         <div className="relative h-max w-max flex-col">
           <PickersDay
             className={`text-neutral-600 dark:text-white ${
-              selected ? "bg-emerald-300 dark:bg-emerald-400" : ""
+              selected ? "bg-teal-300 dark:bg-teal-400" : ""
             }`}
             day={day}
             today={today}
@@ -211,7 +211,7 @@ const CustomDay = (props: CustomDayProps) => {
         <div className="relative h-max w-max flex-col">
           <PickersDay
             className={`text-neutral-600 dark:text-white ${
-              selected ? "bg-emerald-400" : ""
+              selected ? "bg-teal-400" : ""
             }`}
             day={day}
             today={today}
