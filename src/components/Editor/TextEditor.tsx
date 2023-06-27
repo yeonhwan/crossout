@@ -47,9 +47,14 @@ type TextEditorProps = {
     SerializedEditorState<SerializedLexicalNode> | undefined
   >;
   isContentLoading: boolean;
+  isUpserting: boolean;
 };
 
-const TextEditor = ({ editorContent, editorStateRef }: TextEditorProps) => {
+const TextEditor = ({
+  editorContent,
+  editorStateRef,
+  isUpserting,
+}: TextEditorProps) => {
   const [editor] = useLexicalComposerContext();
   const { dateObj } = useDateStore((state) => state);
   const prevEditorContent = useRef<string | undefined>(editorContent);
@@ -117,12 +122,12 @@ const TextEditor = ({ editorContent, editorStateRef }: TextEditorProps) => {
           root.getChildrenSize() === 1;
         const noWhiteSpace = $isRootTextContentEmpty(true, true);
 
-        if (isDiff && isDateSame && !isEmpty && !noWhiteSpace) {
+        if (isDiff && isDateSame && !isEmpty && !noWhiteSpace && !isUpserting) {
           upsertTextEditor(data);
         }
       });
     },
-    2000
+    4000
   );
 
   function onChange(editorState: EditorState) {

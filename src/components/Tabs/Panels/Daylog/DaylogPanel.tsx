@@ -141,6 +141,7 @@ const DaylogPanel = ({ data, isDaylogLoading }: DaylogPanelProps) => {
               isContentLoading={isDaylogLoading}
               editorStateRef={editorStateRef}
               editorContent={editorContentData}
+              isUpserting={isUpserting}
             />
           </LexicalComposer>
         </div>
