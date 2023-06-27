@@ -270,7 +270,7 @@ const getYearlyChartData = protectedProcedure
           // yearly moods (daylog) query
           // terrible: 0, bad: 1, normal: 2, good: 3, happy: 4
           let longestDaylogRecords = 0;
-          let currentDaylogRecords = 1;
+          let currentDaylogRecords = 0;
 
           const yearlyMoodsArray = yearlyDateRecordsdata
             .map((data, i, arr) => {
@@ -280,6 +280,7 @@ const getYearlyChartData = protectedProcedure
                   currentDaylogRecords++;
                   longestDaylogRecords++;
                 } else {
+                  currentDaylogRecords++;
                   const prevDateRecordData = arr[i - 1];
                   const isCountable =
                     !!prevDateRecordData?.daylogs &&
@@ -288,7 +289,6 @@ const getYearlyChartData = protectedProcedure
                         data.date === 1));
 
                   if (isCountable) {
-                    currentDaylogRecords++;
                     longestDaylogRecords = Math.max(
                       currentDaylogRecords,
                       longestDaylogRecords
