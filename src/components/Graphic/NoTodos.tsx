@@ -12,7 +12,7 @@ const NoTodos = ({ buttonHandler }: NoTodosProps) => {
   return (
     <div className="flex h-full w-full flex-col items-center justify-center">
       <NoTodosIcon className="h-24 w-24 stroke-black dark:stroke-neutral-200 sm:h-32 sm:w-32" />
-      <h1 className="text-md mt-2 font-bold text-neutral-800 dark:text-white sm:text-lg">
+      <h1 className="mt-2 text-base font-bold text-neutral-800 dark:text-white sm:text-lg">
         Oops, Nothing to show
       </h1>
       <p className="text-xs text-neutral-700 dark:text-neutral-200 sm:text-sm">

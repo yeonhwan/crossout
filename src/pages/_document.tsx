@@ -4,6 +4,9 @@ export default function Document() {
   return (
     <Html>
       <Head>
+        <meta name="theme-color" content="#14b8a6" />
+        <meta name="apple-mobile-web-app-capable" content="yes"></meta>
+        <meta name="mobile-web-app-capable" content="yes"></meta>
         <link
           rel="apple-touch-icon"
           sizes="60x60"
@@ -11,8 +14,8 @@ export default function Document() {
         />
         <link
           rel="apple-touch-icon"
-          sizes="144x144"
-          href="/favicons/apple-icon-144x144.png"
+          sizes="120x120"
+          href="/favicons/apple-icon-120x120.png"
         />
         <link
           rel="apple-touch-icon"
@@ -29,13 +32,13 @@ export default function Document() {
           rel="icon"
           type="image/png"
           sizes="32x32"
-          href="/favicons/favicon-32x32.png"
+          href="/favicons/favicon.ico"
         />
         <link
           rel="icon"
           type="image/png"
           sizes="16x16"
-          href="/favicons/favicon-16x16.png"
+          href="/favicons/favicon.ico"
         />
         <link
           rel="apple-touch-startup-image"
@@ -97,7 +100,6 @@ export default function Document() {
           media="screen and (device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)"
           href="/splash/iPhone_SE_portrait.png"
         />
-        <meta name="theme-color" content="#14b8a6" />
         <link rel="manifest" href="/manifest.json" />
       </Head>
       <body>

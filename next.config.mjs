@@ -8,6 +8,17 @@ import withPWA from "next-pwa";
 /** @type {import("next").NextConfig} */
 const config = {
   reactStrictMode: true,
+  headers: async () => [
+    {
+      source: "/myapp/:route",
+      headers: [
+        {
+          key: "Cache-Control",
+          value: "no-store",
+        },
+      ],
+    },
+  ],
   webpack(config) {
     config.module.rules.push({
       test: /\.svg$/i,

@@ -329,14 +329,14 @@ const TodoItem = ({ data, sortingTodos, listboards }: TodoItemProps) => {
           </div>
           <div className="flex w-7/12 flex-col items-center justify-center">
             <p
-              className={`relative w-max max-w-full overflow-hidden text-ellipsis whitespace-nowrap text-center text-[8px] text-neutral-800 after:absolute after:left-0 after:top-1/2 after:h-[2px] after:w-0 after:bg-neutral-500 after:transition-all after:duration-200 after:ease-in-out after:content-[''] dark:text-neutral-200 dark:after:bg-neutral-600 mobile:text-xs sm:text-base ${
+              className={`relative w-max max-w-full overflow-hidden text-ellipsis whitespace-nowrap text-center text-[10px] text-neutral-800 after:absolute after:left-0 after:top-1/2 after:h-[2px] after:w-0 after:bg-neutral-500 after:transition-all after:duration-200 after:ease-in-out after:content-[''] dark:text-neutral-200 dark:after:bg-neutral-600 mobile:text-xs sm:text-base ${
                 completed ? "after:w-full" : ""
               }`}
             >
               {content}
             </p>
             {listBoard && (
-              <p className="w-full overflow-hidden text-ellipsis whitespace-nowrap text-center text-[10px] font-light text-neutral-800 dark:text-neutral-400 sm:text-sm">
+              <p className="w-full overflow-hidden text-ellipsis whitespace-nowrap text-center text-[9px] font-light text-neutral-800 dark:text-neutral-400 sm:text-sm">
                 {listboardTitle}
               </p>
             )}
