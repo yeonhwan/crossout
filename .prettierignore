@@ -1,0 +1,5 @@
+# for organizing lotties one-line
+src/components/Tabs/Panels/Daylog/MoodSelector.tsx
+
+# for organizing type inferring router inputs/outputs
+src/utils/api.ts

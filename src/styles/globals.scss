@@ -1,0 +1,210 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  height: 100%;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  /* Declare your default font stack here */
+  height: 100%;
+  text-rendering: optimizeSpeed;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  scrollbar-width: thin;
+  scrollbar-track-color: transparent;
+  scrollbar-color: #3737372b;
+}
+
+#__next {
+  width: 100%;
+  height: 100%;
+}
+
+input {
+  border: 1px solid gray;
+  border-radius: 5px;
+}
+
+button {
+  outline: 1px solid gray;
+  background-color: rgb(52, 51, 51);
+  border-radius: 5px;
+  color: white; /* By default, buttons don't inherit the font colour, this is a useful default to override */
+}
+
+svg {
+  /* Make the SVGs fit the parent container by default */
+  height: 100%;
+  width: 100%;
+
+  /* Optional - make the SVG's fill be the same as the inherited color */
+  fill: currentColor;
+}
+
+select {
+  appearance: none;
+  text-align-last: center;
+  text-align: center;
+  position: relative;
+
+  -ms-text-align-last: center;
+  -moz-text-align-last: center;
+
+  display: flex;
+}
+
+select:focus-visible {
+  outline: none;
+}
+
+/* for text editor formatting (styles are not applied correctly because of classNames of css modules are randomly encoded by Next) */
+.editor-input {
+  color: white;
+
+  h1 {
+    font-size: larger;
+    font-weight: bolder;
+  }
+
+  h2 {
+    font-size: large;
+    font-weight: bold;
+  }
+
+  p {
+    font-size: medium;
+  }
+
+  ul {
+    margin-left: 2em;
+    list-style: inside;
+
+    li {
+      list-style-type: disc;
+      list-style-position: outside;
+    }
+  }
+
+  ol {
+    margin-left: 2em;
+    list-style-type: decimal;
+
+    li {
+      list-style-type: decimal;
+      list-style-position: outside;
+    }
+  }
+
+  .bold {
+    font-weight: bold;
+  }
+
+  .italic {
+    font-style: italic;
+  }
+
+  .underline {
+    text-decoration: underline;
+  }
+
+  .dash {
+    text-decoration: line-through;
+  }
+
+  .underline-dash {
+    text-decoration: underline line-through;
+  }
+}
+
+.simple {
+  background: linear-gradient(85deg, #b6b6b6, #9d9d9d);
+  background-size: 400% 400%;
+  animation: simple 30s ease alternate-reverse infinite;
+}
+
+.dark .simple {
+  background: linear-gradient(85deg, #494949, #373737);
+  background-size: 400% 400%;
+  animation: simple 30s ease alternate-reverse infinite;
+}
+
+.main_background {
+  background: linear-gradient(53deg, #95c650, #3da48a, #1c7d9a, #3a8fca);
+  background-size: 800% 800%;
+  animation: mainbg 20s ease infinite;
+}
+
+.vertical {
+  position: absolute;
+  --base: 367px;
+  --increasement: calc(100vw - var(--base));
+  width: calc(100% + var(--increasement) + 10vw);
+  height: calc(100% + var(--increasement) + 10vw);
+  top: calc(-1 * (var(--increasement) + 10vw));
+
+  @media screen and (min-width: 600px) {
+    width: calc(100% + var(--increasement) + 30vw);
+    height: calc(100% + var(--increasement) + 30vw);
+    top: calc(-1 * (var(--increasement) + 30vw));
+  }
+}
+
+@keyframes mainbg {
+  0% {
+    background-position: 50% 0%;
+  }
+  50% {
+    background-position: 51% 100%;
+  }
+  100% {
+    background-position: 50% 0%;
+  }
+}
+
+@keyframes simple {
+  0% {
+    background-position: 0% 48%;
+  }
+  50% {
+    background-position: 100% 53%;
+  }
+  100% {
+    background-position: 0% 48%;
+  }
+}
+
+// progress bar css
+#nprogress {
+  pointer-events: none;
+}
+
+#nprogress .bar {
+  background: rgb(20 184 166);
+
+  position: fixed;
+  z-index: 1031;
+  top: 0;
+  left: 0;
+
+  width: 100%;
+  height: 4px;
+}
+
+// scroll bar
+.scrollable::-webkit-scrollbar {
+  background-color: transparent;
+  width: 5px;
+}
+
+.scrollable::-webkit-scrollbar-thumb {
+  background-color: #3737372b;
+  border-radius: 25px;
+}

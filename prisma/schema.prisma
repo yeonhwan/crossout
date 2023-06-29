@@ -16,39 +16,62 @@ datasource db {
     
 }
 
-model Example {
-    id        String   @id @default(cuid())
-    testString String 
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+// User & Auth models
+model User {
+    id            String    @id @default(cuid())
+    name          String
+    email         String   @unique
+    image         String?
+    password      String?
+    emailVerified DateTime?
+    profileImage  String?
+    listBoards    ListBoard[]
+    todos         Todo[]
+    daylogs       DayLog[]
+    revenues      Revenue[]
+    dateRecords   DateRecord[]
+    accounts      Account[]
+    sessions      Session[]
+    preference    Json @default("{\"isLight\":true,\"background\":\"1\"}")
 }
 
-// // Necessary for Next auth
-// model Account {
-//     id                String  @id @default(cuid())
-//     userId            String
-//     type              String
-//     provider          String
-//     providerAccountId String
-//     refresh_token     String?  @db.Text
-//     access_token      String?  @db.Text
-//     expires_at        Int?
-//     token_type        String?
-//     scope             String?
-//     id_token          String?  @db.Text
-//     session_state     String?
-//     user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+model VerificationToken {
+    identifier String
+    token      String   @unique
+    expires    DateTime
+    @@unique([identifier, token])
+}
 
-//     @@unique([provider, providerAccountId])
-// }
+model Account {
+    id                String  @id @default(cuid())
+    userId            String
+    type              String
+    provider          String
+    providerAccountId String
+    refresh_token     String?  @db.Text
+    access_token      String?  @db.Text
+    expires_at        Int?
+    token_type        String?
+    scope             String?
+    id_token          String?  @db.Text
+    session_state     String?
+    user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+    refresh_token_expires_in Int?
 
-// model Session {
-//     id           String   @id @default(cuid())
-//     sessionToken String   @unique
-//     userId       String
-//     expires      DateTime
-//     user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-// }
+    @@index([userId])
+    @@unique([provider, providerAccountId])
+}
+
+model Session {
+    id           String   @id @default(cuid())
+    sessionToken String   @unique
+    userId       String
+    expires      DateTime
+    user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    @@index([userId])
+}
+//
 
 // Todo Models
 enum Urgency {
@@ -59,73 +82,90 @@ enum Urgency {
 model Todo {
     id Int @id @default(autoincrement())
     content String 
-    user User @relation(fields: [userId], references: [id])
-    userId String @unique
+    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+    userId String
     completed Boolean @default(false)
-    createdAt DateTime @default(now())
     deadline DateTime?
-    urgency Urgency?
-    listBoard ListBoard? @relation(fields: [listBoardId], references: [id])
+    urgency Urgency
+    listBoard ListBoard? @relation(fields: [listBoardId], references: [id], onDelete: Cascade)
     listBoardId Int?
-    dateRecord DateRecord? @relation(fields: [dateRecordId], references: [id])
-    dateRecordId Int?
+    dateRecord DateRecord @relation(fields: [dateRecordId], references: [id], onDelete: Cascade)
+    dateRecordId Int
+    createdAt DateTime @default(now())
 
-    @@index([listBoardId, dateRecordId])
+    @@index([listBoardId])
+    @@index([dateRecordId])
+    @@index([userId])
 }
+
 
 model ListBoard {
     id Int @id @default(autoincrement())
-    user User @relation(fields: [userId], references: [id])
-    userId String @unique
+    title String
+    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+    userId String 
     todos Todo[]
     description String?
+    // todoIndex Json
+
+    @@index([userId])
 }
-// Todo Models
+//
 
 
 
 // Date Models
 model DateRecord {
     id Int @id @default(autoincrement())
-    date DateTime @unique
-    day String
     todos Todo[]
-    revHistory DayRevs[]
-    user User @relation(fields: [userId], references: [id])
+    revenues Revenue[]
+    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
     userId String
+    daylogs DayLog?
+    year Int
+    month Int
+    date Int
+    todoIndex Json?
+    dateIndex Int
+
+    @@index([userId])
+    @@index([date])
+    @@index([year, month, date, userId])
 }
 
-model DayRevs {
+model Revenue {
     id Int @id @default(autoincrement())
-    revenue Int
+    revenue Decimal
     purpose String
-    date DateTime?
-    dateRecord DateRecord @relation(fields: [dateRecordId], references: [id])
+    createdAt DateTime @default(now())
+    dateRecord DateRecord @relation(fields: [dateRecordId], references: [id], onDelete: Cascade)
     dateRecordId Int
-    description String?
+    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+    userId String
 
     @@index([dateRecordId])
+    @@index([userId])
+}
+
+enum Mood {
+    terrible
+    bad 
+    normal
+    good
+    happy
+}
+
+model DayLog {
+    id Int @id @default(autoincrement())
+    dateRecord DateRecord @relation(fields: [dateRecordId], references: [id], onDelete: Cascade)
+    dateRecordId Int @unique
+    mood Mood @default(normal)
+    content Json
+    user User @relation(fields: [userId], references: [id])
+    userId String
+
+    @@index([dateRecordId])
+    @@index([userId])
 }
 //
 
-
-model User {
-    id            String    @id @default(cuid())
-    username      String?
-    email         String   @unique
-    password      String
-    emailVerified DateTime?
-    profileImage  String?
-    listBoards    ListBoard[]
-    todos         Todo[]
-    dateRecords   DateRecord[]
-    // accounts      Account[]
-    // sessions      Session[]
-}
-
-// model VerificationToken {
-//     identifier String
-//     token      String   @unique
-//     expires    DateTime
-//     @@unique([identifier, token])
-// }
