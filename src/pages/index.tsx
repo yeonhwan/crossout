@@ -1,3 +1,5 @@
+import Head from "next/head";
+
 import Logo from "public/logo/logo_gradient.svg";
 import MainTitle from "public/logo/main_title.svg";
 import MainTitleHorizon from "public/logo/main_title_horizon.svg";
@@ -36,6 +38,9 @@ const Splash = () => {
 
   return (
     <div className="main_background relative flex h-full w-full items-center justify-center overflow-hidden">
+      <Head>
+        <title>Crossout - Your simple day to day manager</title>
+      </Head>
       <div className="absolute left-0 top-0 z-0 h-full w-full bg-pattern bg-repeat-round opacity-40"></div>
       <div className="z-10 flex h-full w-full items-center justify-center mobile:h-[70%] mobile:w-[80%] lg:h-[80%] lg:w-[50%]">
         <div className="mt-10 flex h-0 w-0 items-center py-24 opacity-0 lg:h-full lg:w-[30%] lg:opacity-100">

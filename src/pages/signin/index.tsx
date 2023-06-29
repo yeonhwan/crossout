@@ -1,6 +1,7 @@
 // Next
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import Head from "next/head";
 
 // React, hooks
 import { useState } from "react";
@@ -69,6 +70,9 @@ const SignIn: NextPageWithLayout = () => {
 
   return (
     <div className="main_background relative flex h-full w-full items-center justify-center overflow-hidden">
+      <Head>
+        <title>Crossout - Sign in</title>
+      </Head>
       <div className="absolute left-0 top-0 h-full w-full bg-pattern bg-repeat opacity-40"></div>
       <form className="z-50 flex h-max w-[85%] max-w-[500px] flex-col rounded-lg border-2 border-zinc-300 bg-white p-12 shadow-lg sm:w-4/12 sm:min-w-[450px]">
         <div

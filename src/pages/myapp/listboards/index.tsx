@@ -1,5 +1,6 @@
 // Hooks
 import { useState } from "react";
+import Head from "next/head";
 
 // components
 import ListView from "@/components/Lists/ListView";
@@ -142,6 +143,9 @@ const ListboardIndex = ({
 
   return (
     <Layout userData={userData}>
+      <Head>
+        <title>Crossout - Listboards</title>
+      </Head>
       <div className="flex h-[90%] max-h-[900px] min-h-[500px] w-full max-w-[1700px] flex-col px-5 sm:px-20 md:px-40 lg:min-h-[700px]">
         <motion.div
           initial={{ y: -20, opacity: 0 }}

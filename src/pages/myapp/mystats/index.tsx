@@ -1,3 +1,5 @@
+import Head from "next/head";
+
 // components
 import CircleButton from "@/components/Buttons/CircleButton";
 import DoughnutChart from "@/components/Charts/DoughnutChart";
@@ -159,6 +161,9 @@ const Mystats = ({
 
   return (
     <Layout userData={userData}>
+      <Head>
+        <title>Crossout - My stats</title>
+      </Head>
       <div className="relative flex h-[90%] max-h-[900px] min-h-[500px] w-full max-w-[1700px] flex-col items-center px-4 lg:min-h-[700px] lg:px-28">
         <motion.div
           initial={{ y: -20, opacity: 0 }}

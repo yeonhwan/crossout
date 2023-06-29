@@ -44,9 +44,9 @@ const YearChart = ({ data, selectedField, year, isLight }: YearChartProps) => {
   const moodsTicks = [1, 2, 3, 4, 5];
 
   const revenueColorScale = (value: number | { valueOf(): number }) => {
-    if (value === 0) return "#b3b3b3";
+    if (typeof value === "number" && value === 0) return "#b3b3b3";
     for (let i = 0; i < revenuesTicks.length; i++) {
-      if (value <= (revenuesTicks[i] as number)) {
+      if (typeof value === "number" && value <= (revenuesTicks[i] as number)) {
         return revenuesColors[i] as string;
       }
     }
