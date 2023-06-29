@@ -1,4 +1,7 @@
+// components
 import Button from "@/components/Buttons/Button";
+
+// icons
 import NoTodosIcon from "public/icons/no-todos.svg";
 
 type NoTodosProps = {

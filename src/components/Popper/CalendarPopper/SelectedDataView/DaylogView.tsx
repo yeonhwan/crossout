@@ -1,26 +1,27 @@
+// components
+import MoodRender from "@/components/Popper/CalendarPopper/SelectedDataView/MoodRender";
+
 // lexical (Editor)
 import { LexicalComposer } from "@lexical/react/LexicalComposer";
 import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
 import { ListPlugin } from "@lexical/react/LexicalListPlugin";
+import UpdatePlugin from "@/components/Editor/plugins/UpdatePlugin";
 import { HeadingNode, QuoteNode } from "@lexical/rich-text";
 import { ListItemNode, ListNode } from "@lexical/list";
 import { ContentEditable } from "@lexical/react/LexicalContentEditable";
 import LexicalErrorBoundary from "@lexical/react/LexicalErrorBoundary";
-import UpdatePlugin from "@/components/Editor/plugins/UpdatePlugin";
 
 // types
 import { type InitialConfigType } from "@lexical/react/LexicalComposer";
 import { type SelectedDateDateType } from "@/types/client";
-
-// components
-import MoodRender from "@/components/Popper/CalendarPopper/SelectedDataView/MoodRender";
 
 type DaylogViewProps = {
   data: SelectedDateDateType;
 };
 
 const DaylogView = ({ data }: DaylogViewProps) => {
-  const daylogs = data.daylogs!;
+  if (!data.daylogs) throw new Error("Data does not exist");
+  const daylogs = data.daylogs;
 
   // editor setting
   const editorState = JSON.stringify(daylogs.content);

@@ -56,9 +56,7 @@ const MoodRender = ({ mood }: MoodRenderProps) => {
           ? "bg-yellow-400"
           : mood === "good"
           ? "bg-emerald-500"
-          : mood === "happy"
-          ? "bg-cyan-500"
-          : ""
+          : "bg-cyan-500"
       }`}
     >
       {mood === "terrible"
@@ -69,9 +67,7 @@ const MoodRender = ({ mood }: MoodRenderProps) => {
         ? normalView
         : mood === "good"
         ? goodView
-        : mood === "happy"
-        ? happyView
-        : null}{" "}
+        : happyView}
     </div>
   );
 };

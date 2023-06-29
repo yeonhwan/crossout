@@ -1,21 +1,20 @@
 // components
 import CircleButton from "@/components/Buttons/CircleButton";
 
-// ICONS
-import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
-import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
+// hooks
+import { useEffect } from "react";
+import { useAnimate } from "framer-motion";
 
 // libs
 import { Tooltip } from "@mui/material";
 
-// Hooks
-import { useEffect } from "react";
-import { useAnimate } from "framer-motion";
-
 // store
 import useDateStore from "@/stores/useDateStore";
 
-// Props TYPE
+// icons
+import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
+import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
+
 type DateTimerProps = {
   openCalendar: () => void;
 };
@@ -45,7 +44,11 @@ const DateTimer = ({ openCalendar }: DateTimerProps) => {
   };
 
   useEffect(() => {
-    animate(scope.current, { opacity: [0, 100], y: [-10, 0] })
+    animate(
+      scope.current,
+      { opacity: [0, 100], y: [-10, 0] },
+      { duration: 0.3 }
+    )
       .then(() => {
         return;
       })

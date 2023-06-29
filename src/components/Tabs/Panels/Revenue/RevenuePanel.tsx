@@ -1,31 +1,31 @@
-// Hooks
-import { useState, useEffect, useRef } from "react";
-import { useWindowWidth } from "@/hooks/useWindowWidth";
-
 // components
 import CircleButton from "@/components/Buttons/CircleButton";
 import ListView from "@/components/Lists/ListView";
 import RevenueItem from "@/components/Lists/Items/RevenueItem";
 import NoRevenus from "@/components/Graphic/NoRevenues";
 
-// ICONS
-import MoneyAllIcon from "public/icons/money_all.svg";
-import MoneyPlusIcon from "public/icons/money_plus.svg";
-import MoneyMinusIcon from "public/icons/money_minus.svg";
-import AddIcon from "@mui/icons-material/Add";
-
-// type
-import { type RevenueClient } from "@/types/client";
+// hooks
+import { useState, useEffect, useRef } from "react";
+import { useWindowWidth } from "@/hooks/useWindowWidth";
 
 // libs
 import { useAnimate, stagger } from "framer-motion";
 
 // utils
 import { currencyFormatter } from "@/utils/currencyFormatter";
-import { type GetRevenuesOutput } from "@/utils/api";
 
 // store
 import useDateStore from "@/stores/useDateStore";
+
+// icons
+import MoneyAllIcon from "public/icons/money_all.svg";
+import MoneyPlusIcon from "public/icons/money_plus.svg";
+import MoneyMinusIcon from "public/icons/money_minus.svg";
+import AddIcon from "@mui/icons-material/Add";
+
+// type
+import type { RevenueClient } from "@/types/client";
+import type { GetRevenuesOutput } from "@/utils/api";
 
 type RevenuePanelProps = {
   openCreateRevenue: () => void;

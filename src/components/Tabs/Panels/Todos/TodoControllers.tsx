@@ -1,23 +1,17 @@
-// React
-import {
-  type MutableRefObject,
-  type Dispatch,
-  type SetStateAction,
-} from "react";
-
 // components
 import CircleButton from "@/components/Buttons/CircleButton";
 import Select from "@/components/Select/Select";
 
-// ICONS
+// icons
 import OpenWithIcon from "@mui/icons-material/OpenWith";
 import CloseIcon from "@mui/icons-material/Close";
 import CheckIcon from "@mui/icons-material/Check";
 import LoaderIcon from "public/icons/spinner.svg";
 
 // types
-import { type TodoWithListboardType } from "@/types/client";
-import { type SortingOption } from "./TodoPanel";
+import type { TodoWithListboardType } from "@/types/client";
+import type { SortingOption } from "@/components/Tabs/Panels/Todos/TodoPanel";
+import type { MutableRefObject, Dispatch, SetStateAction } from "react";
 
 type TodoControllersProps = {
   reorderingTodos: boolean;
@@ -46,13 +40,14 @@ const TodoControllers = ({
   sortingOption,
   setSortingOption,
 }: TodoControllersProps) => {
-  const cancelSortingHandler = () => {
+  // Handlers
+  const cancelSortingButtonHandler = () => {
     setTodosData(prevTodosData.current);
     setReorderingTodos(false);
     setTodoIndexes(prevTodoIndexes.current);
   };
 
-  const applySortingHandler = () => {
+  const applySortingButtonHandler = () => {
     setReorderingTodos(false);
     setIsReorderProceed(true);
     updateTodoIndex();
@@ -99,14 +94,14 @@ const TodoControllers = ({
             ) : (
               <>
                 <CircleButton
-                  onClick={cancelSortingHandler}
+                  onClick={cancelSortingButtonHandler}
                   info="cancel"
                   className="mr-1 h-6 w-6 bg-red-300 hover:bg-red-400  dark:bg-red-400 dark:hover:bg-red-500"
                 >
                   <CloseIcon className="h-4 w-4" />
                 </CircleButton>
                 <CircleButton
-                  onClick={applySortingHandler}
+                  onClick={applySortingButtonHandler}
                   info="apply"
                   className="mr-1 h-6 w-6 bg-emerald-300 hover:bg-emerald-400 dark:bg-emerald-400 dark:hover:bg-emerald-500"
                 >

@@ -1,5 +1,8 @@
+// libs
 import { linearGradientDef } from "@nivo/core";
 import { ResponsivePie } from "@nivo/pie";
+
+// icons
 import NoChartIcons from "public/icons/no_chart.svg";
 
 type DoughnutChartProps = {
@@ -23,7 +26,6 @@ type DoughnutChartProps = {
 };
 
 const DoughnutChart = ({ data, isLight }: DoughnutChartProps) => {
-  console.log(data);
   if (data.length) {
     return (
       <ResponsivePie

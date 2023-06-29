@@ -37,12 +37,6 @@ const CircleButton = ({
     return (
       <Tooltip title={info} arrow placement={infoPlace || "top"}>
         <button
-          onMouseDown={(e: React.MouseEvent<HTMLButtonElement>) => {
-            e.stopPropagation();
-          }}
-          onMouseUp={(e: React.MouseEvent<HTMLButtonElement>) => {
-            e.stopPropagation();
-          }}
           onClick={onClickWrapper}
           className={className || defaultClassName}
         >
@@ -53,12 +47,6 @@ const CircleButton = ({
   } else {
     return (
       <button
-        onMouseDown={(e: React.MouseEvent<HTMLButtonElement>) => {
-          e.stopPropagation();
-        }}
-        onMouseUp={(e: React.MouseEvent<HTMLButtonElement>) => {
-          e.stopPropagation();
-        }}
         onClick={onClickWrapper}
         className={className || defaultClassName}
       >

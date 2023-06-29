@@ -1,7 +1,22 @@
 // components
 import CircleButton from "@/components/Buttons/CircleButton";
 
-// Icons
+// hooks
+import { useState, useRef } from "react";
+
+// libs
+import ClickAwayListener from "@mui/base/ClickAwayListener";
+
+// utils
+import { currencyFormatter } from "@/utils/currencyFormatter";
+
+// api
+import { api } from "@/utils/api";
+
+// stores
+import useSnackbarStore, { SnackbarRole } from "@/stores/useSnackbarStore";
+
+// icons
 import ProfitIcon from "public/icons/profit.svg";
 import LossIcon from "public/icons/loss.svg";
 import TrashIcon from "public/icons/trash.svg";
@@ -10,20 +25,7 @@ import CheckIcon from "@mui/icons-material/Check";
 import CloseIcon from "@mui/icons-material/Close";
 import LoaderIcon from "public/icons/spinner.svg";
 
-// libs
-import ClickAwayListener from "@mui/base/ClickAwayListener";
-
-// utils
-import { currencyFormatter } from "@/utils/currencyFormatter";
-
-// React
-import React, { useState, useRef } from "react";
-
-// stores
-import useSnackbarStore, { SnackbarRole } from "@/stores/useSnackbarStore";
-
-// api
-import { api } from "@/utils/api";
+// types
 import { type RevenueClient } from "@/types/client";
 
 type RevenueItemProps = {
@@ -58,6 +60,7 @@ const RevenueItem = ({ data }: RevenueItemProps) => {
 
   const utils = api.useContext();
 
+  // abort update revenue api call
   const { mutate: abortUpdateRevenue } = api.revenue.updateRevenue.useMutation({
     onSuccess: async (res) => {
       const { revenue } = res.data;
@@ -87,6 +90,7 @@ const RevenueItem = ({ data }: RevenueItemProps) => {
     },
   });
 
+  // update revenue api call
   const { mutate: applyUpdate } = api.revenue.updateRevenue.useMutation({
     onSuccess: async (res) => {
       const { content, revenue } = res.data;
@@ -128,6 +132,7 @@ const RevenueItem = ({ data }: RevenueItemProps) => {
     },
   });
 
+  // delete revenue item api call
   const { mutate: deleteRevenue } = api.revenue.deleteRevenue.useMutation({
     onSuccess: async (res) => {
       const { content } = res.data;
@@ -148,7 +153,9 @@ const RevenueItem = ({ data }: RevenueItemProps) => {
     },
   });
 
-  const applyUpdateClickHandler = () => {
+  // Handlers
+
+  const applyUpdateButtonHandler = () => {
     setIsProceed(true);
     applyUpdate({
       data: { id, revenue: Number(revenueInput), purpose: purposeInput },
@@ -156,13 +163,13 @@ const RevenueItem = ({ data }: RevenueItemProps) => {
     return;
   };
 
-  const cancelClickHandler = () => {
+  const cancelButtonHandler = () => {
     setIsUpdating(false);
     setPurposeInput(purpose);
     setRevenueInput(revenue.toString());
   };
 
-  const deleteClickHandler = () => {
+  const deleteButtonHandler = () => {
     setIsProceed(true);
     deleteRevenue({ data: { id } });
   };
@@ -236,7 +243,7 @@ const RevenueItem = ({ data }: RevenueItemProps) => {
                         ? "pointer-events-none bg-neutral-400 text-neutral-500 dark:bg-neutral-700 dark:text-neutral-800"
                         : ""
                     }`}
-                    onClick={applyUpdateClickHandler}
+                    onClick={applyUpdateButtonHandler}
                   >
                     <CheckIcon
                       className={`h-3 w-3 transition-none sm:h-4 sm:w-4 ${
@@ -251,7 +258,7 @@ const RevenueItem = ({ data }: RevenueItemProps) => {
                   <CircleButton
                     info="Cancel"
                     className="flex h-5 w-5 rounded-md bg-red-300 hover:bg-red-400 dark:bg-red-400 dark:hover:bg-red-500 sm:h-6 sm:w-6"
-                    onClick={cancelClickHandler}
+                    onClick={cancelButtonHandler}
                   >
                     <CloseIcon className="h-3 w-3 sm:h-4 sm:w-4" fill="white" />
                   </CircleButton>
@@ -307,11 +314,7 @@ const RevenueItem = ({ data }: RevenueItemProps) => {
               <CircleButton
                 info="Delete"
                 className="dark:hover-bg-red-500 flex h-5 w-5 rounded-md bg-red-300 p-0 hover:bg-red-500 dark:bg-red-300 sm:h-6 sm:w-6"
-                onClick={() => {
-                  if (window.confirm("deleting revenue")) {
-                    deleteClickHandler();
-                  }
-                }}
+                onClick={deleteButtonHandler}
               >
                 <TrashIcon className="h-3 w-3 sm:h-4 sm:w-4" fill="white" />
               </CircleButton>

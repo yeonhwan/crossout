@@ -1,19 +1,20 @@
-// types
-import { type SelectedDateDateType } from "@/types/client";
+// components
+import ListView from "@/components/Lists/ListView";
+import NoRevenus from "@/components/Graphic/NoRevenues";
 
 // utils
 import { currencyFormatter } from "@/utils/currencyFormatter";
 
-// components
-import ListView from "@/components/Lists/ListView";
-import NoRevenus from "@/components/Graphic/NoRevenues";
+// types
+import { type SelectedDateDateType } from "@/types/client";
 
 type RevenuesViewProps = {
   data: SelectedDateDateType;
 };
 
 const RevenuesView = ({ data }: RevenuesViewProps) => {
-  const revenues = data.revenues!;
+  if (!data.revenues) throw new Error("Data does not exist");
+  const revenues = data.revenues;
   const total = revenues.reduce((acc, cur) => acc + Number(cur.revenue), 0);
   const profitData = revenues.filter((data) => Number(data.revenue) >= 0);
   const lossData = revenues.filter((data) => Number(data.revenue) < 0);

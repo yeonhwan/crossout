@@ -3,10 +3,10 @@ import { ClickAwayListener } from "@mui/material";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DateCalendar, type MuiPickersAdapter } from "@mui/x-date-pickers";
-import { type Dayjs } from "dayjs";
 
-// hooks
-import { type Dispatch, type SetStateAction } from "react";
+// types
+import type { Dispatch, SetStateAction } from "react";
+import { type Dayjs } from "dayjs";
 
 type dateAdapter = new (...args: any) => MuiPickersAdapter<Dayjs, string>;
 

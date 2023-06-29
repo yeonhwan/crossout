@@ -1,4 +1,7 @@
-// Hooks
+// components
+import SnackbarContent from "@/components/Snackbar/SnackbarContent";
+
+// hooks
 import { useWindowWidth } from "@/hooks/useWindowWidth";
 
 // libs
@@ -7,9 +10,6 @@ import Slide, { type SlideProps } from "@mui/material/Slide";
 
 // stores
 import useSnackbarStore from "@/stores/useSnackbarStore";
-
-// components
-import SnackbarContent from "@/components/Snackbar/SnackbarContent";
 
 type TransitionProps = Omit<SlideProps, "direction">;
 

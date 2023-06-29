@@ -1,18 +1,19 @@
 // components
 import ListView from "@/components/Lists/ListView";
 
-// types
-import { type SelectedDateDateType } from "@/types/client";
-
 // enums
 import { UrgencyDisplay } from "@/types/client";
+
+// types
+import { type SelectedDateDateType } from "@/types/client";
 
 type TodosViewProps = {
   data: SelectedDateDateType;
 };
 
 const TodosView = ({ data }: TodosViewProps) => {
-  const todos = data.todos!;
+  if (!data.todos) throw new Error("data does not exist");
+  const todos = data.todos;
 
   return (
     <div className="flex h-full w-full flex-col px-8 py-4">

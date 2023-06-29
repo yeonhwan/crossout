@@ -1,4 +1,3 @@
-// Props TYPE
 type TabPanelProps = {
   children?: JSX.Element;
   index: number;

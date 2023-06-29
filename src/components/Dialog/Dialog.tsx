@@ -10,6 +10,9 @@ type DialogProps = {
   openState: boolean;
 };
 
+// useAnimation is used for simple mount/unmount animation
+// Framer-Motion can substitute this functionality
+
 const Dialog = ({ children, onClickAway, openState }: DialogProps) => {
   const [shouldRender, animateTrigger, handleTransition] =
     useAnimation(openState);

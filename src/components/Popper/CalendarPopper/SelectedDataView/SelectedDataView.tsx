@@ -1,10 +1,10 @@
-// Icons
-import LoadDetailIcon from "public/icons/load-detail.svg";
-
 // Components
 import TodosView from "./TodosVIew";
 import DaylogView from "./DaylogView";
 import RevenuesView from "./RevenuesView";
+
+// icons
+import LoadDetailIcon from "public/icons/load-detail.svg";
 
 // types
 import { type SelectedDateDateType } from "@/types/client";

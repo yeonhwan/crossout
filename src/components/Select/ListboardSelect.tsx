@@ -1,11 +1,11 @@
-// React, hooks
+// hooks
 import { useContext } from "react";
-
-// types
-import { type Dispatch, type SetStateAction } from "react";
 
 // libs
 import { twMerge } from "tailwind-merge";
+
+// types
+import type { Dispatch, SetStateAction } from "react";
 
 type ListboardSelectProps = {
   input: number | undefined;

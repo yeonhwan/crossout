@@ -1,25 +1,24 @@
+// Components
+import Button from "@/components/Buttons/Button";
+
 // React
-import React, {
-  type ForwardedRef,
-  forwardRef,
-  type Dispatch,
-  type SetStateAction,
-} from "react";
+import { forwardRef } from "react";
 
 // hooks
 import { useState } from "react";
 
-// Components
-import Button from "@/components/Buttons/Button";
-
-// Icons
-import ContentPasteIcon from "@mui/icons-material/ContentPaste";
-
 // api
 import { api } from "@/utils/api";
+
+// stores
+import useSnackbarStore, { SnackbarRole } from "@/stores/useSnackbarStore";
+
+// icons
+import ContentPasteIcon from "@mui/icons-material/ContentPaste";
 import LoaderIcon from "public/icons/spinner.svg";
 
-import useSnackbarStore, { SnackbarRole } from "@/stores/useSnackbarStore";
+// types
+import type { ForwardedRef, Dispatch, SetStateAction } from "react";
 
 type ListboardsProps = {
   setOpenDialog: Dispatch<SetStateAction<boolean>>;
@@ -36,11 +35,7 @@ const ListboardsForm = (
     useSnackbarStore((state) => state);
   const utils = api.useContext();
 
-  const cancelButtonHandler = () => {
-    setTitleInput("");
-    setOpenDialog(false);
-  };
-
+  // abort create listboard (delete newly created one) api call
   const { mutate: abortCreateListboard } =
     api.listboards.deleteListboard.useMutation({
       onSuccess: async () => {
@@ -59,6 +54,7 @@ const ListboardsForm = (
       },
     });
 
+  // create listboard api call
   const { mutate: createListboard } =
     api.listboards.createListboard.useMutation({
       onSuccess: async (res) => {
@@ -85,7 +81,13 @@ const ListboardsForm = (
       },
     });
 
-  const confirmOnClickHandler = () => {
+  // Handlers
+  const cancelButtonHandler = () => {
+    setTitleInput("");
+    setOpenDialog(false);
+  };
+
+  const confirmButtonHandler = () => {
     createListboard({
       data: { title: titleInput, description: descriptionInput },
     });
@@ -176,7 +178,7 @@ const ListboardsForm = (
                   ? "pointer-events-none bg-neutral-400 text-neutral-500 dark:bg-neutral-700 dark:text-neutral-800"
                   : ""
               }`}
-              onClick={confirmOnClickHandler}
+              onClick={confirmButtonHandler}
             >
               Confirm
             </Button>

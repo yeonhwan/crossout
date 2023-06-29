@@ -1,11 +1,10 @@
 // libs
-import { PickersDay, type PickersDayProps } from "@mui/x-date-pickers";
-import { type Dayjs } from "dayjs";
+import { PickersDay } from "@mui/x-date-pickers";
 
 // types
+import type { Dayjs } from "dayjs";
 import type { MonthlyData } from "@/types/client";
-
-// React, hooks
+import type { PickersDayProps } from "@mui/x-date-pickers";
 
 type CustomDayProps = {
   slotData?: MonthlyData;
@@ -25,14 +24,15 @@ const CustomDay = (props: CustomDayProps) => {
   } = props;
 
   if (!slotData) throw new Error("no slot data");
+  const selectedDayData = slotData.filter(
+    (data) => data.date === day.get("date")
+  )[0];
+
+  const showBadge = !outsideCurrentMonth && selectedDayData;
 
   if (field === "todo") {
-    const curDayData = slotData.filter(
-      (data) => data.date === day.get("date")
-    )[0];
-    const showBadge = !outsideCurrentMonth && curDayData;
     if (showBadge) {
-      const { todos: count } = curDayData._count as { todos: number };
+      const { todos: count } = selectedDayData._count as { todos: number };
 
       return (
         <div className="relative h-max w-max flex-col">
@@ -50,6 +50,7 @@ const CustomDay = (props: CustomDayProps) => {
               e.stopPropagation();
             }}
           />
+          {/* badge */}
           <span
             className={`absolute right-1 top-0 text-center text-[10px] font-semibold ${
               selected
@@ -59,6 +60,7 @@ const CustomDay = (props: CustomDayProps) => {
           >
             {count}
           </span>
+          {/* badge */}
         </div>
       );
     } else {
@@ -84,12 +86,8 @@ const CustomDay = (props: CustomDayProps) => {
   }
 
   if (field === "daylog") {
-    const curDayData = slotData.filter(
-      (data) => data.date === day.get("date")
-    )[0];
-    const showBadge = !outsideCurrentMonth && curDayData;
     if (showBadge) {
-      const mood = curDayData.daylogs?.mood;
+      const mood = selectedDayData.daylogs?.mood;
 
       const bgColor =
         mood === "terrible"
@@ -120,11 +118,13 @@ const CustomDay = (props: CustomDayProps) => {
               e.stopPropagation();
             }}
           />
+          {/* badge */}
           <span
             className={`absolute ${bgColor} right-1 top-0 h-2 w-2 animate-pulse rounded-full text-center text-[5px] font-semibold ${
               selected ? "animate-none" : "animate-pulse"
             }`}
           ></span>
+          {/* badge */}
         </div>
       );
     } else {
@@ -150,13 +150,8 @@ const CustomDay = (props: CustomDayProps) => {
   }
 
   if (field === "revenue") {
-    const curDayData = slotData.filter(
-      (data) => data.date === day.get("date")
-    )[0];
-    const showBadge = !outsideCurrentMonth && curDayData;
-
     if (showBadge) {
-      const total = curDayData.revenues?.reduce(
+      const total = selectedDayData.revenues?.reduce(
         (acc, cur) => acc + Number(cur.revenue),
         0
       ) as number;

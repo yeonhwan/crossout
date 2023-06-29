@@ -2,15 +2,17 @@
 import Sidebar from "@/components/Sidebar/Sidebar";
 import MenuToggle from "@/components/Header/MenuToggle";
 
-// Icons
-import LogoSimple from "public/logo/logo_simple.svg";
-
 // hooks
 import { useState } from "react";
 import { useAnimation } from "@/hooks/useAnimation";
 
+// next
 import { useRouter } from "next/navigation";
+// libs
 import { motion } from "framer-motion";
+
+// icons
+import LogoSimple from "public/logo/logo_simple.svg";
 
 type HeaderProps = {
   username: string;

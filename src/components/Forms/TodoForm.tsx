@@ -1,34 +1,26 @@
-// React, hooks
-import {
-  type ForwardedRef,
-  forwardRef,
-  type Dispatch,
-  type SetStateAction,
-  useState,
-} from "react";
-
 // Components
 import Button from "@/components/Buttons/Button";
 import ListboardSelect from "../Select/ListboardSelect";
 import Select from "@/components/Select/Select";
 
+// React, hooks
+import { forwardRef, useState } from "react";
+
 // api
 import { api } from "@/utils/api";
-
-// Icons
-import LoaderIcon from "public/icons/spinner.svg";
-import TodosIcon from "public/icons/todos.svg";
 
 // stores
 import useDateStore from "@/stores/useDateStore";
 import useSnackbarStore, { SnackbarRole } from "@/stores/useSnackbarStore";
 
-// Urgency Enum
-enum Urgency {
-  urgent = "urgent",
-  important = "important",
-  trivial = "trivial",
-}
+// icons
+import LoaderIcon from "public/icons/spinner.svg";
+import TodosIcon from "public/icons/todos.svg";
+
+// types
+import type { ForwardedRef, Dispatch, SetStateAction } from "react";
+
+type Urgency = "urgent" | "important" | "trivial";
 
 type TodoFormProps = {
   setOpenDialog: Dispatch<SetStateAction<boolean>>;
@@ -39,7 +31,7 @@ const TodoForm = (
   ref: ForwardedRef<HTMLFormElement>
 ) => {
   const [todoInput, setTodoInput] = useState("");
-  const [urgencyInput, setUrgencyInput] = useState<Urgency>(Urgency.trivial);
+  const [urgencyInput, setUrgencyInput] = useState<Urgency>("trivial");
   const [listboardInput, setListboardInput] = useState<number | undefined>();
   const [isProceed, setIsProceed] = useState(false);
   const { year, month, date } = useDateStore((state) => state.dateObj);
@@ -47,13 +39,7 @@ const TodoForm = (
     useSnackbarStore((state) => state);
   const utils = api.useContext();
 
-  const cancelButtonHandler = () => {
-    setTodoInput("");
-    setUrgencyInput(Urgency.trivial);
-    setListboardInput(undefined);
-    setOpenDialog(false);
-  };
-
+  // abort create todo api call
   const { mutate: abortCreateTodo } = api.todo.deleteTodo.useMutation({
     onSuccess: async () => {
       setSnackbarLoadingState(false);
@@ -73,6 +59,7 @@ const TodoForm = (
     },
   });
 
+  // create todo api call
   const { mutate: createTodo } = api.todo.createTodo.useMutation({
     onSuccess: async (res) => {
       const { content, id, dateRecordId } = res.data;
@@ -100,7 +87,15 @@ const TodoForm = (
     },
   });
 
-  const confirmOnClickHandler = () => {
+  // Handlers
+  const cancelButtonHandler = () => {
+    setTodoInput("");
+    setUrgencyInput("trivial");
+    setListboardInput(undefined);
+    setOpenDialog(false);
+  };
+
+  const confirmButtonHandler = () => {
     setIsProceed(true);
     createTodo({
       content: todoInput,
@@ -168,9 +163,9 @@ const TodoForm = (
             className="border-0 bg-white fill-neutral-700 text-center text-neutral-700 ring-2 ring-neutral-300 focus-within:fill-teal-500 focus-within:outline-none focus-within:ring-teal-400 hover:cursor-pointer focus:border-0 focus:ring-2 dark:bg-neutral-600 dark:fill-white dark:text-neutral-200 dark:ring-neutral-500 dark:focus-within:ring-teal-500"
           >
             <>
-              <option value={Urgency.trivial}>🌱trivial</option>
-              <option value={Urgency.important}>⚡️important</option>
-              <option value={Urgency.urgent}>🔥urgent</option>
+              <option value={"trivial"}>🌱trivial</option>
+              <option value={"important"}>⚡️important</option>
+              <option value={"urgent"}>🔥urgent</option>
             </>
           </Select>
         </div>
@@ -198,7 +193,7 @@ const TodoForm = (
                   ? "pointer-events-none bg-neutral-400 text-neutral-500 dark:bg-neutral-700 dark:text-neutral-800"
                   : ""
               }`}
-              onClick={confirmOnClickHandler}
+              onClick={confirmButtonHandler}
             >
               Confirm
             </Button>

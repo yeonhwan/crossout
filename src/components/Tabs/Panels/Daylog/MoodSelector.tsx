@@ -1,5 +1,5 @@
-// React, hooks
-import { useState, useEffect ,type MutableRefObject } from "react";
+// hooks
+import { useState, useEffect } from "react";
 
 //libs
 import Tooltip from "@mui/material/Tooltip";
@@ -15,15 +15,14 @@ import Happy from "public/lottie/happy.json";
 
 // types
 import { type Mood } from "@prisma/client";
+import type { MutableRefObject} from "react";
 
 type MoodSelectorProps = {
   moodData: Mood | undefined;
   selectedMoodRef: MutableRefObject<Mood | undefined>;
-  isDaylogLoading: boolean;
 }
 
-const MoodSelector = ({moodData, selectedMoodRef, isDaylogLoading}:MoodSelectorProps) => {
-
+const MoodSelector = ({moodData, selectedMoodRef}:MoodSelectorProps) => {
   const [selectedMood, setSelectedMood] = useState(moodData);
 
 

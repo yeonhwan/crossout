@@ -1,27 +1,52 @@
-// Lexical
+// Components
+import OptionsDropdown from "@/components/Editor/plugins/Toolbar/OptionsDropdown";
+
+// hooks
+import { useState, useEffect, useCallback } from "react";
+
+// Lexical (Editor)
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 import { $getSelection, $isRangeSelection, FORMAT_TEXT_COMMAND } from "lexical";
 
-// ICONS
+// icons
 import FormatBoldIcon from "@mui/icons-material/FormatBold";
 import FormatItalicIcon from "@mui/icons-material/FormatItalic";
 import FormatUnderlinedIcon from "@mui/icons-material/FormatUnderlined";
 import StrikethroughSIcon from "@mui/icons-material/StrikethroughS";
 
-// React, hooks
-import { useState, useEffect, useCallback } from "react";
-
-// Components
-import OptionsDropdown from "@/components/Editor/plugins/Toolbar/OptionsDropdown";
-
 const ToolbarPlugin = () => {
+  const [editor] = useLexicalComposerContext();
+
   const [isBold, setIsBold] = useState(false);
   const [isItalic, setIsItalic] = useState(false);
   const [isUnderline, setIsUnderline] = useState(false);
   const [isDash, setIsDash] = useState(false);
 
-  const [editor] = useLexicalComposerContext();
+  // fn to set toolbar buttons to editor contents automatically
+  const updateToolbar = useCallback(() => {
+    const selection = $getSelection();
+    if ($isRangeSelection(selection)) {
+      const hasBold = selection.hasFormat("bold");
+      const hasItalic = selection.hasFormat("italic");
+      const hasUnderline = selection.hasFormat("underline");
+      const hasDash = selection.hasFormat("strikethrough");
+      setIsBold(hasBold);
+      setIsItalic(hasItalic);
+      setIsUnderline(hasUnderline);
+      setIsDash(hasDash);
+    }
+  }, []);
 
+  // update toolbar fires whenever editor contents changed
+  useEffect(() => {
+    editor.registerUpdateListener(({ editorState }) => {
+      editorState.read(() => {
+        updateToolbar();
+      });
+    });
+  }, [editor, updateToolbar]);
+
+  // Handler for clicking toolbar buttons not in dropdown
   const buttonHandler = (value: string) => {
     switch (value) {
       case "bold":
@@ -41,28 +66,6 @@ const ToolbarPlugin = () => {
         break;
     }
   };
-
-  const updateToolbar = useCallback(() => {
-    const selection = $getSelection();
-    if ($isRangeSelection(selection)) {
-      const hasBold = selection.hasFormat("bold");
-      const hasItalic = selection.hasFormat("italic");
-      const hasUnderline = selection.hasFormat("underline");
-      const hasDash = selection.hasFormat("strikethrough");
-      setIsBold(hasBold);
-      setIsItalic(hasItalic);
-      setIsUnderline(hasUnderline);
-      setIsDash(hasDash);
-    }
-  }, []);
-
-  useEffect(() => {
-    editor.registerUpdateListener(({ editorState }) => {
-      editorState.read(() => {
-        updateToolbar();
-      });
-    });
-  }, [editor, updateToolbar]);
 
   return (
     <div className="top-0 mt-1 flex h-10 min-w-max max-w-[40%] justify-around self-center rounded-lg bg-neutral-300 px-0 py-2 dark:bg-neutral-700 sm:p-2">

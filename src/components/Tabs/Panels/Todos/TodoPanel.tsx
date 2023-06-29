@@ -1,17 +1,17 @@
 // components
 import ListView from "@/components/Lists/ListView";
-import TodoItem from "@/components/Lists/Items/TodoItem";
-import SortableWrapper from "@/components/Lists/Items/SortableWrapper";
+import TodoItem from "@/components/Lists/Items/TodoItems/TodoItem";
+import SortableWrapper from "@/components/Lists/Items/TodoItems/SortableWrapper";
 import TodoControllers from "@/components/Tabs/Panels/Todos/TodoControllers";
 import NoTodos from "@/components/Graphic/NoTodos";
 import CircleButton from "@/components/Buttons/CircleButton";
 
-// Icons
+// hooks
+import { useState, useRef, useEffect } from "react";
+
+// icons
 import LoaderIcon from "public/icons/spinner.svg";
 import AddIcon from "@mui/icons-material/Add";
-
-// React
-import { useState, useRef, useEffect } from "react";
 
 // libs
 import {
@@ -69,6 +69,7 @@ const TodoPanel = ({ openCreateTodo, data, isTodoLoading }: TodoPanelProps) => {
   const prevDateString = useRef<string>();
   const utils = api.useContext();
 
+  // sorting todo lists fn
   const sortTodosData = (
     todos: TodoWithListboardType[],
     mode: SortingOption
@@ -119,6 +120,7 @@ const TodoPanel = ({ openCreateTodo, data, isTodoLoading }: TodoPanelProps) => {
     }
   };
 
+  // initialize sorting setting
   useEffect(() => {
     const storedSortOption = sessionStorage.getItem("sort");
     if (
@@ -132,6 +134,7 @@ const TodoPanel = ({ openCreateTodo, data, isTodoLoading }: TodoPanelProps) => {
     }
   }, []);
 
+  // initializing todo lists data & setting todosData according to sorting options
   useEffect(() => {
     if (!data) {
       setTodosData(undefined);
@@ -145,6 +148,7 @@ const TodoPanel = ({ openCreateTodo, data, isTodoLoading }: TodoPanelProps) => {
     prevTodoIndexes.current = data.todoIndex as number[];
   }, [data, sortingOption]);
 
+  // animating todo lists
   useEffect(() => {
     const dateString = String(year + month + date);
     if (
@@ -173,6 +177,7 @@ const TodoPanel = ({ openCreateTodo, data, isTodoLoading }: TodoPanelProps) => {
     }
   }, [todosData]);
 
+  // handling function for reordering by drags
   function handleDragEnd(event: DragEndEvent) {
     const { active, over } = event;
 
@@ -198,6 +203,7 @@ const TodoPanel = ({ openCreateTodo, data, isTodoLoading }: TodoPanelProps) => {
     }
   }
 
+  // update todo index api call
   const { mutate: updateTodoIndex } = api.todo.updateTodoIndex.useMutation({
     onSuccess: async () => {
       await utils.todo.getTodos.invalidate();
@@ -221,7 +227,8 @@ const TodoPanel = ({ openCreateTodo, data, isTodoLoading }: TodoPanelProps) => {
     },
   });
 
-  const updateTodoIndexApplyHandler = () => {
+  // Handler
+  const updateTodoIndexApplyButtonHandler = () => {
     if (dateRecordId.current) {
       updateTodoIndex({
         data: { dateRecordId: dateRecordId.current, index: todoIndexes },
@@ -247,7 +254,7 @@ const TodoPanel = ({ openCreateTodo, data, isTodoLoading }: TodoPanelProps) => {
         <TodoControllers
           reorderingTodos={reorderingTodos}
           setReorderingTodos={setReorderingTodos}
-          updateTodoIndex={updateTodoIndexApplyHandler}
+          updateTodoIndex={updateTodoIndexApplyButtonHandler}
           prevTodosData={prevTodosData}
           prevTodoIndexes={prevTodoIndexes}
           setTodosData={setTodosData}

@@ -1,37 +1,41 @@
-// Lexical Editor
+// Lexical (editor)
+// plugins
 import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
-import { ContentEditable } from "@lexical/react/LexicalContentEditable";
-import { HistoryPlugin } from "@lexical/react/LexicalHistoryPlugin";
-import LexicalErrorBoundary from "@lexical/react/LexicalErrorBoundary";
+// import { HistoryPlugin } from "@lexical/react/LexicalHistoryPlugin";
 import { OnChangePlugin } from "@lexical/react/LexicalOnChangePlugin";
 import { ListPlugin } from "@lexical/react/LexicalListPlugin";
-import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
-import {
-  type SerializedEditorState,
-  type SerializedLexicalNode,
-  $getRoot,
-  $createParagraphNode,
-} from "lexical";
-import { $isRootTextContentEmpty } from "@lexical/text";
 import ToolbarPlugin from "@/components/Editor/plugins/Toolbar/ToolbarPlugin";
 import AutoFocusPlugin from "@/components/Editor/plugins/AutoFocusPlugin";
-import type { EditorState } from "lexical";
+// lexcial libs
+import { ContentEditable } from "@lexical/react/LexicalContentEditable";
+import LexicalErrorBoundary from "@lexical/react/LexicalErrorBoundary";
+import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
+import { $getRoot, $createParagraphNode } from "lexical";
+import { $isRootTextContentEmpty } from "@lexical/text";
 
-// React, hooks
+// hooks
 import { useRef, useEffect, type MutableRefObject } from "react";
 import { useDebouncedCallback } from "use-debounce";
-
-import LoaderIcon from "public/icons/spinner.svg";
-
-// api
-import { api } from "@/utils/api";
 
 // libs
 import _ from "lodash";
 
+// api
+import { api } from "@/utils/api";
+
+// icons
+import LoaderIcon from "public/icons/spinner.svg";
+
 // store
 import useDateStore from "@/stores/useDateStore";
 import useSnackbarStore, { SnackbarRole } from "@/stores/useSnackbarStore";
+
+// types
+import type {
+  EditorState,
+  SerializedEditorState,
+  SerializedLexicalNode,
+} from "lexical";
 
 function Placeholder() {
   return (
@@ -65,6 +69,7 @@ const TextEditor = ({
     (state) => state
   );
 
+  // initializing the editor contents
   useEffect(() => {
     if (editorContent) {
       prevEditorContent.current = editorContent;
@@ -81,10 +86,12 @@ const TextEditor = ({
     }
   }, [editorContent, editor]);
 
+  // if date changes, it stores the data to compare if the editor contents are new
   useEffect(() => {
     prevDateObj.current = dateObj;
   }, [dateObj]);
 
+  // mutate textEditor function (auto saving)
   const { mutate: upsertTextEditor, isLoading: isUpesrting } =
     api.daylog.upsertEditorContent.useMutation({
       onSuccess: async () => {
@@ -99,6 +106,7 @@ const TextEditor = ({
       },
     });
 
+  // debouncing the api calls whenever editor contents changed (4000 ms)
   const debouncedUpsertTextEditor = useDebouncedCallback(
     (
       data: {
@@ -122,6 +130,12 @@ const TextEditor = ({
           root.getChildrenSize() === 1;
         const noWhiteSpace = $isRootTextContentEmpty(true, true);
 
+        // api calls if
+        // 1. contents are different with lastly saved
+        // 2. date is different
+        // 3. not empty contents
+        // 4. no whitespace (space or enter)
+        // 5. not in saving contents state
         if (isDiff && isDateSame && !isEmpty && !noWhiteSpace && !isUpserting) {
           upsertTextEditor(data);
         }
@@ -130,6 +144,9 @@ const TextEditor = ({
     4000
   );
 
+  // Handlers for on change of editor contents
+  // 1. saves the editor states to ref object in JSON Strings for easy to save
+  // 2. calls the debounced api mutation fn
   function onChange(editorState: EditorState) {
     editorStateRef.current = editorState.toJSON();
     debouncedUpsertTextEditor(
@@ -164,7 +181,8 @@ const TextEditor = ({
           ErrorBoundary={LexicalErrorBoundary}
         />
         <ListPlugin />
-        <HistoryPlugin />
+        {/* for future purpose */}
+        {/* <HistoryPlugin /> */}
         <AutoFocusPlugin />
         <OnChangePlugin ignoreSelectionChange={true} onChange={onChange} />
       </div>

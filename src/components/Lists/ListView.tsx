@@ -4,7 +4,6 @@ import { twMerge } from "tailwind-merge";
 // styles
 import masking_styles from "@/styles/masking.module.css";
 
-// Props TYPE
 type ListViewProps = {
   children?: JSX.Element | JSX.Element[];
   className?: string;
@@ -33,7 +32,7 @@ const ListView = ({
           maskOn ? (masking_styles.masking as string) : ""
         }`}
       >
-        <div className={className || defaultClassName}>{children}</div>
+        <ul className={className || defaultClassName}>{children}</ul>
       </div>
     );
   } else {
@@ -43,7 +42,7 @@ const ListView = ({
           maskOn ? (masking_styles.masking as string) : ""
         }`}
       >
-        <div className={className || defaultClassName}>{children}</div>
+        <ul className={className || defaultClassName}>{children}</ul>
       </div>
     );
   }

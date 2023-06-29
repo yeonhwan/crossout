@@ -1,6 +1,8 @@
-import React from "react";
-import DownArrow from "public/icons/down_arrow.svg";
+// libs
 import { twMerge } from "tailwind-merge";
+
+// icons
+import DownArrow from "public/icons/down_arrow.svg";
 
 type SelectProps = {
   className?: string;

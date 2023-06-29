@@ -146,7 +146,7 @@ const ListboardIndex = ({
       <Head>
         <title>Crossout - Listboards</title>
       </Head>
-      <div className="flex h-[90%] max-h-[900px] min-h-[500px] w-full max-w-[1700px] flex-col px-5 sm:px-20 md:px-40 lg:min-h-[700px]">
+      <main className="flex h-[90%] max-h-[900px] min-h-[500px] w-full max-w-[1700px] flex-col px-5 sm:px-20 md:px-40 lg:min-h-[700px]">
         <motion.div
           initial={{ y: -20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
@@ -155,9 +155,9 @@ const ListboardIndex = ({
           <h1 className="text-4xl font-extrabold text-neutral-800 dark:text-neutral-300 sm:text-4xl">
             Listboards
           </h1>
-          <p className="text-xs text-neutral-700 transition-colors dark:text-neutral-200 sm:text-lg">
+          <h2 className="text-xs text-neutral-700 transition-colors dark:text-neutral-200 sm:text-lg">
             Manage your listboards, todos by listboard
-          </p>
+          </h2>
         </motion.div>
         <motion.div
           initial={{ y: 20, opacity: 0 }}
@@ -185,7 +185,7 @@ const ListboardIndex = ({
         >
           <ListboardsForm setOpenDialog={setIsOpenListboardsDialog} />
         </Dialog>
-      </div>
+      </main>
     </Layout>
   );
 };

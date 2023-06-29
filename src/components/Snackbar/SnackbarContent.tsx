@@ -1,7 +1,7 @@
 // components
 import CircleButton from "@/components/Buttons/CircleButton";
 
-// ICONS
+// icons
 import ReplayIcon from "@mui/icons-material/Replay";
 import CloseIcon from "@mui/icons-material/Close";
 import LoaderIcon from "public/icons/spinner.svg";

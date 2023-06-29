@@ -118,7 +118,7 @@ const Preference = ({
       <Head>
         <title>Crossout - Preference</title>
       </Head>
-      <div className="relative flex h-[90%] min-h-[500px] w-full max-w-[1700px]  flex-col items-center px-4 sm:px-28 lg:min-h-[700px]">
+      <main className="relative flex h-[90%] min-h-[500px] w-full max-w-[1700px]  flex-col items-center px-4 sm:px-28 lg:min-h-[700px]">
         <motion.h1
           initial={{ y: -20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
@@ -310,7 +310,7 @@ const Preference = ({
             Delete Account
           </p>
         </motion.div>
-      </div>
+      </main>
     </Layout>
   );
 };

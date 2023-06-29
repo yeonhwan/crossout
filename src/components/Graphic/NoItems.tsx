@@ -1,3 +1,4 @@
+// icons
 import NoItemsIcon from "public/icons/no-items.svg";
 
 const NoItems = () => {

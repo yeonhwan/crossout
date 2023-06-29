@@ -3,16 +3,8 @@ import CircleButton from "@/components/Buttons/CircleButton";
 import ListboardSelect from "@/components/Select/ListboardSelect";
 import Select from "@/components/Select/Select";
 
-// ICONS
-import CheckIcon from "@mui/icons-material/Check";
-import BlockIcon from "@mui/icons-material/Block";
-import TrashIcon from "public/icons/trash.svg";
-import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
-import LoaderIcon from "public/icons/spinner.svg";
-
-// Types
-import { type Todo, type ListBoard } from "@prisma/client";
-import { UrgencyDisplay, UrgencyInput } from "@/types/client";
+// hooks
+import { useState, useRef } from "react";
 
 // libs
 import ClickAwayListener from "@mui/base/ClickAwayListener";
@@ -20,11 +12,19 @@ import ClickAwayListener from "@mui/base/ClickAwayListener";
 // api
 import { api } from "@/utils/api";
 
-// React
-import { useState, useRef } from "react";
-
 // stores
 import useSnackbarStore, { SnackbarRole } from "@/stores/useSnackbarStore";
+
+// icons
+import CheckIcon from "@mui/icons-material/Check";
+import BlockIcon from "@mui/icons-material/Block";
+import TrashIcon from "public/icons/trash.svg";
+import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
+import LoaderIcon from "public/icons/spinner.svg";
+
+// types
+import type { Todo, ListBoard } from "@prisma/client";
+import { UrgencyDisplay, UrgencyInput } from "@/types/client";
 
 type TodoItemProps = {
   data: Todo & {
@@ -59,8 +59,7 @@ const TodoItem = ({ data, sortingTodos, listboards }: TodoItemProps) => {
   };
   const previousData = useRef(currentTodo);
 
-  // apis
-
+  // abort update todo api call
   const { mutate: abortUpdateTodo } = api.todo.updateTodo.useMutation({
     onSuccess: async (res) => {
       const { todo } = res.data;
@@ -90,6 +89,7 @@ const TodoItem = ({ data, sortingTodos, listboards }: TodoItemProps) => {
     },
   });
 
+  // update todo api call
   const { mutate: updateTodo } = api.todo.updateTodo.useMutation({
     onSuccess: async (res) => {
       const { content, todo } = res.data;
@@ -134,6 +134,7 @@ const TodoItem = ({ data, sortingTodos, listboards }: TodoItemProps) => {
     },
   });
 
+  // delete todo api call
   const { mutate: deleteTodo } = api.todo.deleteTodo.useMutation({
     onSuccess: async (res) => {
       const { content } = res.data;
@@ -155,6 +156,7 @@ const TodoItem = ({ data, sortingTodos, listboards }: TodoItemProps) => {
     },
   });
 
+  // complete todo api call
   const { mutate: completeTodo } = api.todo.completeTodo.useMutation({
     onSuccess: async (res) => {
       const { message, content } = res.data;
@@ -173,14 +175,13 @@ const TodoItem = ({ data, sortingTodos, listboards }: TodoItemProps) => {
   });
 
   // handlers
-
   const cancelUpdateTodo = () => {
     setTodoInput(content);
     setUrgencyInput(urgency);
     setIsUpdating(false);
   };
 
-  const applyUpdateClickHandler = () => {
+  const applyUpdateButtonHandler = () => {
     setIsProceed(true);
     const data = {
       id,
@@ -243,7 +244,7 @@ const TodoItem = ({ data, sortingTodos, listboards }: TodoItemProps) => {
                 ? "pointer-events-none bg-neutral-400 text-neutral-500 dark:bg-neutral-700 dark:text-neutral-800"
                 : ""
             }`}
-            onClick={applyUpdateClickHandler}
+            onClick={applyUpdateButtonHandler}
           >
             <CheckIcon
               className={`h-3 w-3 transition-none sm:h-4 sm:w-4 ${
@@ -299,8 +300,9 @@ const TodoItem = ({ data, sortingTodos, listboards }: TodoItemProps) => {
     );
   };
 
+  // Item Contents Render
   const contentRender = () => {
-    // Item Render (not Updating state)
+    // not Updating state
     if (!isUpdating) {
       return (
         <div
@@ -349,7 +351,7 @@ const TodoItem = ({ data, sortingTodos, listboards }: TodoItemProps) => {
         </div>
       );
     }
-    // Item Render (Updating state)
+    // Updating state
     else {
       return (
         <ClickAwayListener onClickAway={cancelUpdateTodo}>

@@ -1,7 +1,4 @@
-// hooks
-import { useState, useRef } from "react";
-
-// Components
+// components
 import TabPanel from "@/components/Tabs/TabPanel";
 import TodoPanel from "@/components/Tabs/Panels/Todos/TodoPanel";
 import DaylogPanel from "@/components/Tabs/Panels/Daylog/DaylogPanel";
@@ -9,6 +6,9 @@ import Dialog from "@/components/Dialog/Dialog";
 import TodoForm from "@/components/Forms/TodoForm";
 import RevenuePanel from "@/components/Tabs/Panels/Revenue/RevenuePanel";
 import RevenueForm from "@/components/Forms/RevenueForm";
+
+// hooks
+import { useState, useRef } from "react";
 
 // libs
 import Tabs from "@mui/material/Tabs";
@@ -22,10 +22,10 @@ import { api } from "@/utils/api";
 import useDateStore from "@/stores/useDateStore";
 
 //types
-import {
-  type GetTodoOutput,
-  type GetDayLogOutput,
-  type GetRevenuesOutput,
+import type {
+  GetTodoOutput,
+  GetDayLogOutput,
+  GetRevenuesOutput,
 } from "@/utils/api";
 
 enum TabPanels {
@@ -58,7 +58,7 @@ const HomeTabs = () => {
 
   const dateObj = { year, month, date };
 
-  // apis
+  // get todo data for current day api call
   const { isLoading: todosDataLoading } = api.todo.getTodos.useQuery(
     { data: { dateObject: { year, month, date } } },
     {
@@ -74,6 +74,7 @@ const HomeTabs = () => {
     }
   );
 
+  // get daylog data for current day api call
   const { isLoading: daylogDataLoading } = api.daylog.getDaylog.useQuery(
     { data: { dateObject: { year, month, date } } },
     {
@@ -93,6 +94,7 @@ const HomeTabs = () => {
     }
   );
 
+  // get revenue data for current day api call
   const { isLoading: revenuesDataLoading } = api.revenue.getRevenues.useQuery(
     {
       dateObj,

@@ -1,21 +1,16 @@
-// React, hooks
-import { useState, useRef, useEffect } from "react";
-import { type Mood } from "@prisma/client";
-
 // components
 import MoodSelector from "@/components/Tabs/Panels/Daylog/MoodSelector";
 import TextEditor from "@/components/Editor/TextEditor";
 import CircleButton from "@/components/Buttons/CircleButton";
+
+// hooks
+import { useState, useRef, useEffect } from "react";
 
 // libs
 import { HeadingNode, QuoteNode } from "@lexical/rich-text";
 import { ListItemNode, ListNode } from "@lexical/list";
 import EditorTheme from "@/components/Editor/theme";
 import { LexicalComposer } from "@lexical/react/LexicalComposer";
-import {
-  type SerializedEditorState,
-  type SerializedLexicalNode,
-} from "lexical";
 
 // api
 import { api } from "@/utils/api";
@@ -24,13 +19,15 @@ import { api } from "@/utils/api";
 import useDateStore from "@/stores/useDateStore";
 import useSnackbarStore, { SnackbarRole } from "@/stores/useSnackbarStore";
 
-// types
-import { type InitialConfigType } from "@lexical/react/LexicalComposer";
-import { type GetDayLogOutput } from "@/utils/api";
-
-// ICONS
+// icons
 import SaveIcon from "public/icons/save.svg";
 import LoaderIcon from "public/icons/spinner.svg";
+
+// types
+import type { SerializedEditorState, SerializedLexicalNode } from "lexical";
+import type { Mood } from "@prisma/client";
+import type { InitialConfigType } from "@lexical/react/LexicalComposer";
+import type { GetDayLogOutput } from "@/utils/api";
 
 type DaylogPanelProps = {
   data: GetDayLogOutput["data"] | undefined;
@@ -53,6 +50,7 @@ const DaylogPanel = ({ data, isDaylogLoading }: DaylogPanelProps) => {
     setEditorContentData(data ? data.content : undefined);
   }, [data]);
 
+  // upsert/save daylog all contents api call
   const { mutate: upsertDaylog, isLoading: isUpserting } =
     api.daylog.upsertDaylog.useMutation({
       onSuccess: async (res) => {
@@ -75,7 +73,8 @@ const DaylogPanel = ({ data, isDaylogLoading }: DaylogPanelProps) => {
       },
     });
 
-  const updateHandler = () => {
+  // Handler
+  const saveButtonHandler = () => {
     upsertDaylog({
       data: {
         content: JSON.stringify(editorStateRef.current),
@@ -120,7 +119,7 @@ const DaylogPanel = ({ data, isDaylogLoading }: DaylogPanelProps) => {
                   ? "pointer-events-none bg-neutral-300 dark:bg-neutral-400"
                   : "hover:bg-cyan-400 dark:hover:bg-cyan-500"
               }`}
-              onClick={updateHandler}
+              onClick={saveButtonHandler}
               info="save"
             >
               <SaveIcon fill="white" className="h-4 w-4" />
@@ -129,11 +128,7 @@ const DaylogPanel = ({ data, isDaylogLoading }: DaylogPanelProps) => {
           <p className="self-center text-xs font-bold text-neutral-800 dark:text-white sm:text-base">
             Today's Feeling
           </p>
-          <MoodSelector
-            isDaylogLoading={isDaylogLoading}
-            moodData={moodData}
-            selectedMoodRef={selectedMoodRef}
-          />
+          <MoodSelector moodData={moodData} selectedMoodRef={selectedMoodRef} />
         </div>
         <div className="flex h-4/5 w-full">
           <LexicalComposer initialConfig={editorConfig}>

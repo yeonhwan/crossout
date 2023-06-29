@@ -1,3 +1,5 @@
+// Editor Theme obj
+// Needs to add specific classname to HTML elements
 const EditorTheme = {
   ltr: "ltr",
   rtl: "rtl",

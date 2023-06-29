@@ -164,7 +164,7 @@ const Mystats = ({
       <Head>
         <title>Crossout - My stats</title>
       </Head>
-      <div className="relative flex h-[90%] max-h-[900px] min-h-[500px] w-full max-w-[1700px] flex-col items-center px-4 lg:min-h-[700px] lg:px-28">
+      <main className="relative flex h-[90%] max-h-[900px] min-h-[500px] w-full max-w-[1700px] flex-col items-center px-4 lg:min-h-[700px] lg:px-28">
         <motion.div
           initial={{ y: -20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
@@ -173,9 +173,9 @@ const Mystats = ({
           <h1 className="text-4xl font-extrabold text-neutral-800 transition-colors dark:text-neutral-300 lg:text-4xl">
             My Stats
           </h1>
-          <p className="text-xs font-semibold text-neutral-700 transition-colors dark:text-neutral-200 lg:text-lg">
+          <h2 className="text-xs font-semibold text-neutral-700 transition-colors dark:text-neutral-200 lg:text-lg">
             See your daily life in total with monthly view
-          </p>
+          </h2>
         </motion.div>
         <motion.div
           ref={scope}
@@ -534,7 +534,7 @@ const Mystats = ({
             </div>
           </div>
         </motion.div>
-      </div>
+      </main>
     </Layout>
   );
 };

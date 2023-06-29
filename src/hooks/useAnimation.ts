@@ -1,7 +1,6 @@
 // hooks
 import { useState, useEffect } from "react";
 
-// TYPE
 type ReturnTypes = [boolean, boolean, () => void];
 
 export function useAnimation(isMounted: boolean) {

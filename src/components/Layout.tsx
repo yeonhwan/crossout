@@ -1,20 +1,20 @@
-// Components
+// components
 import Header from "@/components/Header/Header";
 
-// types
-import { type UserDataState } from "@/types/client";
+// hooks
+import { useWinodwVertical } from "@/hooks/useWindowVertical";
 
-// Libs
+// libs
 import Lottie from "lottie-react";
 
-// bg
+// backgrounds
 import NatureLight from "public/lottie/nature_light.json";
 import NatureDark from "public/lottie/nature_night.json";
 import NatureLightVert from "public/lottie/nature_light_vert.json";
 import NatureDarkVert from "public/lottie/nature_night_vert.json";
 
-// Hooks
-import { useWinodwVertical } from "@/hooks/useWindowVertical";
+// types
+import { type UserDataState } from "@/types/client";
 
 type LayoutProps = {
   children: React.ReactElement | React.ReactElement[];

@@ -1,10 +1,10 @@
-// React, hooks
+// Hooks
 import { useState, useEffect, useCallback } from "react";
 
 // libs
 import { ClickAwayListener } from "@mui/material";
 
-// Lexical
+// Lexical (Editor)
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 import {
   $getSelection,
@@ -22,7 +22,7 @@ import {
 } from "@lexical/list";
 import { $getNearestNodeOfType } from "@lexical/utils";
 
-// ICONS
+// icons
 import ParagraphIcon from "public/icons/paragraph.svg";
 import H1Icon from "public/icons/h1.svg";
 import H2Icon from "public/icons/h2.svg";
@@ -38,11 +38,12 @@ const selectedToBlockType = {
 };
 
 const OptionsDropdown = () => {
+  const [editor] = useLexicalComposerContext();
+
   const [isOpen, setIsOpen] = useState(false);
   const [selected, setSelected] = useState("Normal");
 
-  const [editor] = useLexicalComposerContext();
-
+  // fn to set dropdown to current ediotr content's styling automatically
   const updateDropdown = useCallback(() => {
     const selection = $getSelection();
     if ($isRangeSelection(selection)) {
@@ -83,6 +84,7 @@ const OptionsDropdown = () => {
     }
   }, [editor]);
 
+  // update Dropdown whenever editor state changed
   useEffect(() => {
     editor.registerUpdateListener(({ editorState }) => {
       editorState.read(() => {
@@ -91,19 +93,13 @@ const OptionsDropdown = () => {
     });
   }, [editor, updateDropdown]);
 
-  const buttonOnClickHandler = (value: keyof typeof selectedToBlockType) => {
-    setSelected(value);
-    formatEditor(value);
-    setIsOpen(false);
-  };
-
+  // formatting editor contents by selected style
   const formatEditor = (value: keyof typeof selectedToBlockType) => {
     const formatTo = selectedToBlockType[value];
 
     switch (formatTo) {
       case "paragraph":
         if (selected !== "Normal") {
-          console.log("paragraph");
           editor.update(() => {
             const selection = $getSelection();
             if ($isRangeSelection(selection)) {
@@ -115,7 +111,6 @@ const OptionsDropdown = () => {
 
       case "h1":
         if (selected !== "Large") {
-          console.log("large");
           editor.update(() => {
             const selection = $getSelection();
             if ($isRangeSelection(selection)) {
@@ -138,7 +133,6 @@ const OptionsDropdown = () => {
 
       case "ol":
         if (selected !== "Ordered") {
-          console.log("ol");
           editor.dispatchCommand(INSERT_ORDERED_LIST_COMMAND, undefined);
         } else {
           editor.dispatchCommand(REMOVE_LIST_COMMAND, undefined);
@@ -147,7 +141,6 @@ const OptionsDropdown = () => {
 
       case "ul":
         if (selected !== "Bulleted") {
-          console.log("ul");
           editor.dispatchCommand(INSERT_UNORDERED_LIST_COMMAND, undefined);
         } else {
           editor.dispatchCommand(REMOVE_LIST_COMMAND, undefined);
@@ -172,6 +165,13 @@ const OptionsDropdown = () => {
       case "Bulleted":
         return <ULIcon />;
     }
+  };
+
+  // Handler for clicking dropdown buttons
+  const buttonOnClickHandler = (value: keyof typeof selectedToBlockType) => {
+    setSelected(value);
+    formatEditor(value);
+    setIsOpen(false);
   };
 
   return (

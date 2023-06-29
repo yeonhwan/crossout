@@ -1,3 +1,4 @@
+// icons
 import NoRevenueIcon from "public/icons/no-revenues.svg";
 
 type NoRevnuesProp = {

@@ -120,8 +120,8 @@ const SignUp: NextPageWithLayout = () => {
 
   const { mutate: submitUserInfo } = api.signup.signUp.useMutation({
     onSuccess: (res) => {
-      const { userId } = res.data;
       setIsProceed(false);
+      window.alert("Successfully Signed up! Please login with the account.");
       return router.push(`/signin`);
     },
     onError: (err) => {
@@ -129,19 +129,18 @@ const SignUp: NextPageWithLayout = () => {
       switch (err.data?.httpStatus) {
         case 403:
           setErrMessage(err.message);
-          setIsProceed(false);
           formEl?.classList.add(form_styles.invalid as string);
           break;
 
         case 500:
           setErrMessage("Connecntion failed");
-          setIsProceed(false);
           formEl?.classList.add(form_styles.invalid as string);
           break;
 
         default:
           break;
       }
+      setIsProceed(false);
     },
   });
 
@@ -199,7 +198,7 @@ const SignUp: NextPageWithLayout = () => {
   };
 
   return (
-    <div className="main_background relative flex h-full w-full items-center justify-center overflow-hidden">
+    <main className="main_background relative flex h-full w-full items-center justify-center overflow-hidden">
       <Head>
         <title>Crossout - Sign up</title>
       </Head>
@@ -386,7 +385,7 @@ const SignUp: NextPageWithLayout = () => {
         </div>
       </form>
       <Waves className="z-1 absolute -bottom-28 opacity-50 md:-bottom-36" />
-    </div>
+    </main>
   );
 };
 

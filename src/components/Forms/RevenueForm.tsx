@@ -1,28 +1,22 @@
-// React, hooks
-import {
-  type ForwardedRef,
-  forwardRef,
-  type Dispatch,
-  type SetStateAction,
-  useState,
-  useEffect,
-} from "react";
-
 // Components
 import Button from "@/components/Buttons/Button";
+
+// React, hooks
+import { forwardRef, useState, useEffect } from "react";
 
 // api
 import { api } from "@/utils/api";
 
 // stores
 import useDateStore from "@/stores/useDateStore";
-
-// styles
 import useSnackbarStore, { SnackbarRole } from "@/stores/useSnackbarStore";
 
-// Icons
+// icons
 import LoaderIcon from "public/icons/spinner.svg";
 import MoneyAllIcon from "public/icons/money_all.svg";
+
+// types
+import type { ForwardedRef, Dispatch, SetStateAction } from "react";
 
 type TodoFormProps = {
   setOpenDialog: Dispatch<SetStateAction<boolean>>;
@@ -41,11 +35,19 @@ const RevenueForm = (
   const utils = api.useContext();
   const [revenueState, setRevenueState] = useState(false);
 
-  const cancelButtonHandler = () => {
-    setPurposeInput("");
-    setOpenDialog(false);
-  };
+  // check revenueInput is in correct form
+  useEffect(() => {
+    const revenueInputRegEx = new RegExp(/^(\+|\-)?\d*\.?\d*$/);
+    if (revenueInputRegEx.test(revenueInput) && !revenueState) {
+      setRevenueState(true);
+    } else if (!revenueInputRegEx.test(revenueInput) && revenueState) {
+      setRevenueState(false);
+    }
 
+    return;
+  }, [revenueInput]);
+
+  // abort create revenue api call
   const { mutate: abortCreateRevenue } = api.revenue.deleteRevenue.useMutation({
     onSuccess: async () => {
       setSnackbarLoadingState(false);
@@ -65,6 +67,7 @@ const RevenueForm = (
     },
   });
 
+  // create revenue api call
   const { mutate: createRevenue } = api.revenue.createRevenue.useMutation({
     onSuccess: async (res) => {
       const { content, id, dateRecordId } = res.data;
@@ -94,7 +97,13 @@ const RevenueForm = (
     },
   });
 
-  const confirmOnClickHandler = () => {
+  // Handlers
+  const cancelButtonHandler = () => {
+    setPurposeInput("");
+    setOpenDialog(false);
+  };
+
+  const confirmButtonHandler = () => {
     setIsProceed(true);
     createRevenue({
       data: {
@@ -108,17 +117,6 @@ const RevenueForm = (
       },
     });
   };
-
-  useEffect(() => {
-    const revenueInputRegEx = new RegExp(/^(\+|\-)?\d*\.?\d*$/);
-    if (revenueInputRegEx.test(revenueInput) && !revenueState) {
-      setRevenueState(true);
-    } else if (!revenueInputRegEx.test(revenueInput) && revenueState) {
-      setRevenueState(false);
-    }
-
-    return;
-  }, [revenueInput]);
 
   return (
     <form
@@ -206,7 +204,7 @@ const RevenueForm = (
                   ? "pointer-events-none bg-neutral-400 text-neutral-500 dark:bg-neutral-700 dark:text-neutral-800"
                   : ""
               }`}
-              onClick={confirmOnClickHandler}
+              onClick={confirmButtonHandler}
             >
               Confirm
             </Button>

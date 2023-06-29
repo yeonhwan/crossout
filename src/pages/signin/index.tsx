@@ -73,7 +73,7 @@ const SignIn: NextPageWithLayout = () => {
       <Head>
         <title>Crossout - Sign in</title>
       </Head>
-      <div className="absolute left-0 top-0 h-full w-full bg-pattern bg-repeat opacity-40"></div>
+      <main className="absolute left-0 top-0 h-full w-full bg-pattern bg-repeat opacity-40"></main>
       <form className="z-50 flex h-max w-[85%] max-w-[500px] flex-col rounded-lg border-2 border-zinc-300 bg-white p-12 shadow-lg sm:w-4/12 sm:min-w-[450px]">
         <div
           onClick={() => {

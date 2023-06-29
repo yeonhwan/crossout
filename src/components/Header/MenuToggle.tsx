@@ -1,5 +1,7 @@
+// libs
 import { motion } from "framer-motion";
 
+// custom path element for MenuToggle
 const Path = ({ ...props }) => (
   <motion.path
     fill="transparent"

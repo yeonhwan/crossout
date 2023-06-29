@@ -1,4 +1,8 @@
-import { type CalendarTooltipProps, ResponsiveTimeRange } from "@nivo/calendar";
+// libs
+import { ResponsiveTimeRange } from "@nivo/calendar";
+
+// types
+import type { CalendarTooltipProps } from "@nivo/calendar";
 
 type YearChartProps = {
   data:
@@ -23,6 +27,7 @@ type YearChartProps = {
 };
 
 const YearChart = ({ data, selectedField, year, isLight }: YearChartProps) => {
+  // for coloring charts based on its data category
   const todosColors = ["#73a293d2", "#86a8a2", "#0fc0a34e", "#09b094"];
   const revenuesColors = [
     "#7f1515d2",
@@ -40,9 +45,13 @@ const YearChart = ({ data, selectedField, year, isLight }: YearChartProps) => {
     "#0ff08e",
     "#00bcca",
   ];
+
+  // coloring ticks for revenue data
   const revenuesTicks = [-1000, -500, -100, 0, 100, 500, 1000];
+  // coloring ticks for mood [1:terrible, 2:bad, 3:normal, 4:good, 5:happy]
   const moodsTicks = [1, 2, 3, 4, 5];
 
+  // chart coloring fn for revenue
   const revenueColorScale = (value: number | { valueOf(): number }) => {
     if (typeof value === "number" && value === 0) return "#b3b3b3";
     for (let i = 0; i < revenuesTicks.length; i++) {
@@ -53,10 +62,12 @@ const YearChart = ({ data, selectedField, year, isLight }: YearChartProps) => {
     return "#02af4d";
   };
 
+  // chart coloring fn for mood
   const moodColorScale = (value: number | { valueOf(): number }) => {
     return moodColors[(value as number) - 1] as string;
   };
 
+  // inserting ticks to scale fns
   revenueColorScale.ticks = () => revenuesTicks;
   moodColorScale.ticks = () => moodsTicks;
 
@@ -121,6 +132,7 @@ const YearChart = ({ data, selectedField, year, isLight }: YearChartProps) => {
     );
   };
 
+  // Chart body
   return (
     <div className="relative flex h-full w-full min-w-[800px] max-w-[1000px]">
       <ResponsiveTimeRange

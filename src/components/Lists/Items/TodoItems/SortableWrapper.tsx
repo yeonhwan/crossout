@@ -1,4 +1,4 @@
-// ICONS
+// icons
 import DragIndicatorIcon from "@mui/icons-material/DragIndicator";
 
 // libs
@@ -11,6 +11,7 @@ type SortableWrapperProps = {
   active?: boolean;
 };
 
+// sortable wrapper should wrap the todoItem components in order to make sorting work
 const SortableWrapper = ({ children, id, active }: SortableWrapperProps) => {
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({ id });

@@ -1,5 +1,7 @@
-import NoListboardsIcon from "public/icons/no-listboards.svg";
+// components
 import Button from "@/components/Buttons/Button";
+// icons
+import NoListboardsIcon from "public/icons/no-listboards.svg";
 
 type NoListboardsProps = {
   buttonHandler: () => void;

@@ -1,24 +1,13 @@
-// Hooks
-import { useState, useRef } from "react";
-import { useWindowWidth } from "@/hooks/useWindowWidth";
-
 // components
 import CircleButton from "@/components/Buttons/CircleButton";
 import ListView from "@/components/Lists/ListView";
-import TodoItem from "@/components/Lists/Items/TodoItem";
+import TodoItem from "@/components/Lists/Items/TodoItems/TodoItem";
 import NoItems from "@/components/Graphic/NoItems";
 import Button from "@/components/Buttons/Button";
 
-//ICONS
-import TrashIcon from "public/icons/trash.svg";
-import LoaderIcon from "public/icons/spinner.svg";
-import EditIcon from "@mui/icons-material/Edit";
-import CheckIcon from "@mui/icons-material/Check";
-import ClearIcon from "@mui/icons-material/Clear";
-
-// types
-import { type ListboardItemType } from "@/types/client";
-import { type Dispatch, type SetStateAction } from "react";
+// hooks
+import { useState, useRef } from "react";
+import { useWindowWidth } from "@/hooks/useWindowWidth";
 
 // store
 import useSnackbarStore from "@/stores/useSnackbarStore";
@@ -30,6 +19,17 @@ import ClickAwayListener from "@mui/base/ClickAwayListener";
 
 // api
 import { api } from "@/utils/api";
+
+// icons
+import TrashIcon from "public/icons/trash.svg";
+import LoaderIcon from "public/icons/spinner.svg";
+import EditIcon from "@mui/icons-material/Edit";
+import CheckIcon from "@mui/icons-material/Check";
+import ClearIcon from "@mui/icons-material/Clear";
+
+// types
+import { type ListboardItemType } from "@/types/client";
+import { type Dispatch, type SetStateAction } from "react";
 import { type ListBoard } from "@prisma/client";
 
 type ListboardItemProps = {
@@ -69,6 +69,7 @@ const ListboardItem = ({
   });
   const [scope, animate] = useAnimate();
 
+  // abort update listboard api call
   const { mutate: abortUpdateListboard } =
     api.listboards.updateListboard.useMutation({
       onSuccess: async (res) => {
@@ -99,6 +100,7 @@ const ListboardItem = ({
       },
     });
 
+  // delete listboard api call
   const { mutate: deleteListboard, isLoading: deleteListboardLoading } =
     api.listboards.deleteListboard.useMutation({
       onSuccess: async (res) => {
@@ -124,6 +126,7 @@ const ListboardItem = ({
       },
     });
 
+  // update listboard title api call
   const { isLoading: isTitleLoading, mutate: updateListboardTitle } =
     api.listboards.updateListboard.useMutation({
       onSuccess: async (res) => {
@@ -173,6 +176,7 @@ const ListboardItem = ({
       },
     });
 
+  // update listboard description api call
   const {
     isLoading: isDescriptionLoading,
     mutate: updateListboardDescription,
@@ -224,6 +228,7 @@ const ListboardItem = ({
     },
   });
 
+  // Handlers
   const deleteListboardHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
     if (window.confirm("Deleting Listboard")) {
@@ -236,6 +241,7 @@ const ListboardItem = ({
     if (!titleUpdate && !descriptionUpdate && !isOpen) {
       setIsOpen(true);
       setMaskOn(false);
+      // mask-css on ListView should be disabled to make components popup
       setBackDropOpen(true);
       const itemRect = e.currentTarget.getClientRects()[0] as DOMRect;
       const scrollTop = (
