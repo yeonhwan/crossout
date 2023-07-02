@@ -1,7 +1,7 @@
 {
   "theme_color": "#13b2a0",
   "background_color": "#13ab9a",
-  "display": "fullscreen",
+  "display": "standalone",
   "scope": "/",
   "start_url": "/",
   "name": "Crossout",

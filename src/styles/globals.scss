@@ -21,6 +21,13 @@ body {
   scrollbar-width: thin;
   scrollbar-track-color: transparent;
   scrollbar-color: #3737372b;
+
+  ul {
+    li {
+      list-style: inside;
+      list-style-type: disc;
+    }
+  }
 }
 
 #__next {
@@ -86,10 +93,11 @@ select:focus-visible {
   ul {
     margin-left: 2em;
     list-style: inside;
+    list-style-type: disc;
 
     li {
       list-style-type: disc;
-      list-style-position: outside;
+      list-style-position: inside;
     }
   }
 

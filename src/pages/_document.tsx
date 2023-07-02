@@ -104,12 +104,6 @@ export default function Document() {
       </Head>
       <body>
         <Main />
-        {/* Google pwacompat library cdn - info(https://github.com/GoogleChromeLabs/pwacompat) */}
-        <script
-          async
-          src="https://unpkg.com/pwacompat"
-          crossOrigin="anonymous"
-        ></script>
         <NextScript />
       </body>
     </Html>

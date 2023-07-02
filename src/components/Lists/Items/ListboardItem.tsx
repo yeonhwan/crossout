@@ -253,14 +253,15 @@ const ListboardItem = ({
       const y =
         window.innerHeight / 2 -
         (itemRect.height + itemRect.y) -
-        scrollTop -
-        window.innerHeight * 0.03;
+        scrollTop +
+        150 -
+        window.innerHeight * 0.2;
       const itemWidth = isOverSmall
         ? itemRect.width + 380
-        : window.innerWidth * 0.8;
+        : window.innerWidth * 0.9;
       const itemHeight = isOverSmall
         ? itemRect.height + 400
-        : 0.7 * window.innerHeight;
+        : 0.8 * window.innerHeight;
       animate(
         scope.current,
         { x, y: [-scrollTop, y], width: itemWidth, height: itemHeight },
@@ -312,7 +313,7 @@ const ListboardItem = ({
         ref={scope}
         className={`item h-[250px] w-[256px] rounded-3xl border-2 border-neutral-200 bg-neutral-300 shadow-xl dark:border-neutral-700 dark:bg-neutral-700/60 sm:h-[250px] sm:w-[320px] ${
           isOpen
-            ? "absolute z-50"
+            ? "absolute z-50 max-h-[650px]"
             : "z-0 hover:cursor-pointer group-hover:border-teal-300"
         }`}
         onClick={itemOpenHandler}
