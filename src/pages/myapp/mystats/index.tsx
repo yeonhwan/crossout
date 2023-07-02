@@ -184,7 +184,7 @@ const Mystats = ({
           transition={{
             duration: 0.3,
           }}
-          className="mt-4 flex h-[85%] w-full flex-col items-start overflow-scroll rounded-xl bg-neutral-300/40 p-6 backdrop-blur-lg transition-colors dark:bg-neutral-800/40 lg:h-[80%] lg:flex-row lg:justify-evenly lg:overflow-visible"
+          className="scrollable mt-4 flex h-[85%] w-full flex-col items-start overflow-scroll rounded-xl bg-neutral-300/40 p-6 backdrop-blur-lg transition-colors dark:bg-neutral-800/40 lg:h-[80%] lg:flex-row lg:justify-evenly lg:overflow-visible"
         >
           <div className="relative flex h-full w-full flex-col justify-between rounded-xl lg:w-[20%] lg:justify-evenly">
             <motion.div

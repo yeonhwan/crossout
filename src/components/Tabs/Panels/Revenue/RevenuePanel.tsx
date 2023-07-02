@@ -175,7 +175,7 @@ const RevenuePanel = ({ openCreateRevenue, data }: RevenuePanelProps) => {
           className="flex h-3/4 w-full flex-col items-center justify-around sm:h-full sm:w-3/4"
         >
           <ul
-            className={`flex w-full overflow-y-scroll rounded-xl bg-emerald-400/50 px-2 py-2 transition-all delay-[100] duration-200 dark:bg-emerald-300/50 ${
+            className={`flex w-full rounded-xl bg-emerald-400/50 px-2 py-2 transition-all delay-[100] duration-200 dark:bg-emerald-300/50 ${
               viewProfit
                 ? "h-full"
                 : viewLoss
@@ -197,7 +197,7 @@ const RevenuePanel = ({ openCreateRevenue, data }: RevenuePanelProps) => {
             <div className="h-[1px] w-[90%] border-b-2 border-dotted border-b-neutral-600 dark:border-b-neutral-200 " />
           )}
           <ul
-            className={`flex w-full overflow-y-scroll rounded-xl bg-red-400/50 px-2 pt-2 transition-all delay-[100] duration-200 dark:bg-red-300/50 ${
+            className={`flex w-full rounded-xl bg-red-400/50 px-2 pt-2 transition-all delay-[100] duration-200 dark:bg-red-300/50 ${
               viewLoss
                 ? "h-full"
                 : viewProfit

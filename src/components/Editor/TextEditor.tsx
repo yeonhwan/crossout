@@ -175,7 +175,7 @@ const TextEditor = ({
       >
         <RichTextPlugin
           contentEditable={
-            <ContentEditable className="editor-input sm:text-md flex w-full flex-col overflow-y-scroll text-xs text-black focus:outline-none dark:text-white" />
+            <ContentEditable className="scrollable editor-input sm:text-md flex w-full flex-col overflow-y-scroll text-xs text-black focus:outline-none dark:text-white" />
           }
           placeholder={<Placeholder />}
           ErrorBoundary={LexicalErrorBoundary}

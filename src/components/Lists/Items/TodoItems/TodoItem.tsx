@@ -365,9 +365,15 @@ const TodoItem = ({ data, sortingTodos, listboards }: TodoItemProps) => {
                 }}
               >
                 <>
-                  <option value={UrgencyInput.trivial}>🌱trivial</option>
-                  <option value={UrgencyInput.important}>⚡️important</option>
-                  <option value={UrgencyInput.urgent}>🔥urgent</option>
+                  <option color="black" value={UrgencyInput.trivial}>
+                    🌱trivial
+                  </option>
+                  <option color="black" value={UrgencyInput.important}>
+                    ⚡️important
+                  </option>
+                  <option color="black" value={UrgencyInput.urgent}>
+                    🔥urgent
+                  </option>
                 </>
               </Select>
               <div className="mx-auto flex h-max w-8/12 flex-col items-center justify-center">
