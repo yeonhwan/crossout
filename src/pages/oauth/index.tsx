@@ -11,7 +11,6 @@ const Oauth = () => {
 
   const { mutate: setUsername } = api.user.setUsername.useMutation({
     onSuccess: () => {
-      console.log("called5");
       router.push("myapp/home");
       return;
     },
@@ -41,7 +40,7 @@ const Oauth = () => {
 
   return (
     <div className="flex h-full w-full flex-col items-center justify-center">
-      <div className="relative flex h-[8%] w-max flex-col items-center justify-center mobile:h-[10%]">
+      <div className="relative flex h-[8%] min-h-[95px] w-max flex-col items-center justify-center mobile:h-[10%]">
         <h1 className="absolute top-0 ml-1 animate-bounce text-xs font-bold text-neutral-400 mobile:text-base">
           Login...
         </h1>

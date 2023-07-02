@@ -214,6 +214,7 @@ select:focus-visible {
 .scrollable::-webkit-scrollbar {
   background-color: transparent;
   width: 5px;
+  height: 5px;
 }
 
 .scrollable::-webkit-scrollbar-thumb {

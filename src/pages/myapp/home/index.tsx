@@ -65,7 +65,7 @@ const Home = ({
         <title>Crossout - Home</title>
       </Head>
       <HomeContext.Provider value={listboards}>
-        <main className="flex h-[90%] min-h-[600px] w-full flex-col lg:min-h-[600px] lg:max-w-[1700px]">
+        <main className="flex h-[90%] min-h-[600px] w-full flex-col overflow-hidden lg:min-h-[600px] lg:max-w-[1700px]">
           <div className="flex h-[10%] w-full justify-center">
             <DateTimer
               openCalendar={() => {
