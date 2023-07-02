@@ -42,7 +42,7 @@ const TodosView = ({ data }: TodosViewProps) => {
                   </span>
                   <p>{data.content}</p>
                 </div>
-                <span className="text-xs text-neutral-600 dark:text-neutral-200">
+                <span className="ml-4 text-xs text-neutral-600 dark:text-neutral-200">
                   {data.listBoard ? data.listBoard.title : ""}
                 </span>
               </li>
