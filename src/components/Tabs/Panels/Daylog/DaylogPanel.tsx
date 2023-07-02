@@ -145,7 +145,7 @@ const DaylogPanel = ({ data, isDaylogLoading }: DaylogPanelProps) => {
   };
 
   return (
-    <div className="relative mt-4 flex h-[95%] w-[90%] flex-col rounded-lg bg-neutral-300/40 px-4 py-2 backdrop-blur-sm transition-colors dark:bg-neutral-800/60 sm:h-[80%] lg:w-3/5">
+    <div className="relative mt-4 flex h-[90%] w-[90%] flex-col rounded-lg bg-neutral-300/40 px-4 py-2 backdrop-blur-sm transition-colors dark:bg-neutral-800/60 mobile:h-[95%] sm:h-[80%] lg:w-3/5">
       {ContentRender()}
     </div>
   );

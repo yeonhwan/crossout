@@ -60,8 +60,8 @@ const Splash = () => {
           transition={{ duration: 0.3 }}
           className="z-20 flex h-full max-h-[600px] min-h-[650px] w-full flex-col items-center justify-center lg:h-[80%] lg:min-h-[550px] lg:w-1/2 lg:min-w-[400px]"
         >
-          <div className="z-20 flex h-full w-[70%] flex-col items-center justify-center rounded-xl bg-transparent from-teal-400 to-cyan-500 lg:w-[90%] lg:bg-gradient-to-br lg:shadow-lg">
-            <div className="flex h-full w-full max-w-[500px] flex-col justify-between py-10">
+          <div className="z-20 flex h-full w-[80%] flex-col items-center justify-center rounded-xl bg-transparent from-teal-400 to-cyan-500 lg:w-[90%] lg:bg-gradient-to-br lg:shadow-lg">
+            <div className="flex h-full w-full max-w-[700px] flex-col justify-between py-10">
               <div className="flex h-[80%] w-full flex-col-reverse lg:h-[60%] lg:flex-col">
                 <div className="hidden h-[40%] w-full flex-col items-center justify-center after:mt-4 after:h-1 after:w-[5%] after:border-b-2 after:border-b-white lg:flex">
                   <p className="text-sm font-semibold text-white">
@@ -74,7 +74,7 @@ const Splash = () => {
                     Cross them out with Crossout!
                   </p>
                 </div>
-                <div className="flex h-full flex-col items-center justify-center md:justify-around lg:h-[60%] lg:justify-evenly">
+                <div className="flex h-full w-full flex-col items-center justify-center md:justify-around lg:h-[60%] lg:justify-evenly">
                   <div className="relative mt-auto flex h-[40%] w-full flex-col items-center md:h-[60%] lg:h-0 lg:w-0 lg:opacity-0">
                     <Logo className="absolute top-0 block h-32 w-32 fill-none md:h-48 md:w-48" />
                     <MainTitleHorizon className="absolute top-1/2 h-48 w-48 md:h-60 md:w-60" />
@@ -84,7 +84,7 @@ const Splash = () => {
                     <h1 className="hidden self-center text-3xl font-bold text-cyan-200 lg:block">
                       CROSSOUT
                     </h1>
-                    <h2 className="self-center text-xs font-bold text-cyan-200 md:text-sm lg:text-xs">
+                    <h2 className="w-full text-center text-xs font-bold text-cyan-200 md:text-sm lg:text-xs">
                       Your simple day to day manager application
                     </h2>
                   </div>
@@ -93,7 +93,7 @@ const Splash = () => {
               <div className="flex h-[30%] w-full flex-col items-center justify-evenly">
                 <div
                   onClick={() => signIn("google", { callbackUrl: "/oauth" })}
-                  className="flex h-12 w-[80%] items-center justify-center rounded-full bg-[#4285f4] drop-shadow-lg hover:cursor-pointer hover:ring-2 hover:ring-teal-300"
+                  className="flex h-12 w-[80%] max-w-[300px] items-center justify-center rounded-full bg-[#4285f4] drop-shadow-lg hover:cursor-pointer hover:ring-2 hover:ring-teal-300"
                 >
                   <span className="mr-2 flex h-6 w-6 items-center justify-center rounded-full bg-white">
                     <GoogleIcon className="h-4 w-4" />
@@ -102,7 +102,7 @@ const Splash = () => {
                 </div>
                 <div
                   onClick={() => signIn("github", { callbackUrl: "/oauth" })}
-                  className="flex h-12 w-[80%] items-center justify-center rounded-full bg-neutral-800 drop-shadow-lg hover:cursor-pointer hover:ring-2 hover:ring-teal-300"
+                  className="flex h-12 w-[80%] max-w-[300px] items-center justify-center rounded-full bg-neutral-800 drop-shadow-lg hover:cursor-pointer hover:ring-2 hover:ring-teal-300"
                 >
                   <span className="mr-2 flex h-6 w-6 items-center justify-center rounded-full bg-white">
                     <GitHubIcon className="h-5 w-5" />

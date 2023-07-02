@@ -278,7 +278,7 @@ const Mystats = ({
                       : "Good Rate"}
                   </span>
                   {selectedField === "todo"
-                    ? todosSummaryData.completed
+                    ? todosSummaryData.total
                     : selectedField === "revenue"
                     ? revenuesSummaryData.totalCount
                     : `${moodsSummaryData.goodRatio} %`}

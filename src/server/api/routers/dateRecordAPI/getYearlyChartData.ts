@@ -112,8 +112,8 @@ const getYearlyChartData = protectedProcedure
             .filter((data) => data.value > 0);
 
           yearlyTodosArray.forEach((data) => {
-            if (data.completed) yearlyTotalCompletedTodos += data.completed;
             yearlyTotalTodos += data.value;
+            if (data.completed) yearlyTotalCompletedTodos += data.completed;
             const completeRatio = Math.round(
               (data.completed / data.value) * 100
             );

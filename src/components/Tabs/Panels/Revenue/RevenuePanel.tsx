@@ -94,7 +94,7 @@ const RevenuePanel = ({ openCreateRevenue, data }: RevenuePanelProps) => {
   }, [profitData, lossData]);
 
   return (
-    <div className="mt-4 flex h-[95%] w-[90%] flex-col rounded-lg bg-neutral-300/40 px-4 pt-4 backdrop-blur-sm transition-colors dark:bg-neutral-800/60 sm:h-[80%] sm:p-6 lg:w-3/5">
+    <div className="mt-4 flex h-[90%] w-[90%] flex-col rounded-lg bg-neutral-300/40 px-4 pt-4 backdrop-blur-sm transition-colors dark:bg-neutral-800/60 mobile:h-[95%] sm:h-[80%] sm:p-6 lg:w-3/5">
       <div className="flex h-full w-full flex-col justify-around sm:flex-row">
         <div className="relative flex h-20 w-full flex-col-reverse items-center justify-center self-center px-10 sm:h-[70%] sm:w-1/4 sm:min-w-[180px] sm:flex-col sm:justify-between">
           <div className="flex h-max w-max items-center sm:h-[90%] sm:w-36 sm:flex-col">
