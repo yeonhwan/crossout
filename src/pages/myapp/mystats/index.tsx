@@ -314,7 +314,7 @@ const Mystats = ({
             </motion.div>
           </div>
           <div className="flex h-max w-full flex-col-reverse justify-between lg:h-full lg:w-[75%] lg:flex-col lg:px-4">
-            <div className="stat-item flex h-[300px] w-full overflow-x-scroll rounded-xl bg-neutral-300/40 shadow-lg transition-colors dark:bg-neutral-700/80 lg:h-[60%] lg:items-center lg:justify-center">
+            <div className="scrollable stat-item flex h-[300px] w-full overflow-x-scroll rounded-xl bg-neutral-300/40 shadow-lg transition-colors dark:bg-neutral-700/80 lg:h-[60%] lg:items-center lg:justify-center">
               <YearChart
                 data={
                   selectedField === "todo"
