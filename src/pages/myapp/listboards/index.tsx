@@ -146,7 +146,7 @@ const ListboardIndex = ({
       <Head>
         <title>Crossout - Listboards</title>
       </Head>
-      <main className="flex h-[90%] max-h-[900px] min-h-[500px] w-full max-w-[1700px] flex-col overflow-hidden px-5 sm:px-20 md:px-40 lg:min-h-[700px]">
+      <main className="flex h-[90%] max-h-[900px] min-h-[500px] w-full max-w-[1700px] flex-col px-5 sm:px-20 md:px-40 lg:min-h-[700px]">
         <motion.div
           initial={{ y: -20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
