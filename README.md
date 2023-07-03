@@ -102,6 +102,7 @@ Password: 1234qwerty! <br>
  * Support for PWA
 
 <hr>
+
 ### 3. Screenshots
 
 #### PC
