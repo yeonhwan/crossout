@@ -254,13 +254,13 @@ const ListboardItem = ({
         window.innerHeight / 2 -
         (itemRect.height + itemRect.y) -
         scrollTop +
-        150 -
-        window.innerHeight * 0.2;
+        170 -
+        window.innerHeight * 0.25;
       const itemWidth = isOverSmall
         ? itemRect.width + 380
         : window.innerWidth * 0.9;
       const itemHeight = isOverSmall
-        ? itemRect.height + 400
+        ? itemRect.height + 600
         : 0.8 * window.innerHeight;
       animate(
         scope.current,
