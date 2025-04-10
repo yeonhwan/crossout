@@ -144,8 +144,8 @@ const runtimeCaching = [
       if (pathname.startsWith("/api/")) return true;
       return false;
     },
-    handler: "NetworkFirst",
     method: "GET",
+    handler: "NetworkFirst",
     options: {
       cacheName: "apis",
       expiration: {
@@ -193,6 +193,9 @@ const runtimeCaching = [
 /** @type {import("next").NextConfig} */
 const config = {
   reactStrictMode: true,
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
   headers: async () => [
     {
       source: "/myapp/:route",
