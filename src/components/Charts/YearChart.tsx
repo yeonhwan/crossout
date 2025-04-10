@@ -161,7 +161,8 @@ const YearChart = ({ data, selectedField, year, isLight }: YearChartProps) => {
             : todoTooltip
         }
         theme={{
-          text: { fill: isLight ? "black" : "white", fontSize: 12 },
+          textColor: isLight ? "black" : "white",
+          fontSize: 12,
         }}
       />
       <div className="absolute bottom-1/4 left-24 flex w-max text-black dark:text-white">
