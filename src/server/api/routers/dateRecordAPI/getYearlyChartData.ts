@@ -2,6 +2,8 @@ import { protectedProcedure } from "@/server/api/trpc";
 import { z } from "zod";
 import { TRPCError } from "@trpc/server";
 
+type MoodCountTuple = [number, number, number, number, number];
+
 const dateFormatter = (year: number, month: number, date: number) => {
   return `${year}-${month < 10 ? "0" + String(month) : month}-${
     date < 10 ? "0" + String(date) : date
@@ -319,7 +321,7 @@ const getYearlyChartData = protectedProcedure
             value: number;
           }[];
 
-          const moodCount = [0, 0, 0, 0, 0];
+          const moodCount: MoodCountTuple = [0, 0, 0, 0, 0];
           const moodsArray = ["terrible", "bad", "normal", "good", "happy"];
 
           if (yearlyMoodsArray.length) {
@@ -353,7 +355,6 @@ const getYearlyChartData = protectedProcedure
           }
 
           const totalMoodsCount = moodCount.reduce((acc, cur) => acc + cur);
-          console.log(totalMoodsCount);
 
           const averageMood = yearlyMoodsArray.length
             ? Math.round(
@@ -362,20 +363,14 @@ const getYearlyChartData = protectedProcedure
               )
             : "";
 
-          console.log(averageMood);
-
           const goodRatio = yearlyMoodsArray.length
             ? Math.round(
-                (((moodCount[3] as number) + (moodCount[4] as number)) /
-                  yearlyMoodsArray.length) *
-                  100
+                ((moodCount[3] + moodCount[4]) / yearlyMoodsArray.length) * 100
               )
             : 0;
           const badRatio = yearlyMoodsArray.length
             ? Math.round(
-                (((moodCount[0] as number) + (moodCount[1] as number)) /
-                  yearlyMoodsArray.length) *
-                  100
+                ((moodCount[0] + moodCount[1]) / yearlyMoodsArray.length) * 100
               )
             : 0;
 
@@ -385,12 +380,12 @@ const getYearlyChartData = protectedProcedure
               {
                 id: "terrible",
                 label: "terrible",
-                value: moodCount[0] as number,
+                value: moodCount[0],
               },
-              { id: "bad", label: "bad", value: moodCount[1] as number },
-              { id: "normal", label: "normal", value: moodCount[2] as number },
-              { id: "good", label: "good", value: moodCount[3] as number },
-              { id: "happy", label: "happy", value: moodCount[4] as number },
+              { id: "bad", label: "bad", value: moodCount[1] },
+              { id: "normal", label: "normal", value: moodCount[2] },
+              { id: "good", label: "good", value: moodCount[3] },
+              { id: "happy", label: "happy", value: moodCount[4] },
             ].filter((data) => data.value),
             summary: {
               goodRatio,

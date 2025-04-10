@@ -1,5 +1,6 @@
 // libs
 import { ResponsiveTimeRange } from "@nivo/calendar";
+import { CompleteTheme } from "@nivo/core";
 
 // types
 import type { CalendarTooltipProps } from "@nivo/calendar";
@@ -160,8 +161,7 @@ const YearChart = ({ data, selectedField, year, isLight }: YearChartProps) => {
             : todoTooltip
         }
         theme={{
-          textColor: isLight ? "black" : "white",
-          fontSize: 12,
+          text: { fill: isLight ? "black" : "white", fontSize: 12 },
         }}
       />
       <div className="absolute bottom-1/4 left-24 flex w-max text-black dark:text-white">

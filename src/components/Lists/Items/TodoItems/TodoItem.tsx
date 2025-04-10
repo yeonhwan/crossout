@@ -7,7 +7,7 @@ import Select from "@/components/Select/Select";
 import { useState, useRef } from "react";
 
 // libs
-import ClickAwayListener from "@mui/base/ClickAwayListener";
+import ClickAwayListener from "@mui/material/ClickAwayListener";
 
 // api
 import { api } from "@/utils/api";

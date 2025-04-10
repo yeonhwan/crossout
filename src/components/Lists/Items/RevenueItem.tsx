@@ -5,7 +5,7 @@ import CircleButton from "@/components/Buttons/CircleButton";
 import { useState, useRef } from "react";
 
 // libs
-import ClickAwayListener from "@mui/base/ClickAwayListener";
+import ClickAwayListener from "@mui/material/ClickAwayListener";
 
 // utils
 import { currencyFormatter } from "@/utils/currencyFormatter";

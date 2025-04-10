@@ -2,7 +2,7 @@
 import { useAnimation } from "@/hooks/useAnimation";
 
 // libs
-import ClickAwayListener from "@mui/base/ClickAwayListener";
+import ClickAwayListener from "@mui/material/ClickAwayListener";
 
 type DialogProps = {
   children: React.ReactElement;

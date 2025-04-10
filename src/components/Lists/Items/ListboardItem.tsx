@@ -15,7 +15,7 @@ import { SnackbarRole } from "@/stores/useSnackbarStore";
 
 // libs
 import { AnimatePresence, motion, useAnimate } from "framer-motion";
-import ClickAwayListener from "@mui/base/ClickAwayListener";
+import ClickAwayListener from "@mui/material/ClickAwayListener";
 
 // api
 import { api } from "@/utils/api";
