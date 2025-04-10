@@ -46,13 +46,13 @@ Password: 1234qwerty! <br>
 
 #### ⚒️ 백엔드
 
-<img src="https://img.shields.io/badge/node-339933?style=for-the-badge&logo=nodedotjs&logoColor=white"><img src="https://img.shields.io/badge/prisma-2D3748?style=for-the-badge&logo=prisma&logoColor=white"><img src="https://img.shields.io/badge/trpc-2596BE?style=for-the-badge&logo=trpc&logoColor=white"><img src="https://img.shields.io/badge/zod-123CA5?style=for-the-badge"><img src="https://img.shields.io/badge/mysql-4479A1?style=for-the-badge&logo=mysql&logoColor=white">
+<img src="https://img.shields.io/badge/next-000000?style=for-the-badge&logo=nextdotjs&logoColor=white"><img src="https://img.shields.io/badge/prisma-2D3748?style=for-the-badge&logo=prisma&logoColor=white"><img src="https://img.shields.io/badge/trpc-2596BE?style=for-the-badge&logo=trpc&logoColor=white"><img src="https://img.shields.io/badge/zod-123CA5?style=for-the-badge"><img src="https://img.shields.io/badge/mysql-4479A1?style=for-the-badge&logo=mysql&logoColor=white">
 
 #### 🚀 배포환경
 
 <img src="https://img.shields.io/badge/vercel-000000?style=for-the-badge&logo=vercel&logoColor=white"><img src="https://img.shields.io/badge/planetscale-101010?style=for-the-badge&logo=planetscale&logoColor=white">
 
-#### 📍 테스트 (적용중에 있습니다.)
+#### 📍 테스트 (Sign-in / Sign-up)
 
 <img src="https://img.shields.io/badge/cypress-26D9B3?style=for-the-badge&logo=cypress&logoColor=white">
 

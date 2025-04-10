@@ -2,8 +2,10 @@
 
 ![Frame 2 (1)](https://github.com/yeonhwan/crossout/assets/81786662/814a8205-0798-443c-b31d-4575b53d08e5)
 
-## What is Crossout? 🤔 
-### " Crossout " is a simple day managing web application !
+## What is Crossout? 🤔
+
+### " Crossout " is a simple day managing web application
+
 __*It will help you to remember records such as...*__ <br><br>
 __1. ✔︎ Things you have to do or done__ <br>
 __2. 📝 Your feelings and how was your day like__ <br>
@@ -17,10 +19,10 @@ __3. 🏞️ You can switch application's theme and background with different op
 <hr>
 
 #### Deploy Link
-https://crossout.vercel.app
+<https://crossout.vercel.app>
 
 __Test account for testers__ <br>
-Email: testaccount@test.com <br>
+Email: <testaccount@test.com> <br>
 Password: 1234qwerty! <br>
 
 <hr>
@@ -30,82 +32,100 @@ Password: 1234qwerty! <br>
 ### 1. Built with
 
 #### ✏️ Language
+
 <img src="https://img.shields.io/badge/typescript-3178C6?style=for-the-badge&logo=typescript&logoColor=white">
 
 #### 🔌 Boilerplate
+
 <img src="https://img.shields.io/badge/t3app-9933CC?style=for-the-badge">
 
 #### 🖥️ Frontend
+
 <img src="https://img.shields.io/badge/next-000000?style=for-the-badge&logo=nextdotjs&logoColor=white"><img src="https://img.shields.io/badge/react-61DAFB?style=for-the-badge&logo=react&logoColor=0082B7"><img src="https://img.shields.io/badge/tanstackquery-FF4154?style=for-the-badge&logo=reactquery&logoColor=white"><img src="https://img.shields.io/badge/tailwindcss-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white"><img src="https://img.shields.io/badge/mui-007FFF?style=for-the-badge&logo=mui&logoColor=white"><img src="https://img.shields.io/badge/framermotion-0055FF?style=for-the-badge&logo=framer&logoColor=white"><img src="https://img.shields.io/badge/zustand-7C3E0A?style=for-the-badge"><img src="https://img.shields.io/badge/nivo-259318?style=for-the-badge"><img src="https://img.shields.io/badge/dndkit-515151?style=for-the-badge"><img src="https://img.shields.io/badge/lexical-127290?style=for-the-badge"><img src="https://img.shields.io/badge/dayjs-C99E33?style=for-the-badge"><img src="https://img.shields.io/badge/nextauth-6E1D86?style=for-the-badge">
 
 #### ⚒️ Backend
-<img src="https://img.shields.io/badge/node-339933?style=for-the-badge&logo=nodedotjs&logoColor=white"><img src="https://img.shields.io/badge/prisma-2D3748?style=for-the-badge&logo=prisma&logoColor=white"><img src="https://img.shields.io/badge/trpc-2596BE?style=for-the-badge&logo=trpc&logoColor=white"><img src="https://img.shields.io/badge/zod-123CA5?style=for-the-badge"><img src="https://img.shields.io/badge/mysql-4479A1?style=for-the-badge&logo=mysql&logoColor=white">
+
+<img src="https://img.shields.io/badge/next-000000?style=for-the-badge&logo=nextdotjs&logoColor=white"><img src="https://img.shields.io/badge/prisma-2D3748?style=for-the-badge&logo=prisma&logoColor=white"><img src="https://img.shields.io/badge/trpc-2596BE?style=for-the-badge&logo=trpc&logoColor=white"><img src="https://img.shields.io/badge/zod-123CA5?style=for-the-badge"><img src="https://img.shields.io/badge/mysql-4479A1?style=for-the-badge&logo=mysql&logoColor=white">
 
 #### 🚀 Infrastructure
+
 <img src="https://img.shields.io/badge/vercel-000000?style=for-the-badge&logo=vercel&logoColor=white"><img src="https://img.shields.io/badge/planetscale-101010?style=for-the-badge&logo=planetscale&logoColor=white">
 
-#### 📍 Tests (In development)
+#### 📍 Tests (Sign-in / Sign-up)
+
 <img src="https://img.shields.io/badge/cypress-26D9B3?style=for-the-badge&logo=cypress&logoColor=white">
 
 <hr>
 
 ### 2. Supporting features
- #### Sign in / Sign up
- * OAuth 2.0 sign in / sign up with Google, Github
- * Traditional email and pw sign in / sign up
- * Validation feedback for sign in / sign up
- * Automatic account linkage with same email information
 
- #### Main
- ##### Todos
- * CRUD Todos (support for partial updates)
- * Complete / uncomplete todos with simple click
- * Support for adjusting ordering indexes of todos
- * Support for sorting todos with different options
- * Validation for creating / updating todos and feedback
- * Organizing todos with adding listboard
+#### Sign in / Sign up
 
- ##### Daylog (journal)
- * CRU Daylog with mood recorder (possible to emptying contents, deleting feature's in development)
- * Lottie animations for displaying moods
- * Simple styling (WYSIWYG) for text editor contents (made with Lexical)
- * Auto saving text editor contents
+* OAuth 2.0 sign in / sign up with Google, Github
+* Traditional email and pw sign in / sign up
+* Validation feedback for sign in / sign up
+* Automatic account linkage with same email information
 
- ##### Revenues
- * CRUD Revenues with purposes
- * Support for seperating / combined views
+#### Main
 
- #### Calendar / Date Selector
- * Switching between dates with buttons / calendar
- * Displaying preview data with selected date
- * Switching categories with tabs
+##### Todos
 
- #### Listboards
- * CRUD Listboards (support for partial updates)
- * Displaying todos with collected by listboards
- * Support full features for todos within listboard view
- * Popping animation for clicking interaction
+* CRUD Todos (support for partial updates)
+* Complete / uncomplete todos with simple click
+* Support for adjusting ordering indexes of todos
+* Support for sorting todos with different options
+* Validation for creating / updating todos and feedback
+* Organizing todos with adding listboard
 
- #### My Stats
- * Yearly chart data for selected year and categories
- * Pie chart for summary data for selected categories
- * Additional summary datas for using / managing dayily life
+##### Daylog (journal)
 
- #### Preference
- * Edit username
- * Switching between light and dark themes with immediate saving preference
- * Switching between lottie and simple backgrounds with immediate saving preference
- * Delete account
+* CRU Daylog with mood recorder (possible to emptying contents, deleting feature's in development)
+* Lottie animations for displaying moods
+* Simple styling (WYSIWYG) for text editor contents (made with Lexical)
+* Auto saving text editor contents
 
- #### Application
- * Support for responsive design
- * Support for PWA
+##### Revenues
+
+* CRUD Revenues with purposes
+* Support for seperating / combined views
+
+#### Calendar / Date Selector
+
+* Switching between dates with buttons / calendar
+* Displaying preview data with selected date
+* Switching categories with tabs
+
+#### Listboards
+
+* CRUD Listboards (support for partial updates)
+* Displaying todos with collected by listboards
+* Support full features for todos within listboard view
+* Popping animation for clicking interaction
+
+#### My Stats
+
+* Yearly chart data for selected year and categories
+* Pie chart for summary data for selected categories
+* Additional summary datas for using / managing dayily life
+
+#### Preference
+
+* Edit username
+* Switching between light and dark themes with immediate saving preference
+* Switching between lottie and simple backgrounds with immediate saving preference
+* Delete account
+
+#### Application
+
+* Support for responsive design
+* Support for PWA
 
 <hr>
 
 ### 3. Screenshots
 
 #### PC
+
 __Index__ <br><br>
 <img src="https://github.com/yeonhwan/crossout/assets/81786662/11279d72-7a66-4f18-a5fa-9c85e1e9d311" width="500" height="250"><br><br>
 __Sign in / Sign up__ <br><br>
@@ -133,6 +153,7 @@ __Preference__<br><br>
 <img src="https://github.com/yeonhwan/crossout/assets/81786662/592763cb-8556-43cf-ab12-a8f7e0c8c536" width="500" height="250"><br><br>
 
 #### Mobile
+
 __Index__ <br><br>
 <img src="https://github.com/yeonhwan/crossout/assets/81786662/a1e14b1f-336a-48ab-9194-cfe3080de2f7" width="250"><br><br>
 __Sign in / Sign up__ <br><br>
@@ -159,6 +180,3 @@ __Preference__ <br><br>
 <img src="https://github.com/yeonhwan/crossout/assets/81786662/9f7237ca-3ae7-4c98-b1bb-9f51fe4c90f6" width="250">
 <img src="https://github.com/yeonhwan/crossout/assets/81786662/75774c77-1712-4f7b-aa10-805bd86073dd" width="250">
 <img src="https://github.com/yeonhwan/crossout/assets/81786662/d532fb34-2b48-4033-ae6a-9fbc58118053" width="250"><br><br>
-
-
-
