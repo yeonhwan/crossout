@@ -5,7 +5,7 @@ import Header from "@/components/Header/Header";
 import { useWinodwVertical } from "@/hooks/useWindowVertical";
 
 // libs
-import Lottie from "lottie-react";
+import dynamic from "next/dynamic";
 
 // backgrounds
 import NatureLight from "public/lottie/nature_light.json";
@@ -20,6 +20,8 @@ type LayoutProps = {
   children: React.ReactElement | React.ReactElement[];
   userData: UserDataState;
 };
+
+const Lottie = dynamic(() => import("lottie-react"), { ssr: false });
 
 const Layout = ({ children, userData }: LayoutProps) => {
   const isVertical = useWinodwVertical(false);
