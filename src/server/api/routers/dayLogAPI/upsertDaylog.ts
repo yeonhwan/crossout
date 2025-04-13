@@ -1,9 +1,8 @@
 import { protectedProcedure } from "@/server/api/trpc";
 import { z } from "zod";
 import { TRPCError } from "@trpc/server";
-import { PrismaClientKnownRequestError } from "@prisma/client";
 import { dateIndexFormatter } from "@/utils/dateIndexFormatter";
-
+import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 import {
   type DateRecord,
   type DayLog,
