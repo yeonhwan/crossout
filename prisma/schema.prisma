@@ -1,171 +1,164 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
-    provider = "prisma-client-js"
+  provider = "prisma-client-js"
 }
 
 datasource db {
-    provider = "mysql"
-    // NOTE: When using postgresql, mysql or sqlserver, uncomment the @db.Text annotations in model Account below
-    // Further reading:
-    // https://next-auth.js.org/adapters/prisma#create-the-prisma-schema
-    // https://www.prisma.io/docs/reference/api-reference/prisma-schema-reference#string
-    url      = env("DATABASE_URL")
-    relationMode = "prisma"
-    
+  provider     = "postgresql"
+  url          = env("DATABASE_URL")
+  relationMode = "prisma"
 }
 
 // User & Auth models
 model User {
-    id            String    @id @default(cuid())
-    name          String
-    email         String   @unique
-    image         String?
-    password      String?
-    emailVerified DateTime?
-    profileImage  String?
-    listBoards    ListBoard[]
-    todos         Todo[]
-    daylogs       DayLog[]
-    revenues      Revenue[]
-    dateRecords   DateRecord[]
-    accounts      Account[]
-    sessions      Session[]
-    preference    Json @default("{\"isLight\":true,\"background\":\"1\"}")
+  id            String       @id @default(cuid())
+  name          String
+  email         String       @unique
+  image         String?
+  password      String?
+  emailVerified DateTime?
+  profileImage  String?
+  listBoards    ListBoard[]
+  todos         Todo[]
+  daylogs       DayLog[]
+  revenues      Revenue[]
+  dateRecords   DateRecord[]
+  accounts      Account[]
+  sessions      Session[]
+  preference    Json         @default("{\"isLight\":true,\"background\":\"1\"}")
 }
 
 model VerificationToken {
-    identifier String
-    token      String   @unique
-    expires    DateTime
-    @@unique([identifier, token])
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
 }
 
 model Account {
-    id                String  @id @default(cuid())
-    userId            String
-    type              String
-    provider          String
-    providerAccountId String
-    refresh_token     String?  @db.Text
-    access_token      String?  @db.Text
-    expires_at        Int?
-    token_type        String?
-    scope             String?
-    id_token          String?  @db.Text
-    session_state     String?
-    user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
-    refresh_token_expires_in Int?
+  id                       String  @id @default(cuid())
+  userId                   String
+  type                     String
+  provider                 String
+  providerAccountId        String
+  refresh_token            String?
+  access_token             String?
+  expires_at               Int?
+  token_type               String?
+  scope                    String?
+  id_token                 String?
+  session_state            String?
+  user                     User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  refresh_token_expires_in Int?
 
-    @@index([userId])
-    @@unique([provider, providerAccountId])
+  @@unique([provider, providerAccountId])
+  @@index([userId])
 }
 
 model Session {
-    id           String   @id @default(cuid())
-    sessionToken String   @unique
-    userId       String
-    expires      DateTime
-    user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-    @@index([userId])
+  @@index([userId])
 }
+
 //
 
 // Todo Models
 enum Urgency {
-    urgent 
-    important
-    trivial
+  urgent
+  important
+  trivial
 }
+
 model Todo {
-    id Int @id @default(autoincrement())
-    content String 
-    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-    userId String
-    completed Boolean @default(false)
-    deadline DateTime?
-    urgency Urgency
-    listBoard ListBoard? @relation(fields: [listBoardId], references: [id], onDelete: Cascade)
-    listBoardId Int?
-    dateRecord DateRecord @relation(fields: [dateRecordId], references: [id], onDelete: Cascade)
-    dateRecordId Int
-    createdAt DateTime @default(now())
+  id           Int        @id @default(autoincrement())
+  content      String
+  user         User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId       String
+  completed    Boolean    @default(false)
+  deadline     DateTime?
+  urgency      Urgency
+  listBoard    ListBoard? @relation(fields: [listBoardId], references: [id], onDelete: Cascade)
+  listBoardId  Int?
+  dateRecord   DateRecord @relation(fields: [dateRecordId], references: [id], onDelete: Cascade)
+  dateRecordId Int
+  createdAt    DateTime   @default(now())
 
-    @@index([listBoardId])
-    @@index([dateRecordId])
-    @@index([userId])
+  @@index([listBoardId])
+  @@index([dateRecordId])
+  @@index([userId])
 }
-
 
 model ListBoard {
-    id Int @id @default(autoincrement())
-    title String
-    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-    userId String 
-    todos Todo[]
-    description String?
-    // todoIndex Json
+  id          Int     @id @default(autoincrement())
+  title       String
+  user        User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId      String
+  todos       Todo[]
+  description String?
+  // todoIndex Json
 
-    @@index([userId])
+  @@index([userId])
 }
+
 //
-
-
 
 // Date Models
 model DateRecord {
-    id Int @id @default(autoincrement())
-    todos Todo[]
-    revenues Revenue[]
-    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-    userId String
-    daylogs DayLog?
-    year Int
-    month Int
-    date Int
-    todoIndex Json?
-    dateIndex Int
+  id        Int       @id @default(autoincrement())
+  todos     Todo[]
+  revenues  Revenue[]
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String
+  daylogs   DayLog?
+  year      Int
+  month     Int
+  date      Int
+  todoIndex Json?
+  dateIndex Int
 
-    @@index([userId])
-    @@index([date])
-    @@index([year, month, date, userId])
+  @@index([userId])
+  @@index([date])
+  @@index([year, month, date, userId])
 }
 
 model Revenue {
-    id Int @id @default(autoincrement())
-    revenue Decimal
-    purpose String
-    createdAt DateTime @default(now())
-    dateRecord DateRecord @relation(fields: [dateRecordId], references: [id], onDelete: Cascade)
-    dateRecordId Int
-    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-    userId String
+  id           Int        @id @default(autoincrement())
+  revenue      Decimal
+  purpose      String
+  createdAt    DateTime   @default(now())
+  dateRecord   DateRecord @relation(fields: [dateRecordId], references: [id], onDelete: Cascade)
+  dateRecordId Int
+  user         User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId       String
 
-    @@index([dateRecordId])
-    @@index([userId])
+  @@index([dateRecordId])
+  @@index([userId])
 }
 
 enum Mood {
-    terrible
-    bad 
-    normal
-    good
-    happy
+  terrible
+  bad
+  normal
+  good
+  happy
 }
 
 model DayLog {
-    id Int @id @default(autoincrement())
-    dateRecord DateRecord @relation(fields: [dateRecordId], references: [id], onDelete: Cascade)
-    dateRecordId Int @unique
-    mood Mood @default(normal)
-    content Json
-    user User @relation(fields: [userId], references: [id])
-    userId String
+  id           Int        @id @default(autoincrement())
+  dateRecord   DateRecord @relation(fields: [dateRecordId], references: [id], onDelete: Cascade)
+  dateRecordId Int        @unique
+  mood         Mood       @default(normal)
+  content      Json
+  user         User       @relation(fields: [userId], references: [id])
+  userId       String
 
-    @@index([dateRecordId])
-    @@index([userId])
+  @@index([dateRecordId])
+  @@index([userId])
 }
-//
 
+//
