@@ -1,0 +1,12 @@
+{
+  "crons": [
+    {
+      "path": "/api/cron/keep-alive",
+      "schedule": "*/10 * * * *"
+    },
+    {
+      "path": "/api/cron/stop-freeze",
+      "schedule": "30 9 * * 1"
+    }
+  ]
+}
