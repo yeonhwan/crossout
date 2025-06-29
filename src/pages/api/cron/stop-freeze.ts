@@ -2,7 +2,7 @@ export const config = {
   runtime: "edge",
 };
 
-// every monday 9:30
+// once a day
 const GET = async (request: Request) => {
   // Auto sign in for stop pausing DB
   console.log("Trying to auto login with test account for stop DB freezing");
